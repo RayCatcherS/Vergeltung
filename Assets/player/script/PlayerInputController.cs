@@ -53,7 +53,7 @@ public class PlayerInputController : MonoBehaviour
         // disabilita [isRun] se viene il magnitude dell'input [vec2Movement]
         // è < 0(l'analogico movimento si avvicina al centro)
         // oppure se viene usato l'analogico per la rotazione
-        if (vec2Movement.magnitude < 1 || vec2Rotation.magnitude > 0) {
+        if (vec2Movement.magnitude < 0.75f || vec2Rotation.magnitude > 0) {
 
             isRun = false;
         }

@@ -103,8 +103,8 @@ public class CharacterMovement : MonoBehaviour
 
         // clamp dei valori passati 
         rotationAimTargetInput = new Vector3(
-            Mathf.Clamp(_2Drotate.x, NEGATIVE_ROTATION_CLAMP, POSITIVE_ROTATION_CLAMP),
-            Mathf.Clamp(_2Drotate.y, NEGATIVE_ROTATION_CLAMP, POSITIVE_ROTATION_CLAMP),
+            _2Drotate.x,
+            _2Drotate.y,
             0f);
 
         rotationAimInput = rotationAimTargetInput;
