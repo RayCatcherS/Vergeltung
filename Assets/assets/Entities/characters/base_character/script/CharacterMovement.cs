@@ -13,6 +13,7 @@ public class CharacterMovement : MonoBehaviour
     const float POSITIVE_MOVEMENT_CLAMP = 1f;
 
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float runMovementSpeed = 10f;
     [SerializeField] private float rotationSpeed = 20f;
     public GameObject characterModel;
     public Transform aimTransform;
@@ -43,7 +44,7 @@ public class CharacterMovement : MonoBehaviour
     /// </summary>
     /// <param name="_2Dmove">Coppia di valori che rappresenta i valori
     /// in input del movimento del character. I valori(x, y) sono Clampati tra -1 e 1</param>
-    public void moveCharacter(Vector2 _2Dmove) {
+    public void moveCharacter(Vector2 _2Dmove, bool _isRun) {
         Vector3 _movement; // vettore movimento character
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
@@ -57,7 +58,15 @@ public class CharacterMovement : MonoBehaviour
         // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
         // evitando che il movimento del character dipenda dai fotogrammi
         if (_movement.magnitude > 0) {
-            _movement = _movement * movementSpeed * Time.deltaTime;
+
+            if(_isRun) {
+                _movement = _movement * runMovementSpeed * Time.deltaTime;
+
+                rotateCharacter(_2Dmove, _isRun);
+            } else {
+                _movement = _movement * movementSpeed * Time.deltaTime;
+            }
+            
 
             // applica movimento al character
             transform.Translate(_movement, Space.World);
@@ -67,10 +76,19 @@ public class CharacterMovement : MonoBehaviour
 
         // setta valori animazione partendo dal _movementAnimationVelocity
         float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
-        float velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
+        float velocityZ;
+        if (_isRun) {
+            animator.SetBool("isRunning", _isRun);
+            animator.SetFloat("VelocityZ", 2, 0.1f, Time.deltaTime);
+        } else {
+            animator.SetBool("isRunning", _isRun);
+            velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
+            animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+        }
+        
 
         animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
-        animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+        
     }
 
 
@@ -80,7 +98,7 @@ public class CharacterMovement : MonoBehaviour
     /// <param name="_2Drotate">Coppia di valori che rappresenta i valori
     /// in input della rotazione dell'aim del character. I valori(x, y) sono Clampati tra -1 e 1</param>
     /// vengono inoltre calcolati i range per ruotare l'intero character
-    public void rotateCharacter(Vector2 _2Drotate) {
+    public void rotateCharacter(Vector2 _2Drotate, bool _isRun) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
         // clamp dei valori passati 
@@ -101,7 +119,16 @@ public class CharacterMovement : MonoBehaviour
 
             Vector2 characterRotation = new Vector2();
 
-            if (
+
+
+            if(_isRun) {
+                characterModelRotation = new Vector2(rotationAimTarget.x, rotationAimTarget.z);
+
+                characterModel.transform.rotation =
+                    Quaternion.Lerp(characterModel.transform.rotation,
+                    Quaternion.Euler(0, 360 - (Mathf.Atan2(characterModelRotation.x, characterModelRotation.y) * Mathf.Rad2Deg * -1), 0),
+                    Time.deltaTime * rotationSpeed);
+            } else if (
                 rotationAimTarget.x > -0.707f && rotationAimTarget.z > 0.707f &&
                 rotationAimTarget.x < 0.707f && rotationAimTarget.z > 0.707f
             ) {

@@ -30,37 +30,33 @@ public class PlayerInputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
+        vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
+
+        if (isRun) { // se [isRun] allora l'input del movimento coinciderà con quello della rotazione
+            
+            characterMovement.moveCharacter(vec2Movement, isRun);
+        } else { // altrimenti tornerà al movimento default
+
+            characterMovement.moveCharacter(vec2Movement, isRun);
+            characterMovement.rotateCharacter(vec2Rotation, isRun);
+        }
+
         // abilita [isRun] se viene premuto il pulsante corsa
         inputIsRun = playerActions.Player.Run.ReadValue<float>();
-        if(inputIsRun == 1) {
+        if (inputIsRun == 1) {
             isRun = true;
         }
 
-        
-        // disabilita [isRun] se viene il magnitude dell'input [vec2Movement] è 0
-        if (vec2Movement.magnitude == 0) {
+        // disabilita [isRun] se viene il magnitude dell'input [vec2Movement]
+        // è < 0(l'analogico movimento si avvicina al centro)
+        // oppure se viene usato l'analogico per la rotazione
+        if (vec2Movement.magnitude < 1 || vec2Rotation.magnitude > 0) {
+
             isRun = false;
         }
-
-
-        
-        if(isRun) { // se [isRun] allora l'input del movimento coinciderà con quello della rotazione
-            vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>();
-            characterMovement.moveCharacter(vec2Movement);
-            characterMovement.rotateCharacter(vec2Movement);
-        } else { // altrimenti cammina
-
-            // ottieni valore input controller analogico movimento
-            vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>();
-            characterMovement.moveCharacter(vec2Movement);
-
-
-            // ottieni valore input controller analogico rotazione
-            vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>();
-            characterMovement.rotateCharacter(vec2Rotation);
-        }
-
-        
     }
 
     void OnGUI() {
