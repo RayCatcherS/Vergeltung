@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    private Animator animator; //animator del character
+
 
     const float NEGATIVE_ROTATION_CLAMP = -1f;
     const float POSITIVE_ROTATION_CLAMP = 1f;
@@ -15,12 +17,16 @@ public class CharacterMovement : MonoBehaviour
     public GameObject characterModel;
     public Transform aimTransform;
 
+
     [SerializeField] private Vector3 rotationAimInput;
     [SerializeField] private Vector3 rotationAimTarget;
-    [SerializeField] private Vector2 characterModelrotation;
+    [SerializeField] private Vector2 characterModelRotation;
 
 
-    private Animator animator; //animator del character
+    public Vector3 getRotationAimInput { get { return rotationAimInput; } }
+    public Vector3 getRotationAimTarget { get { return rotationAimTarget; } }
+    public Vector3 getCharacterModelRotation { get { return characterModelRotation; } }
+
 
     void Awake() {
         animator = characterModel.gameObject.GetComponent<Animator>();
@@ -102,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
                 characterRotation.x = 0;
                 characterRotation.y = 1;
 
-                characterModelrotation = characterRotation;
+                characterModelRotation = characterRotation;
                 characterModel.transform.rotation =
                     Quaternion.Lerp(characterModel.transform.rotation,
                     Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
@@ -114,7 +120,7 @@ public class CharacterMovement : MonoBehaviour
                 characterRotation.x = 1f;
                 characterRotation.y = 0f;
 
-                characterModelrotation = characterRotation;
+                characterModelRotation = characterRotation;
                 characterModel.transform.rotation =
                     Quaternion.Lerp(characterModel.transform.rotation,
                     Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
@@ -126,7 +132,7 @@ public class CharacterMovement : MonoBehaviour
                 characterRotation.x = 0f;
                 characterRotation.y = -1f;
 
-                characterModelrotation = characterRotation;
+                characterModelRotation = characterRotation;
                 characterModel.transform.rotation =
                     Quaternion.Lerp(characterModel.transform.rotation,
                     Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
@@ -138,7 +144,7 @@ public class CharacterMovement : MonoBehaviour
                 characterRotation.x = -1f;
                 characterRotation.y = 0f;
 
-                characterModelrotation = characterRotation;
+                characterModelRotation = characterRotation;
                 characterModel.transform.rotation =
                     Quaternion.Lerp(characterModel.transform.rotation,
                     Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
@@ -215,13 +221,6 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-
-    void OnGUI() {
-        GUI.TextArea(new Rect(0, 0, 200, 100), "Direzioni vettori: \n" + "input rotazione \n" + rotationAimInput.ToString() + "/n" +
-            "rotazione target \n" + rotationAimTarget.ToString()
-            , 200);
-        GUI.TextArea(new Rect(0, 100, 200, 40), "rotazione character \n" + characterModelrotation.ToString(), 200);
-    }
 
     void OnDrawGizmos() {
         Gizmos.color = Color.red;

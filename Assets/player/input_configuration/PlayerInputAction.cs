@@ -28,7 +28,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
             ""id"": ""183332d7-dbb6-4782-8743-114209d597af"",
             ""actions"": [
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Run"",
                     ""type"": ""Button"",
                     ""id"": ""0063a5bd-fa30-4334-bb18-21ea86bfd5cd"",
                     ""expectedControlType"": ""Button"",
@@ -63,7 +63,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""Jump"",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -196,7 +196,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_AnalogMovement = m_Player.FindAction("AnalogMovement", throwIfNotFound: true);
         m_Player_AnalogRotation = m_Player.FindAction("AnalogRotation", throwIfNotFound: true);
     }
@@ -258,14 +258,14 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_AnalogMovement;
     private readonly InputAction m_Player_AnalogRotation;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
         public PlayerActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @AnalogMovement => m_Wrapper.m_Player_AnalogMovement;
         public InputAction @AnalogRotation => m_Wrapper.m_Player_AnalogRotation;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -277,9 +277,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @AnalogMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
                 @AnalogMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
                 @AnalogMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
@@ -290,9 +290,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
                 @AnalogMovement.started += instance.OnAnalogMovement;
                 @AnalogMovement.performed += instance.OnAnalogMovement;
                 @AnalogMovement.canceled += instance.OnAnalogMovement;
@@ -314,7 +314,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnJump(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
         void OnAnalogMovement(InputAction.CallbackContext context);
         void OnAnalogRotation(InputAction.CallbackContext context);
     }
