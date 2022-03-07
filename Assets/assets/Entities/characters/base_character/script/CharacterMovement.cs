@@ -10,17 +10,18 @@ public class CharacterMovement : MonoBehaviour
     const float NEGATIVE_MOVEMENT_CLAMP = -1f;
     const float POSITIVE_MOVEMENT_CLAMP = 1f;
 
-    [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private float _rotationSpeed = 20f;
+    [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 20f;
     public Transform characterModelrotationTransform;
     public Transform aimTransform;
 
+    [SerializeField] private Vector3 _rotationTarget;
 
 
-    Animator _animator; //animator del character
+    private Animator animator; //animator del character
 
     void Awake() {
-        _animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -48,7 +49,7 @@ public class CharacterMovement : MonoBehaviour
         // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
         // evitando che il movimento del character dipenda dai fotogrammi
         if (_movement.magnitude > 0) {
-            _movement = _movement * _movementSpeed * Time.deltaTime;
+            _movement = _movement * movementSpeed * Time.deltaTime;
 
             // applica movimento al character
             transform.Translate(_movement, Space.World);
@@ -60,8 +61,8 @@ public class CharacterMovement : MonoBehaviour
         float velocityX = Vector3.Dot(_movementAnimationVelocity, transform.right);
         float velocityZ = Vector3.Dot(_movementAnimationVelocity, transform.forward);
 
-        _animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
-        _animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+        animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+        animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
     }
 
 
@@ -71,17 +72,17 @@ public class CharacterMovement : MonoBehaviour
     /// <param name="_2Drotate">Coppia di valori che rappresenta i valori
     /// in input della rotazione del character. I valori(x, y) sono Clampati tra -1 e 1</param>
     public void rotateCharacter(Vector2 _2Drotate) {
-        Vector3 _rotation; // vettore rotazione character
+        Vector3 rotationTarget; // vettore rotazione target
 
         // clamp dei valori passati 
-        _rotation = new Vector3(
+        rotationTarget = new Vector3(
             Mathf.Clamp(_2Drotate.x, NEGATIVE_ROTATION_CLAMP, POSITIVE_ROTATION_CLAMP),
             Mathf.Clamp(_2Drotate.y, NEGATIVE_ROTATION_CLAMP, POSITIVE_ROTATION_CLAMP),
             0f);
 
-        if (_rotation.magnitude > 0) {
+        if (rotationTarget.magnitude > 0) {
             // ruota player partendo dalle coordinate rotazione (utilizzando la funzione lerp)
-            aimTransform.rotation = Quaternion.Lerp(aimTransform.rotation, Quaternion.Euler(0, 360 - (Mathf.Atan2(_rotation.x, _rotation.y) * Mathf.Rad2Deg * -1), 0), Time.deltaTime * _rotationSpeed);
+            aimTransform.rotation = Quaternion.Lerp(aimTransform.rotation, Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationTarget.x, rotationTarget.y) * Mathf.Rad2Deg * -1), 0), Time.deltaTime * rotationSpeed);
         }
     }
 

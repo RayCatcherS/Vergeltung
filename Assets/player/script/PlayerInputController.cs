@@ -8,8 +8,8 @@ public class PlayerInputController : MonoBehaviour
     CharacterMovement _characterMovement;
     PlayerInputAction _playerActions;
 
-    Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
-    Vector2 vec2Rotation; // vettore input rotazione joypad(right analog stick)
+    [SerializeField] private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
+    [SerializeField] private Vector2 vec2Rotation; // vettore input rotazione joypad(right analog stick)
 
     void Awake() {
         _playerActions = new PlayerInputAction();
