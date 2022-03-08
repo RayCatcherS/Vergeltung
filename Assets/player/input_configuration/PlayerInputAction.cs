@@ -40,7 +40,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""name"": ""AnalogMovement"",
                     ""type"": ""PassThrough"",
                     ""id"": ""4a37ee72-ad4a-49b5-ad30-e8d0ca7f7cb2"",
-                    ""expectedControlType"": ""Analog"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -49,7 +49,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""name"": ""AnalogRotation"",
                     ""type"": ""PassThrough"",
                     ""id"": ""3820c136-5067-4b97-9e65-b337b7ecf912"",
-                    ""expectedControlType"": ""Analog"",
+                    ""expectedControlType"": ""Stick"",
                     ""processors"": ""AxisDeadzone(min=0.25,max=1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
