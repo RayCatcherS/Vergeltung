@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     public MultiAimConstraint characterAimConstrant;
 
     public CapsuleCollider colliderCharacter;
+    public CapsuleCollider jumpColliderCharacter;
 
     const float NEGATIVE_ROTATION_CLAMP = -1f;
     const float POSITIVE_ROTATION_CLAMP = 1f;
@@ -231,6 +232,7 @@ public class CharacterMovement : MonoBehaviour
 
             if (characterState.grounded && characterState.readyToJump && characterState.running) { //deve essere finita anche l'animazione prima di un nuovo salto
 
+                jumpColliderCharacter.enabled = true;
                 characterAimConstrant.weight = 0; // rimuovi forza constraint rigging mira personaggio(aim)
                 
                 rotateCharacter(_2Direction, false, true);
@@ -241,14 +243,13 @@ public class CharacterMovement : MonoBehaviour
                 characterRigidBody.AddForce(
                     ((transform.up / 2.5f) + direction.normalized * 2.5f) * jumpSpeed, ForceMode.Impulse);
 
-                colliderCharacter.height = 1.7f;
+                colliderCharacter.height = 2f;
             }
         }
     }
 
     IEnumerator waitBeforeJump() {
         
-        //Wait for 4 seconds
         yield return new WaitForSeconds(1);
         characterState.readyToJump = true;
         characterAimConstrant.weight = 1; // ripristina forza constraint rigging mira personaggio(aim)
@@ -257,6 +258,8 @@ public class CharacterMovement : MonoBehaviour
     //make sure u replace "floor" with your gameobject name.on which player is standing
     void OnCollisionEnter(Collision theCollision) {
         if (theCollision.gameObject.layer == 6) {
+
+            jumpColliderCharacter.enabled = false;
 
             // rallenta player quando entra in contatto con la superficie del pavimento (layer floor)
             characterRigidBody.velocity = characterRigidBody.velocity / 2;
