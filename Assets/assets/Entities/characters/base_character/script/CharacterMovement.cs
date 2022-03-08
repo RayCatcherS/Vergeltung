@@ -241,18 +241,19 @@ public class CharacterMovement : MonoBehaviour
                 animator.SetBool("isJumping", characterState.jumping);
 
                 characterRigidBody.AddForce(
-                    ((transform.up / 2.5f) + direction.normalized * 2.5f) * jumpSpeed, ForceMode.Impulse);
+                    ((transform.up / 2f) + direction.normalized * 2.5f) * jumpSpeed, ForceMode.Impulse);
 
-                colliderCharacter.height = 2f;
+                colliderCharacter.height = 2.5f;
             }
         }
     }
 
     IEnumerator waitBeforeJump() {
         
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.45f);
         characterState.readyToJump = true;
         characterAimConstrant.weight = 1; // ripristina forza constraint rigging mira personaggio(aim)
+
     }
 
     //make sure u replace "floor" with your gameobject name.on which player is standing
@@ -270,6 +271,7 @@ public class CharacterMovement : MonoBehaviour
             characterState.jumping = false;
             animator.SetBool("isJumping", characterState.jumping);
 
+            
             StartCoroutine(waitBeforeJump());
         }
     }
