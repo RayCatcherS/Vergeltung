@@ -17,9 +17,19 @@ public class PlayerInputController : MonoBehaviour
     private float inputIsRun = 0;
     private bool isRun = false;
 
+    private float inputIsJump = 0;
+    private bool isJump = false;
+
+    private void OnEnable() {
+        playerActions.Player.Enable();
+    }
+    private void OnDisable() {
+        playerActions.Player.Disable();
+    }
+
     void Awake() {
         playerActions = new PlayerInputAction();
-        playerActions.Player.Enable();
+        
         characterMovement = GetComponent<CharacterMovement>();
 
     }
@@ -37,37 +47,58 @@ public class PlayerInputController : MonoBehaviour
 
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
         vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
+        inputIsRun = playerActions.Player.Run.ReadValue<float>();
+        inputIsJump = playerActions.Player.Jump.ReadValue<float>();
 
-        if(vec2Rotation.magnitude < rotationInputStickDeadZone) {
+        // abilita [isRun] se viene premuto il pulsante 
+        if (inputIsRun == 1) {
+            isRun = true;
+        }
+        if (inputIsJump == 1) {
+            isJump = true;
+        }
+
+
+        // calcolo delle dead zone degli stick analogici
+        if (vec2Rotation.magnitude < rotationInputStickDeadZone) {
             vec2Rotation = Vector2.zero;
         }
         if(vec2Movement.magnitude < movementInputStickDeadZone) {
             vec2Movement = Vector2.zero;
         }
 
-        if (isRun) { // se [isRun] allora l'input del movimento coinciderà con quello della rotazione
-            
-            characterMovement.moveCharacter(vec2Movement, isRun);
-        } else { // altrimenti tornerà al movimento default
-
-            characterMovement.moveCharacter(vec2Movement, isRun);
-            characterMovement.rotateCharacter(vec2Rotation, isRun);
-        }
-
-        // abilita [isRun] se viene premuto il pulsante corsa
-        inputIsRun = playerActions.Player.Run.ReadValue<float>();
-        if (inputIsRun == 1) {
-            isRun = true;
-        }
-
-        // disabilita [isRun] se viene il magnitude dell'input [vec2Movement]
-        // � < 0(l'analogico movimento si avvicina al centro)
-        // oppure se viene usato l'analogico per la rotazione
+        // disabilita [isRun] se il magnitude dell'input [vec2Movement]
+        // l'analogico movimento si avvicina al centro [vec2Movement.magnitude < 0.75f]
+        // oppure se viene usato l'analogico per la rotazione [vec2Rotation.magnitude > 0]
         if (vec2Movement.magnitude < 0.75f || vec2Rotation.magnitude > 0) {
 
             isRun = false;
         }
+
+
+        if (isRun) { // if [isRun] allora non sarà possibile cambiare la rotazione del character
+
+            characterMovement.moveCharacter(vec2Movement, isRun);
+
+        } else { // altrimenti movimento default
+
+            characterMovement.moveCharacter(vec2Movement, isRun);
+            characterMovement.rotateCharacter(vec2Rotation, isRun, false);
+        }
+
+        if(isJump) {
+            characterMovement.makeJump(vec2Movement);
+        }
+
+
+        resetVariables();
     }
+
+
+    void resetVariables() {
+        isJump = false;
+    }
+    
 
     void OnGUI() {
         GUI.TextArea(new Rect(0, 0, 200, 100), "Direzioni vettori: \n" + "input rotazione \n" + characterMovement.getRotationAimInput.ToString() + "\n" +
