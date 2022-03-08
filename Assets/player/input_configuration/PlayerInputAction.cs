@@ -50,7 +50,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""3820c136-5067-4b97-9e65-b337b7ecf912"",
                     ""expectedControlType"": ""Stick"",
-                    ""processors"": ""AxisDeadzone(min=0.25,max=1)"",
+                    ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 }

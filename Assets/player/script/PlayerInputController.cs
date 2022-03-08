@@ -11,6 +11,9 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
     [SerializeField] private Vector2 vec2Rotation; // vettore input rotazione joypad(right analog stick)
 
+    [SerializeField] float rotationInputStickDeadZone = 0.125f;
+    [SerializeField] float movementInputStickDeadZone = 0.125f;
+
     private float inputIsRun = 0;
     private bool isRun = false;
 
@@ -35,10 +38,17 @@ public class PlayerInputController : MonoBehaviour
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
         vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
 
-        if (isRun) { // se [isRun] allora l'input del movimento coinciderà con quello della rotazione
+        if(vec2Rotation.magnitude < rotationInputStickDeadZone) {
+            vec2Rotation = Vector2.zero;
+        }
+        if(vec2Movement.magnitude < movementInputStickDeadZone) {
+            vec2Movement = Vector2.zero;
+        }
+
+        if (isRun) { // se [isRun] allora l'input del movimento coinciderÃ  con quello della rotazione
             
             characterMovement.moveCharacter(vec2Movement, isRun);
-        } else { // altrimenti tornerà al movimento default
+        } else { // altrimenti tornerÃ  al movimento default
 
             characterMovement.moveCharacter(vec2Movement, isRun);
             characterMovement.rotateCharacter(vec2Rotation, isRun);
@@ -51,7 +61,7 @@ public class PlayerInputController : MonoBehaviour
         }
 
         // disabilita [isRun] se viene il magnitude dell'input [vec2Movement]
-        // è < 0(l'analogico movimento si avvicina al centro)
+        // ï¿½ < 0(l'analogico movimento si avvicina al centro)
         // oppure se viene usato l'analogico per la rotazione
         if (vec2Movement.magnitude < 0.75f || vec2Rotation.magnitude > 0) {
 
