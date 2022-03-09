@@ -4,7 +4,7 @@ using System.Collections;
 public class FollowPlayer : MonoBehaviour {
 
     public GameObject player;        //Public variable to store a reference to the player game object
-    public int cameraSpeed = 10;
+    public float cameraSpeed = 1;
 
     private Vector3 offset;            //Private variable to store the offset distance between the player and camera
 

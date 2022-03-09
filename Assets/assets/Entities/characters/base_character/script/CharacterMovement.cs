@@ -5,7 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public  Animator animator; //animator del character
+    public Animator animator; //animator del character
     public CharacterState characterState;
     public Rigidbody characterRigidBody;
     public MultiAimConstraint characterAimConstrant;
@@ -79,7 +79,7 @@ public class CharacterMovement : MonoBehaviour
 
 
                 // applica movimento al character
-                transform.Translate(_movement, Space.World);
+                characterRigidBody.position = _movement + characterRigidBody.position;
             }
 
 
@@ -232,6 +232,7 @@ public class CharacterMovement : MonoBehaviour
 
             if (characterState.grounded && characterState.readyToJump && characterState.running) { //deve essere finita anche l'animazione prima di un nuovo salto
 
+                characterState.grounded = false;
                 jumpColliderCharacter.enabled = true;
                 characterAimConstrant.weight = 0; // rimuovi forza constraint rigging mira personaggio(aim)
                 
@@ -253,14 +254,15 @@ public class CharacterMovement : MonoBehaviour
         yield return new WaitForSeconds(0.45f);
         characterState.readyToJump = true;
         characterAimConstrant.weight = 1; // ripristina forza constraint rigging mira personaggio(aim)
+        jumpColliderCharacter.enabled = false;
 
     }
 
     //make sure u replace "floor" with your gameobject name.on which player is standing
-    void OnCollisionEnter(Collision theCollision) {
-        if (theCollision.gameObject.layer == 6) {
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.layer == 6) {
 
-            jumpColliderCharacter.enabled = false;
+            
 
             // rallenta player quando entra in contatto con la superficie del pavimento (layer floor)
             characterRigidBody.velocity = characterRigidBody.velocity / 2;
@@ -276,10 +278,16 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    //consider when character is jumping .. it will exit collision.
-    void OnCollisionExit(Collision theCollision) {
-        if (theCollision.gameObject.layer == 6) {
-            characterState.grounded = false;
+   
+
+    private void OnCollisionStay(Collision collision) {
+        if (collision.gameObject.layer == 6) {
+            jumpColliderCharacter.enabled = false;
+
+
+            characterState.grounded = true;
+            characterState.jumping = false;
+            
         }
     }
 

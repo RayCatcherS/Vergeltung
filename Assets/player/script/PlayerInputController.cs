@@ -41,8 +41,7 @@ public class PlayerInputController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
 
 
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
@@ -50,6 +49,10 @@ public class PlayerInputController : MonoBehaviour
         inputIsRun = playerActions.Player.Run.ReadValue<float>();
         inputIsJump = playerActions.Player.Jump.ReadValue<float>();
 
+        
+    }
+
+    private void FixedUpdate() {
         // abilita [isRun] se viene premuto il pulsante 
         if (inputIsRun == 1) {
             isRun = true;
@@ -63,7 +66,7 @@ public class PlayerInputController : MonoBehaviour
         if (vec2Rotation.magnitude < rotationInputStickDeadZone) {
             vec2Rotation = Vector2.zero;
         }
-        if(vec2Movement.magnitude < movementInputStickDeadZone) {
+        if (vec2Movement.magnitude < movementInputStickDeadZone) {
             vec2Movement = Vector2.zero;
         }
 
@@ -86,7 +89,7 @@ public class PlayerInputController : MonoBehaviour
             characterMovement.rotateCharacter(vec2Rotation, isRun, false);
         }
 
-        if(isJump) {
+        if (isJump) {
             characterMovement.makeJump(vec2Movement);
         }
 
