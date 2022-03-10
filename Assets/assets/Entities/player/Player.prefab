@@ -1744,6 +1744,7 @@ GameObject:
   - component: {fileID: 976331954}
   - component: {fileID: 976331960}
   - component: {fileID: 2527064704252661337}
+  - component: {fileID: 5996112740549230951}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1797,14 +1798,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8347940652654437702}
   characterState: {fileID: 976331960}
-  characterRigidBody: {fileID: 0}
+  characterController: {fileID: 2527064704252661337}
   characterAimConstrant: {fileID: 9158278864137260811}
   colliderCharacter: {fileID: 9158278864438449457}
   jumpColliderCharacter: {fileID: 1588223008}
-  movementSpeed: 5
-  runMovementSpeed: 10
+  movementSpeed: 250
+  runMovementSpeed: 500
   rotationSpeed: 35
-  jumpSpeed: 500
   characterModel: {fileID: 8347940652654437696}
   aimTransform: {fileID: 9158278864854741387}
   rotationAimInput: {x: 0, y: 0, z: 0}
@@ -1881,9 +1881,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   running: 0
-  grounded: 0
-  jumping: 0
-  readyToJump: 0
   busy: 0
 --- !u!143 &2527064704252661337
 CharacterController:
@@ -1903,6 +1900,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.55, z: 0}
+--- !u!114 &5996112740549230951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9158278864438449459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6febdb5ec3ca03c4b995e1b74b3c64a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 0
 --- !u!1 &9158278864854741386
 GameObject:
   m_ObjectHideFlags: 0
