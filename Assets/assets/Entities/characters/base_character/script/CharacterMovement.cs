@@ -21,7 +21,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
     [SerializeField] private float rotationSpeed = 20f;
-    [SerializeField] private float jumpSpeed = 20f;
+    //[SerializeField] private float jumpSpeed = 20f;
     public GameObject characterModel;
     public Transform aimTransform;
 
