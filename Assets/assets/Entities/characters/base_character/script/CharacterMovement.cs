@@ -7,7 +7,7 @@ public class CharacterMovement : MonoBehaviour
 {
     public Animator animator; //animator del character
     public CharacterState characterState;
-    public Rigidbody characterRigidBody;
+    public CharacterController characterController;
     public MultiAimConstraint characterAimConstrant;
 
     public CapsuleCollider colliderCharacter;
@@ -35,7 +35,9 @@ public class CharacterMovement : MonoBehaviour
     public Vector3 getRotationAimTarget { get { return rotationAimTarget; } }
     public Vector3 getCharacterModelRotation { get { return characterModelRotation; } }
 
-    
+
+    Vector3 _movement; // vettore movimento character
+
 
     void Awake() {
 
@@ -53,7 +55,7 @@ public class CharacterMovement : MonoBehaviour
     /// <param name="_2Dmove">Coppia di valori che rappresenta i valori
     /// in input del movimento del character.</param>
     public void moveCharacter(Vector2 _2Dmove, bool isRun) {
-        Vector3 _movement; // vettore movimento character
+        
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
         // clamp dei valori passati 
@@ -63,7 +65,8 @@ public class CharacterMovement : MonoBehaviour
             _2Dmove.y);
 
         
-        if(characterState.grounded && !characterState.jumping) {
+
+        /*if(!characterState.jumping) {*/
             // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
             // evitando che il movimento del character dipenda dai fotogrammi
             if (_movement.magnitude > 0) {
@@ -76,10 +79,6 @@ public class CharacterMovement : MonoBehaviour
                     _movement = _movement * movementSpeed * Time.deltaTime;
                 }
                 characterState.running = isRun;
-
-
-                // applica movimento al character
-                characterRigidBody.position = _movement + characterRigidBody.position;
             }
 
 
@@ -98,14 +97,14 @@ public class CharacterMovement : MonoBehaviour
 
 
             animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
-        } else {
+        /*} else {
 
             // azzera velocity animazione e flag isRun
             isRun = false;
             animator.SetBool("isRunning", isRun);
             animator.SetFloat("VelocityX", 0);
             animator.SetFloat("VelocityZ", 0);
-        }
+        }*/
     }
 
 
@@ -224,69 +223,18 @@ public class CharacterMovement : MonoBehaviour
 
     public void makeJump(Vector2 _2Direction) {
 
-        Vector3 direction = new Vector3(_2Direction.x, 0, _2Direction.y);
-
-        if(_2Direction.magnitude > 0) {
-
-            if (characterState.grounded && characterState.readyToJump && characterState.running) { //deve essere finita anche l'animazione prima di un nuovo salto
-
-                characterState.grounded = false;
-                jumpColliderCharacter.enabled = true;
-                characterAimConstrant.weight = 0; // rimuovi forza constraint rigging mira personaggio(aim)
-                
-                rotateCharacter(_2Direction, false, true);
-                characterState.jumping = true;
-                characterState.readyToJump = false;
-                animator.SetBool("isJumping", characterState.jumping);
-
-                characterRigidBody.AddForce(
-                    ((transform.up / 2f) + direction.normalized * 2.5f) * jumpSpeed, ForceMode.Impulse);
-
-                colliderCharacter.height = 2.5f;
-            }
-        }
+        
     }
 
     IEnumerator waitBeforeJump() {
         
-        yield return new WaitForSeconds(0.45f);
-        characterState.readyToJump = true;
-        characterAimConstrant.weight = 1; // ripristina forza constraint rigging mira personaggio(aim)
-        jumpColliderCharacter.enabled = false;
+        yield return new WaitForSeconds(2f);
 
     }
 
-    //make sure u replace "floor" with your gameobject name.on which player is standing
-    void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.layer == 6) {
-
-            
-
-            // rallenta player quando entra in contatto con la superficie del pavimento (layer floor)
-            characterRigidBody.velocity = characterRigidBody.velocity / 2;
-
-            colliderCharacter.height = 3.1f;
-
-            characterState.grounded = true;
-            characterState.jumping = false;
-            animator.SetBool("isJumping", characterState.jumping);
-
-            
-            StartCoroutine(waitBeforeJump());
-        }
-    }
-
-   
-
-    private void OnCollisionStay(Collision collision) {
-        if (collision.gameObject.layer == 6) {
-            jumpColliderCharacter.enabled = false;
-
-
-            characterState.grounded = true;
-            characterState.jumping = false;
-            
-        }
+    void FixedUpdate() {
+        characterController.SimpleMove(_movement); // muovi e calcola la gravità del player
+        //Debug.Log(characterController.isGrounded);
     }
 
     void OnDrawGizmos() {

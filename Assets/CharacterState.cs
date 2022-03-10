@@ -5,9 +5,8 @@ using UnityEngine;
 public class CharacterState : MonoBehaviour
 {
     [SerializeField] public bool running = false;
-    [SerializeField] public bool grounded = true;
-    [SerializeField] public bool jumping = false;
-    [SerializeField] public bool readyToJump = false;
+    //[SerializeField] public bool jumping = false;
+    //[SerializeField] public bool readyToJump = false;
     [SerializeField] public bool busy = false;
 
 
