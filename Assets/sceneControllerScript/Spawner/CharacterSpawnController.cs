@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CharacterSpawnController : MonoBehaviour {
 
-    [Header("Assets characters")]
-    [SerializeField] GameObject enemycharactersAsset;
+    [Header("Assets character")]
+    [SerializeField] GameObject enemycharacterAsset;
 
     [Header("Spawn character nemici")]
-    public List<CharacterSpawnPoint> characterSpawnPoints = new List<CharacterSpawnPoint>();
+    public List<CharacterSpawnPoint> enemyCharacterSpawnPoints = new List<CharacterSpawnPoint>();
 
     [Header("Character spawnabili")]
     [SerializeField] public Role role;
@@ -20,7 +20,8 @@ public class CharacterSpawnController : MonoBehaviour {
 
     /// <summary>
     /// Crea un nuovo characterSpawnPoint
-    /// dopo che viene istanziato viene aggiunto alla lista CharacterSpawnPoint
+    /// dopo che viene istanziato viene aggiunto alle liste spawn in base al ruolo
+    /// esempio: enemyCharacterSpawnPoints
     /// </summary>
     /// <param name="characterRole">Ruolo del character da istanziare</param>
     public GameObject newCharacterSpawnPoint(Role characterRole) {
@@ -29,8 +30,11 @@ public class CharacterSpawnController : MonoBehaviour {
 
         newCharacterSpawn.name = CharacterRole.GetCharacterRoleName(characterRole) + "SpawnPoint"; // nome del gameobject
 
+
+        if(characterRole == Role.Enemy) {
+            enemyCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista [characterSpawns]
+        }
         
-        characterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista [characterSpawns]
 
         newCharacterSpawn.transform.SetParent(gameObject.transform); // setta come figlio del gamecontroller
 
@@ -44,12 +48,12 @@ public class CharacterSpawnController : MonoBehaviour {
     /// <param name="instanceID"></param>
     public void removeCharacterSpawnByGOId(int instanceID) {
 
-        for (int i = 0; i < characterSpawnPoints.Count; i++) {
+        for (int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
-            if(characterSpawnPoints[i].sceneSpawnGameObject.GetInstanceID() == instanceID) {
-                GameObject characterSpawnGO = characterSpawnPoints[i].sceneSpawnGameObject;
+            if(enemyCharacterSpawnPoints[i].sceneSpawnGameObject.GetInstanceID() == instanceID) {
+                GameObject characterSpawnGO = enemyCharacterSpawnPoints[i].sceneSpawnGameObject;
 
-                characterSpawnPoints.RemoveAt(i); // rimuovi istanza dalla lista degli spawn dei characters
+                enemyCharacterSpawnPoints.RemoveAt(i); // rimuovi istanza dalla lista degli spawn dei characters
                 DestroyImmediate(characterSpawnGO); // distruggi gameobject dello spawn dalla scena
             }
         }
@@ -57,14 +61,29 @@ public class CharacterSpawnController : MonoBehaviour {
 
     /// <summary>
     /// Il metodo spawna i characters a partire dalla lista di characterSpawnPoints
+    /// Aggiungi il ruolo stabilito nello spawn point
+    /// Aggiungi il comportamento(NPCBehaviour) stabilito sempre dal ruolo dello spawn point
     /// </summary>
     void spawnCharacters() {
-        for(int i = 0; i < characterSpawnPoints.Count; i++) {
 
-            GameObject newCharacter = enemycharactersAsset;
+        SceneEntitiesController sceneEntities = gameObject.GetComponent<SceneEntitiesController>();
+
+        // spawn character nemici
+        for(int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
             
-            Instantiate(enemycharactersAsset, characterSpawnPoints[i].transform);
+
+            // istanzia nella scena
+            GameObject newCharacter = Instantiate(enemycharacterAsset, enemyCharacterSpawnPoints[i].transform);
+
+
+            CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].characterRole); // aggiungi componente ruolo character npc
+            EnemyNPCBehaviour.addToGOEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
+
+
+            // aggiungi npc istanziato al componente sceneEntities
+            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+            sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
         }
     }
 }

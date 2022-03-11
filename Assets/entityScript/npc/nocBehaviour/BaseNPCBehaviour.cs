@@ -2,19 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AlertState {
-    Unalert,
-    Alert1,
-    Alert2,
-    Alert3
-}
 
-
-abstract public class BaseNPC : MonoBehaviour
-{
-    private AlertState alert = AlertState.Unalert;
-    public CharacterSpawnPoint spwnPoint;
-    Activity npcBaseActivity;
+/// <summary>
+/// Comportamento dell'npc base classe padre, implementazione astrazione AbstractNPCBehaviour
+/// </summary>
+public class BaseNPCBehaviour : AbstractNPCBehaviour {
+    protected AlertState alert = AlertState.Unalert;
+    protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
 
     public void Start() {
         
@@ -53,13 +47,19 @@ abstract public class BaseNPC : MonoBehaviour
     /// <summary>
     /// comportamento di allerta 1 da implementare nelle classi figlie
     /// </summary>
-    abstract public void alertBehaviour1();
+    public override void alertBehaviour1() {
+
+    }
     /// <summary>
     /// comportamento di allerta 2 da implementare nelle classi figlie
     /// </summary>
-    abstract public void alertBehaviour2();
+    public override void alertBehaviour2() {
+
+    }
     /// <summary>
     /// comportamento di allerta 3 da implementare nelle classi figlie
     /// </summary>
-    abstract public void alertBehaviour3();
+    public override void alertBehaviour3() {
+
+    }
 }

@@ -8,11 +8,6 @@ public class CharacterSpawnPoint : MonoBehaviour {
     public CharacterSpawnController characterSpawnController;
     public GameObject sceneSpawnGameObject;
 
-    public CharacterSpawnPoint(Role role, CharacterSpawnController spawnerController) {
-        this.characterRole = role;
-        this.characterSpawnController = spawnerController;
-    }
-
 
 
     /// <summary>
@@ -24,7 +19,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
 
 
     /// <summary>
-    /// Aggiunge e inizializza uno CharacterSpawnPoint compoenent al gameObject passato
+    /// Aggiunge e inizializza uno CharacterSpawnPoint component al gameObject
     /// Infine restituisce il gameObject
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterSpawnPoint</param>
@@ -35,7 +30,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
         gameObject.AddComponent<CharacterSpawnPoint>();
 
         CharacterSpawnPoint characterSpawn = gameObject.GetComponent<CharacterSpawnPoint>();
-        characterSpawn.initSpawn(gameObject, role, spawnerController);
+        characterSpawn.initCharacterSpawnPointComponent(gameObject, role, spawnerController);
 
         return gameObject;
     }
@@ -46,7 +41,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
     /// <param name="gameObject"></param>
     /// <param name="role"></param>
     /// <param name="spawner"></param>
-    private void initSpawn(GameObject gameObject, Role role, CharacterSpawnController spawner) {
+    private void initCharacterSpawnPointComponent(GameObject gameObject, Role role, CharacterSpawnController spawner) {
         characterRole = role;
         characterSpawnController = spawner;
         sceneSpawnGameObject = gameObject;
