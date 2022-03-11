@@ -13,7 +13,7 @@ public enum AlertState {
 abstract public class BaseNPC : MonoBehaviour
 {
     private AlertState alert = AlertState.Unalert;
-    public CharacterSpawn spwnPoint;
+    public CharacterSpawnPoint spwnPoint;
     Activity npcBaseActivity;
 
     public void Start() {
