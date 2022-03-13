@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CoutoutObject : MonoBehaviour
 {
-    [SerializeField]
     private Dictionary<int, MaterialHitted> cachedMaterials = new Dictionary<int, MaterialHitted>(); // caching dei materiali
 
     [SerializeField]
@@ -14,6 +13,12 @@ public class CoutoutObject : MonoBehaviour
     private LayerMask wallMask;
 
     private Camera mainCamera;
+
+
+    [SerializeField]
+    private float cutoutSize = 0.1f;
+    [SerializeField]
+    private float falloffSize = 0.05f;
 
 
     private void Awake()
@@ -54,7 +59,7 @@ public class CoutoutObject : MonoBehaviour
                 // materiale dell [j-esimo] materiale dell[i-esimo] oggetto hittato
                 Material material = hitObjects[i].transform.GetComponent<Renderer>().materials[j];
 
-                // controlla se il materiale hittato è contenuto nel dizionario caching dei materiali hittati dal raycast
+                // controlla se il materiale hittato ? contenuto nel dizionario caching dei materiali hittati dal raycast
                 if (cachedMaterials.ContainsKey(istanceMaterialID)) {
 
                     //Debug.Log("Materiale contenuto in cache");
@@ -78,8 +83,8 @@ public class CoutoutObject : MonoBehaviour
 
             if(item.Value.isHitted) {
                 item.Value.material.SetVector("_CutoutPos", cutoutPos);
-                item.Value.material.SetFloat("_CutoutSize", 0.1f);
-                item.Value.material.SetFloat("_FalloffSize", 0.05f);
+                item.Value.material.SetFloat("_CutoutSize", cutoutSize);
+                item.Value.material.SetFloat("_FalloffSize", falloffSize);
             }
             
         }
