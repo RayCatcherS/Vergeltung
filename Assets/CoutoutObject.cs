@@ -56,9 +56,10 @@ public class CoutoutObject : MonoBehaviour
 
                 // controlla se il materiale hittato è contenuto nel dizionario caching dei materiali hittati dal raycast
                 if (cachedMaterials.ContainsKey(istanceMaterialID)) {
-                    Debug.Log("Materiale contenuto in cache");
+
+                    //Debug.Log("Materiale contenuto in cache");
                 } else {
-                    Debug.Log("Materiale non in cache");
+                    //Debug.Log("Materiale non in cache");
                     MaterialHitted matHitted = new MaterialHitted(material, false);
 
                     cachedMaterials.Add(istanceMaterialID, matHitted); // aggiunta del materiale in cache
