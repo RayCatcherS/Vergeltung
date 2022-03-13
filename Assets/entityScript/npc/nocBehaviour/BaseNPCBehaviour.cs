@@ -18,15 +18,15 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         alert = alertState;
     }
 
-    
-    void baseActivity() {
+
+    public override void unalertBehaviour1() {
 
     }
 
     public void Update() {
         switch(alert) {
             case AlertState.Unalert: {
-                baseActivity();
+                unalertBehaviour1();
             }
             break;
             case AlertState.Alert1: {

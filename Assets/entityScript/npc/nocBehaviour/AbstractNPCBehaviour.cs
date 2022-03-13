@@ -11,6 +11,12 @@ public enum AlertState {
 
 public abstract class AbstractNPCBehaviour : MonoBehaviour
 {
+
+    /// <summary>
+    /// comportamento di allerta 1 da implementare nelle classi figlie
+    /// </summary>
+    abstract public void unalertBehaviour1();
+
     /// <summary>
     /// comportamento di allerta 1 da implementare nelle classi figlie
     /// </summary>
