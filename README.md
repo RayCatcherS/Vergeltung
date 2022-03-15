@@ -1,6 +1,6 @@
 # Vergeltung
 
-![Visitor Badge](https://visitor-badges.glitch.me?username=RayCatcherS&repo=https://github.com/RayCatcherS/Vergeltung.git&label=VISITOR&style=flat-square&color=%23457BFF&contentType=svg)
+![Visitor Badge](https://visitor-badges.glitch.me?username=RayCatcherS&repo=https://github.com/RayCatcherS/Vergeltung.git)
 
 Progetto sviluppo di videogiochi
 
