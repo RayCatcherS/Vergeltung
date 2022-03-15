@@ -21,6 +21,12 @@ public class CoutoutObject : MonoBehaviour
     private float falloffSize = 0.05f;
 
 
+    [SerializeField]
+    private float cutoutSpeedEffect = 3f;
+
+    private float t = 0.0f;
+    private float t1 = 0.0f;
+
     private void Awake()
     {
         mainCamera = GetComponent<Camera>();
@@ -31,11 +37,13 @@ public class CoutoutObject : MonoBehaviour
     {
 
         foreach (var item in cachedMaterials) {
+
             item.Value.isHitted = false;
-            item.Value.material.SetFloat("_CutoutSize", 0f);
-            item.Value.material.SetFloat("_FalloffSize", 0f);
+            item.Value.material.SetFloat("_CutoutSize", Mathf.Lerp(item.Value.material.GetFloat("_CutoutSize"), 0f, t1));
+            item.Value.material.SetFloat("_FalloffSize", Mathf.Lerp(item.Value.material.GetFloat("_FalloffSize"), 0f, t1));
 
         }
+        t1 += cutoutSpeedEffect * Time.deltaTime;
 
 
         Vector2 cutoutPos = mainCamera.WorldToViewportPoint(targetObject.position);
@@ -83,8 +91,14 @@ public class CoutoutObject : MonoBehaviour
 
             if(item.Value.isHitted) {
                 item.Value.material.SetVector("_CutoutPos", cutoutPos);
-                item.Value.material.SetFloat("_CutoutSize", cutoutSize);
-                item.Value.material.SetFloat("_FalloffSize", falloffSize);
+                item.Value.material.SetFloat("_CutoutSize", Mathf.Lerp(item.Value.material.GetFloat("_CutoutSize"), cutoutSize, t));
+                item.Value.material.SetFloat("_FalloffSize", Mathf.Lerp(item.Value.material.GetFloat("_FalloffSize"), falloffSize, t));
+
+                t += cutoutSpeedEffect * Time.deltaTime;
+
+                t1 = 0;
+            } else {
+                t = 0;
             }
             
         }
