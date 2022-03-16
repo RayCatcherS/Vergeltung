@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoutoutObject : MonoBehaviour
 {
-    private Dictionary<int, MaterialHitted> cachedMaterials = new Dictionary<int, MaterialHitted>(); // caching dei materiali
+    private Dictionary<int, CacheMaterial> cachedMaterials = new Dictionary<int, CacheMaterial>(); // caching dei materiali
 
     [SerializeField]
     private Transform targetObject;
@@ -24,9 +24,6 @@ public class CoutoutObject : MonoBehaviour
     [SerializeField]
     private float cutoutSpeedEffect = 3f;
 
-    private float t = 0.0f;
-    private float t1 = 0.0f;
-
     private void Awake()
     {
         mainCamera = GetComponent<Camera>();
@@ -36,82 +33,115 @@ public class CoutoutObject : MonoBehaviour
     private void Update()
     {
 
-        foreach (var item in cachedMaterials) {
-
-            item.Value.isHitted = false;
-            item.Value.material.SetFloat("_CutoutSize", Mathf.Lerp(item.Value.material.GetFloat("_CutoutSize"), 0f, t1));
-            item.Value.material.SetFloat("_FalloffSize", Mathf.Lerp(item.Value.material.GetFloat("_FalloffSize"), 0f, t1));
-
-        }
-        t1 += cutoutSpeedEffect * Time.deltaTime;
-
-
         Vector2 cutoutPos = mainCamera.WorldToViewportPoint(targetObject.position);
         cutoutPos.y /= (Screen.width / Screen.height);
 
         Vector3 offset = targetObject.position - transform.position;
         RaycastHit[] hitObjects = Physics.RaycastAll(transform.position, offset, offset.magnitude, wallMask);
 
+        List<Material> raycastHitObjMaterials = new List<Material>();
 
-        // per ogni oggetto hittato dal raycast
+        // ottieni i materiali di tutti gli oggetti hittati dal ray cast
+        // per tutti i gameObject hittati dal Raycast
         for(int i = 0; i < hitObjects.Length; i++) {
 
 
-            // per ogni materiale dell'oggetto[i-esimo] hittato
+            // ottieni i materiali dell'oggetto hittato
             for (int j = 0; j < hitObjects[i].transform.GetComponent<Renderer>().materials.Length; j++) {
+                raycastHitObjMaterials.Add(hitObjects[i].transform.GetComponent<Renderer>().materials[j]);
+            }
+        }
 
+        
 
-                // id istanza dell [j-esimo] materiale dell[i-esimo] oggetto hittato
-                int istanceMaterialID = hitObjects[i].transform.GetComponent<Renderer>().materials[j].GetInstanceID();
+        // segna i CacheMaterial della cache che non sono gli stessi materiali degli oggetti hittati dal RaycastHit come non hittati
+        // inoltre setta a [t = 0] il tempo dell'effetto lerp per i CacheMaterial che precedentemente erano hittati
+        foreach (var item in cachedMaterials) {
+            
+            // flag per verificare che l'[item.Key] sia contenuto o meno
+            // nella lista dei materiali hittati dal RaycastHit
+            bool isCacheMatHitted = false; 
+            for(int i = 0; i < raycastHitObjMaterials.Count; i++) {
                 
-                // materiale dell [j-esimo] materiale dell[i-esimo] oggetto hittato
-                Material material = hitObjects[i].transform.GetComponent<Renderer>().materials[j];
-
-                // controlla se il materiale hittato ? contenuto nel dizionario caching dei materiali hittati dal raycast
-                if (cachedMaterials.ContainsKey(istanceMaterialID)) {
-
-                    //Debug.Log("Materiale contenuto in cache");
-                } else {
-                    //Debug.Log("Materiale non in cache");
-                    MaterialHitted matHitted = new MaterialHitted(material, false);
-
-                    cachedMaterials.Add(istanceMaterialID, matHitted); // aggiunta del materiale in cache
+                // se il CacheMaterial fa parte dei materiali hittati dal RaycastHit
+                if(raycastHitObjMaterials[i].GetInstanceID() == item.Key) {
+                    isCacheMatHitted = true;
                 }
+            }
+            
 
-                // setta materiale come hittato
-                cachedMaterials[istanceMaterialID].isHitted = true;
+            
+            // se il CacheMaterial non fa parte dei materiali degli oggetti hittati nel RaycastHit
+            if(!isCacheMatHitted) {
+                if(item.Value.isHitted == true) {
+                    item.Value.t = 0f;
+                }
+                item.Value.isHitted = false;
             }
 
 
+
+
+            // per ogni CacheMaterial della lista cache materiali setta i valori in base allo stato
+            if(item.Value.isHitted) {
+                item.Value.material.SetVector("_CutoutPos", cutoutPos);
+                item.Value.material.SetFloat("_CutoutSize", Mathf.Lerp(item.Value.material.GetFloat("_CutoutSize"), cutoutSize, item.Value.t));
+                item.Value.material.SetFloat("_FalloffSize", Mathf.Lerp(item.Value.material.GetFloat("_FalloffSize"), falloffSize, item.Value.t));
+                
+            } else {
+                
+                item.Value.isHitted = false;
+                item.Value.material.SetFloat("_CutoutSize", Mathf.Lerp(item.Value.material.GetFloat("_CutoutSize"), 0f, item.Value.t));
+                item.Value.material.SetFloat("_FalloffSize", Mathf.Lerp(item.Value.material.GetFloat("_FalloffSize"), 0f, item.Value.t));
+                
+            }
+
+            if(item.Value.t < 1) {
+                item.Value.t += cutoutSpeedEffect * Time.deltaTime;
+            }
             
         }
 
 
-        foreach (var item in cachedMaterials) {
-
-            if(item.Value.isHitted) {
-                item.Value.material.SetVector("_CutoutPos", cutoutPos);
-                item.Value.material.SetFloat("_CutoutSize", Mathf.Lerp(item.Value.material.GetFloat("_CutoutSize"), cutoutSize, t));
-                item.Value.material.SetFloat("_FalloffSize", Mathf.Lerp(item.Value.material.GetFloat("_FalloffSize"), falloffSize, t));
-
-                t += cutoutSpeedEffect * Time.deltaTime;
-
-                t1 = 0;
-            } else {
-                t = 0;
-            }
+        // per ogni materiale degli oggetti hittati dal raycast
+        for(int i = 0; i < raycastHitObjMaterials.Count; i++) {
+            // id istanza dell [j-esimo] materiale dell[i-esimo] oggetto hittato
+            int istanceMaterialID = raycastHitObjMaterials[i].GetInstanceID();
             
+            // materiale dell [j-esimo] materiale dell[i-esimo] oggetto hittato
+            Material material = raycastHitObjMaterials[i];
+
+            // controlla se il materiale hittato ? contenuto nel dizionario caching dei materiali hittati dal raycast
+            if (cachedMaterials.ContainsKey(istanceMaterialID)) {
+
+                Debug.Log("Materiale contenuto in cache");
+            } else {
+                Debug.Log("Materiale non in cache");
+                CacheMaterial matHitted = new CacheMaterial(material, false, 0);
+
+                cachedMaterials.Add(istanceMaterialID, matHitted); // aggiunta del materiale in cache
+            }
+
+            
+            // se il materiale non era già hittato setta il tempo dell'effetto a 0
+            if(cachedMaterials[istanceMaterialID].isHitted == false) {
+                cachedMaterials[istanceMaterialID].t = 0;
+            }
+            cachedMaterials[istanceMaterialID].isHitted = true; // setta materiale come hittato
         }
     }
 }
 
-class MaterialHitted {
+class CacheMaterial {
 
-    public MaterialHitted(Material hittedMaterial, bool hitted) {
+    public CacheMaterial(Material hittedMaterial, bool hitted, float time) {
         this.material = hittedMaterial;
         this.isHitted = hitted;
+        this.t = time;
     }
 
     public Material material;
     public bool isHitted;
+
+    public float t = 0;
 }
