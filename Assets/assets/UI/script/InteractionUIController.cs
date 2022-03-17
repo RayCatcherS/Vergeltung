@@ -28,15 +28,16 @@ public class InteractionUIController : MonoBehaviour
     /// <param name="characterInteraction">Rappresenta l'istanza componente CharacterInteraction che può effettuare le azioni</param>
     public void buildUIinteractionList(List<Interaction> interactionList, CharacterInteraction characterInteraction) {
 
-        for(int i = 0; i < interactionButtons.Count; i++) {
-            GameObject button = interactionButtons[i];
+        
 
-            interactionButtons.RemoveAt(i); // rimuovi ref istanza bottone dalla lista dei bottonu
+        for (int i = 0; i < interactionButtons.Count; i++) {
+            GameObject button = interactionButtons[i];
             Destroy(button); // distruggi istanza bottone
         }
+        interactionButtons = new List<GameObject>(); // rimuovi ref istanza bottone dalla lista dei bottonu
 
 
-        for(int i = 0; i < interactionList.Count; i++) {
+        for (int i = 0; i < interactionList.Count; i++) {
 
             // istanzia bottone interaction
             GameObject newButton = Instantiate(interactionButtonPrefab);

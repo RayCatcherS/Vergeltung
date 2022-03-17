@@ -12,7 +12,7 @@ public class FollowPlayer : MonoBehaviour {
     [SerializeField]
     private float zOffset = 10.0f;
 
-    void Update() {
+    void FixedUpdate() {
         float interpolation = speed * Time.deltaTime;
 
         Vector3 position = this.transform.position;
