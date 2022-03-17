@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
 
-    CharacterMovement characterMovement;
+    [SerializeField] private CharacterMovement characterMovement;
     PlayerInputAction playerActions;
 
     private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
@@ -15,10 +16,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] float movementInputStickDeadZone = 0.125f;
 
     private float inputIsRun = 0;
-    private bool isRun = false;
-
-    private float inputIsJump = 0;
-    private bool isJump = false;
+    private bool isRunPressed = false;
 
     private void OnEnable() {
         playerActions.Player.Enable();
@@ -29,8 +27,6 @@ public class PlayerInputController : MonoBehaviour
 
     void Awake() {
         playerActions = new PlayerInputAction();
-        
-        characterMovement = GetComponent<CharacterMovement>();
 
     }
 
@@ -47,18 +43,15 @@ public class PlayerInputController : MonoBehaviour
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
         vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
         inputIsRun = playerActions.Player.Run.ReadValue<float>();
-        inputIsJump = playerActions.Player.Jump.ReadValue<float>();
 
         
     }
 
+    // input movimento più efficaci nei FixedUpdate
     private void FixedUpdate() {
         // abilita [isRun] se viene premuto il pulsante 
         if (inputIsRun == 1) {
-            isRun = true;
-        }
-        if (inputIsJump == 1) {
-            isJump = true;
+            isRunPressed = true;
         }
 
 
@@ -75,31 +68,20 @@ public class PlayerInputController : MonoBehaviour
         // oppure se viene usato l'analogico per la rotazione [vec2Rotation.magnitude > 0]
         if (vec2Movement.magnitude < 0.75f || vec2Rotation.magnitude > 0) {
 
-            isRun = false;
+            isRunPressed = false;
         }
 
 
-        if (isRun) { // if [isRun] allora non sarà possibile cambiare la rotazione del character
+        if (isRunPressed) { // if [isRun] allora non sarà possibile cambiare la rotazione del character
 
-            characterMovement.moveCharacter(vec2Movement, isRun);
+            characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
         } else { // altrimenti movimento default
 
-            characterMovement.moveCharacter(vec2Movement, isRun);
-            characterMovement.rotateCharacter(vec2Rotation, isRun, false);
+            characterMovement.moveCharacter(vec2Movement, isRunPressed);
+            characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
         }
 
-        if (isJump) {
-            characterMovement.makeJump(vec2Movement);
-        }
-
-
-        resetVariables();
-    }
-
-
-    void resetVariables() {
-        isJump = false;
     }
     
 
@@ -108,6 +90,6 @@ public class PlayerInputController : MonoBehaviour
             "rotazione target \n" + characterMovement.getRotationAimTarget.ToString()
             , 200);
         GUI.TextArea(new Rect(0, 100, 200, 40), "rotazione character \n" + characterMovement.getCharacterModelRotation.ToString(), 200);
-        GUI.TextArea(new Rect(0, 140, 200, 40), "input is run: \n" + isRun.ToString(), 200);
+        GUI.TextArea(new Rect(0, 140, 200, 40), "input is run: \n" + isRunPressed.ToString(), 200);
     }
 }

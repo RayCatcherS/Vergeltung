@@ -2,15 +2,15 @@ using UnityEngine.Events;
 
 public class Interaction
 {
-    private UnityEventPlayer unityEvent;
+    private UnityEventCharacter unityEvent;
     private string eventName;
 
-    public Interaction(UnityEventPlayer e, string eName) {
+    public Interaction(UnityEventCharacter e, string eName) {
         this.unityEvent = e;
         this.eventName = eName;
     }
 
-    public UnityEventPlayer getUnityEvent() {
+    public UnityEventCharacter getUnityEvent() {
         return unityEvent;
     }
 

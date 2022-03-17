@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5408989706506400132}
   - component: {fileID: 8320530072649826649}
   - component: {fileID: 7515274057528744121}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: portaResidenziale1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,53 +102,8 @@ MonoBehaviour:
   doorLocked: 1
   doorClosed: 1
   lockPickingEventName: Use lockpick
-  lockPickingEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -4060156521153619227}
-        m_TargetAssemblyTypeName: DoorInteractable, Assembly-CSharp
-        m_MethodName: openDoor
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   openDoorEventName: Open door
-  openDoorEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -4060156521153619227}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   closeDoorEventName: Close door
-  closeDoorEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -4060156521153619227}
-        m_TargetAssemblyTypeName: DoorInteractable, Assembly-CSharp
-        m_MethodName: Start
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &5408989706506400132
 MonoBehaviour:
   m_ObjectHideFlags: 0

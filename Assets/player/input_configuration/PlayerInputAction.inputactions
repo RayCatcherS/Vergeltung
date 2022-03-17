@@ -31,15 +31,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Jump",
-                    "type": "PassThrough",
-                    "id": "2e7d6cb9-6289-4496-b0ca-6af7e83c96f0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -163,15 +154,52 @@
                     "action": "AnalogRotation",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "46a38724-d632-48d9-a8c2-a42e2f21609a",
+            "actions": [
+                {
+                    "name": "Action",
+                    "type": "PassThrough",
+                    "id": "1a54737e-0f00-46dc-a6a5-480909ad815c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
+                    "name": "MenuNavigation",
+                    "type": "Value",
+                    "id": "36351262-daa6-4744-8486-c6896bedb80d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "5a2f399a-ae36-40d6-9905-a42231f12fa7",
+                    "id": "3f02bb0f-9374-424b-a568-d783456e2591",
                     "path": "<XInputController>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "Jump",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de39514a-3124-489c-a719-e117df35cf92",
+                    "path": "<XInputController>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuNavigation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

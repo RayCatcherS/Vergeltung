@@ -81,6 +81,10 @@ public class CharacterSpawnController : MonoBehaviour {
             EnemyNPCBehaviour.addToGOEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
 
 
+            InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
+            CharacterInteraction.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+
+
             // aggiungi npc istanziato al componente sceneEntities
             SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
             sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());

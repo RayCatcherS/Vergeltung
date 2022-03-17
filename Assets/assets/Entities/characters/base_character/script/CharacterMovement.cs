@@ -78,7 +78,7 @@ public class CharacterMovement : MonoBehaviour
                 } else {
                     _movement = _movement * movementSpeed * Time.deltaTime;
                 }
-                characterState.running = isRun;
+                characterState.isRunning = isRun;
             }
 
 

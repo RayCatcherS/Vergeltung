@@ -9,33 +9,35 @@ public class DoorInteractable : Interactable {
     [SerializeField] private bool doorLocked = true;
     [SerializeField] private bool doorClosed = true;
 
-    [SerializeField] string lockPickingEventName = "Use lockpick";
-    UnityEventPlayer lockPickingEvent = new UnityEventPlayer();
+    [SerializeField] string lockPickingEventName = "LOCKPICK DOOR";
+    UnityEventCharacter lockPickingEvent = new UnityEventCharacter();
 
-    [SerializeField] string openDoorEventName = "Open door";
-    UnityEventPlayer openDoorEvent = new UnityEventPlayer();
+    [SerializeField] string openDoorEventName = "OPEN DOOR";
+    UnityEventCharacter openDoorEvent = new UnityEventCharacter();
 
-    [SerializeField] string closeDoorEventName = "Close door";
-    UnityEventPlayer closeDoorEvent = new UnityEventPlayer();
+    [SerializeField] string closeDoorEventName = "CLOSE DOOR";
+    UnityEventCharacter closeDoorEvent = new UnityEventCharacter();
 
     public void Start() {
         
 
 
-        lockPickingEvent.AddListener(openDoor);
+        lockPickingEvent.AddListener(lockPicking);
+        openDoorEvent.AddListener(openDoor);
+        closeDoorEvent.AddListener(closeDoor);
     }
 
-    public void openDoor(PlayerInteractionController p) {
+    public void openDoor(CharacterInteraction p) {
 
         Debug.Log("Apertura porta");
     }
 
-    public void closeDoor(PlayerInteractionController p) {
+    public void closeDoor(CharacterInteraction p) {
 
         Debug.Log("Chiusura porta");
     }
 
-    public void lockPicking(PlayerInteractionController p) {
+    public void lockPicking(CharacterInteraction p) {
 
         Debug.Log("Scassinamento porta");
     }
