@@ -8,8 +8,8 @@ public class PlayerInputController : MonoBehaviour
     CharacterMovement characterMovement;
     PlayerInputAction playerActions;
 
-    [SerializeField] private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
-    [SerializeField] private Vector2 vec2Rotation; // vettore input rotazione joypad(right analog stick)
+    private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
+    private Vector2 vec2Rotation; // vettore input rotazione joypad(right analog stick)
 
     [SerializeField] float rotationInputStickDeadZone = 0.125f;
     [SerializeField] float movementInputStickDeadZone = 0.125f;
