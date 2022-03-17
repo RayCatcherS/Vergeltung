@@ -105,18 +105,17 @@ public class CoutoutObject : MonoBehaviour
 
         // per ogni materiale degli oggetti hittati dal raycast
         for(int i = 0; i < raycastHitObjMaterials.Count; i++) {
-            // id istanza dell [j-esimo] materiale dell[i-esimo] oggetto hittato
+
             int istanceMaterialID = raycastHitObjMaterials[i].GetInstanceID();
             
-            // materiale dell [j-esimo] materiale dell[i-esimo] oggetto hittato
             Material material = raycastHitObjMaterials[i];
 
             // controlla se il materiale hittato ? contenuto nel dizionario caching dei materiali hittati dal raycast
             if (cachedMaterials.ContainsKey(istanceMaterialID)) {
 
-                Debug.Log("Materiale contenuto in cache");
+                //Debug.Log("Materiale contenuto in cache");
             } else {
-                Debug.Log("Materiale non in cache");
+                //Debug.Log("Materiale non in cache");
                 CacheMaterial matHitted = new CacheMaterial(material, false, 0);
 
                 cachedMaterials.Add(istanceMaterialID, matHitted); // aggiunta del materiale in cache
