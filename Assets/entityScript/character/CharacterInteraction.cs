@@ -67,7 +67,7 @@ public class CharacterInteraction : MonoBehaviour
     }
 
     
-    void buildListOfInteraction() {
+    public void buildListOfInteraction() {
         interactions = new List<Interaction>(); // svuota lista
 
 

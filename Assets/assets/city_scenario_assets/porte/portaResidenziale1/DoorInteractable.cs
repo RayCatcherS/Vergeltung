@@ -40,6 +40,7 @@ public class DoorInteractable : Interactable {
     public void lockPicking(CharacterInteraction p) {
 
         Debug.Log("Scassinamento porta");
+        doorLocked = false;
     }
 
     /*public IEnumerator openDoor() {

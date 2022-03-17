@@ -25,7 +25,12 @@ public class ButtonInteraction : MonoBehaviour
         setButtonText(interactionName);
 
         // aggiungi l'evento che il button deve eseguire
-        GetComponent<Button>().onClick.AddListener(delegate { interaction.getUnityEvent().Invoke(characterInteraction); });
+        GetComponent<Button>().onClick.AddListener(
+            delegate { 
+                interaction.getUnityEvent().Invoke(characterInteraction); // avvia interaction
+                characterInteraction.buildListOfInteraction(); // rebuild della lista di eventi
+            }
+        );
     }
 
     void Start()
