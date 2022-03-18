@@ -3330,17 +3330,6 @@ Transform:
   m_Father: {fileID: 1908805309}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2065894299 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6989233253089200718, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
-  m_PrefabInstance: {fileID: 6801540803017616967}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43326eb3a0f472345ad03a983a86ecd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2118049670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3911,10 +3900,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1132176925}
     m_Modifications:
-    - target: {fileID: 653229859959467111, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
-      propertyPath: doorLocked
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5954467355198937062, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
       propertyPath: m_Name
       value: build1
@@ -3963,10 +3948,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8784946629748132345, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
-      propertyPath: doorInteractable
-      value: 
-      objectReference: {fileID: 2065894299}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
 --- !u!4 &8818525215558752673 stripped
@@ -4038,10 +4019,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1990344504, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.932
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527064704252661337, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
+      propertyPath: m_SlopeLimit
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527064704252661337, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6449564754337226861, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
       propertyPath: interactionUIController
       value: 
       objectReference: {fileID: 1908805310}
+    - target: {fileID: 9158278864438449457, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9158278864438449459, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
       propertyPath: m_Name
       value: Player
