@@ -11,6 +11,9 @@ public class DoorState : MonoBehaviour
     [SerializeField] private bool doorLocked = true;
     [SerializeField] private bool doorClosed = true;
 
+    [SerializeField] private bool doorOpenedDirection1 = false;
+    [SerializeField] private bool doorOpenedDirection2 = false;
+
     private Animator doorAnimator;
 
     [SerializeField] private BoxCollider triggerStopDoorDirection1;
@@ -29,6 +32,11 @@ public class DoorState : MonoBehaviour
         if (doorAnimator.speed == 0) {
             doorAnimator.speed = 1;
         }
+
+        doorOpenedDirection1 = true;
+        doorOpenedDirection2 = false;
+
+        triggerStopDoorDirection2.enabled = true;
         triggerStopDoorDirection1.enabled = false;
     }
 
@@ -39,6 +47,11 @@ public class DoorState : MonoBehaviour
         if(doorAnimator.speed == 0) {
             doorAnimator.speed = 1;
         }
+
+        doorOpenedDirection2 = true;
+        doorOpenedDirection1 = false;
+
+        triggerStopDoorDirection1.enabled = true;
         triggerStopDoorDirection2.enabled = false;
     }
 
@@ -51,8 +64,22 @@ public class DoorState : MonoBehaviour
         doorClosed = closeState;
 
         if(doorClosed) {
-            triggerStopDoorDirection1.enabled = true;
-            triggerStopDoorDirection2.enabled = true;
+
+            if(doorOpenedDirection1) {
+                doorAnimator.speed = 1;
+                triggerStopDoorDirection1.enabled = true;
+                triggerStopDoorDirection2.enabled = false;
+            }
+
+            if (doorOpenedDirection2) {
+                doorAnimator.speed = 1;
+                triggerStopDoorDirection2.enabled = true;
+                triggerStopDoorDirection1.enabled = false;
+            }
+            
+
+            
+            
 
             if (doorClosed == true) {
                 

@@ -60,7 +60,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
         GUI.color = new Color(1, 0.8f, 0.4f, 1);
 
         Vector3 pos = transform.position;
-        Handles.DrawWireDisc(pos, Vector3.up, 1f);
+        
 
 
 
@@ -68,11 +68,25 @@ public class CharacterSpawnPoint : MonoBehaviour {
         // disegna nome dello spawn solo se la distanza
         // tra la camera della scena e l'oggetto è <20
         if (scenViewCameraDistance < 20f) { 
-            Handles.Label(
-                pos,
-                "Spawn\nnemico"
-            );
+
+            if(characterRole == Role.Enemy) {
+
+                Handles.color = Color.red;
+                Handles.Label(
+                    pos,
+                    "Spawn\nnemico"
+                );
+            } else if(characterRole == Role.Civilian) {
+                Handles.color = Color.green;
+                Handles.Label(
+                    pos,
+                    "Spawn\ncivile"
+                );
+            }
+
         }
+
+        Handles.DrawWireDisc(pos, Vector3.up, 1f); // segnalatore spawn
 
         //gizmos selezionabile solo se la distanza
         // tra la camera della scena e l'oggetto è <10
