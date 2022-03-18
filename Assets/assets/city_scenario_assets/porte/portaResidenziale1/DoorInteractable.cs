@@ -41,28 +41,6 @@ public class DoorInteractable : Interactable {
         doorState.setDoorLocked(false);
     }
 
-    
-
-    /*public IEnumerator openDoor() {
-
-        busyInteractable = true;
-        yield return new WaitForSeconds(0);
-        busyInteractable = false;
-    }
-
-    public IEnumerator closeDoor() {
-
-        busyInteractable = true;
-        yield return new WaitForSeconds(0);
-        busyInteractable = false;
-    }
-
-    public IEnumerator lockPicking() {
-
-        busyInteractable = true;
-        yield return new WaitForSeconds(5);
-        busyInteractable = false;
-    }*/
 
     public override List<Interaction> getInteractable() {
 

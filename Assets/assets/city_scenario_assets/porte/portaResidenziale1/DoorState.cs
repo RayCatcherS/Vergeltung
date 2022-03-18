@@ -20,6 +20,8 @@ public class DoorState : MonoBehaviour
     [SerializeField] private BoxCollider triggerStopDoorDirection2;
 
 
+    [SerializeField] private int doorTimeOut = 5; // stabilisce il valore di time out dopo cui la porta si chiude automaticamente
+
     public void Start() {
         doorAnimator = gameObject.GetComponent<Animator>();
     }
@@ -38,6 +40,10 @@ public class DoorState : MonoBehaviour
 
         triggerStopDoorDirection2.enabled = true;
         triggerStopDoorDirection1.enabled = false;
+
+
+        // avvia chiusura timeout
+        StartCoroutine(doorClosingTimeOut());
     }
 
     public void openDoorDirection2() {
@@ -53,6 +59,10 @@ public class DoorState : MonoBehaviour
 
         triggerStopDoorDirection1.enabled = true;
         triggerStopDoorDirection2.enabled = false;
+
+
+        // avvia chiusura timeout
+        StartCoroutine(doorClosingTimeOut());
     }
 
     //setter
@@ -99,10 +109,22 @@ public class DoorState : MonoBehaviour
         return doorClosed;
     }
 
+    IEnumerator doorClosingTimeOut() {
+        yield return new WaitForSeconds(doorTimeOut);
 
+        /*if(!doorClosed) {
+            setDoorClosed(true); // chiudi porta
+        }*/
+    }
+
+
+    /// <summary>
+    /// Gestisce il bloccaggio della porta in caso di collisioni con il character
+    /// Caso entrata collisione
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.layer == CHARACTER_LAYER) {
-            Debug.Log("Character collision");
 
             if (doorAnimator.IsInTransition(0)) {
                 doorAnimator.speed = 0;
@@ -110,10 +132,13 @@ public class DoorState : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Gestisce il bloccaggio della porta in caso di collisioni con il character
+    /// Caso uscita collisione
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerExit(Collider collision) {
         if (collision.gameObject.layer == CHARACTER_LAYER) {
-            Debug.Log("Character collision exit");
             doorAnimator.speed = 1;
         }
     }
