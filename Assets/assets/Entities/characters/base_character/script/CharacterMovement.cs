@@ -5,6 +5,8 @@ using UnityEngine.Animations.Rigging;
 
 public class CharacterMovement : MonoBehaviour
 {
+    private const int DOOR_LAYER = 10;
+
     public Animator animator; //animator del character
     public CharacterState characterState;
     public CharacterController characterController;
@@ -218,17 +220,6 @@ public class CharacterMovement : MonoBehaviour
             }
 
         }
-
-    }
-
-    public void makeJump(Vector2 _2Direction) {
-
-        
-    }
-
-    IEnumerator waitBeforeJump() {
-        
-        yield return new WaitForSeconds(2f);
 
     }
 

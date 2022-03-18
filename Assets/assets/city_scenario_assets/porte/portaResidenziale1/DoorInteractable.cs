@@ -6,21 +6,19 @@ using UnityEngine.Events;
 
 public class DoorInteractable : Interactable {
 
-    [SerializeField] private bool doorLocked = true;
-    [SerializeField] private bool doorClosed = true;
+    [SerializeField] DoorState doorState;
 
     [SerializeField] string lockPickingEventName = "LOCKPICK DOOR";
-    UnityEventCharacter lockPickingEvent = new UnityEventCharacter();
+    [SerializeField] UnityEventCharacter lockPickingEvent = new UnityEventCharacter();
 
     [SerializeField] string openDoorEventName = "OPEN DOOR";
-    UnityEventCharacter openDoorEvent = new UnityEventCharacter();
+    [SerializeField] UnityEventCharacter openDoorEvent = new UnityEventCharacter();
 
     [SerializeField] string closeDoorEventName = "CLOSE DOOR";
-    UnityEventCharacter closeDoorEvent = new UnityEventCharacter();
+    [SerializeField] UnityEventCharacter closeDoorEvent = new UnityEventCharacter();
+
 
     public void Start() {
-        
-
 
         lockPickingEvent.AddListener(lockPicking);
         openDoorEvent.AddListener(openDoor);
@@ -29,19 +27,21 @@ public class DoorInteractable : Interactable {
 
     public void openDoor(CharacterInteraction p) {
 
-        Debug.Log("Apertura porta");
+        doorState.setDoorClosed(false);
+
     }
 
     public void closeDoor(CharacterInteraction p) {
 
-        Debug.Log("Chiusura porta");
+        doorState.setDoorClosed(true);
+
     }
 
     public void lockPicking(CharacterInteraction p) {
-
-        Debug.Log("Scassinamento porta");
-        doorLocked = false;
+        doorState.setDoorLocked(false);
     }
+
+    
 
     /*public IEnumerator openDoor() {
 
@@ -68,13 +68,13 @@ public class DoorInteractable : Interactable {
 
         List<Interaction> eventRes = new List<Interaction>();
 
-        if (doorLocked) {
+        if (doorState.isDoorLocked()) {
             eventRes.Add(
                 new Interaction(lockPickingEvent, lockPickingEventName)
             );
         } else {
 
-            if (doorClosed) {
+            if (doorState.isDoorClosed()) {
                 eventRes.Add(
                     new Interaction(openDoorEvent, openDoorEventName)
                 );
