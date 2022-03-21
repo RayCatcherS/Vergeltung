@@ -43,6 +43,11 @@ public class CharacterInteraction : MonoBehaviour
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
+            if (gameObject.GetComponent<CharacterState>().isPlayer) {
+                interactableObject.interactableObject.focusInteractable(); // disattiva effetto focus sull'oggetto interagibile
+            }
+
+
             // aggiungi interazione al dizionario delle interazioni
             interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactableObject);
             
@@ -58,7 +63,12 @@ public class CharacterInteraction : MonoBehaviour
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
-            // aggiungi interazione al dizionario delle interazioni
+            if (gameObject.GetComponent<CharacterState>().isPlayer) {
+                interactableObject.interactableObject.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
+            }
+                
+
+            // rimuovi interazione al dizionario delle interazioni
             interactableObjects.Remove(interactableObject.GetInstanceID());
             
             // rebuild lista interactions

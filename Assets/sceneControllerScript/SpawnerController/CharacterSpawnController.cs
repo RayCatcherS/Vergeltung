@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class CharacterSpawnController : MonoBehaviour {
 
-    [Header("Assets character")]
-    [SerializeField] GameObject enemycharacterAsset;
+    [Header("Assets character enemy")]
+    [SerializeField] GameObject enemyCharacterAsset;
+
+    [Header("Assets character civilian")]
+    [SerializeField] GameObject civilianCharacterAsset;
 
     [Header("Spawn character nemici")]
     public List<CharacterSpawnPoint> enemyCharacterSpawnPoints = new List<CharacterSpawnPoint>();
+
+    [Header("Spawn character civili")]
+    public List<CharacterSpawnPoint> civilianCharacterSpawnPoints = new List<CharacterSpawnPoint>();
 
     [Header("Character spawnabili")]
     [SerializeField] public Role role;
@@ -32,7 +38,10 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
         if(characterRole == Role.Enemy) {
-            enemyCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista [characterSpawns]
+            enemyCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista
+
+        } else if(characterRole == Role.Civilian) {
+            civilianCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista
         }
         
 
@@ -46,15 +55,28 @@ public class CharacterSpawnController : MonoBehaviour {
     /// Viene rimosso dalla lista dei characterSpawnPoints e dalla scena
     /// </summary>
     /// <param name="instanceID"></param>
-    public void removeCharacterSpawnByGOId(int instanceID) {
+    public void removeCharacterSpawnByGOId(int instanceID, Role characterRole) {
 
-        for (int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
-            if(enemyCharacterSpawnPoints[i].sceneSpawnGameObject.GetInstanceID() == instanceID) {
-                GameObject characterSpawnGO = enemyCharacterSpawnPoints[i].sceneSpawnGameObject;
+        if(characterRole == Role.Enemy) {
+            for (int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
-                enemyCharacterSpawnPoints.RemoveAt(i); // rimuovi istanza dalla lista degli spawn dei characters
-                DestroyImmediate(characterSpawnGO); // distruggi gameobject dello spawn dalla scena
+                if (enemyCharacterSpawnPoints[i].gameObject.GetInstanceID() == instanceID) {
+                    GameObject characterSpawnGO = enemyCharacterSpawnPoints[i].gameObject;
+
+                    enemyCharacterSpawnPoints.RemoveAt(i); // rimuovi istanza dalla lista degli spawn dei characters
+                    DestroyImmediate(characterSpawnGO); // distruggi gameobject dello spawn dalla scena
+                }
+            }
+        } else if(characterRole == Role.Civilian) {
+            for (int i = 0; i < civilianCharacterSpawnPoints.Count; i++) {
+
+                if (civilianCharacterSpawnPoints[i].gameObject.GetInstanceID() == instanceID) {
+                    GameObject characterSpawnGO = civilianCharacterSpawnPoints[i].gameObject;
+
+                    civilianCharacterSpawnPoints.RemoveAt(i); // rimuovi istanza dalla lista degli spawn dei characters
+                    DestroyImmediate(characterSpawnGO); // distruggi gameobject dello spawn dalla scena
+                }
             }
         }
     }
@@ -71,14 +93,35 @@ public class CharacterSpawnController : MonoBehaviour {
         // spawn character nemici
         for(int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
-            
 
             // istanzia nella scena
-            GameObject newCharacter = Instantiate(enemycharacterAsset, enemyCharacterSpawnPoints[i].transform);
+            GameObject newCharacter = Instantiate(enemyCharacterAsset, enemyCharacterSpawnPoints[i].transform);
 
 
-            CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].characterRole); // aggiungi componente ruolo character npc
+            CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
             EnemyNPCBehaviour.addToGOEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
+
+
+            InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
+            CharacterInteraction.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+
+
+            // aggiungi npc istanziato al componente sceneEntities
+            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+            sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+        }
+
+
+        // spawn character civili
+        for (int i = 0; i < civilianCharacterSpawnPoints.Count; i++) {
+
+
+            // istanzia nella scena
+            GameObject newCharacter = Instantiate(civilianCharacterAsset, civilianCharacterSpawnPoints[i].transform);
+
+
+            CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
+            CivilianNPCBehaviour.addToGOCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
 
 
             InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();

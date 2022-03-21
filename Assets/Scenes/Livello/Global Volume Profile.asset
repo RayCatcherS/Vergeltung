@@ -35,7 +35,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.87
+    m_Value: 1.3
   contrast:
     m_OverrideState: 1
     m_Value: 39.7
@@ -92,6 +92,31 @@ MonoBehaviour:
   - {fileID: -8000871819384551283}
   - {fileID: -8810985424306060016}
   - {fileID: -4707467119218860602}
+  - {fileID: 965835294595957145}
+--- !u!114 &965835294595957145
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  temperature:
+    m_OverrideState: 1
+    m_Value: 39
+    min: -100
+    max: 100
+  tint:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -100
+    max: 100
 --- !u!114 &1744302041610410105
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -112,7 +137,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.45
     min: 0
   scatter:
     m_OverrideState: 0
@@ -133,8 +158,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   skipIterations:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 5
     min: 0
     max: 16
   dirtTexture:

@@ -4,17 +4,24 @@ using UnityEngine;
 using UnityEditor;
 
 public class CharacterSpawnPoint : MonoBehaviour {
-    public Role characterRole;
-    public CharacterSpawnController characterSpawnController;
-    public GameObject sceneSpawnGameObject;
+    private Role characterRole;
+    private CharacterSpawnController characterSpawnController;
 
+    // getter
+    public Role getSpawnCharacterRole() {
+        return this.characterRole;
+    }
 
 
     /// <summary>
     /// Rimuove lo spawnPoint dalla lista dei character spawn della lista dell'istanza di CharacterSpawnController ed elimina l'oggetto dalla scena
     /// </summary>
     public void removeSpawnPoint() {
-        characterSpawnController.removeCharacterSpawnByGOId(sceneSpawnGameObject.GetInstanceID());
+
+
+        characterSpawnController.removeCharacterSpawnByGOId(
+            gameObject.GetInstanceID(),
+            characterRole);
     }
 
 
@@ -30,7 +37,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
         gameObject.AddComponent<CharacterSpawnPoint>();
 
         CharacterSpawnPoint characterSpawn = gameObject.GetComponent<CharacterSpawnPoint>();
-        characterSpawn.initCharacterSpawnPointComponent(gameObject, role, spawnerController);
+        characterSpawn.initCharacterSpawnPointComponent(role, spawnerController);
 
         return gameObject;
     }
@@ -41,10 +48,9 @@ public class CharacterSpawnPoint : MonoBehaviour {
     /// <param name="gameObject"></param>
     /// <param name="role"></param>
     /// <param name="spawner"></param>
-    private void initCharacterSpawnPointComponent(GameObject gameObject, Role role, CharacterSpawnController spawner) {
+    private void initCharacterSpawnPointComponent(Role role, CharacterSpawnController spawner) {
         characterRole = role;
         characterSpawnController = spawner;
-        sceneSpawnGameObject = gameObject;
     }
 
     void OnDrawGizmos() {
@@ -60,8 +66,15 @@ public class CharacterSpawnPoint : MonoBehaviour {
         GUI.color = new Color(1, 0.8f, 0.4f, 1);
 
         Vector3 pos = transform.position;
-        
 
+        if (characterRole == Role.Enemy) {
+
+            Handles.color = Color.red;
+            
+        } else if (characterRole == Role.Civilian) {
+            Handles.color = Color.green;
+            
+        }
 
 
 
@@ -71,13 +84,11 @@ public class CharacterSpawnPoint : MonoBehaviour {
 
             if(characterRole == Role.Enemy) {
 
-                Handles.color = Color.red;
                 Handles.Label(
                     pos,
                     "Spawn\nnemico"
                 );
             } else if(characterRole == Role.Civilian) {
-                Handles.color = Color.green;
                 Handles.Label(
                     pos,
                     "Spawn\ncivile"

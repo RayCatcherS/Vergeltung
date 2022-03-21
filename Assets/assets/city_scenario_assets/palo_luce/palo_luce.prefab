@@ -45,8 +45,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 100
   m_Range: 26.7
-  m_SpotAngle: 95.9952
-  m_InnerSpotAngle: 75.52183
+  m_SpotAngle: 114.05667
+  m_InnerSpotAngle: 63.43107
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 7392904563585501447}
   - component: {fileID: 5852150764548376226}
   - component: {fileID: 8562454861600207464}
+  - component: {fileID: 348986230182829263}
   m_Layer: 0
   m_Name: palo_luce
   m_TagString: Untagged
@@ -178,6 +179,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &348986230182829263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913685620068750269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8567d6090fdd7c245b171a01c10d9727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightCone: {fileID: 6942580013304581221}
+  light: {fileID: 6994766375402807329}
 --- !u!1001 &698694315532834429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249,13 +264,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: palo_luce
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c56016cbb0f4c064481f9e4e86b13748, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c56016cbb0f4c064481f9e4e86b13748, type: 3}
+--- !u!1 &392704969622842156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c56016cbb0f4c064481f9e4e86b13748, type: 3}
+  m_PrefabInstance: {fileID: 698694315532834429}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1024845692806771094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c56016cbb0f4c064481f9e4e86b13748, type: 3}
   m_PrefabInstance: {fileID: 698694315532834429}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &3913203260431609114
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392704969622842156}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1388485733357891733, guid: c56016cbb0f4c064481f9e4e86b13748, type: 3}
 --- !u!1001 &7825451222322786612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -319,8 +357,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: volumetricLightShaft
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
+--- !u!1 &6942580013304581221 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
+  m_PrefabInstance: {fileID: 7825451222322786612}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7715562338942670559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
