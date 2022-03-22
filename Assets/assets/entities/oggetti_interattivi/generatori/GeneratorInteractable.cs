@@ -21,7 +21,6 @@ public class GeneratorInteractable : Interactable {
         generatorState = GeneratorState.GeneratorOff;
         gameState.turnOffPower();
 
-        Debug.Log(p.gameObject.name);
     }
 
     public override List<Interaction> getInteractable() {

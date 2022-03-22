@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CoutoutObject : MonoBehaviour
 {
+    private const int MESH_SHADOW_LAYER = 11;
+
     private Dictionary<int, CacheMaterial> cachedMaterials = new Dictionary<int, CacheMaterial>(); // caching dei materiali
 
     [SerializeField]
@@ -29,6 +31,33 @@ public class CoutoutObject : MonoBehaviour
         mainCamera = GetComponent<Camera>();
     }
 
+
+    // ottieni tutti i materiali degli oggetti figli in modo ricorsivo
+    private void getRecursiveGameObjectChildMaterial(Transform GOtransform, List<Material> raycastHitObjMaterials) {
+        // ottieni tutti i materiali dei figli dell'oggetto hittato
+        foreach (Transform child in GOtransform) {
+
+
+            Renderer renderComponent = child.transform.GetComponent<Renderer>();
+
+            if (renderComponent != null) {
+                // ottieni i materiali del figlio
+                for (int j = 0; j < child.transform.GetComponent<Renderer>().materials.Length; j++) {
+
+
+                    if(child.gameObject.layer != MESH_SHADOW_LAYER) { // escludi i gameObject che hanno funzione di castare solo ombre
+                        raycastHitObjMaterials.Add(child.transform.GetComponent<Renderer>().materials[j]);
+                    }
+
+                }
+            }
+
+            getRecursiveGameObjectChildMaterial(child.transform, raycastHitObjMaterials); // chiamata ricorsiva
+        }
+
+        
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -41,15 +70,17 @@ public class CoutoutObject : MonoBehaviour
 
         List<Material> raycastHitObjMaterials = new List<Material>();
 
-        // ottieni i materiali di tutti gli oggetti hittati dal ray cast
+        // ottieni i materiali di tutti gli oggetti e i figli hittati dal ray cast
         // per tutti i gameObject hittati dal Raycast
         for(int i = 0; i < hitObjects.Length; i++) {
-
 
             // ottieni i materiali dell'oggetto hittato
             for (int j = 0; j < hitObjects[i].transform.GetComponent<Renderer>().materials.Length; j++) {
                 raycastHitObjMaterials.Add(hitObjects[i].transform.GetComponent<Renderer>().materials[j]);
             }
+
+            // chiamata a metodo ricorsivo ottenimento materiali oggetti figli
+            getRecursiveGameObjectChildMaterial(hitObjects[i].transform, raycastHitObjMaterials);
         }
 
         
