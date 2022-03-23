@@ -53,6 +53,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
         characterSpawnController = spawner;
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos() {
         
 
@@ -108,5 +109,6 @@ public class CharacterSpawnPoint : MonoBehaviour {
         
 
     }
+#endif
 
 }
