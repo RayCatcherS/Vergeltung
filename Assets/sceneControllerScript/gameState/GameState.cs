@@ -8,10 +8,14 @@ public class GameState : MonoBehaviour
 
     [SerializeField] private int powerOffTimer = 15;
 
-    [SerializeField] private List<LightSourcesScript> lightSources = new List<LightSourcesScript>();
+    [SerializeField] private LightSourcesScript[] lightSources;
 
 
     [SerializeField] private bool powerOn = true;
+
+    private void Start() {
+        lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
+    }
 
     // getter
     public bool getPowerOn() {
@@ -37,7 +41,7 @@ public class GameState : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         // disattiva tutte le luci
-        for (int i = 0; i < lightSources.Count; i++) {
+        for (int i = 0; i < lightSources.Length; i++) {
             lightSources[i].turnOffLigth();
         }
 
@@ -49,7 +53,7 @@ public class GameState : MonoBehaviour
         if (lifePower > 0) { // se le life power sono > 0
 
             // riattiva tutte le luci
-            for (int i = 0; i < lightSources.Count; i++) {
+            for (int i = 0; i < lightSources.Length; i++) {
                 lightSources[i].turnOnLigth();
             }
 
