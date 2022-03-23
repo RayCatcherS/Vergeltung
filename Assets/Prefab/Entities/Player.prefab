@@ -1784,7 +1784,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9158278864438449463}
-  - component: {fileID: 9158278864438449457}
   - component: {fileID: 9158278864438449460}
   - component: {fileID: 976331954}
   - component: {fileID: 976331960}
@@ -1817,20 +1816,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &9158278864438449457
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9158278864438449459}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.44
-  m_Height: 3.04
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.55, z: 0}
 --- !u!114 &9158278864438449460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1847,7 +1832,7 @@ MonoBehaviour:
   characterState: {fileID: 976331960}
   characterController: {fileID: 2527064704252661337}
   characterAimConstrant: {fileID: 9158278864137260811}
-  colliderCharacter: {fileID: 9158278864438449457}
+  colliderCharacter: {fileID: 0}
   jumpColliderCharacter: {fileID: 0}
   movementSpeed: 250
   runMovementSpeed: 500
@@ -1898,7 +1883,7 @@ CharacterController:
   m_Height: 3.04
   m_Radius: 0.44
   m_SlopeLimit: 60
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.55, z: 0}
