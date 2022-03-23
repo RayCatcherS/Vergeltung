@@ -28,7 +28,7 @@ public class GeneratorInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
         if(generatorState == GeneratorState.GeneratorOn && gameState.getPowerOn()) {
-            eventRes.Add(new Interaction(sabotageGenerator, lockPickingEventName));
+            eventRes.Add(new Interaction(sabotageGenerator, lockPickingEventName, this));
         }
 
         return eventRes;

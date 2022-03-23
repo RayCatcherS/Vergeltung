@@ -22,6 +22,16 @@ public class DoorState : MonoBehaviour
 
     [SerializeField] private int doorTimeOut = 5; // stabilisce il valore di time out dopo cui la porta si chiude automaticamente
 
+
+    // getter 
+    public int getDoorTimeOut() {
+        return doorTimeOut;
+    }
+
+    public bool getDoorClosed() {
+        return doorClosed;
+    }
+
     public void Start() {
         doorAnimator = gameObject.GetComponent<Animator>();
     }
@@ -42,8 +52,7 @@ public class DoorState : MonoBehaviour
         triggerStopDoorDirection1.enabled = false;
 
 
-        // avvia chiusura timeout
-        StartCoroutine(doorClosingTimeOut());
+        
     }
 
     public void openDoorDirection2() {
@@ -61,8 +70,6 @@ public class DoorState : MonoBehaviour
         triggerStopDoorDirection2.enabled = false;
 
 
-        // avvia chiusura timeout
-        StartCoroutine(doorClosingTimeOut());
     }
 
     //setter
@@ -107,14 +114,6 @@ public class DoorState : MonoBehaviour
 
     public bool isDoorClosed() {
         return doorClosed;
-    }
-
-    IEnumerator doorClosingTimeOut() {
-        yield return new WaitForSeconds(doorTimeOut);
-
-        /*if(!doorClosed) {
-            setDoorClosed(true); // chiudi porta
-        }*/
     }
 
 

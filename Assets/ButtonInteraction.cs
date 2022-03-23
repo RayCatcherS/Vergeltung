@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
-public class ButtonInteraction : MonoBehaviour
-{
+public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler {
 
     [SerializeField]
     private Text buttonTextComponent;
 
     private string buttonText = "ACTION 1";
 
-    private Interaction interaction;
+    private Interactable interactable;
 
     /// <summary>
     /// La funzione inizializza il componente button e l'evento del bottone
@@ -24,13 +24,31 @@ public class ButtonInteraction : MonoBehaviour
         string interactionName = interaction.getUnityEventName();
         setButtonText(interactionName);
 
+        interactable = interaction.getInteractable(); // oggetto che concede l'interazione
+
         // aggiungi l'evento che il button deve eseguire
         GetComponent<Button>().onClick.AddListener(
             delegate { 
                 interaction.getUnityEvent().Invoke(characterInteraction); // avvia interaction
+
+                interactable.unFocusInteractable(); // unfocus dell'oggetto dell'interactable a cui appartiene
                 characterInteraction.buildListOfInteraction(); // rebuild della lista di eventi
             }
         );
+
+        
+
+
+
+    }
+
+    public void OnSelect(BaseEventData eventData) {
+
+        interactable.focusInteractable();
+    }
+
+    public void OnDeselect(BaseEventData eventData) {
+        interactable.unFocusInteractable();
     }
 
     void Start()

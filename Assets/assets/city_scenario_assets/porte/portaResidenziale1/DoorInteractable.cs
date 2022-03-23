@@ -25,19 +25,22 @@ public class DoorInteractable : Interactable {
         closeDoorEvent.AddListener(closeDoor);
     }
 
-    public void openDoor(CharacterInteraction p) {
+    public void openDoor(CharacterInteraction characterInteraction) {
 
         doorState.setDoorClosed(false);
 
+
+        // avvia chiusura timeout
+        StartCoroutine(doorClosingTimeOut(characterInteraction));
     }
 
-    public void closeDoor(CharacterInteraction p) {
+    public void closeDoor(CharacterInteraction characterInteraction) {
 
         doorState.setDoorClosed(true);
 
     }
 
-    public void lockPicking(CharacterInteraction p) {
+    public void lockPicking(CharacterInteraction characterInteraction) {
         doorState.setDoorLocked(false);
     }
 
@@ -48,22 +51,34 @@ public class DoorInteractable : Interactable {
 
         if (doorState.isDoorLocked()) {
             eventRes.Add(
-                new Interaction(lockPickingEvent, lockPickingEventName)
+                new Interaction(lockPickingEvent, lockPickingEventName, this)
             );
         } else {
 
             if (doorState.isDoorClosed()) {
                 eventRes.Add(
-                    new Interaction(openDoorEvent, openDoorEventName)
+                    new Interaction(openDoorEvent, openDoorEventName, this)
                 );
             } else {
                 eventRes.Add(
-                    new Interaction(closeDoorEvent, closeDoorEventName)
+                    new Interaction(closeDoorEvent, closeDoorEventName, this)
                 );
             }
         }
 
         return eventRes;
+    }
+
+    IEnumerator doorClosingTimeOut(CharacterInteraction characterInteraction) {
+        yield return new WaitForSeconds(doorState.getDoorTimeOut());
+
+        if (!doorState.getDoorClosed()) {
+            doorState.setDoorClosed(true); // chiudi porta
+
+            characterInteraction.buildListOfInteraction();
+        }
+
+
     }
 
 

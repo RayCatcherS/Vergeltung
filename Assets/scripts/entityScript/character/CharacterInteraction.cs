@@ -43,9 +43,9 @@ public class CharacterInteraction : MonoBehaviour
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
-            if (gameObject.GetComponent<CharacterState>().isPlayer) {
+            /*if (gameObject.GetComponent<CharacterState>().isPlayer) {
                 interactableObject.interactableObject.focusInteractable(); // disattiva effetto focus sull'oggetto interagibile
-            }
+            }*/
 
 
             // aggiungi interazione al dizionario delle interazioni
@@ -76,7 +76,16 @@ public class CharacterInteraction : MonoBehaviour
         }
     }
 
-    
+    //TODO rebuildare la lista per tutto il tempo che si è a contatto con dei trigger interagibili
+    /*private void OnTriggerStay(Collider collision) {
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+            // rebuild lista interactions
+            buildListOfInteraction();
+        }
+
+    }*/
+
+
     public void buildListOfInteraction() {
         interactions = new List<Interaction>(); // svuota lista
 
