@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
 [System.Serializable]
-public class UnityEventCharacter : UnityEvent<CharacterInteraction> {
+public class UnityEventCharacter : UnityEvent<CharacterInteractionManager> {
     
 }

@@ -13,7 +13,6 @@ public class CharacterMovement : MonoBehaviour
     public MultiAimConstraint characterAimConstrant;
 
     public CapsuleCollider colliderCharacter;
-    public CapsuleCollider jumpColliderCharacter;
 
     const float NEGATIVE_ROTATION_CLAMP = -1f;
     const float POSITIVE_ROTATION_CLAMP = 1f;
@@ -60,53 +59,45 @@ public class CharacterMovement : MonoBehaviour
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
-        // clamp dei valori passati 
-        _movementAnimationVelocity = _movement = new Vector3(
-            _2Dmove.x,
-            0f,
-            _2Dmove.y);
 
-        
-
-        /*if(!characterState.jumping) {*/
-            // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
-            // evitando che il movimento del character dipenda dai fotogrammi
-            if (_movement.magnitude > 0) {
-
-                if (isRun) {
-                    _movement = _movement * runMovementSpeed * Time.deltaTime;
-                    
-                    rotateCharacter(_2Dmove, isRun, false);
-                } else {
-                    _movement = _movement * movementSpeed * Time.deltaTime;
-                }
-                characterState.isRunning = isRun;
-            }
+        _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
 
 
 
-            // setta valori animazione partendo dal _movementAnimationVelocity
-            float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
-            float velocityZ;
+
+
+        // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
+        // evitando che il movimento del character dipenda dai fotogrammi
+        if (_movement.magnitude > 0) {
+
             if (isRun) {
-                animator.SetBool("isRunning", isRun);
-                animator.SetFloat("VelocityZ", 2, 0.1f, Time.deltaTime);
+                _movement = _movement * runMovementSpeed * Time.deltaTime;
+
+                rotateCharacter(_2Dmove, isRun, false);
             } else {
-                animator.SetBool("isRunning", isRun);
-                velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-                animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+                _movement = _movement * movementSpeed * Time.deltaTime;
             }
+            characterState.isRunning = isRun;
+        }
 
 
-            animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
-        /*} else {
 
-            // azzera velocity animazione e flag isRun
-            isRun = false;
+
+        // setta valori animazione partendo dal _movementAnimationVelocity
+        float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
+        float velocityZ;
+        if (isRun) {
             animator.SetBool("isRunning", isRun);
-            animator.SetFloat("VelocityX", 0);
-            animator.SetFloat("VelocityZ", 0);
-        }*/
+            animator.SetFloat("VelocityZ", 2, 0.1f, Time.deltaTime);
+        } else {
+            animator.SetBool("isRunning", isRun);
+            velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
+            animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+        }
+
+
+        animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+        
     }
 
 
@@ -224,8 +215,13 @@ public class CharacterMovement : MonoBehaviour
     }
 
     void FixedUpdate() {
-        characterController.SimpleMove(_movement); // muovi e calcola la gravità del player
-        //Debug.Log(characterController.isGrounded);
+
+        // muovi character solo se è il giocatore
+        // caso in cui il character è slegato dal nav mesh agent
+        if(gameObject.GetComponent<CharacterState>().isPlayer) {
+            characterController.SimpleMove(_movement); // muovi e calcola la gravità del player
+        }
+        
     }
 
     void OnDrawGizmos() {

@@ -7,14 +7,12 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         gameObject.AddComponent<CivilianNPCBehaviour>();
 
         CivilianNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<CivilianNPCBehaviour>();
-        enemyNPCNewComponent.initCivilianNPCComponent(spwanPoint);
+        enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());
 
         return gameObject;
     }
 
-    public void initCivilianNPCComponent(CharacterSpawnPoint spawnPoint) {
-        this.spawnPoint = spawnPoint;
-    }
+    
 
 
     /// <summary>

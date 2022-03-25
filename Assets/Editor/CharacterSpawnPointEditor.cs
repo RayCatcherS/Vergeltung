@@ -15,10 +15,4 @@ public class CharacterSpawnPointEditor : Editor {
         }
     }
 
-    private void OnSceneGUI() {
-        
-    }
-
-    
-
 }

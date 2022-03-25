@@ -8,13 +8,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         gameObject.AddComponent<EnemyNPCBehaviour>();
 
         EnemyNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<EnemyNPCBehaviour>();
-        enemyNPCNewComponent.initEnemyNPCComponent(spwanPoint);
+        enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());
 
         return gameObject;
-    }
-
-    public void initEnemyNPCComponent(CharacterSpawnPoint spawnPoint) {
-        this.spawnPoint = spawnPoint;
     }
 
 

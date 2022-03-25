@@ -8,7 +8,7 @@ public class GeneratorInteractable : Interactable {
 
     [SerializeField] private GameState gameState; // game state per accedere ai metodi dello stato di gioco
 
-    [SerializeField] string lockPickingEventName = "SABOTAGE GENERATOR";
+    [SerializeField] string sabotageGeneratorEventName = "SABOTAGE GENERATOR";
     [SerializeField] UnityEventCharacter sabotageGenerator = new UnityEventCharacter();
     [SerializeField] private GeneratorState generatorState = GeneratorState.GeneratorOn;
     
@@ -17,10 +17,14 @@ public class GeneratorInteractable : Interactable {
         sabotageGenerator.AddListener(switchOffGenerator);
     }
 
-    void switchOffGenerator(CharacterInteraction p) {
+    private void switchOffGenerator(CharacterInteractionManager p) {
         generatorState = GeneratorState.GeneratorOff;
         gameState.turnOffPower();
 
+    }
+
+    public override Interaction getMainInteracion() {
+        return new Interaction(sabotageGenerator, sabotageGeneratorEventName, this);
     }
 
     public override List<Interaction> getInteractable() {
@@ -28,7 +32,7 @@ public class GeneratorInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
         if(generatorState == GeneratorState.GeneratorOn && gameState.getPowerOn()) {
-            eventRes.Add(new Interaction(sabotageGenerator, lockPickingEventName, this));
+            eventRes.Add(new Interaction(sabotageGenerator, sabotageGeneratorEventName, this));
         }
 
         return eventRes;

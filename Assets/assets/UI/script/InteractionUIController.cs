@@ -26,7 +26,7 @@ public class InteractionUIController : MonoBehaviour
     /// </summary>
     /// <param name="interactionList">Lista di interaction</param>
     /// <param name="characterInteraction">Rappresenta l'istanza componente CharacterInteraction che può effettuare le azioni</param>
-    public void buildUIinteractionList(List<Interaction> interactionList, CharacterInteraction characterInteraction) {
+    public void buildUIinteractionList(List<Interaction> interactionList, CharacterInteractionManager characterInteraction) {
 
         
 

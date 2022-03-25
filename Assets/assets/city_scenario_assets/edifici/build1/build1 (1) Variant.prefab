@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 486c20b0ada7eed46bd284a9f3ff179c, type: 2}
+    - target: {fileID: 1447545612720285519, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3378150243448043537, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -29,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5954467355198937062, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
       propertyPath: m_Name
-      value: build1 (1) Variant
+      value: build1 variant
       objectReference: {fileID: 0}
     - target: {fileID: 6478802097507306844, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
       propertyPath: m_RootOrder
@@ -75,12 +79,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7124309930446642766, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7293705720054975515, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
+--- !u!1 &5414168511172017035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4570025438442878091, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
+  m_PrefabInstance: {fileID: 8379229127535857408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &151803708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5414168511172017035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!4 &8986492962582898759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 648359757847766855, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
@@ -93,6 +126,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8986492962582898759}
     m_Modifications:
+    - target: {fileID: 529686491, guid: 4749b41cb61fd6e469155b73deba5d02, type: 3}
+      propertyPath: light
+      value: 
+      objectReference: {fileID: 9139830625409246791}
+    - target: {fileID: 2221821619322473719, guid: 4749b41cb61fd6e469155b73deba5d02, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4118635115552844025, guid: 4749b41cb61fd6e469155b73deba5d02, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -163,3 +204,33 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: afcab2053bad25c4a855a40df0c48747, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4749b41cb61fd6e469155b73deba5d02, type: 3}
+--- !u!1 &259644831116924031 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9028945525409514028, guid: 4749b41cb61fd6e469155b73deba5d02, type: 3}
+  m_PrefabInstance: {fileID: 9139830624022861395}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1458667397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259644831116924031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+--- !u!108 &9139830625409246791 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 1927262228, guid: 4749b41cb61fd6e469155b73deba5d02, type: 3}
+  m_PrefabInstance: {fileID: 9139830624022861395}
+  m_PrefabAsset: {fileID: 0}

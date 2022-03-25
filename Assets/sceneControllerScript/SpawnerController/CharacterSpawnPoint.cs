@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class CharacterSpawnPoint : MonoBehaviour {
     private Role characterRole;
-    private CharacterSpawnController characterSpawnController;
+    [SerializeField] private CharacterSpawnController characterSpawnController;
 
     // getter
     public Role getSpawnCharacterRole() {
@@ -51,6 +51,9 @@ public class CharacterSpawnPoint : MonoBehaviour {
     private void initCharacterSpawnPointComponent(Role role, CharacterSpawnController spawner) {
         characterRole = role;
         characterSpawnController = spawner;
+
+        // add character activity manager
+        gameObject.AddComponent<CharacterActivityManager>();
     }
 
 #if UNITY_EDITOR
@@ -73,7 +76,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
             Handles.color = Color.red;
             
         } else if (characterRole == Role.Civilian) {
-            Handles.color = Color.green;
+            Handles.color = Color.blue;
             
         }
 

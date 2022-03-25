@@ -45,7 +45,7 @@ public class CoutoutObject : MonoBehaviour
                 for (int j = 0; j < child.transform.GetComponent<Renderer>().materials.Length; j++) {
 
 
-                    if(child.gameObject.layer != MESH_SHADOW_LAYER) { // escludi i gameObject che hanno funzione di castare solo ombre
+                    if(child.gameObject.layer != MESH_SHADOW_LAYER ) { // escludi i gameObject che hanno funzione di castare solo ombre
                         raycastHitObjMaterials.Add(child.transform.GetComponent<Renderer>().materials[j]);
                     }
 

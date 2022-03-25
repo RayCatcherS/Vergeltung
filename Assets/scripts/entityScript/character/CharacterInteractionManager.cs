@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CharacterInteraction : MonoBehaviour
+public class CharacterInteractionManager : MonoBehaviour
 {
     private const int INTERACTABLE_LAYER = 3;
 
@@ -25,9 +25,9 @@ public class CharacterInteraction : MonoBehaviour
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterInteraction</param>
     /// <returns></returns>
     public static GameObject addToGOCharacterInteractionComponent(GameObject gameObject, InteractionUIController controller) {
-        gameObject.AddComponent<CharacterInteraction>();
+        gameObject.AddComponent<CharacterInteractionManager>();
         
-        CharacterInteraction characterInteraction = gameObject.GetComponent<CharacterInteraction>(); // aggiungi componente CharacterInteraction 
+        CharacterInteractionManager characterInteraction = gameObject.GetComponent<CharacterInteractionManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction.interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
 
         return gameObject;
@@ -41,11 +41,6 @@ public class CharacterInteraction : MonoBehaviour
         if (collision.gameObject.layer == INTERACTABLE_LAYER) {
 
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
-
-
-            /*if (gameObject.GetComponent<CharacterState>().isPlayer) {
-                interactableObject.interactableObject.focusInteractable(); // disattiva effetto focus sull'oggetto interagibile
-            }*/
 
 
             // aggiungi interazione al dizionario delle interazioni
@@ -75,15 +70,6 @@ public class CharacterInteraction : MonoBehaviour
             buildListOfInteraction();
         }
     }
-
-    //TODO rebuildare la lista per tutto il tempo che si è a contatto con dei trigger interagibili
-    /*private void OnTriggerStay(Collider collision) {
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
-            // rebuild lista interactions
-            buildListOfInteraction();
-        }
-
-    }*/
 
 
     public void buildListOfInteraction() {

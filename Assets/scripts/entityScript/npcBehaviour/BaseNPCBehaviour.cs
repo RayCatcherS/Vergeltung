@@ -1,14 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 /// <summary>
 /// Comportamento dell'npc base classe padre, implementazione astrazione AbstractNPCBehaviour
 /// </summary>
 public class BaseNPCBehaviour : AbstractNPCBehaviour {
+    private const int INTERACTABLE_LAYER = 3;
+
+
     protected AlertState alert = AlertState.Unalert;
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
+    protected CharacterMovement characterMovement; // characterMovement collegato
+    protected NavMeshAgent agent;
+    protected bool agentPositionSetted = false;
+
+    protected CharacterActivityManager characterActivityManager;
 
     public void Start() {
         
@@ -18,10 +26,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         alert = alertState;
     }
 
+    public void initNPCComponent(CharacterSpawnPoint spawnPoint, CharacterMovement movement) {
+        this.spawnPoint = spawnPoint;
+        this.characterMovement = movement;
 
-    public override void unalertBehaviour1() {
+        this.characterActivityManager = this.spawnPoint.gameObject.GetComponent<CharacterActivityManager>();
+        this.agent = gameObject.gameObject.GetComponent<NavMeshAgent>();
+
 
     }
+
+    
 
     public void Update() {
         switch(alert) {
@@ -44,6 +59,62 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
+    public override async void unalertBehaviour1() {
+
+
+
+        if (agentPositionSetted == false) {
+
+            updateAgentTarget();
+            
+
+            agentPositionSetted = true;
+        } else {
+
+
+            
+
+            if(!gameObject.GetComponent<CharacterState>().isBusy) {
+
+                if (agent.remainingDistance >= agent.stoppingDistance) {
+
+                    Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+
+                    characterMovement.moveCharacter(movement, false); // avvia solo animazione
+
+                } else { // task raggiunto
+
+
+
+
+                    // esegui task ed aspetta task
+                    await characterActivityManager.getCurrentTask().executeTask(
+                        gameObject.GetComponent<CharacterInteractionManager>(),
+                        gameObject.GetComponent<CharacterState>());
+
+                    characterActivityManager.setNextTaskPos();
+                    updateAgentTarget();
+                }
+            } else {
+                characterMovement.moveCharacter(Vector2.zero, false); 
+
+                
+            }
+        }
+
+    }
+
+    private void updateAgentTarget() {
+        agent.SetDestination(
+            characterActivityManager.getCurrentTask().gameObject.transform.position
+        );
+    }
+
+
+    protected void startBehaviour() {
+
+    }
+
     /// <summary>
     /// comportamento di allerta 1 da implementare nelle classi figlie
     /// </summary>
@@ -62,4 +133,47 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void alertBehaviour3() {
 
     }
+
+    private void OnTriggerEnter(Collider collision) {
+        Debug.Log("Trgger collision");
+
+
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+            Debug.Log("Trgger interactable collision");
+
+            DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
+            if (doorInteractable != null) {
+
+                Debug.Log("Door");
+
+                if(doorInteractable.doorState.isDoorClosed()) {
+                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterInteractionManager>());
+                }
+                
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider collision) {
+        Debug.Log("Trgger collision");
+
+
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+            Debug.Log("Trgger interactable collision");
+
+            DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
+            if (doorInteractable != null) {
+
+                Debug.Log("Door");
+
+                if (doorInteractable.doorState.isDoorClosed()) {
+                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterInteractionManager>());
+                }
+
+            }
+        }
+    }
+
 }
