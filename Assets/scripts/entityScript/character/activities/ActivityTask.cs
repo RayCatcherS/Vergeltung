@@ -30,7 +30,7 @@ public class ActivityTask : MonoBehaviour
         characterActivity = activity;
     }
 
-    public void removeActivityPoint() {
+    public void removeActivityTask() {
         characterActivity.removeActivityPointByIID(this);
     }
 

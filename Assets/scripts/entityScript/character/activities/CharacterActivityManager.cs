@@ -11,8 +11,8 @@ public class CharacterActivityManager : MonoBehaviour
     [SerializeField] private int selectedTaskPos = 0;
 
     // getter
-    public CharacterActivity getSelectedCharacterActivity() {
-        return characterActivities[selectedCharacterActivityPos];
+    public List<CharacterActivity> getCharacterActivities() {
+        return characterActivities;
     }
 
     public void setNextTaskPos() {

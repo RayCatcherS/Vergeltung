@@ -76,6 +76,11 @@ public class CharacterActivity : MonoBehaviour {
     /// Rimuove l'activity dalla lista delle activity del characterActivityManager ed elimina l'oggetto dalla scena
     /// </summary>
     public void removeActivity() {
+        // rimuovi tutti i task
+        for(int i = 0; i < tasks.Count; i++) {
+            tasks[i].removeActivityTask();
+        }
+
         characterActivityManager.removeCharacterActivityByIID(this);
     }
 

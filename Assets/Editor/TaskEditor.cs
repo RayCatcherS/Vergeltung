@@ -12,7 +12,7 @@ public class TaskEditor : Editor {
 
 
         if (GUILayout.Button("Remove Task")) {
-            activityPoint.removeActivityPoint(); // crea nuovo character spawn point e selezionalo
+            activityPoint.removeActivityTask(); // crea nuovo character spawn point e selezionalo
         }
 
 

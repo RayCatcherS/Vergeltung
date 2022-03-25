@@ -156,17 +156,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     private void OnTriggerStay(Collider collision) {
-        Debug.Log("Trgger collision");
 
 
         if (collision.gameObject.layer == INTERACTABLE_LAYER) {
 
-            Debug.Log("Trgger interactable collision");
-
             DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
             if (doorInteractable != null) {
-
-                Debug.Log("Door");
 
                 if (doorInteractable.doorState.isDoorClosed()) {
                     doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterInteractionManager>());

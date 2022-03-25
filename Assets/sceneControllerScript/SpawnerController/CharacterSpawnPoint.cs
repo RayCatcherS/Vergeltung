@@ -18,6 +18,11 @@ public class CharacterSpawnPoint : MonoBehaviour {
     /// </summary>
     public void removeSpawnPoint() {
 
+        // rimuovi e cancella tutte le character activity dallo spawner
+        List<CharacterActivity> characterActivities = gameObject.GetComponent<CharacterActivityManager>().getCharacterActivities();
+        for (int i = 0; i < characterActivities.Count; i++) {
+            characterActivities[i].removeActivity();
+        }
 
         characterSpawnController.removeCharacterSpawnByGOId(
             gameObject.GetInstanceID(),
