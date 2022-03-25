@@ -1628,7 +1628,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 37.5
+  m_Intensity: 20
   m_Range: 18
   m_SpotAngle: 150.89784
   m_InnerSpotAngle: 132.4597
@@ -2512,7 +2512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8377507078684064731
 Transform:
   m_ObjectHideFlags: 0
@@ -2544,7 +2544,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5326475224598217726}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 3
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -2938,6 +2938,7 @@ GameObject:
   - component: {fileID: 1701494539821895583}
   - component: {fileID: 8270015960205294503}
   - component: {fileID: 4077352061571320050}
+  - component: {fileID: 6551967380388310861}
   m_Layer: 0
   m_Name: scalinata
   m_TagString: Untagged
@@ -3010,6 +3011,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6551967380388310861
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956740536531392611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3600540741190686261, guid: 05c64c04cf36cb84b89730b38f0be3e0, type: 3}
 --- !u!1 &7102037332361255992
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,7 +3694,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 51.2
+  m_Intensity: 20
   m_Range: 27.3
   m_SpotAngle: 150.89784
   m_InnerSpotAngle: 132.4597
@@ -3830,8 +3845,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 84.9
-  m_Range: 21.6
+  m_Intensity: 30
+  m_Range: 35
   m_SpotAngle: 162.53975
   m_InnerSpotAngle: 131.17749
   m_CookieSize: 10
