@@ -40,7 +40,6 @@ public class ActivityTask : MonoBehaviour
         
 
         if (taskEvent != null) {
-            Debug.Log("Esecuzione interacion, nome: " + taskEvent.getMainInteracion().getUnityEventName());
             taskEvent.getMainInteracion().getUnityEvent().Invoke(characterInteraction);
         }
 
