@@ -62,8 +62,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override async void unalertBehaviour1() {
 
 
-
-        if (agentPositionSetted == false) {
+        if(characterActivityManager.getCharacterActivities().Count > 0) {
+            if (agentPositionSetted == false) {
 
             updateAgentTarget();
             
@@ -101,6 +101,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 
             }
         }
+        }
+        
 
     }
 

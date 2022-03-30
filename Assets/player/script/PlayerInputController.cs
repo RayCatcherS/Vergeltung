@@ -85,11 +85,11 @@ public class PlayerInputController : MonoBehaviour
     }
     
 
-    void OnGUI() {
+    /*void OnGUI() {
         GUI.TextArea(new Rect(0, 0, 200, 100), "Direzioni vettori: \n" + "input rotazione \n" + characterMovement.getRotationAimInput.ToString() + "\n" +
             "rotazione target \n" + characterMovement.getRotationAimTarget.ToString()
             , 200);
         GUI.TextArea(new Rect(0, 100, 200, 40), "rotazione character \n" + characterMovement.getCharacterModelRotation.ToString(), 200);
         GUI.TextArea(new Rect(0, 140, 200, 40), "input is run: \n" + isRunPressed.ToString(), 200);
-    }
+    }*/
 }

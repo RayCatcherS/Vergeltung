@@ -105,6 +105,17 @@ public class CharacterSpawnPoint : MonoBehaviour {
             }
 
         }
+        Handles.DrawLine(pos, pos + new Vector3(
+            Mathf.Sin(
+                (gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)
+                ),
+            0, 
+            Mathf.Cos(
+                (gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)
+                )
+            )); // indica la direzione dello spawn
+
+
 
         Handles.DrawWireDisc(pos, Vector3.up, 1f); // segnalatore spawn
 

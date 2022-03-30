@@ -31,7 +31,9 @@ public class CharacterActivityManager : MonoBehaviour
 
 
     public void Start() {
-        randomCharacterActivity();
+        if(characterActivities.Count > 0) {
+            randomCharacterActivity();
+        }
     }
 
     private void randomCharacterActivity() {
