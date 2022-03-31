@@ -88,13 +88,47 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
 
+
+
+                        
                         // esegui task ed aspetta task
                         await characterActivityManager.getCurrentTask().executeTask(
                             gameObject.GetComponent<CharacterInteractionManager>(),
                             gameObject.GetComponent<CharacterState>());
+                        //Debug.Log("task eseguito");
 
-                        characterActivityManager.setNextTaskPos();
-                        updateAgentTarget();
+
+                        if (characterActivityManager.isActualActivityLastTask()) { // se dell'attività attuale è l'ultimo task
+
+                            
+                            if(characterActivityManager.getCharacterActivities().Count > 1) { // se le attività sono più di una
+
+                                characterActivityManager.randomCharacterActivity(); // scegli nuova attività e parti dal primo task
+                                updateAgentTarget();
+                            } else { // se l'attività è unica
+                                // Debug.Log("solo una attività");
+                                if(characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attività è ripetibile
+
+                                    characterActivityManager.resetSelectedTaskPos(); // scegli nuova attività e parti dal primo task
+                                    updateAgentTarget();
+
+                                } else {
+                                    characterMovement.moveCharacter(Vector2.zero, false); // resta fermo
+                                }
+                                
+                            }
+
+                        } else { // se non è l'ultimo task dell'attività attuale
+
+                            // Debug.Log("passa alla prossima attività");
+                            characterActivityManager.setNextTaskPosOfActualActivity(); // setta in nuovo task della attività corrente
+                            updateAgentTarget();
+
+                        }
+                        
+
+
+                        
                     }
                 } else {
                     characterMovement.moveCharacter(Vector2.zero, false); 

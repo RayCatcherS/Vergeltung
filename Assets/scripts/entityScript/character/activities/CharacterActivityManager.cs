@@ -15,14 +15,18 @@ public class CharacterActivityManager : MonoBehaviour
         return characterActivities;
     }
 
-    public void setNextTaskPos() {
+    public void setNextTaskPosOfActualActivity() {
 
         if(!characterActivities[selectedCharacterActivityPos].isLastTask(selectedTaskPos)) { // se non è l'ultimo task
             selectedTaskPos = selectedTaskPos + 1;
 
         } else {
-            randomCharacterActivity(); // passa ad una nuova attività
+            Debug.LogError("Fuori index settaggio nuovo task");
         }
+    }
+
+    public bool isActualActivityLastTask() {
+        return characterActivities[selectedCharacterActivityPos].isLastTask(selectedTaskPos);
     }
 
     public ActivityTask getCurrentTask() {
@@ -30,13 +34,24 @@ public class CharacterActivityManager : MonoBehaviour
     }
 
 
+    public CharacterActivity getCurrentCharacterActivity() {
+        return characterActivities[selectedCharacterActivityPos];
+    }
+
     public void Start() {
         if(characterActivities.Count > 0) {
             randomCharacterActivity();
         }
     }
 
-    private void randomCharacterActivity() {
+    public void resetSelectedTaskPos() {
+        selectedTaskPos = 0;
+    }
+
+    /// <summary>
+    /// Scegli un nuovo character activity casuale e parti dal primo task
+    /// </summary>
+    public void randomCharacterActivity() {
         if(characterActivities.Count > 0) {
             randomizeSelectedActivity();
             selectedTaskPos = 0;

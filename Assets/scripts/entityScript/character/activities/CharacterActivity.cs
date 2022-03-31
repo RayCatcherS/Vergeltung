@@ -7,7 +7,14 @@ public class CharacterActivity : MonoBehaviour {
 
     [SerializeField] private CharacterActivityManager characterActivityManager;
     [SerializeField] private List<ActivityTask> tasks = new List<ActivityTask>();
+    [SerializeField] private bool _loopActivity = false; // attività va in modalità loop 
 
+    //getters
+    public bool loopActivity {
+        get {
+            return _loopActivity;
+        }
+    }
 
     public bool isLastTask(int taskPos) {
         bool res = false;
@@ -23,6 +30,10 @@ public class CharacterActivity : MonoBehaviour {
 
     public ActivityTask getTask(int taskPos) {
        return tasks[taskPos];
+    }
+
+    public List<ActivityTask> getTasks() {
+        return tasks;
     }
 
 
