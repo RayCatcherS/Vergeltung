@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 public class ActivityTask : MonoBehaviour
 {
-    CharacterActivity characterActivity;
+    [SerializeField] CharacterActivity characterActivity;
     [SerializeField] private Interactable taskEvent;
     [SerializeField] private float taskTiming = 0f; // rappresenta il tempo che gli npc dedicano al task
+
+    [SerializeField] private Vector3 taskDestination = Vector3.zero;
+
+    public void Start() {
+        initTaskDestination();
+    }
 
     /// <summary>
     /// Aggiunge e inizializza uno ActivityPoint component al gameObject
@@ -57,6 +63,20 @@ public class ActivityTask : MonoBehaviour
         //characterActivity.characterActivityManager.GetComponent<CharacterSpawnPoint>().spwanedNpc.GetComponents<BaseNPCBehaviour>().
     }
 
+
+    private void initTaskDestination() {
+        RaycastHit raycastHit;
+
+
+        if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, 100)) {
+            taskDestination = raycastHit.point;
+        }
+    }
+
+    public Vector3 getTaskDestination() {
+        return taskDestination;
+    }
+
 #if UNITY_EDITOR
     void OnDrawGizmos() {
 
@@ -69,8 +89,10 @@ public class ActivityTask : MonoBehaviour
 
         //gizmos selezionabile solo se la distanza
         // tra la camera della scena e l'oggetto è <10
-        if (scenViewCameraDistance < 10f) {
+        if (scenViewCameraDistance < 20f) {
+
             Gizmos.color = Color.blue;
+
             Gizmos.DrawSphere(transform.position, 0.10f);
         }
 
@@ -82,12 +104,20 @@ public class ActivityTask : MonoBehaviour
         if (scenViewCameraDistance < 40f) {
 
             Gizmos.color = Color.blue;
+
             Gizmos.DrawWireCube(transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+
+
+            if(taskDestination != Vector3.zero) {
+                Gizmos.color = Color.black;
+                Gizmos.DrawLine(transform.position, taskDestination);
+                Gizmos.DrawSphere(taskDestination, 0.25f);
+            }
         }
 
 
 
-
+        
     }
 #endif
 }

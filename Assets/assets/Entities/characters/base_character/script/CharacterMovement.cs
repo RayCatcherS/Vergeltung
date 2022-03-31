@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -225,8 +226,8 @@ public class CharacterMovement : MonoBehaviour
     }
 
     void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 5);
+        Handles.color = Color.red;
+        Handles.DrawWireDisc(transform.position, Vector3.up, 2); //debug player
     }
 }
 

@@ -65,50 +65,51 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         if(characterActivityManager.getCharacterActivities().Count > 0) {
             if (agentPositionSetted == false) {
 
-            updateAgentTarget();
+                updateAgentTarget();
             
 
-            agentPositionSetted = true;
-        } else {
-
-
-            
-
-            if(!gameObject.GetComponent<CharacterState>().isBusy) {
-
-                if (agent.remainingDistance >= agent.stoppingDistance) {
-
-                    Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
-
-                    characterMovement.moveCharacter(movement, false); // avvia solo animazione
-
-                } else { // task raggiunto
-
-
-
-
-                    // esegui task ed aspetta task
-                    await characterActivityManager.getCurrentTask().executeTask(
-                        gameObject.GetComponent<CharacterInteractionManager>(),
-                        gameObject.GetComponent<CharacterState>());
-
-                    characterActivityManager.setNextTaskPos();
-                    updateAgentTarget();
-                }
+                agentPositionSetted = true;
             } else {
-                characterMovement.moveCharacter(Vector2.zero, false); 
 
-                
+
+
+                if (!gameObject.GetComponent<CharacterState>().isBusy) {
+
+                    float distance = Vector3.Distance(transform.position, characterActivityManager.getCurrentTask().getTaskDestination());
+                    
+                    if (distance > agent.stoppingDistance) { // controlla se è stata raggiunta la destinazione
+
+                        Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+
+                        characterMovement.moveCharacter(movement, false); // avvia solo animazione
+                        
+
+                    } else { // task raggiunto
+
+
+
+                        // esegui task ed aspetta task
+                        await characterActivityManager.getCurrentTask().executeTask(
+                            gameObject.GetComponent<CharacterInteractionManager>(),
+                            gameObject.GetComponent<CharacterState>());
+
+                        characterActivityManager.setNextTaskPos();
+                        updateAgentTarget();
+                    }
+                } else {
+                    characterMovement.moveCharacter(Vector2.zero, false); 
+                }
             }
-        }
         }
         
 
     }
 
     private void updateAgentTarget() {
+
+
         agent.SetDestination(
-            characterActivityManager.getCurrentTask().gameObject.transform.position
+            characterActivityManager.getCurrentTask().getTaskDestination()
         );
     }
 

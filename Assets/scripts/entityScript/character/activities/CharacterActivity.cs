@@ -57,11 +57,11 @@ public class CharacterActivity : MonoBehaviour {
     /// Viene rimosso dalla lista degli activity point e dalla scena
     /// </summary>
     /// <param name="instanceID"></param>
-    public void removeActivityPointByIID(ActivityTask activityPoint) {
+    public void removeActivityPointByIID(ActivityTask activityTask) {
         for (int i = 0; i < tasks.Count; i++) {
 
 
-            if (tasks[i].gameObject.GetInstanceID() == activityPoint.gameObject.GetInstanceID()) {
+            if (tasks[i].GetInstanceID() == activityTask.GetInstanceID()) {
 
 
                 GameObject characterActivityGO = tasks[i].gameObject;
@@ -78,7 +78,7 @@ public class CharacterActivity : MonoBehaviour {
     public void removeActivity() {
         // rimuovi tutti i task
         for(int i = 0; i < tasks.Count; i++) {
-            tasks[i].removeActivityTask();
+            //tasks[i].removeActivityTask();
         }
 
         characterActivityManager.removeCharacterActivityByIID(this);
@@ -137,7 +137,7 @@ public class CharacterActivity : MonoBehaviour {
 
         //gizmos selezionabile solo se la distanza
         // tra la camera della scena e l'oggetto è <10
-        if (scenViewCameraDistance < 10f) {
+        if (scenViewCameraDistance < 20f) {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, 0.10f);
         }

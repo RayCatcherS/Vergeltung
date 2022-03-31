@@ -86,7 +86,7 @@ public class CharacterActivityManager : MonoBehaviour
         for (int i = 0; i < characterActivities.Count; i++) {
 
             
-            if (characterActivities[i].gameObject.GetInstanceID() == characterActivity.gameObject.GetInstanceID()) {
+            if (characterActivities[i].GetInstanceID() == characterActivity.GetInstanceID()) {
 
                 
                 GameObject characterActivityGO = characterActivities[i].gameObject;

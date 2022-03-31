@@ -40,8 +40,12 @@ public class CharacterSpawnController : MonoBehaviour {
         if(characterRole == Role.Enemy) {
             enemyCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista
 
+            newCharacterSpawn.name = newCharacterSpawn.name + enemyCharacterSpawnPoints.Count;
+
         } else if(characterRole == Role.Civilian) {
             civilianCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista
+
+            newCharacterSpawn.name = newCharacterSpawn.name + civilianCharacterSpawnPoints.Count;
         }
         
 
@@ -93,22 +97,24 @@ public class CharacterSpawnController : MonoBehaviour {
         // spawn character nemici
         for(int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
-
-            // istanzia nella scena
-            GameObject newCharacter = Instantiate(enemyCharacterAsset, enemyCharacterSpawnPoints[i].transform);
-
-
-            CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-            EnemyNPCBehaviour.addToGOEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
+            if(enemyCharacterSpawnPoints[i].gameObject.activeSelf == true) {
+                // istanzia nella scena
+                GameObject newCharacter = Instantiate(enemyCharacterAsset, enemyCharacterSpawnPoints[i].transform);
 
 
-            InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-            CharacterInteractionManager.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
+                EnemyNPCBehaviour.addToGOEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
 
 
-            // associa npc istanziato al componente sceneEntities
-            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-            sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+                InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
+                CharacterInteractionManager.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+
+
+                // associa npc istanziato al componente sceneEntities
+                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+                sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+            }
+            
 
         }
 
@@ -116,22 +122,24 @@ public class CharacterSpawnController : MonoBehaviour {
         // spawn character civili
         for (int i = 0; i < civilianCharacterSpawnPoints.Count; i++) {
 
-
-            // istanzia nella scena
-            GameObject newCharacter = Instantiate(civilianCharacterAsset, civilianCharacterSpawnPoints[i].transform);
-
-
-            CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-            CivilianNPCBehaviour.addToGOCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
+            if (civilianCharacterSpawnPoints[i].gameObject.activeSelf == true) {
+                // istanzia nella scena
+                GameObject newCharacter = Instantiate(civilianCharacterAsset, civilianCharacterSpawnPoints[i].transform);
 
 
-            InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-            CharacterInteractionManager.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
+                CivilianNPCBehaviour.addToGOCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
 
 
-            // aggiungi npc istanziato al componente sceneEntities
-            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-            sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+                InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
+                CharacterInteractionManager.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+
+
+                // aggiungi npc istanziato al componente sceneEntities
+                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+                sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+            }
+            
         }
     }
 }
