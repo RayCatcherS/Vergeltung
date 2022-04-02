@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum WeaponType{
+    melee,
     pistol,
     rifle,
     granade

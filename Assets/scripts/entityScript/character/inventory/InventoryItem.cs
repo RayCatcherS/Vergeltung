@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType{
-    actionObject,
-    weapon
-}
-
 public class InventoryItem : Interactable {
     [SerializeField] protected string itemName = "item";
-    [SerializeField] protected ItemType itemType;
 
 
     [SerializeField] protected string getItemEventName = "GET ";
