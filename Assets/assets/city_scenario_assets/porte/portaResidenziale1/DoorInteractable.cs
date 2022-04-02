@@ -18,14 +18,15 @@ public class DoorInteractable : Interactable {
     [SerializeField] UnityEventCharacter closeDoorEvent = new UnityEventCharacter();
 
 
-    public void Start() {
+    public override void Start() {
+        initInteractable();
 
         lockPickingEvent.AddListener(lockPicking);
         openDoorEvent.AddListener(openDoor);
         closeDoorEvent.AddListener(closeDoor);
     }
 
-    public void openDoor(CharacterInteractionManager characterInteraction) {
+    public void openDoor(CharacterManager characterInteraction) {
 
         doorState.setDoorClosed(false);
 
@@ -34,13 +35,13 @@ public class DoorInteractable : Interactable {
         StartCoroutine(doorClosingTimeOut(characterInteraction));
     }
 
-    public void closeDoor(CharacterInteractionManager characterInteraction) {
+    public void closeDoor(CharacterManager characterInteraction) {
 
         doorState.setDoorClosed(true);
 
     }
 
-    public void lockPicking(CharacterInteractionManager characterInteraction) {
+    public void lockPicking(CharacterManager characterInteraction) {
         doorState.setDoorLocked(false);
     }
 
@@ -69,7 +70,7 @@ public class DoorInteractable : Interactable {
         return eventRes;
     }
 
-    IEnumerator doorClosingTimeOut(CharacterInteractionManager characterInteraction) {
+    IEnumerator doorClosingTimeOut(CharacterManager characterInteraction) {
         yield return new WaitForSeconds(doorState.getDoorTimeOut());
 
         if (!doorState.getDoorClosed()) {

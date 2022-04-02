@@ -93,7 +93,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         
                         // esegui task ed aspetta task
                         await characterActivityManager.getCurrentTask().executeTask(
-                            gameObject.GetComponent<CharacterInteractionManager>(),
+                            gameObject.GetComponent<CharacterManager>(),
                             gameObject.GetComponent<CharacterState>());
                         //Debug.Log("task eseguito");
 
@@ -180,7 +180,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             if (doorInteractable != null) {
 
                 if(doorInteractable.doorState.isDoorClosed()) {
-                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterInteractionManager>());
+                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
                 }
                 
             }
@@ -196,7 +196,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             if (doorInteractable != null) {
 
                 if (doorInteractable.doorState.isDoorClosed()) {
-                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterInteractionManager>());
+                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
                 }
 
             }

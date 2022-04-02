@@ -107,7 +107,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-                CharacterInteractionManager.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                CharacterManager.addToGOCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // associa npc istanziato al componente sceneEntities
@@ -132,7 +132,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-                CharacterInteractionManager.addToGOCharacterInteractionComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                CharacterManager.addToGOCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // aggiungi npc istanziato al componente sceneEntities

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1083356990}
   - component: {fileID: 1083356989}
   - component: {fileID: 1240244916}
+  - component: {fileID: 1930585272}
   m_Layer: 7
   m_Name: PlayerHalo
   m_TagString: Untagged
@@ -146,6 +147,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1930585272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083356987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &1990344503
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,7 +676,7 @@ Transform:
   m_Children:
   - {fileID: 932958520595898508}
   m_Father: {fileID: 7398590451611363289}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4303719175432291149
 GameObject:
@@ -976,6 +997,37 @@ Transform:
   m_Father: {fileID: 3406153859426077481}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5508347615552299048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1272699098609135088}
+  m_Layer: 7
+  m_Name: gunTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1272699098609135088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5508347615552299048}
+  m_LocalRotation: {x: -0.07944284, y: 0.4103433, z: -0.83516765, w: -0.35749435}
+  m_LocalPosition: {x: 0.071, y: 0.059, z: 0.177}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7398590451611363289}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5562347917862709784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,6 +1278,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1272699098609135088}
   - {fileID: 1026231053890510519}
   - {fileID: 730338704023981295}
   m_Father: {fileID: 6668671010800135609}
@@ -1261,7 +1314,7 @@ Transform:
   m_Children:
   - {fileID: 5545929752500969498}
   m_Father: {fileID: 7398590451611363289}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7683653286542406826
 GameObject:
@@ -1837,7 +1890,7 @@ GameObject:
   - component: {fileID: 976331960}
   - component: {fileID: 2527064704252661337}
   - component: {fileID: 5996112740549230951}
-  - component: {fileID: -6436138065129637743}
+  - component: {fileID: 1394093782977674399}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1886,7 +1939,7 @@ MonoBehaviour:
   runMovementSpeed: 500
   rotationSpeed: 35
   characterModel: {fileID: 8347940652654437696}
-  aimTransform: {fileID: 9158278864854741387}
+  _aimTransform: {fileID: 9158278864854741387}
   rotationAimInput: {x: 0, y: 0, z: 0}
   rotationAimTarget: {x: 0, y: 0, z: 0}
   characterModelRotation: {x: 0, y: 0}
@@ -1902,6 +1955,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8453819f4594214b4551cf04b921f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedActiveWeaponTransform: {fileID: 1272699098609135088}
+  weaponItems: []
+  actionObjectItems: []
+  selectedWeapon: -1
+  selectedActionObject: -1
+  characterManager: {fileID: 1394093782977674399}
 --- !u!114 &976331960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,7 +2007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   role: 1
---- !u!114 &-6436138065129637743
+--- !u!114 &1394093782977674399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1957,10 +2016,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9158278864438449459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d61d9f72e3e0b4e8f5af8d8d5de319, type: 3}
+  m_Script: {fileID: 11500000, guid: b6a7817f6bf2de544a9e28df77982afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactionUIController: {fileID: 0}
+  _inventoryManager: {fileID: 976331954}
 --- !u!1 &9158278864854741386
 GameObject:
   m_ObjectHideFlags: 0

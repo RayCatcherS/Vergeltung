@@ -1,14 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : InteractableAbstract {
+public class Interactable : MonoBehaviour, InteractableInterface {
     [SerializeField] Outline outlineScript;
 
-    override public List<Interaction> getInteractable() {
+    public virtual void Start() {
+        initInteractable();
+    }
+
+    protected void initInteractable() {
+
+
+        InteractableObject interactableObject = gameObject.GetComponent<InteractableObject>();
+        if(interactableObject == null) {
+            gameObject.AddComponent<InteractableObject>();
+
+            interactableObject = gameObject.GetComponent<InteractableObject>();
+        }
+
+        interactableObject.interactable = this;
+
+
+    }
+
+    public virtual List<Interaction> getInteractable() {
         return new List<Interaction>();
     }
 
-    override public Interaction getMainInteracion() {
+    public virtual Interaction getMainInteraction() {
         Debug.LogError("il metodo getMainInteracion non è stato implementato nella classe figlia");
         return null;
     }

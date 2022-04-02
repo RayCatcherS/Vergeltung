@@ -57,7 +57,7 @@ public class Outline : MonoBehaviour {
   private Mode outlineMode;
 
   [SerializeField]
-  private Color outlineColor = Color.white;
+  private Color outlineColor = GameConstant.outlineInteractableColor;
 
   [SerializeField, Range(0f, 10f)]
   private float outlineWidth = 2f;
@@ -81,7 +81,7 @@ public class Outline : MonoBehaviour {
   private bool needsUpdate;
 
   void Awake() {
-
+    
     // Cache renderers
     renderers = GetComponentsInChildren<Renderer>();
 
@@ -272,7 +272,7 @@ public class Outline : MonoBehaviour {
   void UpdateMaterialProperties() {
 
     // Apply properties according to mode
-    outlineFillMaterial.SetColor("_OutlineColor", outlineColor);
+    outlineFillMaterial.SetColor("_OutlineColor", GameConstant.outlineInteractableColor);
 
     switch (outlineMode) {
       case Mode.OutlineAll:

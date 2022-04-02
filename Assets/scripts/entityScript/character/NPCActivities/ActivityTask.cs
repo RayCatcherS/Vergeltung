@@ -40,13 +40,13 @@ public class ActivityTask : MonoBehaviour
         characterActivity.removeActivityPointByIID(this);
     }
 
-    public async Task executeTask(CharacterInteractionManager characterInteraction, CharacterState characterState) {
+    public async Task executeTask(CharacterManager characterInteraction, CharacterState characterState) {
 
         characterState.isBusy = true;
         
 
         if (taskEvent != null) {
-            taskEvent.getMainInteracion().getUnityEvent().Invoke(characterInteraction);
+            taskEvent.getMainInteraction().getUnityEvent().Invoke(characterInteraction);
         }
 
 

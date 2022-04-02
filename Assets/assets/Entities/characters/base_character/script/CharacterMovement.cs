@@ -4,8 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class CharacterMovement : MonoBehaviour
-{
+public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
 
     public Animator animator; //animator del character
@@ -23,14 +22,18 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
     [SerializeField] private float rotationSpeed = 20f;
-    //[SerializeField] private float jumpSpeed = 20f;
     public GameObject characterModel;
-    public Transform aimTransform;
+    [SerializeField] Transform _aimTransform;
 
 
     [SerializeField] private Vector3 rotationAimInput;
     [SerializeField] private Vector3 rotationAimTarget;
     [SerializeField] private Vector2 characterModelRotation;
+
+
+    public Transform aimTransform {
+        get { return _aimTransform; }
+    }
 
 
     public Vector3 getRotationAimInput { get { return rotationAimInput; } }
@@ -121,23 +124,23 @@ public class CharacterMovement : MonoBehaviour
 
 
 
-        rotationAimTarget = aimTransform.transform.rotation * Vector3.forward; // ottieni direzione 
+        rotationAimTarget = _aimTransform.transform.rotation * Vector3.forward; // ottieni direzione 
 
         if (rotationAimTargetInput.magnitude > 0) {
 
             // ruota aim character partendo dalle coordinate rotazione (utilizzando la funzione lerp)
             if (!_istantRotation) {
-                aimTransform.rotation = Quaternion.Lerp(
-                    aimTransform.rotation,
+                _aimTransform.rotation = Quaternion.Lerp(
+                    _aimTransform.rotation,
                     Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0),
                     Time.deltaTime * rotationSpeed);
             } else {
 
-                aimTransform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0);
+                _aimTransform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0);
             }
 
 
-            rotationAimTarget = aimTransform.transform.rotation * Vector3.forward;
+            rotationAimTarget = _aimTransform.transform.rotation * Vector3.forward;
 
             Vector2 characterRotation = new Vector2();
 

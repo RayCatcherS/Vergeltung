@@ -14,16 +14,18 @@ public class GeneratorInteractable : Interactable {
     
 
     public void Start() {
+        initInteractable();
+
         sabotageGenerator.AddListener(switchOffGenerator);
     }
 
-    private void switchOffGenerator(CharacterInteractionManager p) {
+    private void switchOffGenerator(CharacterManager p) {
         generatorState = GeneratorState.GeneratorOff;
         gameState.turnOffPower();
 
     }
 
-    public override Interaction getMainInteracion() {
+    public override Interaction getMainInteraction() {
         return new Interaction(sabotageGenerator, sabotageGeneratorEventName, this);
     }
 

@@ -19,7 +19,7 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
     /// </summary>
     /// <param name="interaction">interaction che il bottone esegue e rappresenta</param>
     /// <param name="characterInteraction">Rappresenta l'istanza componente CharacterInteraction che effettua l'azione</param>
-    public void initButton(Interaction interaction, CharacterInteractionManager characterInteraction) {
+    public void initButton(Interaction interaction, CharacterManager characterInteraction) {
 
         string interactionName = interaction.getUnityEventName();
         setButtonText(interactionName);
