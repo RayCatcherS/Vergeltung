@@ -9,7 +9,7 @@ public enum WeaponType{
 }
 public class WeaponItem : InventoryItem
 {
-
+    [SerializeField] private Transform _shootingTransform;
     [SerializeField] private int magazineCapacity = 10;
     [SerializeField] private int currentMagazineCapacity = 10;
     [SerializeField] private int ammunition = 100;
@@ -24,6 +24,10 @@ public class WeaponItem : InventoryItem
     // getters 
     public Vector3 weaponOffsetRotation {
         get { return _weaponOffsetRotation; }
+    }
+
+    public Transform shootingTransform {
+        get { return _shootingTransform; }
     }
 
     /// <summary>

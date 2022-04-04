@@ -4,20 +4,32 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    [SerializeField] private Transform headViewTransform; // serve a controllare tramite ray cast se tra la testa è l'arma c'è un collider
     [SerializeField] private Transform selectedActiveWeaponTransform;
 
     [SerializeField] private List<WeaponItem> weaponItems = new List<WeaponItem>();
     [SerializeField] private List<ActionObjectItem> actionObjectItems = new List<ActionObjectItem>();
 
-    [SerializeField] private int selectedWeapon = -1; // -1 significa non selezionato
+    [SerializeField] private int selectedWeapon = 0; // -1 significa non selezionato
     [SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
 
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private CharacterMovement characterMovement;
 
+    [SerializeField] private Transform weaponShootTransform;
+    [SerializeField] private LineRenderer weaponLineRenderer;
+    [SerializeField] private Material weaponLineRendererMaterial;
+    [SerializeField] public Gradient weaponLineRendererGradient;
+
     public void Start() {
         initInventoryManager();
+        initDrawPlayerWeaponLineRendered();
+    }
+
+    public void FixedUpdate() {
+        drawPlayerWeaponLineRendered();
+
     }
 
     void initInventoryManager() {
@@ -38,9 +50,13 @@ public class InventoryManager : MonoBehaviour
             chMov = gameObject.GetComponent<CharacterMovement>();
         }
         characterMovement = chMov;
+        
     }
 
-
+    /// <summary>
+    /// Aggiungi arma all'inventario
+    /// </summary>
+    /// <param name="weaponItem"></param>
     public void addWeapon(WeaponItem weaponItem) {
         weaponItems.Add(weaponItem);
 
@@ -63,20 +79,45 @@ public class InventoryManager : MonoBehaviour
         selectWeapon(weaponItems.Count - 1);
     }
 
+    /// <summary>
+    /// seleziona arma character
+    /// </summary>
+    /// <param name="weaponPos"></param>
     public void selectWeapon(int weaponPos) {
 
         // disattiva l'arma precedente
         if(selectedWeapon != -1) {
             weaponItems[selectedWeapon].gameObject.SetActive(false);
         }
-        
-
         selectedWeapon = weaponPos;
         weaponItems[selectedWeapon].gameObject.SetActive(true);
 
         characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
     }
 
+    public void selectWeapon(string weaponId) {
+
+        // disattiva l'arma precedente
+        if (selectedWeapon != -1) {
+            weaponItems[selectedWeapon].gameObject.SetActive(false);
+        }
+
+        for(int i = 0; i < weaponItems.Count; i++) {
+
+            if(weaponItems[i].itemNameID == weaponId) {
+                selectedWeapon = i;
+            }
+        }
+
+        
+        weaponItems[selectedWeapon].gameObject.SetActive(true);
+        //characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
+    }
+
+    /// <summary>
+    /// Aggiungi action object all'inventario
+    /// </summary>
+    /// <param name="actionObjectItem"></param>
     public void addActionObjectItem(ActionObjectItem actionObjectItem) {
         actionObjectItems.Add(actionObjectItem);
 
@@ -85,12 +126,18 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Usa arma attualmente selezionata
+    /// </summary>
     public void useSelectedWeapon() {
         if(selectedWeapon != -1) {
             weaponItems[selectedWeapon].useItem(characterManager);
         }
     }
 
+    /// <summary>
+    /// Ottieni tipo di arma attualemente selezionata
+    /// </summary>
     public WeaponType getSelectedWeaponType {
         get { 
 
@@ -103,6 +150,9 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Se l'arma è selezionata
+    /// </summary>
     public bool isSelectedWeapon {
         get {
             bool res = false;
@@ -115,5 +165,85 @@ public class InventoryManager : MonoBehaviour
 
             return res;
         }
+    }
+
+
+    public void initDrawPlayerWeaponLineRendered() {
+        LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
+        if (lineRenderer == null) {
+            gameObject.AddComponent<LineRenderer>();
+            lineRenderer = gameObject.GetComponent<LineRenderer>();
+        }
+        weaponLineRenderer = lineRenderer;
+
+        weaponLineRenderer.material = weaponLineRendererMaterial;
+        weaponLineRenderer.startWidth = 0.1f;
+        weaponLineRenderer.endWidth = 0.1f;
+        weaponLineRenderer.colorGradient = weaponLineRendererGradient;
+    }
+    public void drawPlayerWeaponLineRendered() {
+
+
+
+        if(isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && gameObject.GetComponent<CharacterState>().isPlayer && !gunThroughWall()) {
+            weaponLineRenderer.enabled = true;
+
+
+            weaponLineRenderer.SetPosition(0, weaponItems[selectedWeapon].shootingTransform.position);
+
+            int allLayers = -1;
+            int rayDistance = 100;
+            RaycastHit hit;
+            Ray ray = new Ray(weaponShootTransform.position, new Vector3(
+                Mathf.Sin((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180)),
+                0,
+                Mathf.Cos((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180))
+            ));
+
+
+            if (Physics.Raycast(ray, out hit, rayDistance, allLayers, QueryTriggerInteraction.Ignore)) {
+                Debug.DrawLine(weaponShootTransform.position, hit.point);
+
+                weaponLineRenderer.SetPosition(1, hit.point);
+            } else {
+                weaponLineRenderer.SetPosition(1, weaponShootTransform.position + new Vector3(
+                    Mathf.Sin((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180)),
+                    0,
+                    Mathf.Cos((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180))
+                ) * rayDistance);
+            }
+
+
+            
+
+            
+        } else {
+            weaponLineRenderer.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// Il metodo controlla se l'arma attraversa un muro
+    /// </summary>
+    /// <returns></returns>
+    public bool gunThroughWall() {
+        bool res = false;
+        RaycastHit hit;
+
+        if(getSelectedWeaponType != WeaponType.melee) {
+            if (Physics.Linecast(headViewTransform.position, weaponItems[selectedWeapon].shootingTransform.position, out hit)) {
+
+                if (hit.collider != null) {
+                    res = true;
+
+                    Debug.Log("gun Throug hWall");
+                } else {
+                    res = false;
+                }
+            }
+        }
+        
+
+        return res;
     }
 }

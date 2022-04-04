@@ -36,19 +36,15 @@ public class PlayerInputController : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update() {
+    
 
+    // input movimento più efficaci nei FixedUpdate
+    private void FixedUpdate() {
 
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
         vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
         inputIsRun = playerActions.Player.Run.ReadValue<float>();
 
-        
-    }
-
-    // input movimento più efficaci nei FixedUpdate
-    private void FixedUpdate() {
         // abilita [isRun] se viene premuto il pulsante 
         if (inputIsRun == 1) {
             isRunPressed = true;

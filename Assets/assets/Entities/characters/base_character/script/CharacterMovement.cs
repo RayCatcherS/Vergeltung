@@ -71,11 +71,12 @@ public class CharacterMovement : MonoBehaviour {
         break;
         case WeaponType.pistol: {
             animator.SetTrigger("PistolLocomotion");
-            characterAimConstrant.data.offset = new Vector3(0, 121, 0);
+            characterAimConstrant.data.offset = new Vector3(-6, 115, -3.8f);
         }
         break;
         case WeaponType.rifle: {
             animator.SetTrigger("RifleLocomotion");
+            characterAimConstrant.data.offset = new Vector3(2.5f, 118.6f, 18.5f);
 
         }
         break;
@@ -122,14 +123,14 @@ public class CharacterMovement : MonoBehaviour {
 
                 _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                rotateCharacter(_2Dmove, isRun, false);
+                rotateCharacter(_2Dmove, isRun, true);
             } else {
 
                 _movement = _movement * movementSpeed * Time.deltaTime;
 
                 if(characterState.isPlayer) {
                     if (inventoryManager.getSelectedWeaponType == WeaponType.melee) {
-                        rotateCharacter(_2Dmove, isRun, false);
+                        rotateCharacter(_2Dmove, isRun, true);
                     }
                 }
                 
@@ -148,17 +149,17 @@ public class CharacterMovement : MonoBehaviour {
 
 
             animator.SetBool("isRunning", isRun);
-            animator.SetFloat("VelocityZ", 2, 0.01f, Time.deltaTime);
+            animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
         } else {
             characterAimConstrant.weight = 1;
 
             animator.SetBool("isRunning", isRun);
             velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-            animator.SetFloat("VelocityZ", velocityZ, 0.01f, Time.deltaTime);
+            animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
         }
 
 
-        animator.SetFloat("VelocityX", velocityX, 0.01f, Time.deltaTime);
+        animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
         
     }
 
@@ -192,27 +193,24 @@ public class CharacterMovement : MonoBehaviour {
                     _aimTransform.rotation,
                     Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0),
                     Time.deltaTime * rotationSpeed);
+
+                rotationAimTarget = _aimTransform.transform.rotation * Vector3.forward;
             } else {
 
                 _aimTransform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0);
             }
 
 
-            rotationAimTarget = _aimTransform.transform.rotation * Vector3.forward;
+            
 
             Vector2 characterRotation = new Vector2();
 
 
             if (!_istantRotation) {
-                    
-                if (_isRun) {
-                    characterModelRotation = new Vector2(rotationAimTarget.x, rotationAimTarget.z);
+                characterAimConstrant.weight = 1;
 
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterModelRotation.x, characterModelRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-                } else if (
+
+                if (
                     rotationAimTarget.x > -0.707f && rotationAimTarget.z > 0.707f &&
                     rotationAimTarget.x < 0.707f && rotationAimTarget.z > 0.707f
                 ) {
@@ -270,6 +268,8 @@ public class CharacterMovement : MonoBehaviour {
 
                 }
             } else {
+                characterAimConstrant.weight = 0;
+
                 characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             }
 
