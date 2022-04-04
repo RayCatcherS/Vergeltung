@@ -79,7 +79,10 @@ public class PlayerInputController : MonoBehaviour
         } else { // altrimenti movimento default
 
             characterMovement.moveCharacter(vec2Movement, isRunPressed);
-            characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
+
+            if(characterMovement.GetComponent<InventoryManager>().getSelectedWeaponType != WeaponType.melee) {
+                characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
+            }
         }
 
     }

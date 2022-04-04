@@ -1832,7 +1832,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 121, z: 0}
+    m_Offset: {x: 0, y: 0, z: 0}
     m_MinLimit: -180
     m_MaxLimit: 180
     m_AimAxis: 4
@@ -1935,14 +1935,15 @@ MonoBehaviour:
   characterController: {fileID: 2527064704252661337}
   characterAimConstrant: {fileID: 9158278864137260811}
   colliderCharacter: {fileID: 0}
-  movementSpeed: 250
-  runMovementSpeed: 500
+  movementSpeed: 230
+  runMovementSpeed: 400
   rotationSpeed: 35
   characterModel: {fileID: 8347940652654437696}
   _aimTransform: {fileID: 9158278864854741387}
   rotationAimInput: {x: 0, y: 0, z: 0}
   rotationAimTarget: {x: 0, y: 0, z: 0}
   characterModelRotation: {x: 0, y: 0}
+  inventoryManager: {fileID: 0}
 --- !u!114 &976331954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1961,6 +1962,7 @@ MonoBehaviour:
   selectedWeapon: -1
   selectedActionObject: -1
   characterManager: {fileID: 1394093782977674399}
+  characterMovement: {fileID: 0}
 --- !u!114 &976331960
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ public enum WeaponType{
     melee,
     pistol,
     rifle,
-    granade
 }
 public class WeaponItem : InventoryItem
 {
@@ -18,6 +17,14 @@ public class WeaponItem : InventoryItem
     [SerializeField] private bool automaticWeapon = false;
     [SerializeField] private bool silencedWeapon = false;
 
+
+    [SerializeField] private Vector3 _weaponOffsetRotation; // 30.826  131.512  -3.875
+
+
+    // getters 
+    public Vector3 weaponOffsetRotation {
+        get { return _weaponOffsetRotation; }
+    }
 
     /// <summary>
     /// Metodo richiamato dall'evento getWeaponEvent
@@ -38,5 +45,9 @@ public class WeaponItem : InventoryItem
         );
 
         return eventRes;
+    }
+
+    public WeaponType getWeaponType {
+        get { return weaponType; }
     }
 }

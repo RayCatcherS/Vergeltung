@@ -5,7 +5,6 @@ using UnityEngine;
 public class InventoryItem : Interactable {
     [SerializeField] protected string itemName = "item";
 
-
     [SerializeField] protected string getItemEventName = "GET ";
     [SerializeField] protected UnityEventCharacter getItemEvent = new UnityEventCharacter();
 

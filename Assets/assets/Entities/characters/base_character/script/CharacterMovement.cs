@@ -31,6 +31,9 @@ public class CharacterMovement : MonoBehaviour {
     [SerializeField] private Vector2 characterModelRotation;
 
 
+    [SerializeField] private InventoryManager inventoryManager;
+
+
     public Transform aimTransform {
         get { return _aimTransform; }
     }
@@ -50,7 +53,45 @@ public class CharacterMovement : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        
+        initCharacterMovement();
+        updateAnimatorStateByInventoryWeaponType();
+    }
+
+
+    /// <summary>
+    /// avvia transizione Bleend tree animation in base
+    /// al tipo di arma impugnata
+    /// </summary>
+    public void updateAnimatorStateByInventoryWeaponType() {
+        switch (inventoryManager.getSelectedWeaponType) {
+        case WeaponType.melee: {
+
+            animator.SetTrigger("MeleeLocomotion");
+            characterAimConstrant.data.offset = new Vector3(0, 90, 0);
+        }
+        break;
+        case WeaponType.pistol: {
+            animator.SetTrigger("PistolLocomotion");
+            characterAimConstrant.data.offset = new Vector3(0, 121, 0);
+        }
+        break;
+        case WeaponType.rifle: {
+            animator.SetTrigger("RifleLocomotion");
+
+        }
+        break;
+    }
+    }
+
+    void initCharacterMovement() {
+
+        InventoryManager iM = gameObject.GetComponent<InventoryManager>();
+
+        if (iM == null) {
+            gameObject.AddComponent<InventoryManager>();
+            iM = gameObject.GetComponent<InventoryManager>();
+        }
+        inventoryManager = iM;
     }
 
 
@@ -75,11 +116,21 @@ public class CharacterMovement : MonoBehaviour {
         if (_movement.magnitude > 0) {
 
             if (isRun) {
+                
+
                 _movement = _movement * runMovementSpeed * Time.deltaTime;
 
                 rotateCharacter(_2Dmove, isRun, false);
             } else {
+
                 _movement = _movement * movementSpeed * Time.deltaTime;
+
+                if(characterState.isPlayer) {
+                    if (inventoryManager.getSelectedWeaponType == WeaponType.melee) {
+                        rotateCharacter(_2Dmove, isRun, false);
+                    }
+                }
+                
             }
             characterState.isRunning = isRun;
         }
@@ -91,16 +142,21 @@ public class CharacterMovement : MonoBehaviour {
         float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
         float velocityZ;
         if (isRun) {
+            characterAimConstrant.weight = 0;
+
+
             animator.SetBool("isRunning", isRun);
-            animator.SetFloat("VelocityZ", 2, 0.1f, Time.deltaTime);
+            animator.SetFloat("VelocityZ", 2, 0.01f, Time.deltaTime);
         } else {
+            characterAimConstrant.weight = 1;
+
             animator.SetBool("isRunning", isRun);
             velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-            animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+            animator.SetFloat("VelocityZ", velocityZ, 0.01f, Time.deltaTime);
         }
 
 
-        animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+        animator.SetFloat("VelocityX", velocityX, 0.01f, Time.deltaTime);
         
     }
 
@@ -146,6 +202,7 @@ public class CharacterMovement : MonoBehaviour {
 
 
             if (!_istantRotation) {
+                    
                 if (_isRun) {
                     characterModelRotation = new Vector2(rotationAimTarget.x, rotationAimTarget.z);
 

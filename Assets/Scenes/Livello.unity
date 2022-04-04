@@ -5698,7 +5698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.46473676, y: -0, z: -0, w: 0.8854489}
-  m_LocalPosition: {x: -23.199978, y: 39.21, z: -89.89992}
+  m_LocalPosition: {x: -23.4, y: 36, z: -89.89992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5718,8 +5718,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToFollow: {fileID: 976331953}
-  speed: 2
+  speed: 3.5
   zOffset: -23.5
+  yOffset: 36
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6490,7 +6491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 1090123752}
-  itemName: PISTOL
+  itemName: MELEE W
   getItemEventName: 'GET '
   getItemEvent:
     m_PersistentCalls:
@@ -6501,6 +6502,7 @@ MonoBehaviour:
   weaponType: 0
   automaticWeapon: 0
   silencedWeapon: 0
+  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1090123755
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11798,7 +11800,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 304867247476954797, guid: eb488a2cf12d37d479ab01e6d2ffa9be, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.4
+      value: -20.97
       objectReference: {fileID: 0}
     - target: {fileID: 304867247476954797, guid: eb488a2cf12d37d479ab01e6d2ffa9be, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11806,7 +11808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 304867247476954797, guid: eb488a2cf12d37d479ab01e6d2ffa9be, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -58.6
+      value: -61.49
       objectReference: {fileID: 0}
     - target: {fileID: 304867247476954797, guid: eb488a2cf12d37d479ab01e6d2ffa9be, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13061,7 +13063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9158278864438449463, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.2
+      value: -23.4
       objectReference: {fileID: 0}
     - target: {fileID: 9158278864438449463, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
       propertyPath: m_LocalPosition.y
