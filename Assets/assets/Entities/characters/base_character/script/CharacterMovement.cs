@@ -54,7 +54,6 @@ public class CharacterMovement : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         initCharacterMovement();
-        updateAnimatorStateByInventoryWeaponType();
     }
 
 
@@ -62,7 +61,7 @@ public class CharacterMovement : MonoBehaviour {
     /// avvia transizione Bleend tree animation in base
     /// al tipo di arma impugnata
     /// </summary>
-    public void updateAnimatorStateByInventoryWeaponType() {
+    public void updateAnimatorStateByInventoryWeaponType(WeaponType weaponType) {
         switch (inventoryManager.getSelectedWeaponType) {
         case WeaponType.melee: {
 
@@ -92,6 +91,9 @@ public class CharacterMovement : MonoBehaviour {
             iM = gameObject.GetComponent<InventoryManager>();
         }
         inventoryManager = iM;
+
+
+        updateAnimatorStateByInventoryWeaponType(inventoryManager.getSelectedWeaponType);
     }
 
 

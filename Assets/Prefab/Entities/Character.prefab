@@ -464,6 +464,7 @@ MonoBehaviour:
   rotationAimInput: {x: 0, y: 0, z: 0}
   rotationAimTarget: {x: 0, y: 0, z: 0}
   characterModelRotation: {x: 0, y: 0}
+  inventoryManager: {fileID: 0}
 --- !u!114 &1850010699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,11 +533,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedActiveWeaponTransform: {fileID: 7853775299951714883}
-  weaponItems: []
+  weaponItems:
+  - {fileID: 780440991035246366, guid: c8c1418051ca2ac499fdb43223397453, type: 3}
   actionObjectItems: []
   selectedWeapon: -1
   selectedActionObject: -1
   characterManager: {fileID: 0}
+  characterMovement: {fileID: 0}
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0

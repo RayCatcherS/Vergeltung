@@ -66,12 +66,15 @@ public class InventoryManager : MonoBehaviour
     public void selectWeapon(int weaponPos) {
 
         // disattiva l'arma precedente
-        weaponItems[selectedWeapon].gameObject.SetActive(false);
+        if(selectedWeapon != -1) {
+            weaponItems[selectedWeapon].gameObject.SetActive(false);
+        }
+        
 
         selectedWeapon = weaponPos;
         weaponItems[selectedWeapon].gameObject.SetActive(true);
 
-        characterMovement.updateAnimatorStateByInventoryWeaponType();
+        characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
     }
 
     public void addActionObjectItem(ActionObjectItem actionObjectItem) {
