@@ -53,6 +53,24 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventaryNextWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""3acacdaa-7154-4605-a87d-d488fc921e75"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventaryPreviewWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ea119c8-2d7e-4e86-aafb-906319194511"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -176,6 +194,28 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""AnalogRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d1d137d-6c35-43c1-ae63-765b09bcc6cd"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""InventaryNextWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f62d7a8-60d3-4dc4-a87f-64158c0fdac4"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""InventaryPreviewWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -247,6 +287,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_AnalogMovement = m_Player.FindAction("AnalogMovement", throwIfNotFound: true);
         m_Player_AnalogRotation = m_Player.FindAction("AnalogRotation", throwIfNotFound: true);
+        m_Player_InventaryNextWeapon = m_Player.FindAction("InventaryNextWeapon", throwIfNotFound: true);
+        m_Player_InventaryPreviewWeapon = m_Player.FindAction("InventaryPreviewWeapon", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Action = m_UI.FindAction("Action", throwIfNotFound: true);
@@ -313,6 +355,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_AnalogMovement;
     private readonly InputAction m_Player_AnalogRotation;
+    private readonly InputAction m_Player_InventaryNextWeapon;
+    private readonly InputAction m_Player_InventaryPreviewWeapon;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -320,6 +364,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @AnalogMovement => m_Wrapper.m_Player_AnalogMovement;
         public InputAction @AnalogRotation => m_Wrapper.m_Player_AnalogRotation;
+        public InputAction @InventaryNextWeapon => m_Wrapper.m_Player_InventaryNextWeapon;
+        public InputAction @InventaryPreviewWeapon => m_Wrapper.m_Player_InventaryPreviewWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -338,6 +384,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @AnalogRotation.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogRotation;
                 @AnalogRotation.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogRotation;
                 @AnalogRotation.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogRotation;
+                @InventaryNextWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
+                @InventaryNextWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
+                @InventaryNextWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
+                @InventaryPreviewWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviewWeapon;
+                @InventaryPreviewWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviewWeapon;
+                @InventaryPreviewWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviewWeapon;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -351,6 +403,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @AnalogRotation.started += instance.OnAnalogRotation;
                 @AnalogRotation.performed += instance.OnAnalogRotation;
                 @AnalogRotation.canceled += instance.OnAnalogRotation;
+                @InventaryNextWeapon.started += instance.OnInventaryNextWeapon;
+                @InventaryNextWeapon.performed += instance.OnInventaryNextWeapon;
+                @InventaryNextWeapon.canceled += instance.OnInventaryNextWeapon;
+                @InventaryPreviewWeapon.started += instance.OnInventaryPreviewWeapon;
+                @InventaryPreviewWeapon.performed += instance.OnInventaryPreviewWeapon;
+                @InventaryPreviewWeapon.canceled += instance.OnInventaryPreviewWeapon;
             }
         }
     }
@@ -410,6 +468,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnAnalogMovement(InputAction.CallbackContext context);
         void OnAnalogRotation(InputAction.CallbackContext context);
+        void OnInventaryNextWeapon(InputAction.CallbackContext context);
+        void OnInventaryPreviewWeapon(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -31,6 +31,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InventaryNextWeapon",
+                    "type": "Button",
+                    "id": "3acacdaa-7154-4605-a87d-d488fc921e75",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InventaryPreviewWeapon",
+                    "type": "Button",
+                    "id": "8ea119c8-2d7e-4e86-aafb-906319194511",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -154,6 +172,28 @@
                     "action": "AnalogRotation",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5d1d137d-6c35-43c1-ae63-765b09bcc6cd",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "InventaryNextWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f62d7a8-60d3-4dc4-a87f-64158c0fdac4",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "InventaryPreviewWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

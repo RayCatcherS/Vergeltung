@@ -31,7 +31,7 @@ public class InventoryManager : MonoBehaviour
         initDrawPlayerWeaponLineRendered();
     }
 
-    public void FixedUpdate() {
+    public void Update() {
         drawPlayerWeaponLineRendered();
 
     }
@@ -91,6 +91,7 @@ public class InventoryManager : MonoBehaviour
 
         // disattiva l'arma precedente
         if(selectedWeapon != -1) {
+
             weaponItems[selectedWeapon].gameObject.SetActive(false);
         }
         selectedWeapon = weaponPos;
@@ -99,24 +100,58 @@ public class InventoryManager : MonoBehaviour
         characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
     }
 
+
     public void selectWeapon(string weaponId) {
 
         // disattiva l'arma precedente
+        
         if (selectedWeapon != -1) {
+
             weaponItems[selectedWeapon].gameObject.SetActive(false);
         }
 
-        for(int i = 0; i < weaponItems.Count; i++) {
+        for (int i = 0; i < weaponItems.Count; i++) {
 
-            if(weaponItems[i].itemNameID == weaponId) {
+            if (weaponItems[i].itemNameID == weaponId) {
                 selectedWeapon = i;
             }
         }
 
-        
+
         weaponItems[selectedWeapon].gameObject.SetActive(true);
-        //characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
+        characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
+
+        
     }
+    public void nextWeapon() {
+        int value;
+        if (selectedWeapon != -1) {
+            if (weaponItems.Count - 1 == selectedWeapon) {
+                value = 0;
+            } else {
+                value = selectedWeapon + 1;
+            }
+
+            selectWeapon(value);
+        }
+    }
+
+
+    public void previewWeapon() {
+        int value;
+        if (selectedWeapon != -1) {
+            if (selectedWeapon == 0) {
+                value = weaponItems.Count - 1;
+            } else {
+                value = selectedWeapon - 1;
+            }
+
+            selectWeapon(value);
+        }
+        
+    }
+
+    
 
     /// <summary>
     /// Aggiungi action object all'inventario
