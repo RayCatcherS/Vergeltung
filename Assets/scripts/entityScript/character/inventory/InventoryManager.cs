@@ -22,6 +22,10 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Material weaponLineRendererMaterial;
     [SerializeField] public Gradient weaponLineRendererGradient;
 
+    // raycast const
+    private const int ALL_LAYERS = -1;
+    private const int RAY_DISTANCE = 100;
+
     public void Start() {
         initInventoryManager();
         initDrawPlayerWeaponLineRendered();
@@ -191,26 +195,25 @@ public class InventoryManager : MonoBehaviour
 
             weaponLineRenderer.SetPosition(0, weaponItems[selectedWeapon].shootingTransform.position);
 
-            int allLayers = -1;
-            int rayDistance = 100;
+            
             RaycastHit hit;
             Ray ray = new Ray(weaponShootTransform.position, new Vector3(
-                Mathf.Sin((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180)),
+                Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                 0,
-                Mathf.Cos((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180))
+                Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
             ));
 
 
-            if (Physics.Raycast(ray, out hit, rayDistance, allLayers, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
                 Debug.DrawLine(weaponShootTransform.position, hit.point);
 
                 weaponLineRenderer.SetPosition(1, hit.point);
             } else {
                 weaponLineRenderer.SetPosition(1, weaponShootTransform.position + new Vector3(
-                    Mathf.Sin((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180)),
+                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
-                    Mathf.Cos((weaponShootTransform.eulerAngles.y) * (Mathf.PI / 180))
-                ) * rayDistance);
+                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
+                ) * RAY_DISTANCE);
             }
 
 
@@ -231,7 +234,7 @@ public class InventoryManager : MonoBehaviour
         RaycastHit hit;
 
         if(getSelectedWeaponType != WeaponType.melee) {
-            if (Physics.Linecast(headViewTransform.position, weaponItems[selectedWeapon].shootingTransform.position, out hit)) {
+            if (Physics.Linecast(headViewTransform.position, weaponShootTransform.transform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                 if (hit.collider != null) {
                     res = true;

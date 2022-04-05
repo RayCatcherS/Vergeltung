@@ -10,7 +10,6 @@ public class CharacterMovement : MonoBehaviour {
     public Animator animator; //animator del character
     public CharacterState characterState;
     public CharacterController characterController;
-    public MultiAimConstraint characterAimConstrant;
 
     public CapsuleCollider colliderCharacter;
 
@@ -23,7 +22,6 @@ public class CharacterMovement : MonoBehaviour {
     [SerializeField] private float runMovementSpeed = 10f;
     [SerializeField] private float rotationSpeed = 20f;
     public GameObject characterModel;
-    [SerializeField] Transform _aimTransform;
 
 
     [SerializeField] private Vector3 rotationAimInput;
@@ -33,10 +31,6 @@ public class CharacterMovement : MonoBehaviour {
 
     [SerializeField] private InventoryManager inventoryManager;
 
-
-    public Transform aimTransform {
-        get { return _aimTransform; }
-    }
 
 
     public Vector3 getRotationAimInput { get { return rotationAimInput; } }
@@ -66,17 +60,14 @@ public class CharacterMovement : MonoBehaviour {
         case WeaponType.melee: {
 
             animator.SetTrigger("MeleeLocomotion");
-            characterAimConstrant.data.offset = new Vector3(0, 90, 0);
         }
         break;
         case WeaponType.pistol: {
             animator.SetTrigger("PistolLocomotion");
-            characterAimConstrant.data.offset = new Vector3(-6, 115, -3.8f);
         }
         break;
         case WeaponType.rifle: {
             animator.SetTrigger("RifleLocomotion");
-            characterAimConstrant.data.offset = new Vector3(2.5f, 118.6f, 18.5f);
 
         }
         break;
@@ -145,13 +136,11 @@ public class CharacterMovement : MonoBehaviour {
         float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
         float velocityZ;
         if (isRun) {
-            characterAimConstrant.weight = 0;
 
 
             animator.SetBool("isRunning", isRun);
             animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
         } else {
-            characterAimConstrant.weight = 1;
 
             animator.SetBool("isRunning", isRun);
             velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
@@ -183,92 +172,17 @@ public class CharacterMovement : MonoBehaviour {
 
 
 
-        rotationAimTarget = _aimTransform.transform.rotation * Vector3.forward; // ottieni direzione 
 
         if (rotationAimTargetInput.magnitude > 0) {
-
-            // ruota aim character partendo dalle coordinate rotazione (utilizzando la funzione lerp)
-            if (!_istantRotation) {
-                _aimTransform.rotation = Quaternion.Lerp(
-                    _aimTransform.rotation,
-                    Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0),
-                    Time.deltaTime * rotationSpeed);
-
-                rotationAimTarget = _aimTransform.transform.rotation * Vector3.forward;
-            } else {
-
-                _aimTransform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0);
-            }
-
-
-            
 
             Vector2 characterRotation = new Vector2();
 
 
             if (!_istantRotation) {
-                characterAimConstrant.weight = 1;
 
 
-                if (
-                    rotationAimTarget.x > -0.707f && rotationAimTarget.z > 0.707f &&
-                    rotationAimTarget.x < 0.707f && rotationAimTarget.z > 0.707f
-                ) {
-                    characterRotation.x = 0;
-                    characterRotation.y = 1;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                } else if (
-                    rotationAimTarget.x > 0.707f && rotationAimTarget.z < 0.707f &&
-                    rotationAimTarget.x > 0.707f && rotationAimTarget.z > -0.707f
-                ) {
-                    characterRotation.x = 1f;
-                    characterRotation.y = 0f;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                } else if (
-                    rotationAimTarget.x < 0.707f && rotationAimTarget.z < -0.707f &&
-                    rotationAimTarget.x > -0.707f && rotationAimTarget.z < -0.707f
-                ) {
-                    characterRotation.x = 0f;
-                    characterRotation.y = -1f;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                } else if (
-                    rotationAimTarget.x < -0.707f && rotationAimTarget.z > -0.707f &&
-                    rotationAimTarget.x < -0.707f && rotationAimTarget.z < 0.707f
-                ) {
-                    characterRotation.x = -1f;
-                    characterRotation.y = 0f;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                }
+                characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             } else {
-                characterAimConstrant.weight = 0;
 
                 characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             }
