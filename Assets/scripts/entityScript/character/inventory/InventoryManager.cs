@@ -226,7 +226,9 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Il metodo controlla se l'arma attraversa un muro
+    /// Il metodo controlla se l'arma attraversa un muro.
+    /// Un raycast parte dalla testa del character e raggiunge il weaponShootTransform
+    /// se questo viene ostruito allora l'arma sta attraversando un collider
     /// </summary>
     /// <returns></returns>
     public bool gunThroughWall() {
@@ -239,7 +241,7 @@ public class InventoryManager : MonoBehaviour
                 if (hit.collider != null) {
                     res = true;
 
-                    Debug.Log("gun Throug hWall");
+                    //Debug.Log("gun Throug hWall");
                 } else {
                     res = false;
                 }
