@@ -7,3 +7,6 @@ Progetto Unity esame sviluppo di videogiochi
 ### Configurazione richiesta
 - Richiesta installazione Blender versione >= 2.79 affinchè Unity riconosca i file .blend all'interno del progetto
 - Richiesto pad Xbox
+
+### Problemi noti:
+- La versione Unity utilizzata manda in crash l'applicazione compilata(eseguibile) una volta avviata. Per risolvere tutti gli assets di tipo 'model' nell'inspector, nella sezione "model" devono avere la spunta attiva sulla voce "Read/Write"
