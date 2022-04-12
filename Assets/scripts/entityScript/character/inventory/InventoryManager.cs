@@ -224,7 +224,7 @@ public class InventoryManager : MonoBehaviour
 
 
 
-        if(isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && gameObject.GetComponent<CharacterState>().isPlayer && !gunThroughWall()) {
+        if(isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !gunThroughWall()) {
             weaponLineRenderer.enabled = true;
 
 

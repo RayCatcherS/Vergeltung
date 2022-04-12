@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
-
-
-    private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli interactable objects
-
-
+    private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
     [SerializeField] private InteractionUIController interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
+
+
+    // stati del player
+    [SerializeField] public bool isRunning = false;
+    [SerializeField] public bool isBusy = false;
+
+    [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
 
 
     public void Start() {
@@ -42,7 +45,10 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
     public static GameObject addToGOCharacterManagerComponent(GameObject gameObject, InteractionUIController controller) {
-        gameObject.AddComponent<CharacterManager>();
+        
+        if(gameObject.GetComponent<CharacterManager>() == null) {
+            gameObject.AddComponent<CharacterManager>();
+        }
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction.interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
@@ -80,7 +86,7 @@ public class CharacterManager : MonoBehaviour {
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
-            if (gameObject.GetComponent<CharacterState>().isPlayer) {
+            if (isPlayer) {
                 interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
             }
                 
@@ -118,7 +124,7 @@ public class CharacterManager : MonoBehaviour {
 
 
         // se il character è giocato dal player
-        if(gameObject.GetComponent<CharacterState>().isPlayer) {
+        if(isPlayer) {
 
             // inizializza lista di interazioni e i bottoni e la partendo dalla lista interactions
             // passa la lista di interactions per inizializzare la lista di interacion che potranno essere effettuate

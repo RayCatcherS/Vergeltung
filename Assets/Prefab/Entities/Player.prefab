@@ -1729,7 +1729,6 @@ GameObject:
   - component: {fileID: 9158278864438449463}
   - component: {fileID: 9158278864438449460}
   - component: {fileID: 976331954}
-  - component: {fileID: 976331960}
   - component: {fileID: 2527064704252661337}
   - component: {fileID: 5996112740549230951}
   - component: {fileID: 1394093782977674399}
@@ -1772,7 +1771,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8347940652654437702}
-  characterState: {fileID: 976331960}
   characterController: {fileID: 2527064704252661337}
   colliderCharacter: {fileID: 0}
   movementSpeed: 230
@@ -1835,21 +1833,6 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
---- !u!114 &976331960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9158278864438449459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7ff3f8a3d7d92f43a02b7b59010118f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRunning: 0
-  isBusy: 0
-  isPlayer: 1
 --- !u!143 &2527064704252661337
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1895,6 +1878,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionUIController: {fileID: 0}
   _inventoryManager: {fileID: 976331954}
+  isRunning: 0
+  isBusy: 0
+  isPlayer: 1
 --- !u!1 &9158278865352785934
 GameObject:
   m_ObjectHideFlags: 0

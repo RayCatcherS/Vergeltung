@@ -33,9 +33,10 @@ public class Interactable : MonoBehaviour, InteractableInterface {
     }
 
     public void focusInteractable() {
-        outlineScript.enabled = true;
+        outlineScript.changeOutlineColor(GameConstant.outlineInteractableColor);
+        outlineScript.setEnableOutline(true);
     }
     public void unFocusInteractable() {
-        outlineScript.enabled = false;
+        outlineScript.setEnableOutline(false);
     }
 }

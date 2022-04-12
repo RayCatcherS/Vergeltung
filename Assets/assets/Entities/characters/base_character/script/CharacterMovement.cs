@@ -8,7 +8,6 @@ public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
 
     public Animator animator; //animator del character
-    public CharacterState characterState;
     public CharacterController characterController;
 
     public CapsuleCollider colliderCharacter;
@@ -119,14 +118,14 @@ public class CharacterMovement : MonoBehaviour {
 
                 _movement = _movement * movementSpeed * Time.deltaTime;
 
-                if(characterState.isPlayer) {
+                if(gameObject.GetComponent<CharacterManager>().isPlayer) {
                     if (inventoryManager.getSelectedWeaponType == WeaponType.melee) {
                         rotateCharacter(_2Dmove, isRun, true);
                     }
                 }
                 
             }
-            characterState.isRunning = isRun;
+            gameObject.GetComponent<CharacterManager>().isRunning = isRun;
         }
 
 
@@ -175,8 +174,6 @@ public class CharacterMovement : MonoBehaviour {
 
         if (rotationAimTargetInput.magnitude > 0) {
 
-            Vector2 characterRotation = new Vector2();
-
 
             if (!_istantRotation) {
 
@@ -195,7 +192,7 @@ public class CharacterMovement : MonoBehaviour {
 
         // muovi character solo se è il giocatore
         // caso in cui il character è slegato dal nav mesh agent
-        if(gameObject.GetComponent<CharacterState>().isPlayer) {
+        if(gameObject.GetComponent<CharacterManager>().isPlayer) {
             characterController.SimpleMove(_movement); // muovi e calcola la gravità del player
         }
         

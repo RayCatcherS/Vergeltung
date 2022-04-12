@@ -396,10 +396,11 @@ GameObject:
   - component: {fileID: 9188659755221051706}
   - component: {fileID: 9188659755221051707}
   - component: {fileID: 9188659755221051704}
-  - component: {fileID: 1850010699}
   - component: {fileID: 1493404731}
   - component: {fileID: 5218232153561137235}
   - component: {fileID: 30319831950813519}
+  - component: {fileID: -2880058954286248499}
+  - component: {fileID: -8184361105554446216}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -451,7 +452,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9188659755258602905}
-  characterState: {fileID: 1850010699}
   characterController: {fileID: 1493404731}
   colliderCharacter: {fileID: 9188659755221051707}
   movementSpeed: 10
@@ -462,21 +462,6 @@ MonoBehaviour:
   rotationAimTarget: {x: 0, y: 0, z: 0}
   characterModelRotation: {x: 0, y: 0}
   inventoryManager: {fileID: 0}
---- !u!114 &1850010699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9188659755221051705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7ff3f8a3d7d92f43a02b7b59010118f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRunning: 0
-  isBusy: 0
-  isPlayer: 0
 --- !u!143 &1493404731
 CharacterController:
   m_ObjectHideFlags: 0
@@ -569,6 +554,41 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+--- !u!114 &-2880058954286248499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a7817f6bf2de544a9e28df77982afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionUIController: {fileID: 0}
+  _inventoryManager: {fileID: 0}
+  isRunning: 0
+  isBusy: 0
+  isPlayer: 0
+--- !u!114 &-8184361105554446216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.9714813, g: 0, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0

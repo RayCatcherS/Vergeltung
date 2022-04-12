@@ -60,8 +60,6 @@ public class PlayerInputController : MonoBehaviour
         // abilita [isRun] se viene premuto il pulsante 
         if (inputIsRun == 1) {
             isRunPressed = true;
-        } else {
-            isRunPressed = false;
         }
 
         

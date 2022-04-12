@@ -40,9 +40,9 @@ public class ActivityTask : MonoBehaviour
         characterActivity.removeActivityPointByIID(this);
     }
 
-    public async Task executeTask(CharacterManager characterInteraction, CharacterState characterState) {
+    public async Task executeTask(CharacterManager characterInteraction) {
 
-        characterState.isBusy = true;
+        characterInteraction.isBusy = true;
         
 
         if (taskEvent != null) {
@@ -55,9 +55,9 @@ public class ActivityTask : MonoBehaviour
             await Task.Yield();
         }
 
-        
 
-        characterState.isBusy = false;
+
+        characterInteraction.isBusy = false;
 
         // passa al task successivo
         //characterActivity.characterActivityManager.GetComponent<CharacterSpawnPoint>().spwanedNpc.GetComponents<BaseNPCBehaviour>().

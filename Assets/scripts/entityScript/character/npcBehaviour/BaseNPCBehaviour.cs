@@ -73,7 +73,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
 
-                if (!gameObject.GetComponent<CharacterState>().isBusy) {
+                if (!gameObject.GetComponent<CharacterManager>().isBusy) {
 
                     float distance = Vector3.Distance(transform.position, characterActivityManager.getCurrentTask().getTaskDestination());
                     
@@ -93,8 +93,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         
                         // esegui task ed aspetta task
                         await characterActivityManager.getCurrentTask().executeTask(
-                            gameObject.GetComponent<CharacterManager>(),
-                            gameObject.GetComponent<CharacterState>());
+                            gameObject.GetComponent<CharacterManager>());
                         //Debug.Log("task eseguito");
 
 
