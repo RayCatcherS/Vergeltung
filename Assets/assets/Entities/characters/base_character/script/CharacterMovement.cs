@@ -198,11 +198,13 @@ public class CharacterMovement : MonoBehaviour {
         
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos() {
         Handles.color = Color.red;
         Handles.DrawWireDisc(transform.position, Vector3.up, 2); //debug player
     }
+#endif
 }
 
-    
-    
+
+
