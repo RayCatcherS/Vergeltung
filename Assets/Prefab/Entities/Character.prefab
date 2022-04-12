@@ -394,13 +394,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9188659755221051706}
-  - component: {fileID: 9188659755221051707}
   - component: {fileID: 9188659755221051704}
   - component: {fileID: 1493404731}
   - component: {fileID: 5218232153561137235}
   - component: {fileID: 30319831950813519}
   - component: {fileID: -2880058954286248499}
   - component: {fileID: -8184361105554446216}
+  - component: {fileID: 511194201638674844}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -425,20 +425,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &9188659755221051707
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9188659755221051705}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.35
-  m_Height: 3.2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.55, z: 0}
 --- !u!114 &9188659755221051704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 9188659755258602905}
   characterController: {fileID: 1493404731}
-  colliderCharacter: {fileID: 9188659755221051707}
+  colliderCharacter: {fileID: 0}
   movementSpeed: 10
   runMovementSpeed: 20
   rotationSpeed: 35
@@ -474,7 +460,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 3.04
-  m_Radius: 0.44
+  m_Radius: 0.6
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -522,7 +508,6 @@ MonoBehaviour:
   selectedActionObject: -1
   characterManager: {fileID: 0}
   characterMovement: {fileID: 0}
-  weaponShootTransform: {fileID: 9188659755442841056}
   weaponLineRenderer: {fileID: 0}
   weaponLineRendererMaterial: {fileID: 0}
   weaponLineRendererGradient:
@@ -571,6 +556,7 @@ MonoBehaviour:
   isRunning: 0
   isBusy: 0
   isPlayer: 0
+  _aimedCharacter: {fileID: 0}
 --- !u!114 &-8184361105554446216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,6 +575,20 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!136 &511194201638674844
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.6
+  m_Height: 3.04
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.55, z: 0}
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0

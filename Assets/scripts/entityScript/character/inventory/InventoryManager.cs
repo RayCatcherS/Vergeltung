@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    // raycast const
+    private const int ALL_LAYERS = -1;
+    private const int CHARACTER_LAYERS = 7;
+    private const int RAY_DISTANCE = 100;
+
     [SerializeField] private Transform headViewTransform; // serve a controllare tramite ray cast se tra la testa è l'arma c'è un collider
     [SerializeField] private Transform selectedActiveWeaponTransform;
 
@@ -17,14 +22,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private CharacterMovement characterMovement;
 
-    [SerializeField] private Transform weaponShootTransform;
     [SerializeField] private LineRenderer weaponLineRenderer;
     [SerializeField] private Material weaponLineRendererMaterial;
     [SerializeField] public Gradient weaponLineRendererGradient;
-
-    // raycast const
-    private const int ALL_LAYERS = -1;
-    private const int RAY_DISTANCE = 100;
 
     public void Start() {
         initInventoryManager();
@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void Update() {
-        drawPlayerWeaponLineRendered();
+        drawAimWeaponLineRendered();
 
     }
 
@@ -98,6 +98,7 @@ public class InventoryManager : MonoBehaviour
         weaponItems[selectedWeapon].gameObject.SetActive(true);
 
         characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
+        characterManager.aimedCharacter = null; // rimuovi character mirato
     }
 
 
@@ -220,7 +221,13 @@ public class InventoryManager : MonoBehaviour
         weaponLineRenderer.endWidth = 0.1f;
         weaponLineRenderer.colorGradient = weaponLineRendererGradient;
     }
-    public void drawPlayerWeaponLineRendered() {
+    
+    /// <summary>
+    /// Disegna tramite il componente line rendere una 
+    /// retta che parte dall'arma al punto mirato dal character
+    /// 
+    /// </summary>
+    public void drawAimWeaponLineRendered() {
 
 
 
@@ -232,23 +239,51 @@ public class InventoryManager : MonoBehaviour
 
             
             RaycastHit hit;
-            Ray ray = new Ray(weaponShootTransform.position, new Vector3(
+            Ray ray = new Ray(weaponItems[selectedWeapon].shootingTransform.position, new Vector3(
                 Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                 0,
                 Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
             ));
 
 
-            if (Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
-                Debug.DrawLine(weaponShootTransform.position, hit.point);
+            if (Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) { // se il raycast hitta
 
-                weaponLineRenderer.SetPosition(1, hit.point);
-            } else {
-                weaponLineRenderer.SetPosition(1, weaponShootTransform.position + new Vector3(
+
+               
+                // setta il character mirato nel character manager
+                if(hit.transform.gameObject.layer == CHARACTER_LAYERS && !hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
+                    
+                    characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
+
+                    Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
+                    weaponLineRenderer.SetPosition(1, hit.point);
+
+                } else {
+                    characterManager.aimedCharacter = null;
+
+                    Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
+                    weaponLineRenderer.SetPosition(1, hit.point);
+                }
+
+                
+            } else { // se il ray cast non hitta
+
+                characterManager.aimedCharacter = null;
+
+
+                Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, weaponItems[selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
                 ) * RAY_DISTANCE);
+
+
+                weaponLineRenderer.SetPosition(1, weaponItems[selectedWeapon].shootingTransform.position + new Vector3(
+                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
+                    0,
+                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
+                ) * RAY_DISTANCE);
+                
             }
 
 
@@ -271,7 +306,7 @@ public class InventoryManager : MonoBehaviour
         RaycastHit hit;
 
         if(getSelectedWeaponType != WeaponType.melee) {
-            if (Physics.Linecast(headViewTransform.position, weaponShootTransform.transform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Linecast(headViewTransform.position, weaponItems[selectedWeapon].shootingTransform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                 if (hit.collider != null) {
                     res = true;

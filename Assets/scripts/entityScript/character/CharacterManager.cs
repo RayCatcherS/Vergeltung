@@ -13,9 +13,8 @@ public class CharacterManager : MonoBehaviour {
     // stati del player
     [SerializeField] public bool isRunning = false;
     [SerializeField] public bool isBusy = false;
-
     [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
-
+    [SerializeField] private CharacterManager _aimedCharacter;
 
     public void Start() {
 
@@ -36,6 +35,31 @@ public class CharacterManager : MonoBehaviour {
     //getter
     public InventoryManager inventoryManager {
         get { return _inventoryManager; }
+    }
+
+    public CharacterManager aimedCharacter {
+        get { return _aimedCharacter; }
+        set {
+            if(value == null) { // null quando no si sta mirando un character
+
+                if(_aimedCharacter != null) { // si stava già mirando un character
+                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(false); // disattiva outline del character precedentemente mirato
+                    _aimedCharacter = value;
+                }
+            } else {
+
+                if (_aimedCharacter != null) { // si stava già mirando un character
+                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(false);
+                    _aimedCharacter = value;
+                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(true);
+                } else {
+                    _aimedCharacter = value;
+                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(true);
+                }
+            }
+            
+            
+        }
     }
 
     /// <summary>
