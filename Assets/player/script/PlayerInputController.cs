@@ -24,9 +24,11 @@ public class PlayerInputController : MonoBehaviour
     
     private float inputIsNextWeaponPressed;
     private float inputIsPreviewWeaponPressed;
+    private float inputIsUseWeaponItem;
 
+    private bool isNextWeaponPressed = false;
+    private bool isPreviewWeaponPressed = false;
 
-    [SerializeField] bool nextPreviewWeaponDisabled = false;
 
     private void OnEnable() {
         playerActions.Player.Enable();
@@ -51,18 +53,27 @@ public class PlayerInputController : MonoBehaviour
     // input movimento più efficaci nei FixedUpdate
     private void FixedUpdate() {
 
+
+
+        moveAndRotateInput();
+
+        inventaryInput();
+
+    }
+
+    private void moveAndRotateInput() {
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
         vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
+        
         inputIsRun = playerActions.Player.Run.ReadValue<float>();
 
-        
 
         // abilita [isRun] se viene premuto il pulsante 
         if (inputIsRun == 1) {
             isRunPressed = true;
         }
 
-        
+
 
 
         // calcolo delle dead zone degli stick analogici
@@ -90,50 +101,50 @@ public class PlayerInputController : MonoBehaviour
 
             characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
-            if(characterMovement.GetComponent<InventoryManager>().getSelectedWeaponType != WeaponType.melee) {
+            if (characterMovement.GetComponent<InventoryManager>().getSelectedWeaponType != WeaponType.melee) {
                 characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
             }
         }
-
-
-
-        inventaryInput();
-
     }
-    private IEnumerator DisablePreviewNextButtonsForSeconds() {
-        //Debug.Log("disable");
-        nextPreviewWeaponDisabled = true;
-
-        // wait for our amount of time to re-enable
-        yield return new WaitForSeconds(INVENTARY_WAIT_TIME);
-
-
-        nextPreviewWeaponDisabled = false;
-    }
-
-
 
     private void inventaryInput() {
 
         inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
         inputIsPreviewWeaponPressed = playerActions.Player.InventaryPreviewWeapon.ReadValue<float>();
+        inputIsUseWeaponItem = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
 
-        if (!nextPreviewWeaponDisabled) {
 
-            if (inputIsNextWeaponPressed == 1) {
+        if (inputIsNextWeaponPressed == 1) {
+
+            if (!isNextWeaponPressed) {
                 inventoryManager.nextWeapon();
-                //Debug.Log("next");
-                StartCoroutine(DisablePreviewNextButtonsForSeconds());
+                isNextWeaponPressed = true;
             }
 
-            if (inputIsPreviewWeaponPressed == 1) {
+            //Debug.Log("next");
+            //StartCoroutine(DisablePreviewNextButtonsForSeconds());
+        } else {
+            isNextWeaponPressed = false;
+        }
+
+        if (inputIsPreviewWeaponPressed == 1) {
+
+            if (!isPreviewWeaponPressed) {
                 inventoryManager.previewWeapon();
-                //Debug.Log("preview");
-                StartCoroutine(DisablePreviewNextButtonsForSeconds());
+
+                isPreviewWeaponPressed = true;
             }
+
+            //Debug.Log("preview");
+            //StartCoroutine(DisablePreviewNextButtonsForSeconds());
+        } else {
+            isPreviewWeaponPressed = false;
+        }
+
+        if(inputIsUseWeaponItem == 1) {
+            inventoryManager.useSelectedWeapon();
         }
     }
-
 
 
     /*void OnGUI() {

@@ -25,7 +25,9 @@ public class WeaponItem : InventoryItem
     public Vector3 weaponOffsetRotation {
         get { return _weaponOffsetRotation; }
     }
-
+    public WeaponType getWeaponType {
+        get { return weaponType; }
+    }
     public Transform shootingTransform {
         get { return _shootingTransform; }
     }
@@ -51,7 +53,9 @@ public class WeaponItem : InventoryItem
         return eventRes;
     }
 
-    public WeaponType getWeaponType {
-        get { return weaponType; }
+    
+
+    public override void useItem(CharacterManager p) {
+        Debug.Log("Use weapon item");
     }
 }
