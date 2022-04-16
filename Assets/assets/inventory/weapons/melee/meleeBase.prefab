@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1456203553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1456203554}
+  m_Layer: 3
+  m_Name: shootingTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1456203554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456203553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 780440991035246362}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &780440991035246355
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,10 +42,10 @@ GameObject:
   - component: {fileID: 780440991035246362}
   - component: {fileID: 780440991035246361}
   - component: {fileID: 780440991035246360}
-  - component: {fileID: 780440991035246367}
   - component: {fileID: 780440991035246366}
   - component: {fileID: 780440991035246365}
   - component: {fileID: 780440991035246364}
+  - component: {fileID: 7838756530892760501}
   m_Layer: 3
   m_Name: meleeBase
   m_TagString: Untagged
@@ -33,7 +64,8 @@ Transform:
   m_LocalPosition: {x: -24.55, y: 0.97, z: -56.8}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1456203554}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -87,19 +119,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &780440991035246367
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780440991035246355}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 4}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &780440991035246366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,14 +137,16 @@ MonoBehaviour:
   getItemEvent:
     m_PersistentCalls:
       m_Calls: []
-  _shootingTransform: {fileID: 0}
+  _shootingTransform: {fileID: 1456203554}
+  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
+  damageSpawnObject: {fileID: 3682149808839142542, guid: 69ad4c478fc2cf84aaf5182e835aca1a, type: 3}
   magazineCapacity: 10
   currentMagazineCapacity: 10
   ammunition: 100
   weaponType: 0
   automaticWeapon: 0
+  weaponUsed: 0
   silencedWeapon: 0
-  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &780440991035246365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,3 +178,16 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!135 &7838756530892760501
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780440991035246355}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6.69
+  m_Center: {x: 0, y: 0, z: 0}

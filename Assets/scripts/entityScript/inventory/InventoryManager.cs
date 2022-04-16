@@ -36,6 +36,49 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// Ottieni tipo di arma attualemente selezionata
+    /// </summary>
+    public WeaponType getSelectedWeaponType {
+        get {
+
+            if (isSelectedWeapon) {
+                return weaponItems[selectedWeapon].getWeaponType;
+            } else {
+                return WeaponType.melee;
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// Se l'arma è selezionata
+    /// </summary>
+    public bool isSelectedWeapon {
+        get {
+            bool res = false;
+
+            if (selectedWeapon == -1) {
+                res = false;
+            } else {
+                res = true;
+            }
+
+            return res;
+        }
+    }
+
+    public WeaponItem getSelectWeapon() {
+        WeaponItem weapon = null;
+
+        if (isSelectedWeapon) {
+            weapon = weaponItems[selectedWeapon];
+        }
+
+        return weapon;
+    }
+
     void initInventoryManager() {
 
         CharacterManager chM = gameObject.GetComponent<CharacterManager>();
@@ -78,6 +121,9 @@ public class InventoryManager : MonoBehaviour
 
         // cambia layer oggetto interattivo in default
         weaponItem.gameObject.layer = 0;
+
+        // disattiva collider trigger interactable
+        weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
 
         // cambia arma selezionata
         selectWeapon(weaponItems.Count - 1);
@@ -171,41 +217,12 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     public void useSelectedWeapon() {
         if(selectedWeapon != -1) {
-            weaponItems[selectedWeapon].useItem(characterManager);
+
+            weaponItems[selectedWeapon].useItem(characterManager, drawAimWeaponLineRendered());
         }
     }
 
-    /// <summary>
-    /// Ottieni tipo di arma attualemente selezionata
-    /// </summary>
-    public WeaponType getSelectedWeaponType {
-        get { 
-
-            if(isSelectedWeapon) {
-                return weaponItems[selectedWeapon].getWeaponType;
-            } else {
-                return WeaponType.melee;
-            }
-            
-        }
-    }
-
-    /// <summary>
-    /// Se l'arma è selezionata
-    /// </summary>
-    public bool isSelectedWeapon {
-        get {
-            bool res = false;
-
-            if (selectedWeapon == -1) {
-                res = false;
-            } else {
-                res = true;
-            }
-
-            return res;
-        }
-    }
+    
 
 
     public void initDrawPlayerWeaponLineRendered() {
@@ -221,17 +238,18 @@ public class InventoryManager : MonoBehaviour
         weaponLineRenderer.endWidth = 0.1f;
         weaponLineRenderer.colorGradient = weaponLineRendererGradient;
     }
-    
-    /// <summary>
+
+    ////// <summary>
     /// Disegna tramite il componente line rendere una 
     /// retta che parte dall'arma al punto mirato dal character
     /// 
     /// </summary>
-    public void drawAimWeaponLineRendered() {
+    /// <returns>Restituisce la posizione puntata</returns>
+    public Vector3 drawAimWeaponLineRendered() {
 
+        Vector3 aimedPosition = Vector3.zero;
 
-
-        if(isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !gunThroughWall()) {
+        if (isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !gunThroughWall()) {
             weaponLineRenderer.enabled = true;
 
 
@@ -264,8 +282,10 @@ public class InventoryManager : MonoBehaviour
                     Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
                     weaponLineRenderer.SetPosition(1, hit.point);
                 }
+                aimedPosition = hit.point;
 
-                
+
+
             } else { // se il ray cast non hitta
 
                 characterManager.aimedCharacter = null;
@@ -283,7 +303,13 @@ public class InventoryManager : MonoBehaviour
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
                 ) * RAY_DISTANCE);
-                
+
+
+                aimedPosition = weaponItems[selectedWeapon].shootingTransform.position + new Vector3(
+                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
+                    0,
+                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
+                ) * RAY_DISTANCE;
             }
 
 
@@ -293,6 +319,8 @@ public class InventoryManager : MonoBehaviour
         } else {
             weaponLineRenderer.enabled = false;
         }
+
+        return aimedPosition;
     }
 
     /// <summary>

@@ -42,23 +42,13 @@ public class PlayerInputController : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     
 
     // input movimento più efficaci nei FixedUpdate
     private void FixedUpdate() {
 
-
-
         moveAndRotateInput();
-
         inventaryInput();
-
     }
 
     private void moveAndRotateInput() {
@@ -141,8 +131,19 @@ public class PlayerInputController : MonoBehaviour
             isPreviewWeaponPressed = false;
         }
 
-        if(inputIsUseWeaponItem == 1) {
-            inventoryManager.useSelectedWeapon();
+
+
+        WeaponItem usedWeapon = inventoryManager.getSelectWeapon();
+        if(usedWeapon != null) {
+            if(inputIsUseWeaponItem == 1) {
+                if(!usedWeapon.weaponUsed) {
+                    inventoryManager.useSelectedWeapon();
+                    usedWeapon.weaponUsed = true;
+                }
+
+            } else {
+                usedWeapon.weaponUsed = false;
+            }
         }
     }
 

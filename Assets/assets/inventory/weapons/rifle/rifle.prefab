@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 9104979779660267364}
   - component: {fileID: 9104979779660267367}
   - component: {fileID: 9104979779660267366}
-  - component: {fileID: 9104979779660267365}
+  - component: {fileID: 5092614205492258863}
   m_Layer: 3
   m_Name: rifle
   m_TagString: Untagged
@@ -138,13 +138,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _shootingTransform: {fileID: 2625902389529646758}
+  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
+  damageSpawnObject: {fileID: 0}
   magazineCapacity: 10
   currentMagazineCapacity: 10
   ammunition: 100
   weaponType: 2
   automaticWeapon: 0
+  weaponUsed: 0
   silencedWeapon: 0
-  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &9104979779660267367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,8 +178,8 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!65 &9104979779660267365
-BoxCollider:
+--- !u!135 &5092614205492258863
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -187,5 +189,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 10, z: 10}
+  m_Radius: 7
   m_Center: {x: 0, y: 0, z: 0}
