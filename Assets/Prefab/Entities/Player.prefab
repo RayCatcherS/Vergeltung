@@ -1799,8 +1799,6 @@ MonoBehaviour:
   actionObjectItems: []
   selectedWeapon: -1
   selectedActionObject: -1
-  characterManager: {fileID: 1394093782977674399}
-  characterMovement: {fileID: 0}
   weaponLineRenderer: {fileID: 0}
   weaponLineRendererMaterial: {fileID: 2100000, guid: 3f6ba08c340bdbf45a8ba188f56067d5, type: 2}
   weaponLineRendererGradient:
@@ -1832,6 +1830,8 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  characterManager: {fileID: 1394093782977674399}
+  characterMovement: {fileID: 0}
 --- !u!143 &2527064704252661337
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1881,6 +1881,8 @@ MonoBehaviour:
   isBusy: 0
   isPlayer: 1
   _aimedCharacter: {fileID: 0}
+  _characterAnimator: {fileID: 8347940652654437702}
+  characterLife: 100
 --- !u!1 &9158278865352785934
 GameObject:
   m_ObjectHideFlags: 0

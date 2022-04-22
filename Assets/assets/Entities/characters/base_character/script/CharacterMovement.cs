@@ -55,6 +55,11 @@ public class CharacterMovement : MonoBehaviour {
     /// al tipo di arma impugnata
     /// </summary>
     public void updateAnimatorStateByInventoryWeaponType(WeaponType weaponType) {
+        animator.ResetTrigger("MeleeLocomotion");
+        animator.ResetTrigger("PistolLocomotion");
+        animator.ResetTrigger("RifleLocomotion");
+
+
         switch (inventoryManager.getSelectedWeaponType) {
         case WeaponType.melee: {
 

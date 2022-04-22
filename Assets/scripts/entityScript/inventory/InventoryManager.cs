@@ -18,13 +18,15 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private int selectedWeapon = 0; // -1 significa non selezionato
     [SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
+    [SerializeField] private LineRenderer weaponLineRenderer;
+    [SerializeField] private Material weaponLineRendererMaterial;
+    [SerializeField] public Gradient weaponLineRendererGradient;
+
 
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private CharacterMovement characterMovement;
 
-    [SerializeField] private LineRenderer weaponLineRenderer;
-    [SerializeField] private Material weaponLineRendererMaterial;
-    [SerializeField] public Gradient weaponLineRendererGradient;
+    
 
     public void Start() {
         initInventoryManager();

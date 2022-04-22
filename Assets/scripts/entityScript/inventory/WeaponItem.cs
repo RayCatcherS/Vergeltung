@@ -75,7 +75,8 @@ public class WeaponItem : InventoryItem
         GameObject damageGO = Instantiate(damageSpawnObject, posA, _shootingTransform.rotation);
 
 
-        if(damageGO.GetComponent<Bullet>() != null) {
+        if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+
             damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
         }
     }

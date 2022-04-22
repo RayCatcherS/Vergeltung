@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 738842551432461189}
   - component: {fileID: 738842551432461190}
   - component: {fileID: 738842551432461191}
-  - component: {fileID: 738842551432461184}
   - component: {fileID: 738842551432461188}
   - component: {fileID: 5835456887821900397}
   - component: {fileID: 5845269165259766139}
@@ -89,19 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &738842551432461184
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738842551432461185}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.359872, y: 1.577856, z: 8.278512}
-  m_Center: {x: 0, y: 0, z: 3.617972}
 --- !u!114 &738842551432461188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +103,7 @@ MonoBehaviour:
   moveSpeed: 100
   deadTime: 2
   _bulletDirection: {x: 0, y: 0, z: 0}
+  bulletDamage: 20
 --- !u!96 &5835456887821900397
 TrailRenderer:
   serializedVersion: 2

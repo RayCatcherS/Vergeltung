@@ -1,4 +1,4 @@
-using System.Collections;
+using UnityEngine.AI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +11,16 @@ public class CharacterManager : MonoBehaviour {
 
 
     // stati del player
+    [Header("Character States")]
     [SerializeField] public bool isRunning = false;
     [SerializeField] public bool isBusy = false;
     [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
+    [SerializeField] public bool isDead = false;
     [SerializeField] private CharacterManager _aimedCharacter;
+    [SerializeField] private Animator _characterAnimator;
+
+    [Header("Character Settings")]
+    [SerializeField] private int characterLife = 100;
 
     public void Start() {
 
@@ -167,5 +173,34 @@ public class CharacterManager : MonoBehaviour {
 
         interactableObjects.Remove(interactableOBJ.GetInstanceID());
         buildListOfInteraction();
+    }
+
+
+    public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
+
+        if(!isDead) {
+            characterLife -= damage;
+
+            if (characterLife <= 0) {
+                isDead = true;
+                killCharacter(damageVelocity);
+            }
+        }
+    }
+
+    public void killCharacter(Vector3 damageVelocity) {
+
+        gameObject.GetComponent<CharacterMovement>().enabled = false;
+        gameObject.GetComponent<CharacterManager>().enabled = false;
+        gameObject.GetComponent<InventoryManager>().enabled = false;
+        gameObject.GetComponent<CharacterController>().enabled = false;
+
+        //Destroy(_characterAnimator);
+        _characterAnimator.StopPlayback();
+        _characterAnimator.enabled = false;
+
+        if(!isPlayer) {
+            gameObject.GetComponent<NavMeshAgent>().enabled = false;
+        }
     }
 }

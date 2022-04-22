@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private const int INTERACTALBLE_LAYER = 3;
+    // ray cast const
+    private const int COLLISION_RAYCAST_DISTANCE = 2;
+    private const int ALL_LAYERS = -1;
+    private const int CHARACTER_LAYER = 7;
 
     [SerializeField] private float moveSpeed = 100;
     [SerializeField] private float deadTime = 3;
     [SerializeField] private Vector3 _bulletDirection;
+
+    [SerializeField] private int bulletDamage = 20;
 
     void Start()
     {
@@ -19,9 +24,30 @@ public class Bullet : MonoBehaviour
         _bulletDirection = bulletDirection;
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         gameObject.GetComponent<Rigidbody>().MovePosition(transform.position + _bulletDirection * moveSpeed * Time.fixedDeltaTime);
+
+        // raycaster bullet collision
+        RaycastHit hit;
+        Ray ray = new Ray(gameObject.transform.position, (_bulletDirection));
+
+        if (Physics.Raycast(ray, out hit, COLLISION_RAYCAST_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+
+            
+            Debug.DrawLine(gameObject.transform.position, hit.point, Color.cyan);
+            Destroy(gameObject);
+
+
+            if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
+
+                characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>());
+            }
+
+
+        } else {
+            Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (_bulletDirection) * COLLISION_RAYCAST_DISTANCE, Color.cyan);
+        }
     }
 
     private IEnumerator startBulletDeadTime(float t) {
@@ -29,13 +55,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log(other.gameObject.layer);
-        if(other.gameObject.layer == INTERACTALBLE_LAYER) {
-            
-        } else {
-            Destroy(gameObject);
-        }
+    private void characterCollision(CharacterManager character) {
+        character.applyCharacterDamage(bulletDamage, Vector3.zero);
     }
 }
