@@ -270,13 +270,15 @@ public class InventoryManager : MonoBehaviour
 
 
                
-                // setta il character mirato nel character manager
-                if(hit.transform.gameObject.layer == CHARACTER_LAYERS && !hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
-                    
-                    characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
+                // setta il character mirato nel character manager come character aimato
+                if(hit.transform.gameObject.layer == CHARACTER_LAYERS ) {
 
-                    Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
-                    weaponLineRenderer.SetPosition(1, hit.point);
+                    if(!hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
+                        characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
+
+                        Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
+                        weaponLineRenderer.SetPosition(1, hit.point);
+                    }
 
                 } else {
                     characterManager.aimedCharacter = null;

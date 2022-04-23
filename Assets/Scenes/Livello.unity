@@ -533,6 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &86443196
 MonoBehaviour:
@@ -924,6 +925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &148403699
 MonoBehaviour:
@@ -2043,6 +2045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 2
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &363680268
 MonoBehaviour:
@@ -2505,6 +2508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &422012011
 MonoBehaviour:
@@ -3601,6 +3605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &643484886
 MonoBehaviour:
@@ -3774,6 +3779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &649036738
 MonoBehaviour:
@@ -5309,6 +5315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &859451233
 MonoBehaviour:
@@ -6032,6 +6039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &1007791535
 MonoBehaviour:
@@ -7365,6 +7373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &1318815591
 MonoBehaviour:
@@ -9752,6 +9761,68 @@ MonoBehaviour:
   taskEvent: {fileID: 0}
   taskTiming: 0
   taskDestination: {x: 0, y: 0, z: 0}
+--- !u!1 &1799646055
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1799646058}
+  - component: {fileID: 1799646056}
+  - component: {fileID: 1799646057}
+  m_Layer: 0
+  m_Name: CivilianSpawnPoint2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1799646056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799646055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterRole: 2
+  characterSpawnController: {fileID: 1908805308}
+--- !u!114 &1799646057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799646055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6188f1b7cfec04594aca6f7ac6653730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterActivities: []
+  selectedCharacterActivityPos: 0
+  selectedTaskPos: 0
+--- !u!4 &1799646058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799646055}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -29.6, y: 0.43, z: -3.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1908805309}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1861761893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9989,6 +10060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &1888113288
 MonoBehaviour:
@@ -10086,6 +10158,7 @@ MonoBehaviour:
   - {fileID: 422012010}
   civilianCharacterSpawnPoints:
   - {fileID: 363680267}
+  - {fileID: 1799646056}
   role: 2
 --- !u!4 &1908805309
 Transform:
@@ -10111,6 +10184,7 @@ Transform:
   - {fileID: 1888113289}
   - {fileID: 422012012}
   - {fileID: 363680269}
+  - {fileID: 1799646058}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10144,7 +10218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 976331962}
   inventoryManager: {fileID: 976331967}
-  rotationInputStickDeadZone: 0.25
+  rotationInputStickDeadZone: 0.45
   movementInputStickDeadZone: 0.3
 --- !u!114 &1908805312
 MonoBehaviour:
@@ -10414,6 +10488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &1969964200
 MonoBehaviour:
@@ -10587,6 +10662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterRole: 0
   characterSpawnController: {fileID: 1908805308}
 --- !u!114 &1981923563
 MonoBehaviour:
@@ -13057,6 +13133,10 @@ PrefabInstance:
       propertyPath: interactionUIController
       value: 
       objectReference: {fileID: 1908805310}
+    - target: {fileID: 2527064704252661337, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9158278864438449459, guid: d5e73ec8b30c4c747a557a8c56c89502, type: 3}
       propertyPath: m_Name
       value: Player

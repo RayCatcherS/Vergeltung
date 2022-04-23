@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 public class CharacterSpawnPoint : MonoBehaviour {
-    private Role characterRole;
+    [SerializeField] private Role characterRole;
     [SerializeField] private CharacterSpawnController characterSpawnController;
 
     // getter

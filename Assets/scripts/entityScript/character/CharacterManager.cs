@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
+
+    [Header("References")]
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
     [SerializeField] private InteractionUIController interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
@@ -190,17 +192,36 @@ public class CharacterManager : MonoBehaviour {
 
     public void killCharacter(Vector3 damageVelocity) {
 
+        isRunning = false;
+        isBusy = false;
+
         gameObject.GetComponent<CharacterMovement>().enabled = false;
         gameObject.GetComponent<CharacterManager>().enabled = false;
         gameObject.GetComponent<InventoryManager>().enabled = false;
-        gameObject.GetComponent<CharacterController>().enabled = false;
+
+        Destroy(gameObject.GetComponent<CharacterController>());
+        Destroy(gameObject.GetComponent<CapsuleCollider>());
 
         //Destroy(_characterAnimator);
         _characterAnimator.StopPlayback();
         _characterAnimator.enabled = false;
 
         if(!isPlayer) {
-            gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            Destroy(gameObject.GetComponent<NavMeshAgent>());
+
+            Role role = gameObject.GetComponent<CharacterRole>().role;
+
+            if(role == Role.Enemy) {
+
+                Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
+                //gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
+
+            } else if (role == Role.Civilian) {
+                Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
+                //gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
+            }
         }
+
+        gameObject.GetComponent<RagdollManager>().enableRagdoll();
     }
 }

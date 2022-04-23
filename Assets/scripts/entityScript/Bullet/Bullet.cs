@@ -5,15 +5,21 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     // ray cast const
+    
     private const int COLLISION_RAYCAST_DISTANCE = 2;
     private const int ALL_LAYERS = -1;
     private const int CHARACTER_LAYER = 7;
 
+
+    [Header("Bullet configuration")]
     [SerializeField] private float moveSpeed = 100;
     [SerializeField] private float deadTime = 3;
     [SerializeField] private Vector3 _bulletDirection;
-
     [SerializeField] private int bulletDamage = 20;
+
+    [Header("Bullet particle impact")]
+    [SerializeField] private GameObject particleBloodImpact;
+    [SerializeField] private GameObject collisionImpact;
 
     void Start()
     {
@@ -41,7 +47,9 @@ public class Bullet : MonoBehaviour
 
             if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
 
-                characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>());
+                characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
+            } else {
+                genericCollision(hit.point);
             }
 
 
@@ -55,7 +63,12 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void characterCollision(CharacterManager character) {
+    private void characterCollision(CharacterManager character, Vector3 collisionPoint) {
         character.applyCharacterDamage(bulletDamage, Vector3.zero);
+        Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
+    }
+
+    private void genericCollision(Vector3 collisionPoint) {
+        //Instantiate(collisionImpact, collisionPoint, Quaternion.identity);
     }
 }

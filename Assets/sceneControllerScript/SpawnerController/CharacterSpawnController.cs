@@ -126,7 +126,7 @@ public class CharacterSpawnController : MonoBehaviour {
                 // istanzia nella scena
                 GameObject newCharacter = Instantiate(civilianCharacterAsset, civilianCharacterSpawnPoints[i].transform);
 
-
+                
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
                 CivilianNPCBehaviour.addToGOCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
 
