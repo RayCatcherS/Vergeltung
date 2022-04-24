@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     private const int COLLISION_RAYCAST_DISTANCE = 2;
     private const int ALL_LAYERS = -1;
     private const int CHARACTER_LAYER = 7;
+    private const int RAGDOLLBONE_LAYER = 15;
 
 
     [Header("Bullet configuration")]
@@ -19,7 +20,7 @@ public class Bullet : MonoBehaviour
 
     [Header("Bullet particle impact")]
     [SerializeField] private GameObject particleBloodImpact;
-    [SerializeField] private GameObject collisionImpact;
+    [SerializeField] private GameObject collisionWallImpact;
 
     void Start()
     {
@@ -48,8 +49,12 @@ public class Bullet : MonoBehaviour
             if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
 
                 characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
+            } else if(hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
+
+                ragdollBoneCollision(hit.point);
             } else {
-                genericCollision(hit.point);
+
+                wallCollision(hit.point, hit.normal);
             }
 
 
@@ -68,7 +73,11 @@ public class Bullet : MonoBehaviour
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
     }
 
-    private void genericCollision(Vector3 collisionPoint) {
-        //Instantiate(collisionImpact, collisionPoint, Quaternion.identity);
+    private void wallCollision(Vector3 collisionPoint, Vector3 collisionNormal) {
+        Instantiate(collisionWallImpact, collisionPoint, Quaternion.LookRotation(collisionNormal));
+    }
+
+    private void ragdollBoneCollision(Vector3 collisionPoint) {
+        Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
     }
 }

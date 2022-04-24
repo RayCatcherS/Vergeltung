@@ -15,7 +15,7 @@ public class WeaponItem : InventoryItem
 
 
     [Header("Weapon configuration")]
-    [SerializeField] private GameObject damageSpawnObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
+    [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
     [SerializeField] private int magazineCapacity = 10;
     [SerializeField] private int currentMagazineCapacity = 10;
     [SerializeField] private int ammunition = 100;
@@ -31,6 +31,9 @@ public class WeaponItem : InventoryItem
     [SerializeField] private Transform spawnDamageItemParticleTransform;
     [SerializeField] private GameObject spawnDamageItemParticle;
 
+    [Header("Weapon gamepad vibration config")]
+    [SerializeField] private float _impulseTime = 0.15f;
+    [SerializeField] private float _impulseForce = 0.60f;
 
     // getters 
     public Vector3 weaponOffsetRotation {
@@ -41,6 +44,12 @@ public class WeaponItem : InventoryItem
     }
     public Transform shootingTransform {
         get { return _shootingTransform; }
+    }
+    public float impulseTime {
+        get { return _impulseTime; }
+    }
+    public float impulseForce {
+        get { return _impulseForce; }
     }
 
     /// <summary>
@@ -66,17 +75,29 @@ public class WeaponItem : InventoryItem
 
     
 
+    /// <summary>
+    /// Utilizza weapon
+    /// Questo metodo spawna sul luogo un damageObject
+    /// </summary>
+    /// <param name="p"></param>
     public override void useItem(CharacterManager p) {
-        Instantiate(damageSpawnObject, _shootingTransform.position, _shootingTransform.rotation);
+        Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
     }
 
+
+    /// <summary>
+    /// Utilizza weapon
+    /// Questo metodo prevede il damageObject debba raggiungere una destinazione
+    /// </summary>
+    /// <param name="p">CharacterManager del character che esegue l'azione</param>
+    /// <param name="destinationPosition">Destinazione che il damageObject deve raggiungere</param>
     public void useItem(CharacterManager p, Vector3 destinationPosition) {
 
         Vector3 posA = _shootingTransform.position;
         Vector3 posB = destinationPosition;
         Vector3 bulletDirection = (posB - posA).normalized;
 
-        GameObject damageGO = Instantiate(damageSpawnObject, posA, _shootingTransform.rotation);
+        GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
 
 
         if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {

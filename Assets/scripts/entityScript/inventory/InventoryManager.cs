@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,40 +8,51 @@ public class InventoryManager : MonoBehaviour
     private const int CHARACTER_LAYERS = 7;
     private const int RAY_DISTANCE = 100;
 
+    [Header("GamePad vibration Reference")]
+    GamePadVibrationController gamePadVibration;
+
+    [Header("Character References")]
+    [SerializeField] private CharacterManager characterManager;
+    [SerializeField] private CharacterMovement characterMovement;
+
+    [Header("Weapon References")]
     [SerializeField] private Transform headViewTransform; // serve a controllare tramite ray cast se tra la testa è l'arma c'è un collider
     [SerializeField] private Transform selectedActiveWeaponTransform;
 
+    [Header("Inventory Objects")]
     [SerializeField] private List<WeaponItem> weaponItems = new List<WeaponItem>();
     [SerializeField] private List<ActionObjectItem> actionObjectItems = new List<ActionObjectItem>();
 
+    [Header("Inventory state")]
     [SerializeField] private int selectedWeapon = 0; // -1 significa non selezionato
     [SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
+    [Header("Weapon aim render configuration")]
     [SerializeField] private LineRenderer weaponLineRenderer;
     [SerializeField] private Material weaponLineRendererMaterial;
     [SerializeField] public Gradient weaponLineRendererGradient;
 
 
-    [SerializeField] private CharacterManager characterManager;
-    [SerializeField] private CharacterMovement characterMovement;
+    
 
     
 
     public void Start() {
         initInventoryManager();
         initDrawPlayerWeaponLineRendered();
+
+        gamePadVibration = GameObject.Find("GameController").GetComponent<GamePadVibrationController>();
     }
 
     public void Update() {
         drawAimWeaponLineRendered();
 
     }
-
-
-    /// <summary>
-    /// Ottieni tipo di arma attualemente selezionata
-    /// </summary>
-    public WeaponType getSelectedWeaponType {
+    
+/// <summary>
+/// Ottieni tipo di arma attualemente selezionata
+/// </summary>
+public WeaponType getSelectedWeaponType {
         get {
 
             if (isSelectedWeapon) {
@@ -132,7 +142,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// seleziona arma character
+    /// seleziona arma character by int
     /// </summary>
     /// <param name="weaponPos"></param>
     public void selectWeapon(int weaponPos) {
@@ -149,7 +159,10 @@ public class InventoryManager : MonoBehaviour
         characterManager.aimedCharacter = null; // rimuovi character mirato
     }
 
-
+    /// <summary>
+    /// seleziona arma character by string
+    /// </summary>
+    /// <param name="weaponPos"></param>
     public void selectWeapon(string weaponId) {
 
         // disattiva l'arma precedente
@@ -172,7 +185,11 @@ public class InventoryManager : MonoBehaviour
 
         
     }
-    public void nextWeapon() {
+    
+    /// <summary>
+    /// Seleziona arma successiva
+    /// </summary>
+    public void selectNextWeapon() {
         int value;
         if (selectedWeapon != -1) {
             if (weaponItems.Count - 1 == selectedWeapon) {
@@ -186,7 +203,7 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    public void previewWeapon() {
+    public void selectPreviewWeapon() {
         int value;
         if (selectedWeapon != -1) {
             if (selectedWeapon == 0) {
@@ -218,8 +235,13 @@ public class InventoryManager : MonoBehaviour
     /// Usa arma attualmente selezionata
     /// </summary>
     public void useSelectedWeapon() {
-        if(selectedWeapon != -1) {
 
+
+        if (selectedWeapon != -1) {
+
+            gamePadVibration.sendImpulse(
+                weaponItems[selectedWeapon].impulseTime, weaponItems[selectedWeapon].impulseForce
+            );
             weaponItems[selectedWeapon].useItem(characterManager, drawAimWeaponLineRendered());
         }
     }

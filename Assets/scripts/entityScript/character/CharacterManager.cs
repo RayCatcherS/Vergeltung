@@ -177,7 +177,11 @@ public class CharacterManager : MonoBehaviour {
         buildListOfInteraction();
     }
 
-
+    /// <summary>
+    /// Applica danno al character
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="damageVelocity"></param>
     public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
 
         if(!isDead) {
@@ -190,6 +194,12 @@ public class CharacterManager : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Porta il character nello stato Dead
+    /// Disabilita componenti e abilita ragdoll
+    /// </summary>
+    /// <param name="damageVelocity"></param>
     public void killCharacter(Vector3 damageVelocity) {
 
         isRunning = false;

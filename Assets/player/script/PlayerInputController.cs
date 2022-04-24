@@ -107,7 +107,7 @@ public class PlayerInputController : MonoBehaviour
         if (inputIsNextWeaponPressed == 1) {
 
             if (!isNextWeaponPressed) {
-                inventoryManager.nextWeapon();
+                inventoryManager.selectNextWeapon();
                 isNextWeaponPressed = true;
             }
 
@@ -120,7 +120,7 @@ public class PlayerInputController : MonoBehaviour
         if (inputIsPreviewWeaponPressed == 1) {
 
             if (!isPreviewWeaponPressed) {
-                inventoryManager.previewWeapon();
+                inventoryManager.selectPreviewWeapon();
 
                 isPreviewWeaponPressed = true;
             }
