@@ -237,7 +237,7 @@ public WeaponType getSelectedWeaponType {
     public void useSelectedWeapon() {
 
 
-        if (selectedWeapon != -1) {
+        if (selectedWeapon != -1 && !isGunThroughWall()) {
 
             gamePadVibration.sendImpulse(
                 weaponItems[selectedWeapon].impulseTime, weaponItems[selectedWeapon].impulseForce
@@ -273,7 +273,7 @@ public WeaponType getSelectedWeaponType {
 
         Vector3 aimedPosition = Vector3.zero;
 
-        if (isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !gunThroughWall()) {
+        if (isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !isGunThroughWall()) {
             weaponLineRenderer.enabled = true;
 
 
@@ -355,7 +355,7 @@ public WeaponType getSelectedWeaponType {
     /// se questo viene ostruito allora l'arma sta attraversando un collider
     /// </summary>
     /// <returns></returns>
-    public bool gunThroughWall() {
+    public bool isGunThroughWall() {
         bool res = false;
         RaycastHit hit;
 

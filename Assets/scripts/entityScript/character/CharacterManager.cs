@@ -205,7 +205,7 @@ public class CharacterManager : MonoBehaviour {
         isRunning = false;
         isBusy = false;
 
-        gameObject.GetComponent<CharacterMovement>().enabled = false;
+        Destroy(gameObject.GetComponent<CharacterMovement>());
         gameObject.GetComponent<CharacterManager>().enabled = false;
         gameObject.GetComponent<InventoryManager>().enabled = false;
 
@@ -230,6 +230,8 @@ public class CharacterManager : MonoBehaviour {
                 Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
                 //gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
             }
+        } else {
+
         }
 
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
