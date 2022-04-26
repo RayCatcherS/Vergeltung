@@ -6,10 +6,13 @@ using UnityEngine;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
 
-    [Header("References")]
+    
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
-    [SerializeField] private InteractionUIController interactionUIController; // controller per interagire con l'UI delle interazioni
+
+    [Header("References")]
+    [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
+    [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
 
 
     // stati del player
@@ -41,11 +44,21 @@ public class CharacterManager : MonoBehaviour {
 
 
     //getter
+    public InteractionUIController interactionUIController {
+        get { return _interactionUIController; }
+        set {
+            _interactionUIController = value;
+        }
+    }
     public InventoryManager inventoryManager {
         get { return _inventoryManager; }
     }
     public Animator characterAnimator {
         get { return _characterAnimator; }
+    }
+
+    public Transform occlusionTargetTransform {
+        get { return _occlusionTargetTransform; }
     }
 
 
@@ -87,7 +100,7 @@ public class CharacterManager : MonoBehaviour {
         }
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
-        characterInteraction.interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
+        characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
 
         return gameObject;
     }
@@ -98,7 +111,7 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="controller"></param>
     public void setInteractionUIController(InteractionUIController controller) {
-        interactionUIController = controller;
+        _interactionUIController = controller;
     }
 
     private void OnTriggerEnter(Collider collision) {
@@ -164,7 +177,7 @@ public class CharacterManager : MonoBehaviour {
 
             // inizializza lista di interazioni e i bottoni e la partendo dalla lista interactions
             // passa la lista di interactions per inizializzare la lista di interacion che potranno essere effettuate
-            interactionUIController.buildUIinteractionList(interactions, this);
+            _interactionUIController.buildUIinteractionList(interactions, this);
         }
 
     }
@@ -209,19 +222,19 @@ public class CharacterManager : MonoBehaviour {
         isRunning = false;
         isBusy = false;
 
-        Destroy(gameObject.GetComponent<CharacterMovement>());
+        gameObject.GetComponent<CharacterMovement>().enabled = false;
         gameObject.GetComponent<CharacterManager>().enabled = false;
         gameObject.GetComponent<InventoryManager>().enabled = false;
 
-        Destroy(gameObject.GetComponent<CharacterController>());
-        Destroy(gameObject.GetComponent<CapsuleCollider>());
+        gameObject.GetComponent<CharacterController>().enabled = false;
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
         //Destroy(_characterAnimator);
         _characterAnimator.StopPlayback();
         _characterAnimator.enabled = false;
 
         if(!isPlayer) {
-            Destroy(gameObject.GetComponent<NavMeshAgent>());
+            gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
             Role role = gameObject.GetComponent<CharacterRole>().role;
 

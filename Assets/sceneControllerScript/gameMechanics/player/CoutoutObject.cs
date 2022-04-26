@@ -9,7 +9,7 @@ public class CoutoutObject : MonoBehaviour
     private Dictionary<int, CacheMaterial> cachedMaterials = new Dictionary<int, CacheMaterial>(); // caching dei materiali
 
     [SerializeField]
-    private Transform targetObject;
+    private Transform _targetObject;
 
     [SerializeField]
     private LayerMask wallMask;
@@ -25,6 +25,17 @@ public class CoutoutObject : MonoBehaviour
 
     [SerializeField]
     private float cutoutSpeedEffect = 3f;
+
+
+    // getters
+    public Transform targetObject {
+
+        get { return _targetObject; }
+
+        set {
+            _targetObject = value;
+        }
+    }
 
     private void Awake()
     {
@@ -62,10 +73,10 @@ public class CoutoutObject : MonoBehaviour
     private void Update()
     {
 
-        Vector2 cutoutPos = mainCamera.WorldToViewportPoint(targetObject.position);
+        Vector2 cutoutPos = mainCamera.WorldToViewportPoint(_targetObject.position);
         cutoutPos.y /= (Screen.width / Screen.height);
 
-        Vector3 offset = targetObject.position - transform.position;
+        Vector3 offset = _targetObject.position - transform.position;
         RaycastHit[] hitObjects = Physics.RaycastAll(transform.position, offset, offset.magnitude, wallMask);
 
         List<Material> raycastHitObjMaterials = new List<Material>();

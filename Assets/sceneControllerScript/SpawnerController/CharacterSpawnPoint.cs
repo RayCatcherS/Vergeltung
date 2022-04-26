@@ -4,12 +4,27 @@ using UnityEngine;
 using UnityEditor;
 
 public class CharacterSpawnPoint : MonoBehaviour {
-    [SerializeField] private Role characterRole;
+    [Header("Character ref")]
     [SerializeField] private CharacterSpawnController characterSpawnController;
+
+    [Header("Character config")]
+    [SerializeField] private Role characterRole;
+
+    [Header("Character equipment config")]
+    [SerializeField] private Equipment characterEquipment;
+    [SerializeField] private int startSelectedEquipment = 0;
+    
 
     // getter
     public Role getSpawnCharacterRole() {
         return this.characterRole;
+    }
+    public Equipment getCharacterEquipment() {
+        return this.characterEquipment;
+    }
+
+    public int getStartSelectedEquipment() {
+        return this.startSelectedEquipment;
     }
 
 

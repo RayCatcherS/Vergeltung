@@ -33,7 +33,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Inventory state")]
     [SerializeField] private int selectedWeapon = 0; // -1 significa non selezionato
-    [SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
+    //[SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
     [Header("Weapon aim render configuration")]
     [SerializeField] private LineRenderer weaponLineRenderer;
@@ -153,12 +153,19 @@ public WeaponType getSelectedWeaponType {
     /// <param name="weaponPos"></param>
     public void selectWeapon(int weaponPos) {
 
-        // disattiva l'arma precedente
-        if(selectedWeapon != -1) {
+        if (selectedWeapon != -1) {
 
             weaponItems[selectedWeapon].gameObject.SetActive(false);
         }
-        selectedWeapon = weaponPos;
+
+        if (weaponPos > weaponItems.Count - 1) {
+            Debug.LogError("L'arma selezionata è fuori dall'index dell'equipagiamento selezionato");
+            selectedWeapon = 0;
+        } else {
+            // disattiva l'arma precedente
+            
+            selectedWeapon = weaponPos;
+        }
 
         configSelectedWeapon();
     }

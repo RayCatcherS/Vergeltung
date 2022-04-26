@@ -10,8 +10,6 @@ public class CharacterMovement : MonoBehaviour {
     public Animator animator; //animator del character
     public CharacterController characterController;
 
-    public CapsuleCollider colliderCharacter;
-
     const float NEGATIVE_ROTATION_CLAMP = -1f;
     const float POSITIVE_ROTATION_CLAMP = 1f;
     const float NEGATIVE_MOVEMENT_CLAMP = -1f;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum equipment {
+public enum Equipment {
     noWeaponEquipment,
     baseArmyWeaponEquipment,
     mediumArmyWeaponEquipment,
@@ -11,10 +11,13 @@ public enum equipment {
 
 public class CharacterSpawnController : MonoBehaviour {
 
-    [Header("Assets character enemy")]
+    [Header("Assets character Player")]
+    [SerializeField] GameObject playerCharacterAsset;
+
+    [Header("Assets character Enemy")]
     [SerializeField] GameObject enemyCharacterAsset;
 
-    [Header("Assets character civilian")]
+    [Header("Assets character Civilian")]
     [SerializeField] GameObject civilianCharacterAsset;
 
     [Header("Spawn player")]
@@ -40,10 +43,11 @@ public class CharacterSpawnController : MonoBehaviour {
     [SerializeField] public Role role;
 
 
-
+    /// <summary>
+    /// flag che rappresenta se lo spawn point del player(utente) è stato posizionato
+    /// </summary>
     public bool playerSpawnPointSetted {
         get { return _playerSpawnPointSetted; }
-
     }
 
 
@@ -161,6 +165,9 @@ public class CharacterSpawnController : MonoBehaviour {
                 // associa npc istanziato al componente sceneEntities
                 SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
                 sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+
+                // inizializza equipaggiamento
+                initializeEquipment(enemyCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<InventoryManager>(), enemyCharacterSpawnPoints[i].getStartSelectedEquipment());
             }
             
 
@@ -186,33 +193,70 @@ public class CharacterSpawnController : MonoBehaviour {
                 // aggiungi npc istanziato al componente sceneEntities
                 SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
                 sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+
+                // inizializza equipaggiamento
+                initializeEquipment(civilianCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<InventoryManager>(), civilianCharacterSpawnPoints[i].getStartSelectedEquipment());
             }
             
         }
+    }
+
+    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon) {
+        
+        if(equip == Equipment.noWeaponEquipment) {
+            for(int i = 0; i < noWeaponEquipment.Count; i++) {
+                GameObject weapon = Instantiate(noWeaponEquipment[i]);
+                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+            }
+            
+        } else if (equip == Equipment.baseArmyWeaponEquipment) {
+            for (int i = 0; i < baseArmyWeaponEquipment.Count; i++) {
+                GameObject weapon = Instantiate(baseArmyWeaponEquipment[i]);
+                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+            }
+
+        } else if (equip == Equipment.mediumArmyWeaponEquipment) {
+            for (int i = 0; i < mediumArmyWeaponEquipment.Count; i++) {
+                GameObject weapon = Instantiate(mediumArmyWeaponEquipment[i]);
+                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+            }
+
+        } else if (equip == Equipment.advancedArmyWeaponEquipment) {
+            for (int i = 0; i < advancedArmyWeaponEquipment.Count; i++) {
+                GameObject weapon = Instantiate(advancedArmyWeaponEquipment[i]);
+                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+            }
+
+        }
+
+        inventoryM.selectWeapon(selectedWeapon);
     }
 
     void spawnPlayer() {
 
         if (playerSpawnPoint.gameObject.activeSelf == true) {
             // istanzia nella scena
-            GameObject newCharacter = Instantiate(enemyCharacterAsset, playerSpawnPoint.transform);
+            GameObject newPlayer = Instantiate(playerCharacterAsset, playerSpawnPoint.transform);
 
 
-            CharacterRole.addToGOCharacterRoleComponent(newCharacter, Role.Player); // aggiungi componente ruolo character npc
+            CharacterRole.addToGOCharacterRoleComponent(newPlayer, Role.Player); // aggiungi componente ruolo character npc
 
 
             InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-            CharacterManager.addToGOCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+            CharacterManager.addToGOCharacterManagerComponent(newPlayer, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
             // associa npc istanziato al componente sceneEntities
             SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-            sceneEntitiesController.setPlayerEntity(newCharacter.GetComponent<CharacterManager>());
+            sceneEntitiesController.setPlayerEntity(newPlayer.GetComponent<CharacterManager>());
 
 
             // aggiungi player al player warp controller
             PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
-            playerWarpController.warpPlayerToCharacter(newCharacter.GetComponent<CharacterManager>());
+            playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
+
+            // inizializza equipaggiamento
+            initializeEquipment(playerSpawnPoint.getCharacterEquipment(), newPlayer.GetComponent<InventoryManager>(), playerSpawnPoint.getStartSelectedEquipment());
         }
     }
 }

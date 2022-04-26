@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2982624352347876499}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.52, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -879,9 +879,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 9188659755258602905}
   characterController: {fileID: 1493404731}
-  colliderCharacter: {fileID: 0}
-  movementSpeed: 10
-  runMovementSpeed: 20
+  movementSpeed: 230
+  runMovementSpeed: 400
   rotationSpeed: 35
   _characterModel: {fileID: 9188659755258602911}
   rotationAimInput: {x: 0, y: 0, z: 0}
@@ -902,7 +901,7 @@ CharacterController:
   m_Height: 3.04
   m_Radius: 0.6
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.45
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.55, z: 0}
@@ -950,7 +949,6 @@ MonoBehaviour:
   weaponItems: []
   actionObjectItems: []
   selectedWeapon: -1
-  selectedActionObject: -1
   weaponLineRenderer: {fileID: 0}
   weaponLineRendererMaterial: {fileID: 2100000, guid: 3f6ba08c340bdbf45a8ba188f56067d5, type: 2}
   weaponLineRendererGradient:
@@ -994,8 +992,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a7817f6bf2de544a9e28df77982afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionUIController: {fileID: 0}
+  _interactionUIController: {fileID: 0}
   _inventoryManager: {fileID: 30319831950813519}
+  _occlusionTargetTransform: {fileID: 680609527647672771}
   isRunning: 0
   isBusy: 0
   isPlayer: 0
@@ -1601,7 +1600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9188659755442841057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.263, z: 0.662}
+  m_LocalPosition: {x: 0, y: 2.079, z: 0.662}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

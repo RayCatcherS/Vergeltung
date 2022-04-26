@@ -7,8 +7,8 @@ public class PlayerInputController : MonoBehaviour
 {
     private const float INVENTARY_WAIT_TIME = 0.2f;
 
-    [SerializeField] private CharacterMovement characterMovement;
-    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private CharacterMovement _characterMovement;
+    [SerializeField] private InventoryManager _inventoryManager;
     PlayerInputAction playerActions;
 
     private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
@@ -29,6 +29,19 @@ public class PlayerInputController : MonoBehaviour
     private bool isNextWeaponPressed = false;
     private bool isPreviewWeaponPressed = false;
 
+    // getters and setters ref
+    public CharacterMovement characterMovement {
+        get { return _characterMovement; }
+        set {
+            _characterMovement = value;
+        }
+    }
+    public InventoryManager inventoryManager {
+        get { return _inventoryManager; }
+        set {
+            _inventoryManager = value;
+        }
+    }
 
     private void OnEnable() {
         playerActions.Player.Enable();
@@ -107,7 +120,7 @@ public class PlayerInputController : MonoBehaviour
         if (inputIsNextWeaponPressed == 1) {
 
             if (!isNextWeaponPressed) {
-                inventoryManager.selectNextWeapon();
+                _inventoryManager.selectNextWeapon();
                 isNextWeaponPressed = true;
             }
 
@@ -120,7 +133,7 @@ public class PlayerInputController : MonoBehaviour
         if (inputIsPreviewWeaponPressed == 1) {
 
             if (!isPreviewWeaponPressed) {
-                inventoryManager.selectPreviewWeapon();
+                _inventoryManager.selectPreviewWeapon();
 
                 isPreviewWeaponPressed = true;
             }
@@ -133,13 +146,13 @@ public class PlayerInputController : MonoBehaviour
 
 
 
-        WeaponItem usedWeapon = inventoryManager.getSelectWeapon();
+        WeaponItem usedWeapon = _inventoryManager.getSelectWeapon();
         if(usedWeapon != null) {
 
             if(usedWeapon.automaticWeapon) {
                 if (inputIsUseWeaponItemPressed == 1) {
 
-                    inventoryManager.useSelectedWeapon();
+                    _inventoryManager.useSelectedWeapon();
                     usedWeapon.weaponUsed = true;
 
                 } else {
@@ -149,7 +162,7 @@ public class PlayerInputController : MonoBehaviour
                 if (inputIsUseWeaponItemPressed == 1) {
 
                     if (!usedWeapon.weaponUsed) {
-                        inventoryManager.useSelectedWeapon();
+                        _inventoryManager.useSelectedWeapon();
                         usedWeapon.weaponUsed = true;
                     }
 

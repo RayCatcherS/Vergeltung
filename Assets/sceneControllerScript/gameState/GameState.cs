@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    [SerializeField] private int lifePower = 5;
+    [SerializeField] private int energyPowerLife = 5;
 
     [SerializeField] private int powerOffTimer = 15;
 
@@ -28,7 +28,7 @@ public class GameState : MonoBehaviour
     /// </summary>
     public void turnOffPower() {
 
-        lifePower--;
+        energyPowerLife--;
         StartCoroutine(turnOffPowerTimed());
     }
 
@@ -50,7 +50,7 @@ public class GameState : MonoBehaviour
         yield return new WaitForSeconds(powerOffTimer);
 
         
-        if (lifePower > 0) { // se le life power sono > 0
+        if (energyPowerLife > 0) { // se le life power sono > 0
 
             // riattiva tutte le luci
             for (int i = 0; i < lightSources.Length; i++) {
