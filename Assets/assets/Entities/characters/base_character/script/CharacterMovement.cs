@@ -20,7 +20,7 @@ public class CharacterMovement : MonoBehaviour {
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
     [SerializeField] private float rotationSpeed = 20f;
-    public GameObject characterModel;
+    [SerializeField] private GameObject _characterModel;
 
 
     [SerializeField] private Vector3 rotationAimInput;
@@ -39,6 +39,10 @@ public class CharacterMovement : MonoBehaviour {
 
     Vector3 _movement; // vettore movimento character
 
+    // ref getters 
+    public GameObject characterModel {
+        get { return _characterModel; }
+    }
 
     void Awake() {
 
@@ -58,6 +62,9 @@ public class CharacterMovement : MonoBehaviour {
         animator.ResetTrigger("MeleeLocomotion");
         animator.ResetTrigger("PistolLocomotion");
         animator.ResetTrigger("RifleLocomotion");
+
+        animator.Rebind();
+
 
 
         switch (inventoryManager.getSelectedWeaponType) {

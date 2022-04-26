@@ -24,7 +24,7 @@ public class PlayerInputController : MonoBehaviour
     
     private float inputIsNextWeaponPressed;
     private float inputIsPreviewWeaponPressed;
-    private float inputIsUseWeaponItem;
+    private float inputIsUseWeaponItemPressed;
 
     private bool isNextWeaponPressed = false;
     private bool isPreviewWeaponPressed = false;
@@ -101,7 +101,7 @@ public class PlayerInputController : MonoBehaviour
 
         inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
         inputIsPreviewWeaponPressed = playerActions.Player.InventaryPreviewWeapon.ReadValue<float>();
-        inputIsUseWeaponItem = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
+        inputIsUseWeaponItemPressed = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
 
 
         if (inputIsNextWeaponPressed == 1) {
@@ -135,14 +135,27 @@ public class PlayerInputController : MonoBehaviour
 
         WeaponItem usedWeapon = inventoryManager.getSelectWeapon();
         if(usedWeapon != null) {
-            if(inputIsUseWeaponItem == 1) {
-                if(!usedWeapon.weaponUsed) {
+
+            if(usedWeapon.automaticWeapon) {
+                if (inputIsUseWeaponItemPressed == 1) {
+
                     inventoryManager.useSelectedWeapon();
                     usedWeapon.weaponUsed = true;
-                }
 
+                } else {
+                    usedWeapon.weaponUsed = false;
+                }
             } else {
-                usedWeapon.weaponUsed = false;
+                if (inputIsUseWeaponItemPressed == 1) {
+
+                    if (!usedWeapon.weaponUsed) {
+                        inventoryManager.useSelectedWeapon();
+                        usedWeapon.weaponUsed = true;
+                    }
+
+                } else {
+                    usedWeapon.weaponUsed = false;
+                }
             }
         }
     }

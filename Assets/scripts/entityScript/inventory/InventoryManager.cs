@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Animations.Rigging;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -17,7 +19,13 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Weapon References")]
     [SerializeField] private Transform headViewTransform; // serve a controllare tramite ray cast se tra la testa è l'arma c'è un collider
-    [SerializeField] private Transform selectedActiveWeaponTransform;
+    [SerializeField] private Transform weaponTransform;
+
+    [Header("Character Rig References")]
+    [SerializeField] private RigBuilder rigBuilder;
+    [SerializeField] private TwoBoneIKConstraint rightHandRig;
+    [SerializeField] private TwoBoneIKConstraint leftHandRig;
+
 
     [Header("Inventory Objects")]
     [SerializeField] private List<WeaponItem> weaponItems = new List<WeaponItem>();
@@ -33,9 +41,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] public Gradient weaponLineRendererGradient;
 
 
-    
 
-    
 
     public void Start() {
         initInventoryManager();
@@ -123,7 +129,7 @@ public WeaponType getSelectedWeaponType {
         weaponItem.gameObject.SetActive(false);
 
         //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
-        weaponItem.gameObject.transform.SetParent(selectedActiveWeaponTransform);
+        weaponItem.gameObject.transform.SetParent(weaponTransform);
 
         // setta coordinate
         weaponItem.gameObject.transform.localPosition = Vector3.zero;
@@ -153,10 +159,8 @@ public WeaponType getSelectedWeaponType {
             weaponItems[selectedWeapon].gameObject.SetActive(false);
         }
         selectedWeapon = weaponPos;
-        weaponItems[selectedWeapon].gameObject.SetActive(true);
 
-        characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
-        characterManager.aimedCharacter = null; // rimuovi character mirato
+        configSelectedWeapon();
     }
 
     /// <summary>
@@ -180,9 +184,24 @@ public WeaponType getSelectedWeaponType {
         }
 
 
+        configSelectedWeapon();
+    }
+
+    /// <summary>
+    /// Configura arma selezionata
+    /// </summary>
+    private void configSelectedWeapon() {
         weaponItems[selectedWeapon].gameObject.SetActive(true);
         characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
+        characterManager.aimedCharacter = null; // rimuovi character mirato
 
+
+        // configurazione rig
+        rightHandRig.data.target = weaponItems[selectedWeapon].rightHandTransformRef;
+        leftHandRig.data.target = weaponItems[selectedWeapon].leftHandTransformRef;
+
+        rigBuilder.Build();
+        
         
     }
     
@@ -191,6 +210,7 @@ public WeaponType getSelectedWeaponType {
     /// </summary>
     public void selectNextWeapon() {
         int value;
+
         if (selectedWeapon != -1) {
             if (weaponItems.Count - 1 == selectedWeapon) {
                 value = 0;
@@ -200,11 +220,13 @@ public WeaponType getSelectedWeaponType {
 
             selectWeapon(value);
         }
+
     }
 
 
     public void selectPreviewWeapon() {
         int value;
+
         if (selectedWeapon != -1) {
             if (selectedWeapon == 0) {
                 value = weaponItems.Count - 1;
@@ -214,7 +236,7 @@ public WeaponType getSelectedWeaponType {
 
             selectWeapon(value);
         }
-        
+
     }
 
     
@@ -239,10 +261,8 @@ public WeaponType getSelectedWeaponType {
 
         if (selectedWeapon != -1 && !isGunThroughWall()) {
 
-            gamePadVibration.sendImpulse(
-                weaponItems[selectedWeapon].impulseTime, weaponItems[selectedWeapon].impulseForce
-            );
-            weaponItems[selectedWeapon].useItem(characterManager, drawAimWeaponLineRendered());
+            Vector3 destinationPosition = drawAimWeaponLineRendered();
+            weaponItems[selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
         }
     }
 

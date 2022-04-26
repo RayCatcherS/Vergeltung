@@ -44,6 +44,10 @@ public class CharacterManager : MonoBehaviour {
     public InventoryManager inventoryManager {
         get { return _inventoryManager; }
     }
+    public Animator characterAnimator {
+        get { return _characterAnimator; }
+    }
+
 
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
@@ -223,12 +227,12 @@ public class CharacterManager : MonoBehaviour {
 
             if(role == Role.Enemy) {
 
-                Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
-                //gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
+                //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
+                gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
 
             } else if (role == Role.Civilian) {
-                Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
-                //gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
+                //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
+                gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
             }
         } else {
 

@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,48 +9,72 @@ public enum WeaponType{
 }
 public class WeaponItem : InventoryItem
 {
-
+    [Header("Weapon ref")]
     [SerializeField] private Transform _shootingTransform;
-    [SerializeField] private Vector3 _weaponOffsetRotation; // 30.826  131.512  -3.875
+    [SerializeField] private Vector3 _weaponOffsetRotation;
+    [SerializeField] private Transform _rightHandTransformRef;
+    [SerializeField] private Transform _leftHandTransformRef;
+
 
 
     [Header("Weapon configuration")]
     [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
-    [SerializeField] private int magazineCapacity = 10;
-    [SerializeField] private int currentMagazineCapacity = 10;
-    [SerializeField] private int ammunition = 100;
-
     [SerializeField] private WeaponType weaponType;
-    [SerializeField] private bool automaticWeapon = false;
-    [SerializeField] private bool silencedWeapon = false;
+    [SerializeField] private int magazineCapacity = 28;
+    [SerializeField] private int ammunition = 5;
+
+    
+    [SerializeField] private float shootFrequency = 0.15f;
+    private float busyWeaponDurationTimeEnd = 0f;
+    [SerializeField] private bool _automaticWeapon = false;
+    [SerializeField] private bool _silencedWeapon = false;
+
+    [Header("Weapon gamepad vibration config")]
+    [SerializeField] private bool _vibrationOnUseWeapon = false;
+    [SerializeField] private float _impulseTime = 0.15f;
+    [SerializeField] private float _impulseForce = 0.60f;
 
     [Header("Weapon state")]
     public bool weaponUsed = false;
 
     [Header("Weapon effects")]
-    [SerializeField] private Transform spawnDamageItemParticleTransform;
-    [SerializeField] private GameObject spawnDamageItemParticle;
+    [SerializeField] private Transform spawnDamageObjectParticleTransform;
+    [SerializeField] private GameObject spawnDamageObjectParticle;
 
-    [Header("Weapon gamepad vibration config")]
-    [SerializeField] private float _impulseTime = 0.15f;
-    [SerializeField] private float _impulseForce = 0.60f;
+    
 
     // getters 
-    public Vector3 weaponOffsetRotation {
-        get { return _weaponOffsetRotation; }
-    }
+    
     public WeaponType getWeaponType {
         get { return weaponType; }
     }
-    public Transform shootingTransform {
-        get { return _shootingTransform; }
-    }
+    
     public float impulseTime {
         get { return _impulseTime; }
     }
     public float impulseForce {
         get { return _impulseForce; }
     }
+
+    public bool automaticWeapon {
+        get { return _automaticWeapon; }
+    }
+
+    // ref getters 
+    public Transform shootingTransform {
+        get { return _shootingTransform; }
+    }
+    public Vector3 weaponOffsetRotation {
+        get { return _weaponOffsetRotation; }
+    }
+    public Transform rightHandTransformRef {
+        get { return _rightHandTransformRef; }
+    }
+    public Transform leftHandTransformRef {
+        get { return _leftHandTransformRef; }
+    }
+
+
 
     /// <summary>
     /// Metodo richiamato dall'evento getWeaponEvent
@@ -91,23 +115,37 @@ public class WeaponItem : InventoryItem
     /// </summary>
     /// <param name="p">CharacterManager del character che esegue l'azione</param>
     /// <param name="destinationPosition">Destinazione che il damageObject deve raggiungere</param>
-    public void useItem(CharacterManager p, Vector3 destinationPosition) {
-
-        Vector3 posA = _shootingTransform.position;
-        Vector3 posB = destinationPosition;
-        Vector3 bulletDirection = (posB - posA).normalized;
-
-        GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
+    public void useItem(CharacterManager p, Vector3 destinationPosition, GamePadVibrationController gamePadVibrationController) {
 
 
-        if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+        if(Time.time > busyWeaponDurationTimeEnd) {
+            Vector3 posA = _shootingTransform.position;
+            Vector3 posB = destinationPosition;
+            Vector3 bulletDirection = (posB - posA).normalized;
 
-            damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+            GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
 
-            if(spawnDamageItemParticle != null) {
-                GameObject particleGO = Instantiate(spawnDamageItemParticle, spawnDamageItemParticleTransform.position, spawnDamageItemParticleTransform.rotation);
-                particleGO.transform.parent = gameObject.transform;
+            if(_vibrationOnUseWeapon) {
+                gamePadVibrationController.sendImpulse(
+                    impulseTime, impulseForce
+                );
             }
+
+
+            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+
+                damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+
+                if (spawnDamageObjectParticle != null) {
+                    GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+                    particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                }
+            }
+
+
+            busyWeaponDurationTimeEnd = Time.time + shootFrequency;
         }
+        
     }
+
 }

@@ -14,7 +14,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
     protected CharacterMovement characterMovement; // characterMovement collegato
     protected NavMeshAgent agent;
-    protected bool agentPositionSetted = false;
+    protected bool agentDestinationSetted = false;
 
     protected CharacterActivityManager characterActivityManager;
 
@@ -39,36 +39,40 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     
 
     public void Update() {
-        switch(alert) {
-            case AlertState.Unalert: {
-                unalertBehaviour1();
+
+        if(!gameObject.GetComponent<CharacterManager>().isDead) {
+            switch (alert) {
+                case AlertState.Unalert: {
+                        unalertBehaviour1();
+                    }
+                    break;
+                case AlertState.Alert1: {
+                        alertBehaviour1();
+                    }
+                    break;
+                case AlertState.Alert2: {
+                        alertBehaviour2();
+                    }
+                    break;
+                case AlertState.Alert3: {
+                        alertBehaviour3();
+                    }
+                    break;
             }
-            break;
-            case AlertState.Alert1: {
-                alertBehaviour1();
-            }
-            break;
-            case AlertState.Alert2: {
-                alertBehaviour2();
-            }
-            break;
-            case AlertState.Alert3: {
-                alertBehaviour3();
-            }
-            break;
         }
+        
     }
 
     public override async void unalertBehaviour1() {
 
 
         if(characterActivityManager.getCharacterActivities().Count > 0) {
-            if (agentPositionSetted == false) {
+            if (agentDestinationSetted == false) {
 
                 updateAgentTarget();
             
 
-                agentPositionSetted = true;
+                agentDestinationSetted = true;
             } else {
 
 
@@ -86,12 +90,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
                     } else { // task raggiunto
 
-
-
-
-
                         
-                        // esegui task ed aspetta task
+                        // esegui task ed attendi task
                         await characterActivityManager.getCurrentTask().executeTask(
                             gameObject.GetComponent<CharacterManager>());
                         //Debug.Log("task eseguito");
@@ -140,10 +140,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     private void updateAgentTarget() {
 
-
-        agent.SetDestination(
-            characterActivityManager.getCurrentTask().getTaskDestination()
-        );
+        if(!gameObject.GetComponent<CharacterManager>().isDead) {
+            agent.SetDestination(
+                characterActivityManager.getCurrentTask().getTaskDestination()
+            );
+        }
     }
 
 
