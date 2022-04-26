@@ -82,7 +82,10 @@ public class CharacterSpawnPoint : MonoBehaviour {
             
         } else if (characterRole == Role.Civilian) {
             Handles.color = Color.blue;
-            
+
+        } else if (characterRole == Role.Player) {
+            Handles.color = Color.yellow;
+
         }
 
 
@@ -102,6 +105,12 @@ public class CharacterSpawnPoint : MonoBehaviour {
                     pos,
                     "Spawn\ncivile"
                 );
+            } else if (characterRole == Role.Player) {
+                Handles.Label(
+                    pos,
+                    "Spawn\nPlayer"
+                );
+
             }
 
         }
