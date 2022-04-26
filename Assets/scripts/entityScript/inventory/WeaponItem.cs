@@ -82,16 +82,22 @@ public class WeaponItem : InventoryItem
     /// <param name="p">Istanza CharacterManager del 
     /// character che avvia il metodo tramite evento</param>
     public override void getItem(CharacterManager p) {
-        p.inventoryManager.addWeapon(this);
+
+        // rimuovi arma dal precedente inventory
+        if(_inventoryManager != null) {
+            _inventoryManager.removeWeapon(itemNameID);
+        }
+
+        p.inventoryManager.addWeapon(this); // aggiungi arma al nuovo inventario
 
         InteractableObject interactableObject = gameObject.GetComponent<InteractableObject>();
         p.removeCharacterInteractableObject(interactableObject);
     }
 
-    public override List<Interaction> getInteractable() {
+    public override List<Interaction> getInteractions() {
         List<Interaction> eventRes = new List<Interaction>();
         eventRes.Add(
-            new Interaction(getItemEvent, getItemEventName, this)
+            new Interaction(getItemEvent, _getItemEventName, this)
         );
 
         return eventRes;

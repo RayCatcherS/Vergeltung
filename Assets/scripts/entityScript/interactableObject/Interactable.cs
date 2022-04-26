@@ -23,7 +23,7 @@ public class Interactable : MonoBehaviour, InteractableInterface {
 
     }
 
-    public virtual List<Interaction> getInteractable() {
+    public virtual List<Interaction> getInteractions() {
         return new List<Interaction>();
     }
 

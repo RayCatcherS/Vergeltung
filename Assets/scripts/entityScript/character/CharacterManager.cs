@@ -120,9 +120,11 @@ public class CharacterManager : MonoBehaviour {
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
+
             // aggiungi interazione al dizionario delle interazioni
             interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
-            
+
+
             // rebuild lista interactions
             buildListOfInteraction();
         }
@@ -130,6 +132,8 @@ public class CharacterManager : MonoBehaviour {
 
 
     private void OnTriggerExit(Collider collision) {
+
+
         if (collision.gameObject.layer == INTERACTABLE_LAYER) {
 
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
@@ -163,7 +167,7 @@ public class CharacterManager : MonoBehaviour {
         // ottieni dal dizionario degli oggetti interabili tutte le interactions
         foreach (var item in interactableObjects) {
 
-            List<Interaction> interactable = item.Value.getInteractable();
+            List<Interaction> interactable = item.Value.getInteractions();
             
             for(int i = 0; i < interactable.Count; i++) {
 
@@ -219,19 +223,23 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public void killCharacter(Vector3 damageVelocity) {
 
-        isRunning = false;
-        isBusy = false;
+        
+        resetCharacterMovmentState();
 
+        // disabilità componenti
         gameObject.GetComponent<CharacterMovement>().enabled = false;
         gameObject.GetComponent<CharacterManager>().enabled = false;
         gameObject.GetComponent<InventoryManager>().enabled = false;
-
         gameObject.GetComponent<CharacterController>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
-        //Destroy(_characterAnimator);
+        _inventoryManager.setInventoryAsInteractable();
+
+
         _characterAnimator.StopPlayback();
         _characterAnimator.enabled = false;
+
+
 
         if(!isPlayer) {
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
@@ -252,5 +260,10 @@ public class CharacterManager : MonoBehaviour {
         }
 
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
+    }
+
+    public void resetCharacterMovmentState() {
+        isRunning = false;
+        isBusy = false;
     }
 }

@@ -46,7 +46,7 @@ public class DoorInteractable : Interactable {
     }
 
 
-    public override List<Interaction> getInteractable() {
+    public override List<Interaction> getInteractions() {
 
         List<Interaction> eventRes = new List<Interaction>();
 

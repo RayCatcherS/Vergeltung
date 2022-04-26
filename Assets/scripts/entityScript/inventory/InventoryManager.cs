@@ -3,12 +3,17 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 
-public class InventoryManager : MonoBehaviour
-{
-    // raycast const
+public class InventoryManager : Interactable {
+    // const
     private const int ALL_LAYERS = -1;
     private const int CHARACTER_LAYERS = 7;
     private const int RAY_DISTANCE = 100;
+
+    private const int INTERACTABLE_LAYER = 3;
+
+    private const string BASE_MELEE_ID = "base_melee";
+
+
 
     [Header("GamePad vibration Reference")]
     GamePadVibrationController gamePadVibration;
@@ -16,6 +21,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Character References")]
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private CharacterMovement characterMovement;
+    [SerializeField] public SphereCollider interactableInventoryColliderTrigger;
 
     [Header("Weapon References")]
     [SerializeField] private Transform headViewTransform; // serve a controllare tramite ray cast se tra la testa è l'arma c'è un collider
@@ -43,7 +49,7 @@ public class InventoryManager : MonoBehaviour
 
 
 
-    public void Start() {
+    public void Awake() {
         initInventoryManager();
         initDrawPlayerWeaponLineRendered();
 
@@ -55,10 +61,10 @@ public class InventoryManager : MonoBehaviour
 
     }
     
-/// <summary>
-/// Ottieni tipo di arma attualemente selezionata
-/// </summary>
-public WeaponType getSelectedWeaponType {
+    /// <summary>
+    /// Ottieni tipo di arma attualemente selezionata
+    /// </summary>
+    public WeaponType getSelectedWeaponType {
         get {
 
             if (isSelectedWeapon) {
@@ -124,6 +130,9 @@ public WeaponType getSelectedWeaponType {
     /// <param name="weaponItem"></param>
     public void addWeapon(WeaponItem weaponItem) {
         weaponItems.Add(weaponItem);
+
+        // associa l'inventario all'arma
+        weaponItem.inventoryManager = this;
 
         // disabilita gameobject
         weaponItem.gameObject.SetActive(false);
@@ -255,7 +264,20 @@ public WeaponType getSelectedWeaponType {
         }
     }
 
-    
+    /// <summary>
+    /// rimuove weapon partendo dal ItemId
+    /// </summary>
+    /// <param name="weaponId"></param>
+    public void removeWeapon(string weaponId) {
+        // disattiva l'arma precedente
+
+        for (int i = 0; i < weaponItems.Count; i++) {
+
+            if (weaponItems[i].itemNameID == weaponId) {
+                weaponItems.RemoveAt(i);
+            }
+        }
+    }
 
     /// <summary>
     /// Aggiungi action object all'inventario
@@ -282,7 +304,39 @@ public WeaponType getSelectedWeaponType {
         }
     }
 
-    
+    /// <summary>
+    /// Rende disponibile le interaction delle armi di tutto l'inventario del character
+    /// Offre agli altri character la possibilità di interagire con l'inventario del character
+    /// Usato quando il character muore
+    /// </summary>
+    public void setInventoryAsInteractable() {
+        weaponItems[selectedWeapon].gameObject.SetActive(false);
+
+        gameObject.layer = INTERACTABLE_LAYER; // cambia layer in interactable
+        interactableInventoryColliderTrigger.enabled = true;
+    }
+
+    public override List<Interaction> getInteractions() {
+        List<Interaction> allWeaponsInteractions = new List<Interaction>();
+
+        for(int i = 0; i < weaponItems.Count; i++) {
+
+            if(weaponItems[i].itemNameID != BASE_MELEE_ID) {
+                UnityEventCharacter eventWeapon = new UnityEventCharacter();
+                eventWeapon.AddListener(weaponItems[i].getItem);
+
+                allWeaponsInteractions.Add(
+                    new Interaction(
+                        eventWeapon,
+                        weaponItems[i].getItemEventName,
+                        this
+                    )
+                );
+            }
+        }
+
+        return allWeaponsInteractions;
+    }
 
 
     public void initDrawPlayerWeaponLineRendered() {
@@ -411,4 +465,5 @@ public WeaponType getSelectedWeaponType {
 
         return res;
     }
+
 }

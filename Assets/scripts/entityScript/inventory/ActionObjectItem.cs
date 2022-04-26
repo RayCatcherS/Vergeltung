@@ -17,10 +17,10 @@ public class ActionObjectItem : InventoryItem {
         p.removeCharacterInteractableObject(interactableObject);
     }
 
-    public override List<Interaction> getInteractable() {
+    public override List<Interaction> getInteractions() {
         List<Interaction> eventRes = new List<Interaction>();
         eventRes.Add(
-            new Interaction(getItemEvent, getItemEventName, this)
+            new Interaction(getItemEvent, _getItemEventName, this)
         );
 
         return eventRes;

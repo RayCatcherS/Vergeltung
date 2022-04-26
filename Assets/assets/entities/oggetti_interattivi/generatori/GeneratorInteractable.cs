@@ -29,7 +29,7 @@ public class GeneratorInteractable : Interactable {
         return new Interaction(sabotageGenerator, sabotageGeneratorEventName, this);
     }
 
-    public override List<Interaction> getInteractable() {
+    public override List<Interaction> getInteractions() {
 
         List<Interaction> eventRes = new List<Interaction>();
 

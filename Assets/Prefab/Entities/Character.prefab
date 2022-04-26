@@ -839,6 +839,8 @@ GameObject:
   - component: {fileID: -8184361105554446216}
   - component: {fileID: 511194201638674844}
   - component: {fileID: 7076768707108263790}
+  - component: {fileID: 1646186741672614433}
+  - component: {fileID: -6098220088654426462}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -939,8 +941,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8453819f4594214b4551cf04b921f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlineScript: {fileID: 4661837539409756147}
   characterManager: {fileID: -2880058954286248499}
   characterMovement: {fileID: 9188659755221051704}
+  interactableInventoryColliderTrigger: {fileID: 1646186741672614433}
   headViewTransform: {fileID: 9188659755673647185}
   weaponTransform: {fileID: 9188659755442841056}
   rigBuilder: {fileID: 5257887465121811395}
@@ -1047,6 +1051,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollBones: []
+--- !u!135 &1646186741672614433
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6098220088654426462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08f12b8bdb522c48822d8225d7ebc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactable: {fileID: 30319831950813519}
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9188659755295414194}
   - component: {fileID: 9188659755295414189}
+  - component: {fileID: 4661837539409756147}
   m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
@@ -1386,6 +1417,24 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.012933165, y: -0.2552904, z: 0.0012264252}
     m_Extent: {x: 0.28917554, y: 1.5825635, z: 1.5382118}
   m_DirtyAABB: 0
+--- !u!114 &4661837539409756147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755295414195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.62, g: 0.485, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &9188659755338589633
 GameObject:
   m_ObjectHideFlags: 0

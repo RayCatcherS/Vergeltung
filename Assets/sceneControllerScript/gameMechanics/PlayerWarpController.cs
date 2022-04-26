@@ -23,8 +23,7 @@ public class PlayerWarpController : MonoBehaviour
             warpedCharacterManagerStach.Add(character);
 
             // configura character
-            character.isRunning = false;
-            character.isBusy = false;
+            character.resetCharacterMovmentState();
 
             //disabilita componenti non necessari
             if(character.gameObject.GetComponent<Outline>() != null)
