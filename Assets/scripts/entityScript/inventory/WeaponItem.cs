@@ -21,7 +21,7 @@ public class WeaponItem : InventoryItem
     [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
     [SerializeField] private WeaponType weaponType;
     [SerializeField] private int magazineCapacity = 28;
-    [SerializeField] private int ammunition = 5;
+    [SerializeField] private int _ammunition = 5;
 
     
     [SerializeField] private float shootFrequency = 0.15f;
@@ -58,6 +58,9 @@ public class WeaponItem : InventoryItem
 
     public bool automaticWeapon {
         get { return _automaticWeapon; }
+    }
+    public int ammunition {
+        get { return _ammunition; }
     }
 
     // ref getters 
@@ -112,7 +115,7 @@ public class WeaponItem : InventoryItem
     /// <param name="p"></param>
     public override void useItem(CharacterManager p) {
 
-        if (ammunition > 0) {
+        if (_ammunition > 0) {
             Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
         }
             
@@ -127,7 +130,7 @@ public class WeaponItem : InventoryItem
     /// <param name="destinationPosition">Destinazione che il damageObject deve raggiungere</param>
     public void useItem(CharacterManager p, Vector3 destinationPosition, GamePadVibrationController gamePadVibrationController) {
 
-        if(ammunition > 0) {
+        if(_ammunition > 0) {
             if (Time.time > busyWeaponDurationTimeEnd) {
                 Vector3 posA = _shootingTransform.position;
                 Vector3 posB = destinationPosition;
@@ -154,11 +157,21 @@ public class WeaponItem : InventoryItem
 
 
                 busyWeaponDurationTimeEnd = Time.time + shootFrequency;
-                ammunition = ammunition - 1;
+                _ammunition = _ammunition - 1;
             }
         }
         
         
     }
+    
+    /// <summary>
+    /// Aggiungi munizioni alla Weapon fino alla sua capacità massima
+    /// </summary>
+    public void addAmmunition(int ammo) {
+        _ammunition = _ammunition + ammo;
 
+        if(_ammunition > magazineCapacity) {
+            _ammunition = magazineCapacity;
+        }
+    }
 }

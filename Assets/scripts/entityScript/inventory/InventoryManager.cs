@@ -129,31 +129,44 @@ public class InventoryManager : Interactable {
     /// </summary>
     /// <param name="weaponItem"></param>
     public void addWeapon(WeaponItem weaponItem) {
-        weaponItems.Add(weaponItem);
 
-        // associa l'inventario all'arma
-        weaponItem.inventoryManager = this;
+        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
 
-        // disabilita gameobject
-        weaponItem.gameObject.SetActive(false);
+        //cerca se la weapon è già presente
+        if (weaponInInventary == -1) {
+            // aggiungi istanza alla lista weapon dell'inventory manager
+            weaponItems.Add(weaponItem);
 
-        //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
-        weaponItem.gameObject.transform.SetParent(weaponTransform);
+            // associa l'inventario all'arma
+            weaponItem.inventoryManager = this;
 
-        // setta coordinate
-        weaponItem.gameObject.transform.localPosition = Vector3.zero;
+            // disabilita gameobject
+            weaponItem.gameObject.SetActive(false);
 
-        // setta rotazione
-        weaponItem.gameObject.transform.localEulerAngles = weaponItem.weaponOffsetRotation;
+            //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
+            weaponItem.gameObject.transform.SetParent(weaponTransform);
 
-        // cambia layer oggetto interattivo in default
-        weaponItem.gameObject.layer = 0;
+            // setta coordinate
+            weaponItem.gameObject.transform.localPosition = Vector3.zero;
 
-        // disattiva collider trigger interactable
-        weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+            // setta rotazione
+            weaponItem.gameObject.transform.localEulerAngles = weaponItem.weaponOffsetRotation;
+
+            // cambia layer oggetto interattivo in default
+            weaponItem.gameObject.layer = 0;
+
+            // disattiva collider trigger interactable
+            weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+        } else {
+
+            weaponItems[weaponInInventary].addAmmunition(weaponItem.ammunition);
+            Destroy(weaponItem.gameObject);
+        }
+
+        
 
         // cambia arma selezionata
-        selectWeapon(weaponItems.Count - 1);
+        //selectWeapon(weaponItems.Count - 1);
     }
 
     /// <summary>
@@ -265,7 +278,7 @@ public class InventoryManager : Interactable {
     }
 
     /// <summary>
-    /// rimuove weapon partendo dal ItemId
+    /// rimuove weapon dall'istanza dell'inventario partendo dal ItemId
     /// </summary>
     /// <param name="weaponId"></param>
     public void removeWeapon(string weaponId) {
@@ -466,4 +479,25 @@ public class InventoryManager : Interactable {
         return res;
     }
 
+
+    /// <summary>
+    /// Verifica se la weapon è nell'inventario partendo dall'id
+    /// se l'arma è nell'inventario ritorna la posizione in cui si trova
+    /// altrimenti torna -1
+    /// </summary>
+    /// <param name="weaponItemID"></param>
+    /// <returns></returns>
+    public int isWeaponInInventory(string weaponItemID) {
+        int result = -1;
+
+        for(int i = 0; i < weaponItems.Count; i++) {
+
+            if(weaponItems[i].itemNameID == weaponItemID) {
+                result = i;
+            }
+            
+        }
+
+        return result;
+    }
 }
