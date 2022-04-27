@@ -25,9 +25,11 @@ public class PlayerInputController : MonoBehaviour
     private float inputIsNextWeaponPressed;
     private float inputIsPreviewWeaponPressed;
     private float inputIsUseWeaponItemPressed;
+    private float inputIsPutAwayExtractWeapon;
 
     private bool isNextWeaponPressed = false;
     private bool isPreviewWeaponPressed = false;
+    private bool isPutAwayExtractWeapon = false;
 
     // getters and setters ref
     public CharacterMovement characterMovement {
@@ -104,9 +106,7 @@ public class PlayerInputController : MonoBehaviour
 
             characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
-            if (characterMovement.GetComponent<InventoryManager>().getSelectedWeaponType != WeaponType.melee) {
-                characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
-            }
+            characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
         }
     }
 
@@ -115,8 +115,10 @@ public class PlayerInputController : MonoBehaviour
         inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
         inputIsPreviewWeaponPressed = playerActions.Player.InventaryPreviewWeapon.ReadValue<float>();
         inputIsUseWeaponItemPressed = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
+        inputIsPutAwayExtractWeapon = playerActions.Player.PutAwayExtractWeapon.ReadValue<float>();
 
 
+        // next weapon input
         if (inputIsNextWeaponPressed == 1) {
 
             if (!isNextWeaponPressed) {
@@ -124,12 +126,11 @@ public class PlayerInputController : MonoBehaviour
                 isNextWeaponPressed = true;
             }
 
-            //Debug.Log("next");
-            //StartCoroutine(DisablePreviewNextButtonsForSeconds());
         } else {
             isNextWeaponPressed = false;
         }
 
+        // preview weapon input
         if (inputIsPreviewWeaponPressed == 1) {
 
             if (!isPreviewWeaponPressed) {
@@ -138,10 +139,19 @@ public class PlayerInputController : MonoBehaviour
                 isPreviewWeaponPressed = true;
             }
 
-            //Debug.Log("preview");
-            //StartCoroutine(DisablePreviewNextButtonsForSeconds());
         } else {
             isPreviewWeaponPressed = false;
+        }
+
+        // putAwayExtractWeapon input
+        if (inputIsPutAwayExtractWeapon == 1) {
+            if (!isPutAwayExtractWeapon) {
+                _inventoryManager.switchPutAwayExtractWeapon();
+
+                isPutAwayExtractWeapon = true;
+            }
+        } else {
+            isPutAwayExtractWeapon = false;
         }
 
 

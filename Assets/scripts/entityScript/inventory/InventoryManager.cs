@@ -38,16 +38,17 @@ public class InventoryManager : Interactable {
     [SerializeField] private List<ActionObjectItem> actionObjectItems = new List<ActionObjectItem>();
 
     [Header("Inventory state")]
+    [SerializeField] private bool _weaponPuttedAway = true;
     [SerializeField] private int _selectedWeapon = 0; // -1 significa non selezionato
     //[SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
     [Header("Weapon aim render configuration")]
     [SerializeField] private LineRenderer weaponLineRenderer;
     [SerializeField] private Material weaponLineRendererMaterial;
-    [SerializeField] public Gradient weaponLineRendererGradient;
+    [SerializeField] public Gradient extractedweaponLineRendererGradient;
+    [SerializeField] public Gradient puttedAwayweaponLineRendererGradient;
 
 
-    
     // getter - setter
     public int selectedWeapon {
         get { return _selectedWeapon; }
@@ -55,6 +56,10 @@ public class InventoryManager : Interactable {
     public List<WeaponItem> weaponItems {
         get { return _weaponItems; }
     }
+    public bool weaponPuttedAway {
+        get { return _weaponPuttedAway; }
+    }
+    
 
 
     public void Awake() {
@@ -227,10 +232,15 @@ public class InventoryManager : Interactable {
 
     /// <summary>
     /// Configura arma selezionata
+    /// 
+    /// Imposta animazione in base all'arma selezionata e in base a
+    /// _weaponPuttedAway che indica se l'arma è estratta o meno
+    /// 
+    /// Imposta anche il rig del melee in base a _weaponPuttedAway
     /// </summary>
     private void configSelectedWeapon() {
-        _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata
-        characterMovement.updateAnimatorStateByInventoryWeaponType(_weaponItems[_selectedWeapon].getWeaponType); // configura animazione in base all'arma selezionata
+        
+        characterMovement.updateAnimatorStateByInventoryWeaponType(_weaponItems[_selectedWeapon].getWeaponType, this); // configura animazione in base all'arma selezionata
         characterManager.aimedCharacter = null; // rimuovi character mirato
 
 
@@ -242,15 +252,31 @@ public class InventoryManager : Interactable {
 
         // imposta rig
         if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
-            rightHandRig.weight = 0;
-            leftHandRig.weight = 0;
+            if (weaponPuttedAway) {
+                rightHandRig.weight = 0;
+                leftHandRig.weight = 0;
+            } else {
+                rightHandRig.weight = 1;
+                leftHandRig.weight = 0;
+            }
+            
         } else {
-            rightHandRig.weight = 1;
-            leftHandRig.weight = 1;
+
+            if(!weaponPuttedAway) {
+                rightHandRig.weight = 1;
+                leftHandRig.weight = 1;
+                
+            } else {
+                rightHandRig.weight = 0;
+                leftHandRig.weight = 0;
+            }
+            
         }
 
+        configPutAwayExtractWeapon();
+
         // builda UI solo se player
-        if(gameObject.GetComponent<CharacterManager>().isPlayer) {
+        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
             gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
         }
         
@@ -326,7 +352,7 @@ public class InventoryManager : Interactable {
     public void useSelectedWeapon() {
 
 
-        if (_selectedWeapon != -1 && !isGunThroughWall()) {
+        if (_selectedWeapon != -1 && !isGunThroughWall() && !_weaponPuttedAway) {
 
             Vector3 destinationPosition = drawAimWeaponLineRendered();
             _weaponItems[_selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
@@ -384,7 +410,13 @@ public class InventoryManager : Interactable {
         weaponLineRenderer.material = weaponLineRendererMaterial;
         weaponLineRenderer.startWidth = 0.1f;
         weaponLineRenderer.endWidth = 0.1f;
-        weaponLineRenderer.colorGradient = weaponLineRendererGradient;
+
+        if (_weaponPuttedAway) {
+            weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
+        } else {
+            weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
+        }
+            
     }
 
     ////// <summary>
@@ -397,7 +429,7 @@ public class InventoryManager : Interactable {
 
         Vector3 aimedPosition = Vector3.zero;
 
-        if (isSelectedWeapon && _weaponItems[_selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !isGunThroughWall()) {
+        if (isSelectedWeapon && /*_weaponItems[_selectedWeapon].getWeaponType != WeaponType.melee &&*/ characterManager.isPlayer && !isGunThroughWall()) {
             weaponLineRenderer.enabled = true;
 
 
@@ -520,5 +552,58 @@ public class InventoryManager : Interactable {
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Riponi l'arma selezionata
+    /// </summary>
+    private void putAwayWeapon() {
+        _weaponPuttedAway = true;
+        configPutAwayExtractWeapon();
+    }
+
+    /// <summary>
+    /// estrai l'arma selezionata
+    /// </summary>
+    private void extractWeapon() {
+        _weaponPuttedAway = false;
+        configPutAwayExtractWeapon();
+    }
+
+
+    /// <summary>
+    /// richiama putAwayWeapon o extractWeapon in base
+    /// allo stato di _weaponPuttedAway
+    /// </summary>
+    public void switchPutAwayExtractWeapon() {
+        if(_weaponPuttedAway) {
+            extractWeapon();
+        } else {
+            putAwayWeapon();
+        }
+
+        configSelectedWeapon();
+    }
+
+    /// <summary>
+    /// configura gli elementi del character in base 
+    /// </summary>
+    public void configPutAwayExtractWeapon() {
+        if (_weaponPuttedAway) {
+
+            weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
+            _weaponItems[_selectedWeapon].gameObject.SetActive(false); // attiva arma selezionata
+        } else {
+
+
+            if (_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
+                weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
+                
+            } else {
+                weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
+                
+            }
+            _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata
+        }
     }
 }

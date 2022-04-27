@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PutAwayExtractWeapon",
+                    "type": "Button",
+                    "id": "293a1bf6-3879-4892-8ac4-5320e0ea32c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -185,7 +194,7 @@
                 {
                     "name": "",
                     "id": "5d1d137d-6c35-43c1-ae63-765b09bcc6cd",
-                    "path": "<XInputController>/rightShoulder",
+                    "path": "<XInputController>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
@@ -196,7 +205,7 @@
                 {
                     "name": "",
                     "id": "3f62d7a8-60d3-4dc4-a87f-64158c0fdac4",
-                    "path": "<XInputController>/leftShoulder",
+                    "path": "<XInputController>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
@@ -212,6 +221,17 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme",
                     "action": "InventaryUseWeaponItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1dbb6f2f-65f7-4916-b0c9-c339edfccb86",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "PutAwayExtractWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

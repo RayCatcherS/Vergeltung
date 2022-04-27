@@ -56,7 +56,7 @@ public class CharacterMovement : MonoBehaviour {
     /// avvia transizione Bleend tree animation in base
     /// al tipo di arma impugnata
     /// </summary>
-    public void updateAnimatorStateByInventoryWeaponType(WeaponType weaponType) {
+    public void updateAnimatorStateByInventoryWeaponType(WeaponType weaponType, InventoryManager inventoryManager) {
         animator.ResetTrigger("MeleeLocomotion");
         animator.ResetTrigger("PistolLocomotion");
         animator.ResetTrigger("RifleLocomotion");
@@ -65,22 +65,27 @@ public class CharacterMovement : MonoBehaviour {
 
 
 
-        switch (inventoryManager.getSelectedWeaponType) {
-        case WeaponType.melee: {
+        if(!inventoryManager.weaponPuttedAway) {
+            switch (inventoryManager.getSelectedWeaponType) {
+                case WeaponType.melee: {
 
+                        animator.SetTrigger("MeleeLocomotion");
+                    }
+                    break;
+                case WeaponType.pistol: {
+                        animator.SetTrigger("PistolLocomotion");
+                    }
+                    break;
+                case WeaponType.rifle: {
+                        animator.SetTrigger("RifleLocomotion");
+
+                    }
+                    break;
+            }
+        } else {
             animator.SetTrigger("MeleeLocomotion");
         }
-        break;
-        case WeaponType.pistol: {
-            animator.SetTrigger("PistolLocomotion");
-        }
-        break;
-        case WeaponType.rifle: {
-            animator.SetTrigger("RifleLocomotion");
-
-        }
-        break;
-    }
+        
     }
 
     void initCharacterMovement() {
@@ -94,7 +99,7 @@ public class CharacterMovement : MonoBehaviour {
         inventoryManager = iM;
 
 
-        updateAnimatorStateByInventoryWeaponType(inventoryManager.getSelectedWeaponType);
+        updateAnimatorStateByInventoryWeaponType(inventoryManager.getSelectedWeaponType, inventoryManager);
     }
 
 
@@ -128,11 +133,11 @@ public class CharacterMovement : MonoBehaviour {
 
                 _movement = _movement * movementSpeed * Time.deltaTime;
 
-                if(gameObject.GetComponent<CharacterManager>().isPlayer) {
+                /*if(gameObject.GetComponent<CharacterManager>().isPlayer) {
                     if (inventoryManager.getSelectedWeaponType == WeaponType.melee) {
                         rotateCharacter(_2Dmove, isRun, true);
                     }
-                }
+                }*/
                 
             }
             gameObject.GetComponent<CharacterManager>().isRunning = isRun;
