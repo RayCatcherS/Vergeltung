@@ -111,7 +111,11 @@ public class WeaponItem : InventoryItem
     /// </summary>
     /// <param name="p"></param>
     public override void useItem(CharacterManager p) {
-        Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+
+        if (ammunition > 0) {
+            Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+        }
+            
     }
 
 
@@ -123,34 +127,37 @@ public class WeaponItem : InventoryItem
     /// <param name="destinationPosition">Destinazione che il damageObject deve raggiungere</param>
     public void useItem(CharacterManager p, Vector3 destinationPosition, GamePadVibrationController gamePadVibrationController) {
 
+        if(ammunition > 0) {
+            if (Time.time > busyWeaponDurationTimeEnd) {
+                Vector3 posA = _shootingTransform.position;
+                Vector3 posB = destinationPosition;
+                Vector3 bulletDirection = (posB - posA).normalized;
 
-        if(Time.time > busyWeaponDurationTimeEnd) {
-            Vector3 posA = _shootingTransform.position;
-            Vector3 posB = destinationPosition;
-            Vector3 bulletDirection = (posB - posA).normalized;
+                GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
 
-            GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
-
-            if(_vibrationOnUseWeapon) {
-                gamePadVibrationController.sendImpulse(
-                    impulseTime, impulseForce
-                );
-            }
-
-
-            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
-
-                damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
-
-                if (spawnDamageObjectParticle != null) {
-                    GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
-                    particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                if (_vibrationOnUseWeapon) {
+                    gamePadVibrationController.sendImpulse(
+                        impulseTime, impulseForce
+                    );
                 }
+
+
+                if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+
+                    damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+
+                    if (spawnDamageObjectParticle != null) {
+                        GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+                        particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                    }
+                }
+
+
+                busyWeaponDurationTimeEnd = Time.time + shootFrequency;
+                ammunition = ammunition - 1;
             }
-
-
-            busyWeaponDurationTimeEnd = Time.time + shootFrequency;
         }
+        
         
     }
 
