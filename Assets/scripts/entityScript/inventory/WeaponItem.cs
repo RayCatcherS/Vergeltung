@@ -15,6 +15,9 @@ public class WeaponItem : InventoryItem
     [SerializeField] private Transform _rightHandTransformRef;
     [SerializeField] private Transform _leftHandTransformRef;
 
+    [Header("Weapon preview ref")]
+    [SerializeField] Sprite _extractedWeaponPreview;
+    [SerializeField] Sprite _puttedAwayWeaponPreview;
 
 
     [Header("Weapon configuration")]
@@ -78,6 +81,12 @@ public class WeaponItem : InventoryItem
     }
     public Transform leftHandTransformRef {
         get { return _leftHandTransformRef; }
+    }
+    public Sprite extractedWeaponPreview {
+        get { return _extractedWeaponPreview; }
+    }
+    public Sprite puttedAwayWeaponPreview {
+        get { return _puttedAwayWeaponPreview; }
     }
 
 

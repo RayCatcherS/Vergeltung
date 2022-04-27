@@ -23,12 +23,12 @@ public class PlayerInputController : MonoBehaviour
 
     
     private float inputIsNextWeaponPressed;
-    private float inputIsPreviewWeaponPressed;
+    private float inputIsPreviousWeaponPressed;
     private float inputIsUseWeaponItemPressed;
     private float inputIsPutAwayExtractWeapon;
 
     private bool isNextWeaponPressed = false;
-    private bool isPreviewWeaponPressed = false;
+    private bool isPreviousWeaponPressed = false;
     private bool isPutAwayExtractWeapon = false;
 
     // getters and setters ref
@@ -113,7 +113,7 @@ public class PlayerInputController : MonoBehaviour
     private void inventaryInput() {
 
         inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
-        inputIsPreviewWeaponPressed = playerActions.Player.InventaryPreviewWeapon.ReadValue<float>();
+        inputIsPreviousWeaponPressed = playerActions.Player.InventaryPreviousWeapon.ReadValue<float>();
         inputIsUseWeaponItemPressed = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
         inputIsPutAwayExtractWeapon = playerActions.Player.PutAwayExtractWeapon.ReadValue<float>();
 
@@ -131,16 +131,16 @@ public class PlayerInputController : MonoBehaviour
         }
 
         // preview weapon input
-        if (inputIsPreviewWeaponPressed == 1) {
+        if (inputIsPreviousWeaponPressed == 1) {
 
-            if (!isPreviewWeaponPressed) {
-                _inventoryManager.selectPreviewWeapon();
+            if (!isPreviousWeaponPressed) {
+                _inventoryManager.selectPreviousWeapon();
 
-                isPreviewWeaponPressed = true;
+                isPreviousWeaponPressed = true;
             }
 
         } else {
-            isPreviewWeaponPressed = false;
+            isPreviousWeaponPressed = false;
         }
 
         // putAwayExtractWeapon input

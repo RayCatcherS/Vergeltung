@@ -64,7 +64,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""InventaryPreviewWeapon"",
+                    ""name"": ""InventaryPreviousWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""8ea119c8-2d7e-4e86-aafb-906319194511"",
                     ""expectedControlType"": ""Button"",
@@ -231,7 +231,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryPreviewWeapon"",
+                    ""action"": ""InventaryPreviousWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -328,7 +328,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_AnalogMovement = m_Player.FindAction("AnalogMovement", throwIfNotFound: true);
         m_Player_AnalogRotation = m_Player.FindAction("AnalogRotation", throwIfNotFound: true);
         m_Player_InventaryNextWeapon = m_Player.FindAction("InventaryNextWeapon", throwIfNotFound: true);
-        m_Player_InventaryPreviewWeapon = m_Player.FindAction("InventaryPreviewWeapon", throwIfNotFound: true);
+        m_Player_InventaryPreviousWeapon = m_Player.FindAction("InventaryPreviousWeapon", throwIfNotFound: true);
         m_Player_InventaryUseWeaponItem = m_Player.FindAction("InventaryUseWeaponItem", throwIfNotFound: true);
         m_Player_PutAwayExtractWeapon = m_Player.FindAction("PutAwayExtractWeapon", throwIfNotFound: true);
         // UI
@@ -398,7 +398,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_AnalogMovement;
     private readonly InputAction m_Player_AnalogRotation;
     private readonly InputAction m_Player_InventaryNextWeapon;
-    private readonly InputAction m_Player_InventaryPreviewWeapon;
+    private readonly InputAction m_Player_InventaryPreviousWeapon;
     private readonly InputAction m_Player_InventaryUseWeaponItem;
     private readonly InputAction m_Player_PutAwayExtractWeapon;
     public struct PlayerActions
@@ -409,7 +409,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @AnalogMovement => m_Wrapper.m_Player_AnalogMovement;
         public InputAction @AnalogRotation => m_Wrapper.m_Player_AnalogRotation;
         public InputAction @InventaryNextWeapon => m_Wrapper.m_Player_InventaryNextWeapon;
-        public InputAction @InventaryPreviewWeapon => m_Wrapper.m_Player_InventaryPreviewWeapon;
+        public InputAction @InventaryPreviousWeapon => m_Wrapper.m_Player_InventaryPreviousWeapon;
         public InputAction @InventaryUseWeaponItem => m_Wrapper.m_Player_InventaryUseWeaponItem;
         public InputAction @PutAwayExtractWeapon => m_Wrapper.m_Player_PutAwayExtractWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -433,9 +433,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @InventaryNextWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
                 @InventaryNextWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
                 @InventaryNextWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
-                @InventaryPreviewWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviewWeapon;
-                @InventaryPreviewWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviewWeapon;
-                @InventaryPreviewWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviewWeapon;
+                @InventaryPreviousWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviousWeapon;
+                @InventaryPreviousWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviousWeapon;
+                @InventaryPreviousWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviousWeapon;
                 @InventaryUseWeaponItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
@@ -458,9 +458,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @InventaryNextWeapon.started += instance.OnInventaryNextWeapon;
                 @InventaryNextWeapon.performed += instance.OnInventaryNextWeapon;
                 @InventaryNextWeapon.canceled += instance.OnInventaryNextWeapon;
-                @InventaryPreviewWeapon.started += instance.OnInventaryPreviewWeapon;
-                @InventaryPreviewWeapon.performed += instance.OnInventaryPreviewWeapon;
-                @InventaryPreviewWeapon.canceled += instance.OnInventaryPreviewWeapon;
+                @InventaryPreviousWeapon.started += instance.OnInventaryPreviousWeapon;
+                @InventaryPreviousWeapon.performed += instance.OnInventaryPreviousWeapon;
+                @InventaryPreviousWeapon.canceled += instance.OnInventaryPreviousWeapon;
                 @InventaryUseWeaponItem.started += instance.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.performed += instance.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.canceled += instance.OnInventaryUseWeaponItem;
@@ -527,7 +527,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnAnalogMovement(InputAction.CallbackContext context);
         void OnAnalogRotation(InputAction.CallbackContext context);
         void OnInventaryNextWeapon(InputAction.CallbackContext context);
-        void OnInventaryPreviewWeapon(InputAction.CallbackContext context);
+        void OnInventaryPreviousWeapon(InputAction.CallbackContext context);
         void OnInventaryUseWeaponItem(InputAction.CallbackContext context);
         void OnPutAwayExtractWeapon(InputAction.CallbackContext context);
     }

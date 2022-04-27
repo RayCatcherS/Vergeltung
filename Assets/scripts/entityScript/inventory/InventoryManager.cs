@@ -288,35 +288,41 @@ public class InventoryManager : Interactable {
     public void selectNextWeapon() {
         int value;
 
-        if(_weaponItems.Count != 1) {
-            if (_selectedWeapon != -1) {
-                if (_weaponItems.Count - 1 == _selectedWeapon) {
-                    value = 0;
-                } else {
-                    value = _selectedWeapon + 1;
-                }
+        if(_selectedWeapon != _weaponItems.Count - 1) {
+            if (_weaponItems.Count != 1) {
+                if (_selectedWeapon != -1) {
+                    if (_weaponItems.Count - 1 == _selectedWeapon) {
+                        value = 0;
+                    } else {
+                        value = _selectedWeapon + 1;
+                    }
 
-                selectWeapon(value);
+                    selectWeapon(value);
+                }
             }
         }
+        
 
     }
 
 
-    public void selectPreviewWeapon() {
+    public void selectPreviousWeapon() {
         int value;
 
-        if (_weaponItems.Count != 1) {
-            if (_selectedWeapon != -1) {
-                if (_selectedWeapon == 0) {
-                    value = _weaponItems.Count - 1;
-                } else {
-                    value = _selectedWeapon - 1;
-                }
+        if(_selectedWeapon != 0) {
+            if (_weaponItems.Count != 1) {
+                if (_selectedWeapon != -1) {
+                    if (_selectedWeapon == 0) {
+                        value = _weaponItems.Count - 1;
+                    } else {
+                        value = _selectedWeapon - 1;
+                    }
 
-                selectWeapon(value);
+                    selectWeapon(value);
+                }
             }
         }
+        
     }
 
     /// <summary>
