@@ -11,6 +11,7 @@ public class CharacterManager : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
+    [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
 
@@ -43,11 +44,17 @@ public class CharacterManager : MonoBehaviour {
     }
 
 
-    //getter
+    //getter - setter
     public InteractionUIController interactionUIController {
         get { return _interactionUIController; }
         set {
             _interactionUIController = value;
+        }
+    }
+    public WeaponUIController weaponUIController {
+        get { return _weaponUIController; }
+        set {
+            _weaponUIController = value;
         }
     }
     public InventoryManager inventoryManager {

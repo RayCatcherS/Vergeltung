@@ -20,7 +20,7 @@ public class WeaponItem : InventoryItem
     [Header("Weapon configuration")]
     [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
     [SerializeField] private WeaponType weaponType;
-    [SerializeField] private int magazineCapacity = 28;
+    [SerializeField] private int _magazineCapacity = 28;
     [SerializeField] private int _ammunition = 5;
 
     
@@ -61,6 +61,9 @@ public class WeaponItem : InventoryItem
     }
     public int ammunition {
         get { return _ammunition; }
+    }
+    public int magazineCapacity {
+        get { return _magazineCapacity; }
     }
 
     // ref getters 
@@ -170,8 +173,8 @@ public class WeaponItem : InventoryItem
     public void addAmmunition(int ammo) {
         _ammunition = _ammunition + ammo;
 
-        if(_ammunition > magazineCapacity) {
-            _ammunition = magazineCapacity;
+        if(_ammunition > _magazineCapacity) {
+            _ammunition = _magazineCapacity;
         }
     }
 }

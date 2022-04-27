@@ -34,11 +34,11 @@ public class InventoryManager : Interactable {
 
 
     [Header("Inventory Objects")]
-    [SerializeField] private List<WeaponItem> weaponItems = new List<WeaponItem>();
+    [SerializeField] private List<WeaponItem> _weaponItems = new List<WeaponItem>();
     [SerializeField] private List<ActionObjectItem> actionObjectItems = new List<ActionObjectItem>();
 
     [Header("Inventory state")]
-    [SerializeField] private int selectedWeapon = 0; // -1 significa non selezionato
+    [SerializeField] private int _selectedWeapon = 0; // -1 significa non selezionato
     //[SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
     [Header("Weapon aim render configuration")]
@@ -47,6 +47,14 @@ public class InventoryManager : Interactable {
     [SerializeField] public Gradient weaponLineRendererGradient;
 
 
+    
+    // getter - setter
+    public int selectedWeapon {
+        get { return _selectedWeapon; }
+    }
+    public List<WeaponItem> weaponItems {
+        get { return _weaponItems; }
+    }
 
 
     public void Awake() {
@@ -68,7 +76,7 @@ public class InventoryManager : Interactable {
         get {
 
             if (isSelectedWeapon) {
-                return weaponItems[selectedWeapon].getWeaponType;
+                return _weaponItems[_selectedWeapon].getWeaponType;
             } else {
                 return WeaponType.melee;
             }
@@ -83,7 +91,7 @@ public class InventoryManager : Interactable {
         get {
             bool res = false;
 
-            if (selectedWeapon == -1) {
+            if (_selectedWeapon == -1) {
                 res = false;
             } else {
                 res = true;
@@ -97,7 +105,7 @@ public class InventoryManager : Interactable {
         WeaponItem weapon = null;
 
         if (isSelectedWeapon) {
-            weapon = weaponItems[selectedWeapon];
+            weapon = _weaponItems[_selectedWeapon];
         }
 
         return weapon;
@@ -135,7 +143,7 @@ public class InventoryManager : Interactable {
         //cerca se la weapon è già presente
         if (weaponInInventary == -1) {
             // aggiungi istanza alla lista weapon dell'inventory manager
-            weaponItems.Add(weaponItem);
+            _weaponItems.Add(weaponItem);
 
             // associa l'inventario all'arma
             weaponItem.inventoryManager = this;
@@ -159,14 +167,15 @@ public class InventoryManager : Interactable {
             weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
         } else {
 
-            weaponItems[weaponInInventary].addAmmunition(weaponItem.ammunition);
+            _weaponItems[weaponInInventary].addAmmunition(weaponItem.ammunition);
             Destroy(weaponItem.gameObject);
         }
 
-        
 
-        // cambia arma selezionata
-        //selectWeapon(weaponItems.Count - 1);
+        // builda UI solo se player
+        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
+            gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
+        }
     }
 
     /// <summary>
@@ -175,18 +184,18 @@ public class InventoryManager : Interactable {
     /// <param name="weaponPos"></param>
     public void selectWeapon(int weaponPos) {
 
-        if (selectedWeapon != -1) {
+        if (_selectedWeapon != -1) {
 
-            weaponItems[selectedWeapon].gameObject.SetActive(false);
+            _weaponItems[_selectedWeapon].gameObject.SetActive(false);
         }
 
-        if (weaponPos > weaponItems.Count - 1) {
+        if (weaponPos > _weaponItems.Count - 1) {
             Debug.LogError("L'arma selezionata è fuori dall'index dell'equipagiamento selezionato");
-            selectedWeapon = 0;
+            _selectedWeapon = 0;
         } else {
             // disattiva l'arma precedente
             
-            selectedWeapon = weaponPos;
+            _selectedWeapon = weaponPos;
         }
 
         configSelectedWeapon();
@@ -200,15 +209,15 @@ public class InventoryManager : Interactable {
 
         // disattiva l'arma precedente
         
-        if (selectedWeapon != -1) {
+        if (_selectedWeapon != -1) {
 
-            weaponItems[selectedWeapon].gameObject.SetActive(false);
+            _weaponItems[_selectedWeapon].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < weaponItems.Count; i++) {
+        for (int i = 0; i < _weaponItems.Count; i++) {
 
-            if (weaponItems[i].itemNameID == weaponId) {
-                selectedWeapon = i;
+            if (_weaponItems[i].itemNameID == weaponId) {
+                _selectedWeapon = i;
             }
         }
 
@@ -220,24 +229,31 @@ public class InventoryManager : Interactable {
     /// Configura arma selezionata
     /// </summary>
     private void configSelectedWeapon() {
-        weaponItems[selectedWeapon].gameObject.SetActive(true);
-        characterMovement.updateAnimatorStateByInventoryWeaponType(weaponItems[selectedWeapon].getWeaponType);
+        _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata
+        characterMovement.updateAnimatorStateByInventoryWeaponType(_weaponItems[_selectedWeapon].getWeaponType); // configura animazione in base all'arma selezionata
         characterManager.aimedCharacter = null; // rimuovi character mirato
 
 
         // configurazione rig
-        rightHandRig.data.target = weaponItems[selectedWeapon].rightHandTransformRef;
-        leftHandRig.data.target = weaponItems[selectedWeapon].leftHandTransformRef;
+        rightHandRig.data.target = _weaponItems[_selectedWeapon].rightHandTransformRef;
+        leftHandRig.data.target = _weaponItems[_selectedWeapon].leftHandTransformRef;
 
         rigBuilder.Build();
 
-        if(weaponItems[selectedWeapon].getWeaponType == WeaponType.melee) {
+        // imposta rig
+        if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
             rightHandRig.weight = 0;
             leftHandRig.weight = 0;
         } else {
             rightHandRig.weight = 1;
             leftHandRig.weight = 1;
         }
+
+        // builda UI solo se player
+        if(gameObject.GetComponent<CharacterManager>().isPlayer) {
+            gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
+        }
+        
     }
     
     /// <summary>
@@ -246,12 +262,12 @@ public class InventoryManager : Interactable {
     public void selectNextWeapon() {
         int value;
 
-        if(weaponItems.Count != 1) {
-            if (selectedWeapon != -1) {
-                if (weaponItems.Count - 1 == selectedWeapon) {
+        if(_weaponItems.Count != 1) {
+            if (_selectedWeapon != -1) {
+                if (_weaponItems.Count - 1 == _selectedWeapon) {
                     value = 0;
                 } else {
-                    value = selectedWeapon + 1;
+                    value = _selectedWeapon + 1;
                 }
 
                 selectWeapon(value);
@@ -264,12 +280,12 @@ public class InventoryManager : Interactable {
     public void selectPreviewWeapon() {
         int value;
 
-        if (weaponItems.Count != 1) {
-            if (selectedWeapon != -1) {
-                if (selectedWeapon == 0) {
-                    value = weaponItems.Count - 1;
+        if (_weaponItems.Count != 1) {
+            if (_selectedWeapon != -1) {
+                if (_selectedWeapon == 0) {
+                    value = _weaponItems.Count - 1;
                 } else {
-                    value = selectedWeapon - 1;
+                    value = _selectedWeapon - 1;
                 }
 
                 selectWeapon(value);
@@ -284,10 +300,10 @@ public class InventoryManager : Interactable {
     public void removeWeapon(string weaponId) {
         // disattiva l'arma precedente
 
-        for (int i = 0; i < weaponItems.Count; i++) {
+        for (int i = 0; i < _weaponItems.Count; i++) {
 
-            if (weaponItems[i].itemNameID == weaponId) {
-                weaponItems.RemoveAt(i);
+            if (_weaponItems[i].itemNameID == weaponId) {
+                _weaponItems.RemoveAt(i);
             }
         }
     }
@@ -310,10 +326,15 @@ public class InventoryManager : Interactable {
     public void useSelectedWeapon() {
 
 
-        if (selectedWeapon != -1 && !isGunThroughWall()) {
+        if (_selectedWeapon != -1 && !isGunThroughWall()) {
 
             Vector3 destinationPosition = drawAimWeaponLineRendered();
-            weaponItems[selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
+            _weaponItems[_selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
+
+            // builda UI solo se player
+            if (gameObject.GetComponent<CharacterManager>().isPlayer) {
+                gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
+            }
         }
     }
 
@@ -323,7 +344,7 @@ public class InventoryManager : Interactable {
     /// Usato quando il character muore
     /// </summary>
     public void setInventoryAsInteractable() {
-        weaponItems[selectedWeapon].gameObject.SetActive(false);
+        _weaponItems[_selectedWeapon].gameObject.SetActive(false);
 
         gameObject.layer = INTERACTABLE_LAYER; // cambia layer in interactable
         interactableInventoryColliderTrigger.enabled = true;
@@ -332,16 +353,16 @@ public class InventoryManager : Interactable {
     public override List<Interaction> getInteractions() {
         List<Interaction> allWeaponsInteractions = new List<Interaction>();
 
-        for(int i = 0; i < weaponItems.Count; i++) {
+        for(int i = 0; i < _weaponItems.Count; i++) {
 
-            if(weaponItems[i].itemNameID != BASE_MELEE_ID) {
+            if(_weaponItems[i].itemNameID != BASE_MELEE_ID) {
                 UnityEventCharacter eventWeapon = new UnityEventCharacter();
-                eventWeapon.AddListener(weaponItems[i].getItem);
+                eventWeapon.AddListener(_weaponItems[i].getItem);
 
                 allWeaponsInteractions.Add(
                     new Interaction(
                         eventWeapon,
-                        weaponItems[i].getItemEventName,
+                        _weaponItems[i].getItemEventName,
                         this
                     )
                 );
@@ -376,15 +397,15 @@ public class InventoryManager : Interactable {
 
         Vector3 aimedPosition = Vector3.zero;
 
-        if (isSelectedWeapon && weaponItems[selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !isGunThroughWall()) {
+        if (isSelectedWeapon && _weaponItems[_selectedWeapon].getWeaponType != WeaponType.melee && characterManager.isPlayer && !isGunThroughWall()) {
             weaponLineRenderer.enabled = true;
 
 
-            weaponLineRenderer.SetPosition(0, weaponItems[selectedWeapon].shootingTransform.position);
+            weaponLineRenderer.SetPosition(0, _weaponItems[_selectedWeapon].shootingTransform.position);
 
             
             RaycastHit hit;
-            Ray ray = new Ray(weaponItems[selectedWeapon].shootingTransform.position, new Vector3(
+            Ray ray = new Ray(_weaponItems[_selectedWeapon].shootingTransform.position, new Vector3(
                 Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                 0,
                 Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
@@ -401,14 +422,14 @@ public class InventoryManager : Interactable {
                     if(!hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
                         characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
 
-                        Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
+                        Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
                         weaponLineRenderer.SetPosition(1, hit.point);
                     }
 
                 } else {
                     characterManager.aimedCharacter = null;
 
-                    Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, hit.point);
+                    Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
                     weaponLineRenderer.SetPosition(1, hit.point);
                 }
                 aimedPosition = hit.point;
@@ -420,21 +441,21 @@ public class InventoryManager : Interactable {
                 characterManager.aimedCharacter = null;
 
 
-                Debug.DrawLine(weaponItems[selectedWeapon].shootingTransform.position, weaponItems[selectedWeapon].shootingTransform.position + new Vector3(
+                Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
                 ) * RAY_DISTANCE);
 
 
-                weaponLineRenderer.SetPosition(1, weaponItems[selectedWeapon].shootingTransform.position + new Vector3(
+                weaponLineRenderer.SetPosition(1, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
                 ) * RAY_DISTANCE);
 
 
-                aimedPosition = weaponItems[selectedWeapon].shootingTransform.position + new Vector3(
+                aimedPosition = _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
@@ -463,7 +484,7 @@ public class InventoryManager : Interactable {
         RaycastHit hit;
 
         if(getSelectedWeaponType != WeaponType.melee) {
-            if (Physics.Linecast(headViewTransform.position, weaponItems[selectedWeapon].shootingTransform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Linecast(headViewTransform.position, _weaponItems[_selectedWeapon].shootingTransform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                 if (hit.collider != null) {
                     res = true;
@@ -490,9 +511,9 @@ public class InventoryManager : Interactable {
     public int isWeaponInInventory(string weaponItemID) {
         int result = -1;
 
-        for(int i = 0; i < weaponItems.Count; i++) {
+        for(int i = 0; i < _weaponItems.Count; i++) {
 
-            if(weaponItems[i].itemNameID == weaponItemID) {
+            if(_weaponItems[i].itemNameID == weaponItemID) {
                 result = i;
             }
             

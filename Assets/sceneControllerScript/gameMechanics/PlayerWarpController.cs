@@ -33,7 +33,10 @@ public class PlayerWarpController : MonoBehaviour
 
             // configurazione character controllato dall'utente
             character.isPlayer = true;
+
+            // configurazione UI
             character.interactionUIController = gameObject.GetComponent<InteractionUIController>();
+            character.weaponUIController = gameObject.GetComponent<WeaponUIController>();
 
             // configurazione comandi
             gameObject.GetComponent<PlayerInputController>().characterMovement = character.GetComponent<CharacterMovement>();
