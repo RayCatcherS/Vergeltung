@@ -32,7 +32,7 @@ public class WeaponUIController : MonoBehaviour {
     /// </summary>
     /// <param name="inventoryManager"></param>
     public void buildUI(InventoryManager inventoryManager) {
-        if(inventoryManager.weaponItems[inventoryManager.selectedWeapon].getWeaponType != WeaponType.melee || !inventoryManager.weaponPuttedAway) {
+        if(inventoryManager.weaponItems[inventoryManager.selectedWeapon].getWeaponType != WeaponType.melee) {
             enableAmmoUI();
         } else {
             disableAmmoUI();
@@ -65,6 +65,7 @@ public class WeaponUIController : MonoBehaviour {
 
 
         // setta UI munizioni
+
         ammunition.text = inventoryManager.weaponItems[inventoryManager.selectedWeapon].ammunition.ToString();
         magazineCapacity.text = "/" + inventoryManager.weaponItems[inventoryManager.selectedWeapon].magazineCapacity.ToString();
     }
