@@ -26,7 +26,7 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] private Animator _characterAnimator;
 
     [Header("Character Settings")]
-    [SerializeField] private int characterLife = 100;
+    [SerializeField] private int characterHealth = 100;
 
     public void Start() {
 
@@ -213,9 +213,9 @@ public class CharacterManager : MonoBehaviour {
     public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
 
         if(!isDead) {
-            characterLife -= damage;
+            characterHealth -= damage;
 
-            if (characterLife <= 0) {
+            if (characterHealth <= 0) {
                 isDead = true;
                 killCharacter(damageVelocity);
             }
