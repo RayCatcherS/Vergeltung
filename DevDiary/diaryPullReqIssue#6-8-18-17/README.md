@@ -85,7 +85,7 @@ Quando il character player(controllato dall'utente) mira un character viene visu
 - Il proiettile ha componente con parametri sul danno, velocità e direzione. Il proiettile si muove tramite la fisica dell'engine in FixedUpdate verso la direzione configurata(direzione shooting arma).
 - Essendo il calcolo degli eventi basati sulla fisica, se il proiettile è troppo rapido non rileva la maggior parte delle collisioni (effetto teletrasporto oltre i collider), per evitare problemi di collisioni basati sulla bassa frequenza di aggiornamento della fisica, è stato implementato un metodo per cui il proiettile calcola per ogni frame un rayCast nella posizione in avanti di qualche unità in più rispetto a dove si trova il proiettile, prevedendo le collisioni sul cammino
 - L'arma genera dei particles durante lo shooting (usato particle system di Unity)
-- Il proiettile genera dei particles in base alla superficie collisa (usato particle system di Unity)
+- Il proiettile genera dei particles in base alla superficie collisa (usato particle system di Unity), la direzione del particle(rotazione) viene settata in base alla normale della mesh con cui il proiettile hitta
 
 ![Image animator](ShootingWeaponsFisicaproiettileEffettiparticellari.gif)
 
