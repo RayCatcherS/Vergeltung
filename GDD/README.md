@@ -1,3 +1,12 @@
+<!---
+Stile bordo tabella
+-->
+<style>
+td, th {
+   border: none!important;
+}
+</style>
+
 <table>
   <tr>
     <th>
