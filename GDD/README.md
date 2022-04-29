@@ -1,5 +1,22 @@
+<table>
+  <tr>
+    <th>
+        <img src="logo(Vergeltung).png" width="500"/>
+    </th>
+    <th>
+        <img src="LogoStudio.png" width="250"/>
+    </th>
+  </tr>
+</table>
 
-![Image animator](animatorGif.gif)
+<a title="https://github.com/RayCatcherS/Vergeltung"
+href="https://github.com/RayCatcherS/Vergeltung" target="_blank" >
+Link Progetto
+</a>
+
+&emsp;
+
+
 # GDD Document
 
 ## Elevator Pitch
