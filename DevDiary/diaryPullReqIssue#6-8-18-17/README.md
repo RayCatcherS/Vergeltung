@@ -92,7 +92,7 @@ Quando il character player(controllato dall'utente) mira un character viene visu
 <p>&nbsp;</p>
 
 ### Metodo gunThroughWall
-Il metodo gunThroughWall evita la possibilità che l'arma attraversando il muro possa far sparare dei colpi, attraversando i collider. Un raycast parte dalla testa del character e raggiunge l'arma. Se il raycast genera una hit allora l'arma è entrata attraverso un collider
+Il metodo gunThroughWall evita la possibilità che l'utente facendo passare l'arma attraverso il muro possa far sparare dei colpi, attraversando i collider. Per risolvere questo issue un raycast parte dalla testa del character e raggiunge l'arma. Se il raycast genera una hit allora l'arma è entrata attraverso un collider, quindi non sarà possibile usare l'arma.
 
 ![Image animator](gunThroughWall.gif)
 
