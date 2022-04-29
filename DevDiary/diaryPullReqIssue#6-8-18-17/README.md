@@ -181,6 +181,6 @@ Inoltre è possibile visualizzare dall'interfaccia se un'arma è stata estratta 
 
 ### Varie funzionalità aggiuntive
 - Implementato spawn player gestibile dallo spawn controller(tool level design Editor Unity)
-- Implementato playerWarpController, controller che consentirà di controllare la catena(Stack) di character
+- Implementato playerWarpController, controller che consentirà di controllare la catena(Stack) di character controllabili
 
 
