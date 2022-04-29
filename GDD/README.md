@@ -100,9 +100,8 @@ blender(modelli 3D e animazioni), photoshop che mi permettono di creare una bozz
   ## <span id = "7.2">7.2 Capitolo 2 diario di sviluppo</span>
 
 
-### 8. [Mercato](#8)
+# <span id = "8">8. Mercato</span>
 
-### 9. [Idee](#9)
 
 
 # <span id = "9">9. Idee</span>
