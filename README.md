@@ -2,8 +2,22 @@
 
 Progetto Unity esame sviluppo di videogiochi
 
-![Test Image 1](https://github.com/RayCatcherS/Vergeltung/blob/main/esame%20sviluppo%20videogiochi%20artworks/format%20font%20ui/artworkLogo(Vergeltung).png?raw=true)
+<img src="GDD/logo(Vergeltung).png" width="1000"/>
 
+## GDD Document
+<a 
+href="https://github.com/RayCatcherS/Vergeltung/blob/main/GDD/README.md" >
+Documento Game Design
+</a>
+
+## Diario sviluppo
+<a 
+href="https://github.com/RayCatcherS/Vergeltung/blob/issue%236-8/DevDiary/diaryPullReqIssue%236-8-18-17/README.md" >
+2 Capitolo diario di sviluppo
+</a>
+
+
+## Note tecniche progetto
 ### Configurazione richiesta
 - Richiesta installazione Blender versione >= 2.79 affinchè Unity riconosca i file .blend all'interno del progetto
 - Richiesto pad Xbox
