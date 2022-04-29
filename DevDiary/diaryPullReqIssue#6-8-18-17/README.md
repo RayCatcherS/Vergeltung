@@ -128,7 +128,7 @@ Implementata funzionalità che consente di scegliere l'equipaggiamento del chara
 <p>&nbsp;</p>
 
 ### Inventario
-Implementata raccolta degli Items tramite l'InventoryManager(Inventario) del character. Adesso è possibile raccogliere gli oggetti/armi(InventoryItem) tramite le funzionalità degli oggetti/armi stessi che ereditano le funzioni della classe Interactable. Gli Item che implementano le funzionalità della classe Interactable mettono a disposizioni delle interacions(eventi). Gli eventi delle interactions implementati vanno ad interagire con l'InventoryManager del character che ha interagito con quel determinato InventoryItem.
+Implementata raccolta degli Items tramite l'InventoryManager(Inventario) del character. Adesso è possibile raccogliere gli oggetti/armi(InventoryItem) tramite le funzionalità degli oggetti/armi stessi che ereditano le funzioni della classe Interactable. Gli Item che implementano le funzionalità della classe Interactable mettono a disposizioni delle interactions(tipi di eventi che agiscono sul character che li ha richiamati). Gli eventi delle interactions implementati vanno ad interagire con l'InventoryManager del character che ha interagito con quel determinato InventoryItem.
 
 ![Image animator](Inventario.gif)
 
