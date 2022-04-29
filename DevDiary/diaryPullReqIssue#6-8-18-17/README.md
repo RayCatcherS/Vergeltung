@@ -113,7 +113,7 @@ Il metodo gunThroughWall evita la possibilità che l'utente facendo passare l'ar
 
 ## Nuovi stati character
 ### Danno, health, death e attivazione ragdoll del character
-- Aggiunta la vita, il danno e lo stato di morte
+- Aggiunta la vita del character, funzione per applicare danno e lo stato di morte
 - Utilizzato tool unity per trasformare lo scheletro in ragdoll(collisioni e rigidbody sui bone del character vengono attivati quando il character muore)
 
 ![Image animator](Damage.gif)
