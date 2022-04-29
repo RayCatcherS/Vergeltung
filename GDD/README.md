@@ -22,12 +22,12 @@ Link Progetto
 ## Elevator Pitch
 
 
-Vergeltung è un gioco di genere Stealth con elementi Top-Down Shooting ambientato in universo distopico in cui le forze naziste hanno vinto la guerra.
+Vergeltung è un gioco di genere **Stealth** con elementi **Top-Down Shooting** ambientato in universo distopico in cui le forze naziste hanno vinto la guerra.
 Il protagonista dopo aver subito l'abuso e l'omicidio dell'intera famiglia, riesce a sopravvivere fuggendo. Le forze nemiche attribuiranno una taglia
 sulla testa del protagonista che durante la fuga deciderà di vendicarsi.
 Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno dei quartieri cardine della fazione nemica dove gli assassini presidiano la zona.
 Il protagonista dovrà riuscire ad appropiarsi degli strumenti nemici, piegando l'ambiente circostante contro gli stessi nemici, infiltrandosi tra i
-vari edifici(civili e non)senza farsi scoprire e fuggendo nel caso in cui venisse scoperto, raggiungendo le zone strategiche.
+vari edifici(civili e non) senza farsi scoprire e fuggendo nel caso in cui venisse scoperto, raggiungendo le zone strategiche.
 Le zone strategiche saranno di vari livelli di difficoltà e saranno particolarmente militarizzate. Il protagonista scoprirà che queste zone strategiche,
 sorvegliano l'accesso a dei monoliti realizzati con una tecnologia sconosciuta. Questi monoliti consentiranno di prendere fisicamente il controllo degli altri 
 esseri umani. Il protagonista userà questa tecnologia per usare i civili e soldati(anche in modo amorale) per costruire ed improvvisare la propria vendetta,
