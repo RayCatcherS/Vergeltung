@@ -22,7 +22,7 @@ Link Progetto
 # Indice  
 ### 1. [Introduzione](#1)  
  1. [Elevator Pitch](#1.2)  
- 1. [`Team`](#1.3)
+ 1. [Team](#1.3)
 
 
 
