@@ -41,7 +41,7 @@ Link Progetto
 ### 6. [Musica e Suoni](#6) 
 
 ### 7. [Dettagli Tecnici](#7)
-  1. [Capitolo diario di sviluppo 2](#7.1) 
+  2. [Capitolo diario di sviluppo 2](#7.1) 
 
 ### 8. [Mercato](#8)
 
