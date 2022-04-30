@@ -1,4 +1,4 @@
-# Diario di sviluppo issue 6-8-18-17
+# Devlog(Diario di sviluppo issue 6-8-18-17)
 
 ## Progettazione concettuale classi
 - Generalizzazione classe InventoryItem e classi figlie (WeaponItem, ActionObjectItem)
