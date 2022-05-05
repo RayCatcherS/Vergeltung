@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
+#if UNITY_EDITOR_WIN && UNITY_STANDALONE_WIN
 using XInputDotNetPure;
+#endif
 
 public class GamePadVibrationController : MonoBehaviour
 {
@@ -16,7 +18,9 @@ public class GamePadVibrationController : MonoBehaviour
 
     public void sendImpulse(float time, float force) {
 
+#if UNITY_EDITOR_WIN && UNITY_STANDALONE_WIN
         GamePad.SetVibration(0, force, force);
+#endif
 
         if (Time.time > impulseVibrationDurationTimeEnd) {
 
@@ -38,6 +42,8 @@ public class GamePadVibrationController : MonoBehaviour
             await Task.Yield();
         }
 
+#if UNITY_EDITOR_WIN && UNITY_STANDALONE_WIN
         GamePad.SetVibration(0, 0, 0);
+#endif
     }
 }
