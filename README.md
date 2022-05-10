@@ -2,7 +2,16 @@
 
 Progetto Unity esame sviluppo di videogiochi
 
-<img src="GDD/logo(Vergeltung).png" width="1000"/>
+<table>
+  <tr>
+    <th>
+        <img src="GDD/logo(Vergeltung).png" width="500"/>
+    </th>
+    <th>
+        <img src="GDD/LogoStudio.png" width="250"/>
+    </th>
+  </tr>
+</table>
 
 ## GDD Document
 <a 
