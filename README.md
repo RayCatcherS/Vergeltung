@@ -5,7 +5,7 @@ Progetto Unity esame sviluppo di videogiochi
 <table>
   <tr>
     <th>
-        <img src="GDD/logo(Vergeltung).png" width="700"/>
+        <img src="GDD/logo(Vergeltung).png" width="800"/>
     </th>
     <th>
         <img src="GDD/LogoStudio.png" width="250"/>
