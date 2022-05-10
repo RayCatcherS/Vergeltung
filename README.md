@@ -12,7 +12,7 @@ Documento Game Design
 
 ## Devlog
 <a 
-href="https://github.com/RayCatcherS/Vergeltung/blob/issue%236-8/DevDiary/diaryPullReqIssue%236-8-18-17/README.md" >
+href="https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/diaryPullReqIssue%236-8-18-17/README.md" >
 2 Capitolo Devlog(diario di sviluppo)
 </a>
 
