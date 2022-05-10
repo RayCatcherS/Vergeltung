@@ -4,12 +4,27 @@ using UnityEngine;
 using UnityEditor;
 
 public class CharacterSpawnPoint : MonoBehaviour {
-    private Role characterRole;
+    [Header("Character ref")]
     [SerializeField] private CharacterSpawnController characterSpawnController;
+
+    [Header("Character config")]
+    [SerializeField] private Role characterRole;
+
+    [Header("Character equipment config")]
+    [SerializeField] private Equipment characterEquipment;
+    [SerializeField] private int startSelectedEquipment = 0;
+    
 
     // getter
     public Role getSpawnCharacterRole() {
         return this.characterRole;
+    }
+    public Equipment getCharacterEquipment() {
+        return this.characterEquipment;
+    }
+
+    public int getStartSelectedEquipment() {
+        return this.startSelectedEquipment;
     }
 
 
@@ -82,7 +97,10 @@ public class CharacterSpawnPoint : MonoBehaviour {
             
         } else if (characterRole == Role.Civilian) {
             Handles.color = Color.blue;
-            
+
+        } else if (characterRole == Role.Player) {
+            Handles.color = Color.yellow;
+
         }
 
 
@@ -102,6 +120,12 @@ public class CharacterSpawnPoint : MonoBehaviour {
                     pos,
                     "Spawn\ncivile"
                 );
+            } else if (characterRole == Role.Player) {
+                Handles.Label(
+                    pos,
+                    "Spawn\nPlayer"
+                );
+
             }
 
         }

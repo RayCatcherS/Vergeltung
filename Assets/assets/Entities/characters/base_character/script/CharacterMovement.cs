@@ -4,16 +4,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class CharacterMovement : MonoBehaviour
-{
+public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
 
     public Animator animator; //animator del character
-    public CharacterState characterState;
     public CharacterController characterController;
-    public MultiAimConstraint characterAimConstrant;
-
-    public CapsuleCollider colliderCharacter;
 
     const float NEGATIVE_ROTATION_CLAMP = -1f;
     const float POSITIVE_ROTATION_CLAMP = 1f;
@@ -23,14 +18,16 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
     [SerializeField] private float rotationSpeed = 20f;
-    //[SerializeField] private float jumpSpeed = 20f;
-    public GameObject characterModel;
-    public Transform aimTransform;
+    [SerializeField] private GameObject _characterModel;
 
 
     [SerializeField] private Vector3 rotationAimInput;
     [SerializeField] private Vector3 rotationAimTarget;
     [SerializeField] private Vector2 characterModelRotation;
+
+
+    [SerializeField] private InventoryManager inventoryManager;
+
 
 
     public Vector3 getRotationAimInput { get { return rotationAimInput; } }
@@ -40,6 +37,10 @@ public class CharacterMovement : MonoBehaviour
 
     Vector3 _movement; // vettore movimento character
 
+    // ref getters 
+    public GameObject characterModel {
+        get { return _characterModel; }
+    }
 
     void Awake() {
 
@@ -47,7 +48,58 @@ public class CharacterMovement : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
+        initCharacterMovement();
+    }
+
+
+    /// <summary>
+    /// avvia transizione Bleend tree animation in base
+    /// al tipo di arma impugnata
+    /// </summary>
+    public void updateAnimatorStateByInventoryWeaponType(WeaponType weaponType, InventoryManager inventoryManager) {
+        animator.ResetTrigger("MeleeLocomotion");
+        animator.ResetTrigger("PistolLocomotion");
+        animator.ResetTrigger("RifleLocomotion");
+
+        animator.Rebind();
+
+
+
+        if(!inventoryManager.weaponPuttedAway) {
+            switch (inventoryManager.getSelectedWeaponType) {
+                case WeaponType.melee: {
+
+                        animator.SetTrigger("MeleeLocomotion");
+                    }
+                    break;
+                case WeaponType.pistol: {
+                        animator.SetTrigger("PistolLocomotion");
+                    }
+                    break;
+                case WeaponType.rifle: {
+                        animator.SetTrigger("RifleLocomotion");
+
+                    }
+                    break;
+            }
+        } else {
+            animator.SetTrigger("MeleeLocomotion");
+        }
         
+    }
+
+    void initCharacterMovement() {
+
+        InventoryManager iM = gameObject.GetComponent<InventoryManager>();
+
+        if (iM == null) {
+            gameObject.AddComponent<InventoryManager>();
+            iM = gameObject.GetComponent<InventoryManager>();
+        }
+        inventoryManager = iM;
+
+
+        updateAnimatorStateByInventoryWeaponType(inventoryManager.getSelectedWeaponType, inventoryManager);
     }
 
 
@@ -72,13 +124,23 @@ public class CharacterMovement : MonoBehaviour
         if (_movement.magnitude > 0) {
 
             if (isRun) {
+                
+
                 _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                rotateCharacter(_2Dmove, isRun, false);
+                rotateCharacter(_2Dmove, isRun, true);
             } else {
+
                 _movement = _movement * movementSpeed * Time.deltaTime;
+
+                /*if(gameObject.GetComponent<CharacterManager>().isPlayer) {
+                    if (inventoryManager.getSelectedWeaponType == WeaponType.melee) {
+                        rotateCharacter(_2Dmove, isRun, true);
+                    }
+                }*/
+                
             }
-            characterState.isRunning = isRun;
+            gameObject.GetComponent<CharacterManager>().isRunning = isRun;
         }
 
 
@@ -88,16 +150,19 @@ public class CharacterMovement : MonoBehaviour
         float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
         float velocityZ;
         if (isRun) {
+
+
             animator.SetBool("isRunning", isRun);
-            animator.SetFloat("VelocityZ", 2, 0.1f, Time.deltaTime);
+            animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
         } else {
+
             animator.SetBool("isRunning", isRun);
             velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-            animator.SetFloat("VelocityZ", velocityZ, 0.1f, Time.deltaTime);
+            animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
         }
 
 
-        animator.SetFloat("VelocityX", velocityX, 0.1f, Time.deltaTime);
+        animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
         
     }
 
@@ -121,93 +186,16 @@ public class CharacterMovement : MonoBehaviour
 
 
 
-        rotationAimTarget = aimTransform.transform.rotation * Vector3.forward; // ottieni direzione 
 
         if (rotationAimTargetInput.magnitude > 0) {
 
-            // ruota aim character partendo dalle coordinate rotazione (utilizzando la funzione lerp)
-            if (!_istantRotation) {
-                aimTransform.rotation = Quaternion.Lerp(
-                    aimTransform.rotation,
-                    Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0),
-                    Time.deltaTime * rotationSpeed);
-            } else {
-
-                aimTransform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(rotationAimTargetInput.x, rotationAimTargetInput.y) * Mathf.Rad2Deg * -1), 0);
-            }
-
-
-            rotationAimTarget = aimTransform.transform.rotation * Vector3.forward;
-
-            Vector2 characterRotation = new Vector2();
-
 
             if (!_istantRotation) {
-                if (_isRun) {
-                    characterModelRotation = new Vector2(rotationAimTarget.x, rotationAimTarget.z);
 
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterModelRotation.x, characterModelRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-                } else if (
-                    rotationAimTarget.x > -0.707f && rotationAimTarget.z > 0.707f &&
-                    rotationAimTarget.x < 0.707f && rotationAimTarget.z > 0.707f
-                ) {
-                    characterRotation.x = 0;
-                    characterRotation.y = 1;
 
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                } else if (
-                    rotationAimTarget.x > 0.707f && rotationAimTarget.z < 0.707f &&
-                    rotationAimTarget.x > 0.707f && rotationAimTarget.z > -0.707f
-                ) {
-                    characterRotation.x = 1f;
-                    characterRotation.y = 0f;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                } else if (
-                    rotationAimTarget.x < 0.707f && rotationAimTarget.z < -0.707f &&
-                    rotationAimTarget.x > -0.707f && rotationAimTarget.z < -0.707f
-                ) {
-                    characterRotation.x = 0f;
-                    characterRotation.y = -1f;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                } else if (
-                    rotationAimTarget.x < -0.707f && rotationAimTarget.z > -0.707f &&
-                    rotationAimTarget.x < -0.707f && rotationAimTarget.z < 0.707f
-                ) {
-                    characterRotation.x = -1f;
-                    characterRotation.y = 0f;
-
-                    characterModelRotation = characterRotation;
-
-                    characterModel.transform.rotation =
-                        Quaternion.Lerp(characterModel.transform.rotation,
-                        Quaternion.Euler(0, 360 - (Mathf.Atan2(characterRotation.x, characterRotation.y) * Mathf.Rad2Deg * -1), 0),
-                        Time.deltaTime * rotationSpeed);
-
-                }
+                characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             } else {
+
                 characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             }
 
@@ -219,17 +207,19 @@ public class CharacterMovement : MonoBehaviour
 
         // muovi character solo se è il giocatore
         // caso in cui il character è slegato dal nav mesh agent
-        if(gameObject.GetComponent<CharacterState>().isPlayer) {
+        if(gameObject.GetComponent<CharacterManager>().isPlayer) {
             characterController.SimpleMove(_movement); // muovi e calcola la gravità del player
         }
         
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos() {
         Handles.color = Color.red;
         Handles.DrawWireDisc(transform.position, Vector3.up, 2); //debug player
     }
+#endif
 }
 
-    
-    
+
+

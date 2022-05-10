@@ -11,8 +11,10 @@ public enum Role {
 
 public class CharacterRole : MonoBehaviour
 {
-    [SerializeField] Role role;
-
+    [SerializeField] private Role _role;
+    public Role role {
+        get { return _role; }
+    }
 
     /// <summary>
     /// Aggiunge e inizializza uno CharacterRole component al gameObject
@@ -56,6 +58,6 @@ public class CharacterRole : MonoBehaviour
     }
 
     public void initCharacterRoleComponent(Role role) {
-        this.role = role;
+        this._role = role;
     }
 }
