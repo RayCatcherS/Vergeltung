@@ -70,9 +70,11 @@ quando il protagonista completerà tutti gli obiettivi. Oppure il gioco terminer
 
 
 ## <span id = "1.2">1.2 Team
-Stefano Romanelli, sviluppatore di app e videogames, con esperienza di qualche anno con l'engine unity e tool come
-blender(modelli 3D e animazioni), photoshop che mi permettono di creare una bozza concettuale del gioco.
+Stefano Romanelli, sviluppo app e videogames, ho avute molte esperienze di sviluppo con l'engine unity e tool come
+blender(modelli 3D e animazioni), photoshop che mi hanno permesso di creare una bozza concettuale del gioco.
+Cosa ho ufficialmente sviluppato:
 - Un serious game sviluppato per una startup(IOS - Android): https://apps.apple.com/it/app/my-clinical-trial-center/id1576341842
+- Piattaforma web(Flutter web / Firebase) per organizzare eventi online: https://celebrateit.it/#/
 - Trailer e illustrazioni di giochi sviluppati per hobby: https://www.instagram.com/ray_catcher/?utm_medium=copy_link
 
 
