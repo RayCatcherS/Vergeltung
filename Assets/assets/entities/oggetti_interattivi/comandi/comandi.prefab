@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2447006086434256880}
   - component: {fileID: 1288284743288475656}
   m_Layer: 3
-  m_Name: comandi1
+  m_Name: comandi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,10 +68,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 7908458193692789597}
   genericEventName: SABOTAGE
-  genericEvent:
+  genericEvent1:
     m_PersistentCalls:
       m_Calls: []
-  generatorState: 0
+  genericEvent2:
+    m_PersistentCalls:
+      m_Calls: []
+  repetableInteraction: 0
+  unRepetableInteractionStateActive: 1
+  binaryInteractableState: 0
 --- !u!114 &2447006086434256880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 16a8aa9d8e71233478efc11f28d14c8e, type: 2}
     - target: {fileID: 919132149155446097, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
       propertyPath: m_Name
-      value: comandi1
+      value: comandi
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
       propertyPath: m_Layer
