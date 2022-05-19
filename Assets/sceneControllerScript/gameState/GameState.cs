@@ -9,12 +9,14 @@ public class GameState : MonoBehaviour
     [SerializeField] private int powerOffTimer = 15;
 
     [SerializeField] private LightSourcesScript[] lightSources;
+    [SerializeField] private ElectricGateController[] electricGateControllers;
 
 
     [SerializeField] private bool powerOn = true;
 
     private void Start() {
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
+        electricGateControllers = FindObjectsOfType(typeof(ElectricGateController)) as ElectricGateController[];
     }
 
     // getter
@@ -40,6 +42,13 @@ public class GameState : MonoBehaviour
         // wait iniziale
         yield return new WaitForSeconds(1f);
 
+        // apri tutti i cancelli
+        for (int i = 0; i < electricGateControllers.Length; i++) {
+            electricGateControllers[i].openGate();
+        }
+        
+
+
         // disattiva tutte le luci
         for (int i = 0; i < lightSources.Length; i++) {
             lightSources[i].turnOffLigth();
@@ -55,6 +64,12 @@ public class GameState : MonoBehaviour
             // riattiva tutte le luci
             for (int i = 0; i < lightSources.Length; i++) {
                 lightSources[i].turnOnLigth();
+            }
+
+
+            // chiudi tutti i cancelli
+            for (int i = 0; i < electricGateControllers.Length; i++) {
+                electricGateControllers[i].closeGate();
             }
 
             powerOn = true;
