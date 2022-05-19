@@ -9,7 +9,7 @@ enum BinaryInteractableState {
 }
 public class GenericBinaryInteractable : Interactable {
 
-    [SerializeField] string genericEventName = "SABOTAGE";
+    [SerializeField] string genericEventName = "ACTION";
     [SerializeField] UnityEventCharacter genericEvent1 = new UnityEventCharacter();
     [SerializeField] UnityEventCharacter genericEvent2 = new UnityEventCharacter();
     [SerializeField] private bool repetableInteraction = false;

@@ -126,10 +126,9 @@ public class WeaponItem : InventoryItem
     /// </summary>
     /// <param name="p"></param>
     public override void useItem(CharacterManager p) {
-
         if (_ammunition > 0) {
             Vector3 posA = _shootingTransform.position;
-            Vector3 posB = - Vector3.forward;
+            Vector3 posB = _shootingTransform.forward;
 
 
             GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
@@ -139,8 +138,11 @@ public class WeaponItem : InventoryItem
                 damageGO.GetComponent<Bullet>().setupBullet(posB);
 
                 if (spawnDamageObjectParticle != null) {
+
                     GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
-                    particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                    if (inventoryManager != null) {
+                        particleGO.transform.parent = inventoryManager.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                    }
                 }
             }
 
