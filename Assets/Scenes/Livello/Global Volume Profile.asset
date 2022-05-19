@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 0.2
 --- !u!114 &-8000871819384551283
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -44,6 +44,40 @@ MonoBehaviour:
   saturation:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-5536690536576728766
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 363d22a71edb5214d8cf8e2d5946a938, type: 3}
+  m_Name: Gradient
+  m_EditorClassIdentifier: 
+  active: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.7
+  input:
+    m_OverrideState: 1
+    m_Value: 0
+  color1:
+    m_OverrideState: 1
+    m_Value: {r: 0.3301887, g: 0.046614878, b: 0, a: 1}
+  color2:
+    m_OverrideState: 1
+    m_Value: {r: 0.32941177, g: 0.047058824, b: 0, a: 1}
+  rotation:
+    m_OverrideState: 1
+    m_Value: 0
+  gradientTex:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!114 &-4707467119218860602
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -60,6 +94,46 @@ MonoBehaviour:
   mode:
     m_OverrideState: 1
     m_Value: 2
+--- !u!114 &-1379029296011665409
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b72aa2546c25764e8eb85a8bbfc41e4, type: 3}
+  m_Name: LUT
+  m_EditorClassIdentifier: 
+  active: 0
+  mode:
+    m_OverrideState: 1
+    m_Value: 1
+  startFadeDistance:
+    m_OverrideState: 0
+    m_Value: 0
+  endFadeDistance:
+    m_OverrideState: 0
+    m_Value: 1000
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  lutNear:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  lutFar:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  invert:
+    m_OverrideState: 0
+    m_Value: 0
+  vibrance:
+    m_OverrideState: 1
+    m_Value: 0.41
+  vibranceRGBBalance:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,12 +147,15 @@ MonoBehaviour:
   m_Name: Global Volume Profile
   m_EditorClassIdentifier: 
   components:
+  - {fileID: 5807233215363464056}
   - {fileID: 3725528703275412407}
   - {fileID: 1744302041610410105}
   - {fileID: -8000871819384551283}
   - {fileID: -8810985424306060016}
   - {fileID: -4707467119218860602}
   - {fileID: 965835294595957145}
+  - {fileID: -1379029296011665409}
+  - {fileID: -5536690536576728766}
 --- !u!114 &965835294595957145
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -96,8 +173,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: -15
   tint:
-    m_OverrideState: 0
-    m_Value: 29.8
+    m_OverrideState: 1
+    m_Value: 20
 --- !u!114 &1744302041610410105
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -166,3 +243,25 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &5807233215363464056
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9088dd6886f40464899c14cceff9fb5d, type: 3}
+  m_Name: BlackBars
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
+  size:
+    m_OverrideState: 1
+    m_Value: 0.362
+  maxSize:
+    m_OverrideState: 0
+    m_Value: 0.33
