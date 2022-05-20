@@ -27,7 +27,7 @@ public class DoorInteractable : Interactable {
     }
 
     public void openDoor(CharacterManager characterInteraction) {
-
+        StopAllCoroutines(); // rimuovi coroutine "penzolanti" (dangling)
         doorState.closeDoor(false);
 
 

@@ -37,7 +37,7 @@ public class DoorState : MonoBehaviour
     }
 
     public void openDoorDirection1() {
-
+        resetDoor();
 
         doorAnimator.SetTrigger("openDirection1");
 
@@ -62,6 +62,7 @@ public class DoorState : MonoBehaviour
     }
 
     public void openDoorDirection2() {
+        resetDoor();
 
         doorAnimator.SetTrigger("openDirection2");
 
@@ -152,5 +153,12 @@ public class DoorState : MonoBehaviour
         if (collision.gameObject.layer == CHARACTER_LAYER) {
             doorAnimator.speed = 1;
         }
+    }
+
+    // resetta stato animazione
+    public void resetDoor() {
+        doorAnimator.ResetTrigger("openDirection1");
+        doorAnimator.ResetTrigger("openDirection2");
+        doorAnimator.ResetTrigger("close");
     }
 }
