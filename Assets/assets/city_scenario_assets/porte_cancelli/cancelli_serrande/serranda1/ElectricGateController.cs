@@ -19,9 +19,13 @@ public class ElectricGateController : MonoBehaviour
 
 
     public void openGate() {
+
+        // resetta stato animazioni cancello e coroutine penzolanti
         StopAllCoroutines();
         gateAnimator.ResetTrigger("openDirection1");
         gateAnimator.ResetTrigger("close");
+
+
 
         _gateClosed = false;
         StartCoroutine(gateLightOn());
@@ -54,6 +58,10 @@ public class ElectricGateController : MonoBehaviour
 
 
     IEnumerator gateLightOn() {
+        // resetta stato animazione luci
+        ligthAnim.ResetTrigger("lightOn");
+        ligthAnim.ResetTrigger("lightOff");
+
         busy = true;
         ligthAnim.SetTrigger("lightOn");
 
