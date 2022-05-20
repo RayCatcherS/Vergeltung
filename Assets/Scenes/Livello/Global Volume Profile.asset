@@ -59,7 +59,7 @@ MonoBehaviour:
   active: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.896
   input:
     m_OverrideState: 1
     m_Value: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   mode:
     m_OverrideState: 1
     m_Value: 2
---- !u!114 &-1379029296011665409
+--- !u!114 &-2556201689349556195
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,37 +103,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b72aa2546c25764e8eb85a8bbfc41e4, type: 3}
-  m_Name: LUT
+  m_Script: {fileID: 11500000, guid: 2e7e3c818412f16468e3b18c500430be, type: 3}
+  m_Name: TiltShift
   m_EditorClassIdentifier: 
   active: 0
+  amount:
+    m_OverrideState: 1
+    m_Value: 1
   mode:
-    m_OverrideState: 1
-    m_Value: 1
-  startFadeDistance:
     m_OverrideState: 0
     m_Value: 0
-  endFadeDistance:
-    m_OverrideState: 0
-    m_Value: 1000
-  intensity:
+  quality:
     m_OverrideState: 1
     m_Value: 1
-  lutNear:
+  areaSize:
+    m_OverrideState: 1
+    m_Value: 0.232
+  areaFalloff:
     m_OverrideState: 0
-    m_Value: {fileID: 0}
-  lutFar:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
-  invert:
+    m_Value: 1
+  offset:
+    m_OverrideState: 1
+    m_Value: -0.31
+  angle:
     m_OverrideState: 0
     m_Value: 0
-  vibrance:
-    m_OverrideState: 1
-    m_Value: 0.41
-  vibranceRGBBalance:
-    m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,8 +148,8 @@ MonoBehaviour:
   - {fileID: -8810985424306060016}
   - {fileID: -4707467119218860602}
   - {fileID: 965835294595957145}
-  - {fileID: -1379029296011665409}
   - {fileID: -5536690536576728766}
+  - {fileID: -2556201689349556195}
 --- !u!114 &965835294595957145
 MonoBehaviour:
   m_ObjectHideFlags: 3
