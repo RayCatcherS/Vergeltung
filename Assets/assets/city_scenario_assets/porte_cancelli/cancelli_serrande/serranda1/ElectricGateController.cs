@@ -18,7 +18,6 @@ public class ElectricGateController : MonoBehaviour
 
 
 
-
     public void openGate() {
         StopAllCoroutines();
         gateAnimator.ResetTrigger("openDirection1");
