@@ -28,7 +28,7 @@ public class DoorInteractable : Interactable {
 
     public void openDoor(CharacterManager characterInteraction) {
 
-        doorState.setDoorClosed(false);
+        doorState.closeDoor(false);
 
 
         // avvia chiusura timeout
@@ -37,7 +37,7 @@ public class DoorInteractable : Interactable {
 
     public void closeDoor(CharacterManager characterInteraction) {
 
-        doorState.setDoorClosed(true);
+        doorState.closeDoor(true);
 
     }
 
@@ -74,7 +74,7 @@ public class DoorInteractable : Interactable {
         yield return new WaitForSeconds(doorState.getDoorTimeOut());
 
         if (!doorState.getDoorClosed()) {
-            doorState.setDoorClosed(true); // chiudi porta
+            doorState.closeDoor(true); // chiudi porta
 
             characterInteraction.buildListOfInteraction();
         }

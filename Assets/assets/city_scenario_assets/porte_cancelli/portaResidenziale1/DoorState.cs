@@ -48,8 +48,14 @@ public class DoorState : MonoBehaviour
         doorOpenedDirection1 = true;
         doorOpenedDirection2 = false;
 
-        triggerStopDoorDirection2.enabled = true;
-        triggerStopDoorDirection1.enabled = false;
+        if(triggerStopDoorDirection2 != null) {
+            triggerStopDoorDirection2.enabled = true;
+        }
+        if (triggerStopDoorDirection1 != null) {
+            triggerStopDoorDirection1.enabled = false;
+        }
+
+        
 
 
         
@@ -66,8 +72,14 @@ public class DoorState : MonoBehaviour
         doorOpenedDirection2 = true;
         doorOpenedDirection1 = false;
 
-        triggerStopDoorDirection1.enabled = true;
-        triggerStopDoorDirection2.enabled = false;
+        if (triggerStopDoorDirection2 != null) {
+            triggerStopDoorDirection2.enabled = false;
+        }
+        if (triggerStopDoorDirection1 != null) {
+            triggerStopDoorDirection1.enabled = true;
+        }
+        
+        
 
 
     }
@@ -77,7 +89,7 @@ public class DoorState : MonoBehaviour
         doorLocked = lockedState;
     }
 
-    public void setDoorClosed(bool closeState) {
+    public void closeDoor(bool closeState) {
         doorClosed = closeState;
 
         if(doorClosed) {

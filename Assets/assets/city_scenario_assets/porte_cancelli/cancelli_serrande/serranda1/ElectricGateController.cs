@@ -6,30 +6,72 @@ public class ElectricGateController : MonoBehaviour
 {
     [SerializeField] private Animator gateAnimator;
     [SerializeField] private Animator ligthAnim;
-    [SerializeField] private float lightTimer = 2;
+    [SerializeField] private float busyGateTimer = 2; // tempo per cui il cancello resta occupato(usato per evitare interazioni durante l'animazione
+    [SerializeField] private bool busy = false;
+
+    [SerializeField] private bool _gateClosed = true;
+    [SerializeField] private float gateClosingTime = 7;
+
+    public bool gateClosed {
+        get { return _gateClosed; }
+    }
 
 
-    
+
+
     public void openGate() {
+        StopAllCoroutines();
+        gateAnimator.ResetTrigger("openDirection1");
+        gateAnimator.ResetTrigger("close");
 
+        _gateClosed = false;
         StartCoroutine(gateLightOn());
-        gateAnimator.SetTrigger("gateOpen");
+        StartCoroutine(gateClosingTimeOut());
+        gateAnimator.SetTrigger("openDirection1");
     }
 
     public void closeGate() {
+        gateAnimator.ResetTrigger("openDirection1");
+        gateAnimator.ResetTrigger("close");
 
+        _gateClosed = true;
         StartCoroutine(gateLightOn());
-        gateAnimator.SetTrigger("gateClose");
+        gateAnimator.SetTrigger("close");
+    }
+
+    public void operateGate() {
+
+        if(!busy) {
+            if (gateClosed) {
+                openGate();
+            } else {
+                closeGate();
+            }
+        }
+        
     }
 
 
 
 
     IEnumerator gateLightOn() {
-
+        busy = true;
         ligthAnim.SetTrigger("lightOn");
 
-        yield return new WaitForSeconds(lightTimer);
+        yield return new WaitForSeconds(busyGateTimer);
         ligthAnim.SetTrigger("lightOff");
+
+        busy = false;
+    }
+
+
+    IEnumerator gateClosingTimeOut() {
+        yield return new WaitForSeconds(gateClosingTime);
+
+        if (!gateClosed) {
+            closeGate(); // chiudi cancello
+        }
+
+
     }
 }
