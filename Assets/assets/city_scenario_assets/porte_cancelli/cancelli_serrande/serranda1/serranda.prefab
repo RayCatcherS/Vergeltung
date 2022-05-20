@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4624838424110872466}
   - component: {fileID: 1326096270848148253}
   - component: {fileID: 255951147174614488}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: serranda
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5560545e6c3b87f4ca6220c161595b6a, type: 2}
+  - {fileID: 2100000, guid: 6e58768768a2a9f4282ff23961c36c6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 914320071112318606}
   - component: {fileID: 9003037463326396564}
   - component: {fileID: 8755955282583084582}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 486c20b0ada7eed46bd284a9f3ff179c, type: 2}
+  - {fileID: 2100000, guid: 7ee92983d563cf4498a437524962a2dd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -240,8 +240,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2445195341532365001}
   - {fileID: 1451577086802851124}
+  - {fileID: 2445195341532365001}
   - {fileID: 2088400969870550497}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 2909399035486479092}
   - component: {fileID: 9158551175489110741}
   - component: {fileID: 7119768465953256987}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 486c20b0ada7eed46bd284a9f3ff179c, type: 2}
+  - {fileID: 2100000, guid: 7ee92983d563cf4498a437524962a2dd, type: 2}
   - {fileID: 2100000, guid: f00ad07d79481cf45915f34fa1e8adb9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -378,7 +378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6887553341987951792}
   - component: {fileID: 990890781254167694}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: lightGate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1451577086802851124}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,14 +446,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7776997728120034852}
-  m_LocalRotation: {x: 0.7071058, y: -0.000002026553, z: -4.925378e-14, w: 0.70710784}
-  m_LocalPosition: {x: -0.277, y: 0.351, z: 5.478}
+  m_LocalRotation: {x: 0.7071058, y: -0.0000020265577, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: -0.27699238, y: 0.3509965, z: 5.478}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6887553341987951792}
   m_Father: {fileID: 2593935226821295458}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &6086144284475947917
 PrefabInstance:
@@ -529,6 +529,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
       propertyPath: m_Name
       value: volumetricLightShaft (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
       propertyPath: m_IsActive
@@ -618,7 +622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6444129399251864078, guid: 599537ce6998db446b927b9dbf884896, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6444129399251864078, guid: 599537ce6998db446b927b9dbf884896, type: 3}
       propertyPath: m_LocalPosition.x
@@ -789,6 +793,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
       propertyPath: m_Name
       value: volumetricLightShaft
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dc585fc8533ef9547933bcae06cb2f16, type: 3}
       propertyPath: m_IsActive
