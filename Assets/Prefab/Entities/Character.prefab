@@ -881,14 +881,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 9188659755258602905}
   characterController: {fileID: 1493404731}
-  movementSpeed: 230
-  runMovementSpeed: 400
-  rotationSpeed: 35
+  movementSpeed: 4
+  runMovementSpeed: 7
   _characterModel: {fileID: 9188659755258602911}
   rotationAimInput: {x: 0, y: 0, z: 0}
   rotationAimTarget: {x: 0, y: 0, z: 0}
   characterModelRotation: {x: 0, y: 0}
   inventoryManager: {fileID: 30319831950813519}
+  gravity: 9.8
 --- !u!143 &1493404731
 CharacterController:
   m_ObjectHideFlags: 0
@@ -902,8 +902,8 @@ CharacterController:
   serializedVersion: 2
   m_Height: 3.04
   m_Radius: 0.6
-  m_SlopeLimit: 45
-  m_StepOffset: 0.45
+  m_SlopeLimit: 60
+  m_StepOffset: 0.35
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.55, z: 0}

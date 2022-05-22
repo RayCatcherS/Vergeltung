@@ -10,14 +10,14 @@ public class CharacterMovement : MonoBehaviour {
     public Animator animator; //animator del character
     public CharacterController characterController;
 
-    const float NEGATIVE_ROTATION_CLAMP = -1f;
-    const float POSITIVE_ROTATION_CLAMP = 1f;
-    const float NEGATIVE_MOVEMENT_CLAMP = -1f;
-    const float POSITIVE_MOVEMENT_CLAMP = 1f;
+    private const int ALL_LAYERS = -1;
+    private const float NEGATIVE_ROTATION_CLAMP = -1f;
+    private const float POSITIVE_ROTATION_CLAMP = 1f;
+    private const float NEGATIVE_MOVEMENT_CLAMP = -1f;
+    private const float POSITIVE_MOVEMENT_CLAMP = 1f;
 
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
-    [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] private GameObject _characterModel;
 
 
@@ -35,7 +35,9 @@ public class CharacterMovement : MonoBehaviour {
     public Vector3 getCharacterModelRotation { get { return characterModelRotation; } }
 
 
-    Vector3 _movement; // vettore movimento character
+    private Vector3 _movement; // vettore movimento character
+    [SerializeField] private float gravity = 9.8f;
+    private bool isGrounded = false;
 
     // ref getters 
     public GameObject characterModel {
@@ -205,12 +207,34 @@ public class CharacterMovement : MonoBehaviour {
 
     void FixedUpdate() {
 
-        // muovi character solo se è il giocatore
-        // caso in cui il character è slegato dal nav mesh agent
-        if(gameObject.GetComponent<CharacterManager>().isPlayer) {
-            characterController.SimpleMove(_movement); // muovi e calcola la gravità del player
+        // muovi character solo se il character è il giocatore
+        // caso in cui il character è slegato dal nav mesh agent (sei un player)
+        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+            if (!isGrounded) {
+                
+                characterController.Move(_movement + (- gameObject.transform.up * gravity)); // muovi e applica gravità 
+            } else {
+                characterController.Move(_movement); // muovi player
+            }
+
+            groundCheck();
         }
+
         
+        
+    }
+
+
+    // check per verificare se il character "isGrounded" 
+    private void groundCheck() {
+        RaycastHit hit;
+
+        if (Physics.Raycast(gameObject.transform.position, - gameObject.transform.up, out hit, 0.1f, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            isGrounded = true;
+        } else {
+            isGrounded = false;
+        }
     }
 
 #if UNITY_EDITOR
