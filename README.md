@@ -24,10 +24,7 @@ Documento Game Design
 href="https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/diaryPullReqIssue%236-8-18-17/README.md" >
 2 Capitolo
 </a>
-<a 
-href="[https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/diaryPullReqIssue%236-8-18-17/README.md](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diaryPullReqIssue%2323/README.md)" >
-3 Capitolo
-</a>
+
 
 
 ## Note tecniche progetto
