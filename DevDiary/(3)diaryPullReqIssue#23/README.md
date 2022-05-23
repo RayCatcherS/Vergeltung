@@ -109,4 +109,7 @@ Applicato il Navmesh Obstacle sul gate per ostacolare o liberare in tempo reale 
 | ------------- |:-------------:|
 | ![Image animator](VergeltungNoGravity.gif) | ![Image animator](VergeltungGravity.gif) |
 
-### Applicati vari miglioramenti e risolti alcuni bug
+### Vari miglioramenti
+- Applicati vari miglioramenti
+- Risolti alcuni bug
+- Controlli di mira e movimento ora sono più reattivi e precisi(usato Update al posto di FixedUpdate)
