@@ -1,4 +1,4 @@
-# Devlog(Diario di sviluppo issue 23)
+# Devlog Capitolo 3(Diario di sviluppo issue 23)
 
 ![Immage cover](VergeltungCoverIssue.png)
 - Bake illuminazione + Post processing
