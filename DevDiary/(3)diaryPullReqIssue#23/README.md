@@ -73,10 +73,20 @@ Sabotando/sovraccaricando i generatori elettrici verranno aperti tutti i gate de
 
 ![Image animator](VergeltungGate.gif)
 
+<p>&nbsp;</p>
+
+### Espedienti Gate bugs
+Per evitare che il player utente possa sfruttare il collider del gate per scavalacare o accedere a zone non consentite, viene azionato un collider alla chiusura del gate sposta il player oltre la chiusura del gate.
+
+![Image animator](VergeltungSafeGate.gif)
 
 
+<p>&nbsp;</p>
 
+### Gate NavMesh Obstacle
+Applicato il Navmesh Obstacle sul gate per ostacolare o liberare in tempo reale il percorso di un NavMesh Agent
 
+![Image animator](GateNavMeshObstacle.gif)
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -89,7 +99,14 @@ Sabotando/sovraccaricando i generatori elettrici verranno aperti tutti i gate de
 
 
 
-## Implementazione sistema shooting dei characters e inventario
+## Miglioramenti
 
-### Outline character mirati
-Quando il character player(controllato dall'utente) mira un character viene visualizzato un outline sulla sua mesh. Consente di distinguere le varie categorie dei character(civili, nemici)
+### Implementata forza di gravità character giocato
+- Implementato "GroundCheck" permette tramite un raycast rilevare se il character del player "isGrounded".
+- Se il player "is not Grounded" allora oltre che al vettore movimento, viene sommato anche il vettore della forza gravitazionale (Vector3.Down * 9.81)
+
+| Senza gravità: | Con gravità: |
+| ------------- |:-------------:|
+| ![Image animator](VergeltungNoGravity.gif) | ![Image animator](VergeltungGravity.gif) |
+
+### Applicati vari miglioramenti e risolti alcuni bug

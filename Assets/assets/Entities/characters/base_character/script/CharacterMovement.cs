@@ -211,6 +211,7 @@ public class CharacterMovement : MonoBehaviour {
         // caso in cui il character è slegato dal nav mesh agent (sei un player)
         if (gameObject.GetComponent<CharacterManager>().isPlayer) {
 
+            characterController.SimpleMove(Vector3.zero); // utile per rilevare le collisioni
             if (!isGrounded) {
                 
                 characterController.Move(_movement + (- gameObject.transform.up * gravity)); // muovi e applica gravità 
