@@ -22,6 +22,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject particleBloodImpact;
     [SerializeField] private GameObject collisionWallImpact;
 
+
+    [SerializeField] private bool destroyOnImpact = true;
+    [SerializeField] private bool isImpact = false;
     void Start()
     {
         StartCoroutine(startBulletDeadTime(deadTime));
@@ -32,34 +35,40 @@ public class Bullet : MonoBehaviour
     }
 
     void FixedUpdate() {
-        gameObject.GetComponent<Rigidbody>().MovePosition(transform.position + _bulletDirection * moveSpeed * Time.fixedDeltaTime);
 
-        // raycaster bullet collision
-        RaycastHit hit;
-        Ray ray = new Ray(gameObject.transform.position, (_bulletDirection));
+        if(!isImpact) {
+            gameObject.GetComponent<Rigidbody>().MovePosition(transform.position + _bulletDirection * moveSpeed * Time.fixedDeltaTime);
 
-        if (Physics.Raycast(ray, out hit, COLLISION_RAYCAST_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            // raycaster bullet collision
+            RaycastHit hit;
+            Ray ray = new Ray(gameObject.transform.position, (_bulletDirection));
+
+            if (Physics.Raycast(ray, out hit, COLLISION_RAYCAST_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+                if (!destroyOnImpact)
+                    isImpact = true;
 
 
-            
-            Debug.DrawLine(gameObject.transform.position, hit.point, Color.cyan);
-            Destroy(gameObject);
+                Debug.DrawLine(gameObject.transform.position, hit.point, Color.cyan);
+                if (destroyOnImpact)
+                    Destroy(gameObject);
 
 
-            if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
+                if (hit.transform.gameObject.layer == CHARACTER_LAYER) {
 
-                characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
-            } else if(hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
+                    characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
+                } else if (hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
 
-                ragdollBoneCollision(hit.point);
+                    ragdollBoneCollision(hit.point);
+                } else {
+
+                    wallCollision(hit.point, hit.normal);
+                }
+
+
             } else {
-
-                wallCollision(hit.point, hit.normal);
+                Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (_bulletDirection) * COLLISION_RAYCAST_DISTANCE, Color.cyan);
             }
-
-
-        } else {
-            Debug.DrawLine(gameObject.transform.position, gameObject.transform.position + (_bulletDirection) * COLLISION_RAYCAST_DISTANCE, Color.cyan);
         }
     }
 

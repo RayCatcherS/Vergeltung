@@ -118,7 +118,7 @@ public class WeaponItem : InventoryItem
         return eventRes;
     }
 
-    
+
 
     /// <summary>
     /// Utilizza weapon
@@ -126,9 +126,28 @@ public class WeaponItem : InventoryItem
     /// </summary>
     /// <param name="p"></param>
     public override void useItem(CharacterManager p) {
-
         if (_ammunition > 0) {
-            Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+            Vector3 posA = _shootingTransform.position;
+            Vector3 posB = _shootingTransform.forward;
+
+
+            GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+
+            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+
+                damageGO.GetComponent<Bullet>().setupBullet(posB);
+
+                if (spawnDamageObjectParticle != null) {
+
+                    GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+                    if (inventoryManager != null) {
+                        particleGO.transform.parent = inventoryManager.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                    }
+                }
+            }
+
+            busyWeaponDurationTimeEnd = Time.time + shootFrequency;
+            _ammunition = _ammunition - 1;
         }
             
     }

@@ -27,7 +27,11 @@ href="https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/diaryPullReqI
 
 
 ## Note tecniche progetto
-### Configurazione richiesta
+### Piattaforme di riferimento
+- Windows 10
+- Windows 11
+
+### Configurazione sviluppo richiesta
 - Richiesta installazione Blender versione >= 2.79 affinchè Unity riconosca i file .blend all'interno del progetto
 - Richiesto pad Xbox
 

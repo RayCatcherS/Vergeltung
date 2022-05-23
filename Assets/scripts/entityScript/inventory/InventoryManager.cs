@@ -29,8 +29,14 @@ public class InventoryManager : Interactable {
 
     [Header("Character Rig References")]
     [SerializeField] private RigBuilder rigBuilder;
-    [SerializeField] private TwoBoneIKConstraint rightHandRig;
-    [SerializeField] private TwoBoneIKConstraint leftHandRig;
+    [SerializeField] private TwoBoneIKConstraint _rightHandRig;
+    public TwoBoneIKConstraint rightHandRig {
+        get { return _rightHandRig; }
+    }
+    [SerializeField] private TwoBoneIKConstraint _leftHandRig;
+    public TwoBoneIKConstraint leftHandRig {
+        get { return _leftHandRig; }
+    }
 
 
     [Header("Inventory Objects")]
@@ -245,30 +251,30 @@ public class InventoryManager : Interactable {
 
 
         // configurazione rig
-        rightHandRig.data.target = _weaponItems[_selectedWeapon].rightHandTransformRef;
-        leftHandRig.data.target = _weaponItems[_selectedWeapon].leftHandTransformRef;
+        _rightHandRig.data.target = _weaponItems[_selectedWeapon].rightHandTransformRef;
+        _leftHandRig.data.target = _weaponItems[_selectedWeapon].leftHandTransformRef;
 
         rigBuilder.Build();
 
         // imposta rig
         if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
             if (weaponPuttedAway) {
-                rightHandRig.weight = 0;
-                leftHandRig.weight = 0;
+                _rightHandRig.weight = 0;
+                _leftHandRig.weight = 0;
             } else {
-                rightHandRig.weight = 1;
-                leftHandRig.weight = 0;
+                _rightHandRig.weight = 1;
+                _leftHandRig.weight = 0;
             }
             
         } else {
 
             if(!weaponPuttedAway) {
-                rightHandRig.weight = 1;
-                leftHandRig.weight = 1;
+                _rightHandRig.weight = 1;
+                _leftHandRig.weight = 1;
                 
             } else {
-                rightHandRig.weight = 0;
-                leftHandRig.weight = 0;
+                _rightHandRig.weight = 0;
+                _leftHandRig.weight = 0;
             }
             
         }

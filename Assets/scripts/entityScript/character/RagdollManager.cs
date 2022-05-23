@@ -35,6 +35,10 @@ public class RagdollManager : MonoBehaviour
     }
 
     public void enableRagdoll() {
+
+        gameObject.GetComponent<InventoryManager>().rightHandRig.weight = 0;
+        gameObject.GetComponent<InventoryManager>().leftHandRig.weight = 0;
+
         for (int i = 0; i < ragdollBones.Count; i++) {
             ragdollBones[i].GetComponent<Rigidbody>().isKinematic = false;
 

@@ -59,8 +59,7 @@ public class ActivityTask : MonoBehaviour
 
         characterInteraction.isBusy = false;
 
-        // passa al task successivo
-        //characterActivity.characterActivityManager.GetComponent<CharacterSpawnPoint>().spwanedNpc.GetComponents<BaseNPCBehaviour>().
+
     }
 
 

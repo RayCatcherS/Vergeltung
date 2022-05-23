@@ -13,7 +13,7 @@ public class GeneratorInteractable : Interactable {
     [SerializeField] private GeneratorState generatorState = GeneratorState.GeneratorOn;
     
 
-    public void Start() {
+    public override void Start() {
         initInteractable();
 
         sabotageGenerator.AddListener(switchOffGenerator);
