@@ -205,7 +205,7 @@ public class CharacterMovement : MonoBehaviour {
 
     }
 
-    void FixedUpdate() {
+    void Update() {
 
         // muovi character solo se il character è il giocatore
         // caso in cui il character è slegato dal nav mesh agent (sei un player)

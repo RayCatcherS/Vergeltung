@@ -59,8 +59,8 @@ public class PlayerInputController : MonoBehaviour
 
     
 
-    // input movimento più efficaci nei FixedUpdate
-    private void FixedUpdate() {
+    // input movimento più reattivi nell'Update
+    private void Update() {
 
         moveAndRotateInput();
         inventaryInput();
