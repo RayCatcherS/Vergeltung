@@ -6,8 +6,8 @@
 - Meccaniche sabotaggio
 - Console programmabili(level design)
 - Gate militari
-- Avanzamento completamento level design mappa di gioco
-- Fix gravità character
+- Avanzamento completamento level design e mappa di gioco
+- Implementata gravità character
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
