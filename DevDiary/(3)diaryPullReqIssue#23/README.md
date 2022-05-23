@@ -76,7 +76,7 @@ Sabotando/sovraccaricando i generatori elettrici verranno aperti tutti i gate de
 <p>&nbsp;</p>
 
 ### Espedienti Gate bugs
-Per evitare che il player utente possa sfruttare il collider del gate per scavalacare o accedere a zone non consentite, viene azionato un collider alla chiusura del gate sposta il player oltre la chiusura del gate.
+Per evitare che il player utente possa sfruttare il collider del gate per scavalacare o accedere a zone non consentite, viene azionato un collider alla chiusura del gate che sposta il player oltre la chiusura del gate.
 
 ![Image animator](VergeltungSafeGate.gif)
 
