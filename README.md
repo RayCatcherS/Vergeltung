@@ -25,6 +25,11 @@ href="https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/diaryPullReqI
 2 Capitolo
 </a>
 
+<a
+href="https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diaryPullReqIssue%2323/README.md" >
+3 Capitolo
+</a>
+
 
 
 ## Note tecniche progetto
