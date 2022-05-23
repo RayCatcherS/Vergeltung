@@ -1,5 +1,18 @@
 # Devlog(Diario di sviluppo issue 23)
+
 ![Immage cover](VergeltungCoverIssue.png)
+- Bake illuminazione + Post processing
+- Completamento dello scenario(edifici)
+- Meccaniche sabotaggio
+- Console programmabili(level design)
+- Gate militari
+- Avanzamento completamento level design mappa di gioco
+- Fix gravità character
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+---
 
 ## Applicazione effetti Post processing + Bake illuminazione
 Per raggiungere il concept visivo desiderato sono stati applicati effetti: Vignette, Bloom, Color Adjustments, Chromatic Aberration, Tonemapping, White Balance. Sono state inoltre settate le impostazioni per il Bake dell'illuminazione. Tutti i modelli poligonali che ho progettato ed esportato con Blender sono predisposti per il calcolo dell'illuminazione(UV Mapping)
@@ -48,7 +61,7 @@ Sono state implementate delle meccaniche per sabotare i task degli NPC riutilizz
 
 ### Interaction Console (level design)
 Progettate le interaction console. Le interaction console sono dei gameObject che permettono di esporre delle interaction ai character o NPC della mappa(interactable objects) e di associare degli eventi alle singole interaction create. In questo esempio l'evento dell'apertura di un cancello.
-Gli eventi supportati sono a singolo stato e doppio stato, questi possono essere ripetibili o meno.
+Gli eventi supportati sono a singolo stato o a doppio stato, questi possono essere ripetibili o meno.
 
 ![Image animator](interactionConsole.png)
 
