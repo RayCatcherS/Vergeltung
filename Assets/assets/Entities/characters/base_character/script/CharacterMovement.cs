@@ -18,7 +18,6 @@ public class CharacterMovement : MonoBehaviour {
 
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
-    [SerializeField] private GameObject _characterModel;
 
 
     [SerializeField] private Vector3 rotationAimInput;
@@ -41,7 +40,7 @@ public class CharacterMovement : MonoBehaviour {
 
     // ref getters 
     public GameObject characterModel {
-        get { return _characterModel; }
+        get { return gameObject; }
     }
 
     void Awake() {
@@ -238,12 +237,7 @@ public class CharacterMovement : MonoBehaviour {
         }
     }
 
-#if UNITY_EDITOR
-    void OnDrawGizmos() {
-        Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.position, Vector3.up, 2); //debug player
-    }
-#endif
+
 }
 
 

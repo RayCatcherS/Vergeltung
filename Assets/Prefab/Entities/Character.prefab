@@ -135,6 +135,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Effectors: []
+--- !u!1 &4502832465973330832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6816719811461315178}
+  m_Layer: 7
+  m_Name: recognition_target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6816719811461315178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502832465973330832}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.501, z: 0.046}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9188659755221051706}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6222346547914930332
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +595,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0.0035406968, y: -0.09352128, z: -0.12828532}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -839,8 +870,8 @@ GameObject:
   - component: {fileID: -8184361105554446216}
   - component: {fileID: 511194201638674844}
   - component: {fileID: 7076768707108263790}
-  - component: {fileID: 1646186741672614433}
   - component: {fileID: -6098220088654426462}
+  - component: {fileID: 9168440622864638927}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -864,6 +895,7 @@ Transform:
   - {fileID: 9188659755182412029}
   - {fileID: 2778031273853169101}
   - {fileID: 680609527647672771}
+  - {fileID: 6816719811461315178}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -883,7 +915,6 @@ MonoBehaviour:
   characterController: {fileID: 1493404731}
   movementSpeed: 4
   runMovementSpeed: 7
-  _characterModel: {fileID: 9188659755258602911}
   rotationAimInput: {x: 0, y: 0, z: 0}
   rotationAimTarget: {x: 0, y: 0, z: 0}
   characterModelRotation: {x: 0, y: 0}
@@ -944,7 +975,7 @@ MonoBehaviour:
   outlineScript: {fileID: 4661837539409756147}
   characterManager: {fileID: -2880058954286248499}
   characterMovement: {fileID: 9188659755221051704}
-  interactableInventoryColliderTrigger: {fileID: 1646186741672614433}
+  interactableInventoryColliderTrigger: {fileID: 0}
   headViewTransform: {fileID: 9188659755673647185}
   weaponTransform: {fileID: 9188659755442841056}
   rigBuilder: {fileID: 5257887465121811395}
@@ -1082,19 +1113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollBones: []
---- !u!135 &1646186741672614433
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9188659755221051705}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 2.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-6098220088654426462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,6 +1126,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactable: {fileID: 30319831950813519}
+--- !u!114 &9168440622864638927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb918ae08e5f9a74188f61c66a508f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCharacterMask:
+    serializedVersion: 2
+    m_Bits: 128
+  fovCheckFrequency: 0.2
+  _recognitionTarget: {fileID: 6816719811461315178}
+  _firstFovRadius: 9
+  _firstFovAngle: 55
+  firstFOVCanSeePlayer: 0
+  _secondFovRadius: 16
+  _secondFovAngle: 125
+  secondFOVCanSeePlayer: 0
+  _areaAlert: 25
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,7 +1824,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0.016133206, y: 0.16854702, z: 0}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -1972,7 +2014,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: -0.000000004656613, y: 0.72629666, z: -0.000000011175871}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -2497,7 +2539,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: -0.0000000055879354, y: 0.72645247, z: 0}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -2751,7 +2793,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0.0027234277, y: -0.09352132, z: 0.12828532}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:

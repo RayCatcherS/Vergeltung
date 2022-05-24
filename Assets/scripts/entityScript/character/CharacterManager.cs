@@ -15,7 +15,6 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
 
-
     // stati del player
     [Header("Character States")]
     [SerializeField] public bool isRunning = false;
