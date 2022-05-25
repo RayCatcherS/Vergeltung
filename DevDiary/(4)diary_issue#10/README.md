@@ -26,6 +26,13 @@ Sia il **character NPC A** tale che non sia player
 
 <p>&nbsp;</p>
 
+### Visualizzazione avanzata dei FOV da editor
+Implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di Unity per rappresentare gli stati dei vari FOV dei characters, disegnando i parametri, raggio e angolo visione ed il raycast usato dai FOV per verificare la presenza di ostacoli tra il **character NPC A** e il player. Vengono visualizzati solo quando il player innesca uno dei due FOV.
+
+![Image animator](advancedEditorFOV.gif)
+
+
+<p>&nbsp;</p>
 
 
 ### Area di allerta characters NPC
