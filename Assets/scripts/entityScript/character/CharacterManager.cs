@@ -29,12 +29,6 @@ public class CharacterManager : MonoBehaviour {
 
     public void Start() {
 
-        initCharacterManager();
-    }
-
-    private void initCharacterManager() {
-
-        
     }
 
 
@@ -239,6 +233,9 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CharacterController>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
+        // reset interactable objects
+        resetAllInteractableObjects();
+
         // stoppa componenti
         gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
         gameObject.GetComponent<CharacterFOV>().enabled = false;
@@ -266,10 +263,19 @@ public class CharacterManager : MonoBehaviour {
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
             }
         } else {
-
+            _inventoryManager.weaponLineRenderer.enabled = false;
         }
 
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
+    }
+
+    public void resetAllInteractableObjects() {
+        // unfocus outline di tutti gli interactable
+        foreach(var interactable in interactableObjects) {
+            interactable.Value.unFocusInteractable();
+        }
+        interactableObjects = new Dictionary<int, Interactable>();
+        buildListOfInteraction();
     }
 
     public void resetCharacterMovmentState() {

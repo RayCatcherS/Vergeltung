@@ -49,7 +49,10 @@ public class InventoryManager : Interactable {
     //[SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
     [Header("Weapon aim render configuration")]
-    [SerializeField] private LineRenderer weaponLineRenderer;
+    [SerializeField] private LineRenderer _weaponLineRenderer;
+    public LineRenderer weaponLineRenderer {
+        get { return _weaponLineRenderer; }
+    }
     [SerializeField] private Material weaponLineRendererMaterial;
     [SerializeField] public Gradient extractedweaponLineRendererGradient;
     [SerializeField] public Gradient puttedAwayweaponLineRendererGradient;
@@ -69,7 +72,7 @@ public class InventoryManager : Interactable {
 
 
     public void Awake() {
-        initInventoryManager();
+
         initDrawPlayerWeaponLineRendered();
 
         gamePadVibration = GameObject.Find("GameController").GetComponent<GamePadVibrationController>();
@@ -77,7 +80,6 @@ public class InventoryManager : Interactable {
 
     public void Update() {
         drawAimWeaponLineRendered();
-
     }
     
     /// <summary>
@@ -122,9 +124,6 @@ public class InventoryManager : Interactable {
         return weapon;
     }
 
-    void initInventoryManager() {
-        
-    }
 
     /// <summary>
     /// Aggiungi arma all'inventario
@@ -400,16 +399,16 @@ public class InventoryManager : Interactable {
             gameObject.AddComponent<LineRenderer>();
             lineRenderer = gameObject.GetComponent<LineRenderer>();
         }
-        weaponLineRenderer = lineRenderer;
+        _weaponLineRenderer = lineRenderer;
 
-        weaponLineRenderer.material = weaponLineRendererMaterial;
-        weaponLineRenderer.startWidth = 0.1f;
-        weaponLineRenderer.endWidth = 0.1f;
+        _weaponLineRenderer.material = weaponLineRendererMaterial;
+        _weaponLineRenderer.startWidth = 0.1f;
+        _weaponLineRenderer.endWidth = 0.1f;
 
         if (_weaponPuttedAway) {
-            weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
+            _weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
         } else {
-            weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
+            _weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
         }
             
     }
@@ -425,10 +424,10 @@ public class InventoryManager : Interactable {
         Vector3 aimedPosition = Vector3.zero;
 
         if (isSelectedWeapon && /*_weaponItems[_selectedWeapon].getWeaponType != WeaponType.melee &&*/ characterManager.isPlayer && !isGunThroughWall()) {
-            weaponLineRenderer.enabled = true;
+            _weaponLineRenderer.enabled = true;
 
 
-            weaponLineRenderer.SetPosition(0, _weaponItems[_selectedWeapon].shootingTransform.position);
+            _weaponLineRenderer.SetPosition(0, _weaponItems[_selectedWeapon].shootingTransform.position);
 
             
             RaycastHit hit;
@@ -450,14 +449,14 @@ public class InventoryManager : Interactable {
                         characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
 
                         Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
-                        weaponLineRenderer.SetPosition(1, hit.point);
+                        _weaponLineRenderer.SetPosition(1, hit.point);
                     }
 
                 } else {
                     characterManager.aimedCharacter = null;
 
                     Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
-                    weaponLineRenderer.SetPosition(1, hit.point);
+                    _weaponLineRenderer.SetPosition(1, hit.point);
                 }
                 aimedPosition = hit.point;
 
@@ -475,7 +474,7 @@ public class InventoryManager : Interactable {
                 ) * RAY_DISTANCE);
 
 
-                weaponLineRenderer.SetPosition(1, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
+                _weaponLineRenderer.SetPosition(1, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
@@ -494,7 +493,7 @@ public class InventoryManager : Interactable {
 
             
         } else {
-            weaponLineRenderer.enabled = false;
+            _weaponLineRenderer.enabled = false;
         }
 
         return aimedPosition;
@@ -586,16 +585,16 @@ public class InventoryManager : Interactable {
     public void configPutAwayExtractWeapon() {
         if (_weaponPuttedAway) {
 
-            weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
+            _weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
             _weaponItems[_selectedWeapon].gameObject.SetActive(false); // attiva arma selezionata
         } else {
 
 
             if (_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
-                weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
+                _weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
                 
             } else {
-                weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
+                _weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
                 
             }
             _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata

@@ -26,6 +26,7 @@ public class CharacterMovement : MonoBehaviour {
 
 
     [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private CharacterManager characterManager;
 
 
 
@@ -65,7 +66,7 @@ public class CharacterMovement : MonoBehaviour {
         animator.Rebind();
 
 
-
+        //Debug.Log(inventoryManager.getSelectedWeaponType);
         if(!inventoryManager.weaponPuttedAway) {
             switch (inventoryManager.getSelectedWeaponType) {
                 case WeaponType.melee: {
@@ -133,7 +134,7 @@ public class CharacterMovement : MonoBehaviour {
                 }*/
                 
             }
-            gameObject.GetComponent<CharacterManager>().isRunning = isRun;
+            characterManager.isRunning = isRun;
         }
 
 
@@ -200,7 +201,7 @@ public class CharacterMovement : MonoBehaviour {
 
         // muovi character solo se il character è il giocatore
         // caso in cui il character è slegato dal nav mesh agent (sei un player)
-        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
+        if (characterManager.isPlayer) {
 
             characterController.SimpleMove(Vector3.zero); // utile per rilevare le collisioni
             if (!isGrounded) {

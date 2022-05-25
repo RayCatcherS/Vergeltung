@@ -9,6 +9,7 @@ public class PlayerInputController : MonoBehaviour
 
     [SerializeField] private CharacterMovement _characterMovement;
     [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private CharacterManager _characterManager;
     PlayerInputAction playerActions;
 
     private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
@@ -44,6 +45,12 @@ public class PlayerInputController : MonoBehaviour
             _inventoryManager = value;
         }
     }
+    public CharacterManager characterManager {
+        get { return _characterManager; }
+        set {
+            _characterManager = value;
+        }
+    }
 
     private void OnEnable() {
         playerActions.Player.Enable();
@@ -62,8 +69,10 @@ public class PlayerInputController : MonoBehaviour
     // input movimento più reattivi nell'Update
     private void Update() {
 
-        moveAndRotateInput();
-        inventaryInput();
+        if(!_characterManager.isDead) {
+            moveAndRotateInput();
+            inventaryInput();
+        }
     }
 
     private void moveAndRotateInput() {
