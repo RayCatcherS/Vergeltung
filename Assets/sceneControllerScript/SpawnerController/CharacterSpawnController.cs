@@ -167,7 +167,7 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(enemyCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<InventoryManager>(), enemyCharacterSpawnPoints[i].getStartSelectedEquipment());
+                initializeEquipment(enemyCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<CharacterManager>().inventoryManager, enemyCharacterSpawnPoints[i].getStartSelectedEquipment());
             }
             
 
@@ -195,7 +195,7 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(civilianCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<InventoryManager>(), civilianCharacterSpawnPoints[i].getStartSelectedEquipment());
+                initializeEquipment(civilianCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<CharacterManager>().inventoryManager, civilianCharacterSpawnPoints[i].getStartSelectedEquipment());
             }
             
         }
@@ -256,7 +256,7 @@ public class CharacterSpawnController : MonoBehaviour {
             playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
 
             // inizializza equipaggiamento
-            initializeEquipment(playerSpawnPoint.getCharacterEquipment(), newPlayer.GetComponent<InventoryManager>(), playerSpawnPoint.getStartSelectedEquipment());
+            initializeEquipment(playerSpawnPoint.getCharacterEquipment(), newPlayer.GetComponent<CharacterManager>().inventoryManager, playerSpawnPoint.getStartSelectedEquipment());
         }
     }
 }

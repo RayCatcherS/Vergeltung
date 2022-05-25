@@ -34,12 +34,7 @@ public class CharacterManager : MonoBehaviour {
 
     private void initCharacterManager() {
 
-        _inventoryManager = gameObject.GetComponent<InventoryManager>();
-
-        if (_inventoryManager == null) {
-            gameObject.AddComponent<InventoryManager>();
-        }
-        _inventoryManager = gameObject.GetComponent<InventoryManager>();
+        
     }
 
 
@@ -66,7 +61,7 @@ public class CharacterManager : MonoBehaviour {
     public Transform occlusionTargetTransform {
         get { return _occlusionTargetTransform; }
     }
-
+    
 
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
@@ -121,14 +116,19 @@ public class CharacterManager : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider collision) {
+        
         if (collision.gameObject.layer == INTERACTABLE_LAYER) {
 
+            
             InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
 
-            // aggiungi interazione al dizionario delle interazioni
-            interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+            // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+            // evita che collisioni multiple aggiungano la stessa key al dizionario
+            if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+            }
 
 
             // rebuild lista interactions
@@ -232,12 +232,16 @@ public class CharacterManager : MonoBehaviour {
         
         resetCharacterMovmentState();
 
-        // disabilità componenti
+        // disabilita componenti
         gameObject.GetComponent<CharacterMovement>().enabled = false;
         gameObject.GetComponent<CharacterManager>().enabled = false;
-        gameObject.GetComponent<InventoryManager>().enabled = false;
+        _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
+
+        // stoppa componenti
+        gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
+        gameObject.GetComponent<CharacterFOV>().enabled = false;
 
         _inventoryManager.setInventoryAsInteractable();
 

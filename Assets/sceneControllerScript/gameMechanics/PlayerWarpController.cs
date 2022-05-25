@@ -41,7 +41,7 @@ public class PlayerWarpController : MonoBehaviour
 
             // configurazione comandi
             gameObject.GetComponent<PlayerInputController>().characterMovement = character.GetComponent<CharacterMovement>();
-            gameObject.GetComponent<PlayerInputController>().inventoryManager = character.GetComponent<InventoryManager>();
+            gameObject.GetComponent<PlayerInputController>().inventoryManager = character.GetComponent<CharacterManager>().inventoryManager;
 
             // configurazione camera
             gameCamera.GetComponent<CoutoutObject>().targetObject = character.occlusionTargetTransform;

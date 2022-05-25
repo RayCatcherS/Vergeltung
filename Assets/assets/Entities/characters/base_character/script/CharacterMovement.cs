@@ -91,14 +91,6 @@ public class CharacterMovement : MonoBehaviour {
 
     void initCharacterMovement() {
 
-        InventoryManager iM = gameObject.GetComponent<InventoryManager>();
-
-        if (iM == null) {
-            gameObject.AddComponent<InventoryManager>();
-            iM = gameObject.GetComponent<InventoryManager>();
-        }
-        inventoryManager = iM;
-
 
         updateAnimatorStateByInventoryWeaponType(inventoryManager.getSelectedWeaponType, inventoryManager);
     }

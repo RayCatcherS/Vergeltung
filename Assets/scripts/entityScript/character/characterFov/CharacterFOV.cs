@@ -67,6 +67,12 @@ public class CharacterFOV : MonoBehaviour
         }
     }
 
+    public void stopAllCoroutines() {
+        firstFOVCanSeePlayer = false;
+        secondFOVCanSeePlayer = false;
+        StopAllCoroutines();
+    }
+
 
     private void firstFOVCheck() {
 

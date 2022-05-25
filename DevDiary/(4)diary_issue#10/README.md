@@ -61,6 +61,7 @@ Se altri NPC sono nell'area di allerta del **character NPC A**, e se nello stess
 
 - Se il character del player entra nel dizionario dei **characters NPC OSTILI**, viene attivato lo stato di allerta "hostility alert" del **character NPC A** per 30 secondi(in ciclo await) ogni volta che il character player viene rilevato nel secondo campo visivo(giallo) il timer del "hostility alert" viene resettato nuovamente a 30. Per tutto il tempo che **character NPC A** sarà nello stato di "hostility alert" seguirà il comportamento assegnato allo stato "hostility alert". Al termine del ciclo dei 30 secondi lo "hostility alert" verrà disattivato. Il comportamento prevede che si stoppi il sistema di task/activity del **character NPC A** e che il **character NPC A** segua a distanza e attacchi il character del player()
 
+Gli stati di allerta innescati sono visualizzabili con un'animazione punto esclamativo alla metal gear solid
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 

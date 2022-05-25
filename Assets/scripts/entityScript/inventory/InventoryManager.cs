@@ -123,23 +123,6 @@ public class InventoryManager : Interactable {
     }
 
     void initInventoryManager() {
-
-        CharacterManager chM = gameObject.GetComponent<CharacterManager>();
-        if(chM == null) {
-            gameObject.AddComponent<CharacterManager>();
-            chM = gameObject.GetComponent<CharacterManager>();
-        }
-        characterManager = chM;
-
-
-
-
-        CharacterMovement chMov = gameObject.GetComponent<CharacterMovement>();
-        if (chMov == null) {
-            gameObject.AddComponent<CharacterMovement>();
-            chMov = gameObject.GetComponent<CharacterMovement>();
-        }
-        characterMovement = chMov;
         
     }
 
@@ -184,8 +167,8 @@ public class InventoryManager : Interactable {
 
 
         // builda UI solo se player
-        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
-            gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
+        if (characterManager.isPlayer) {
+            characterManager.weaponUIController.buildUI(this);
         }
     }
 
@@ -282,8 +265,8 @@ public class InventoryManager : Interactable {
         configPutAwayExtractWeapon();
 
         // builda UI solo se player
-        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
-            gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
+        if (characterManager.isPlayer) {
+            characterManager.weaponUIController.buildUI(this);
         }
         
     }
@@ -370,8 +353,8 @@ public class InventoryManager : Interactable {
             _weaponItems[_selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
 
             // builda UI solo se player
-            if (gameObject.GetComponent<CharacterManager>().isPlayer) {
-                gameObject.GetComponent<CharacterManager>().weaponUIController.buildUI(this);
+            if (characterManager.isPlayer) {
+                characterManager.weaponUIController.buildUI(this);
             }
         }
     }
