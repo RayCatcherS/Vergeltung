@@ -63,8 +63,6 @@ public class CharacterFOV : MonoBehaviour
         while(true) {
             yield return new WaitForSeconds(fovCheckFrequency);
             firstFOVCheck();
-
-            if(!firstFOVCanSeePlayer)
             secondFOVCheck();
         }
     }
@@ -74,8 +72,9 @@ public class CharacterFOV : MonoBehaviour
 
         
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _firstFovRadius, targetCharacterMask);
+        bool playerSeen = false;
 
-        if(hitColliders.Length != 0) {
+        if (hitColliders.Length != 0) {
 
             foreach(Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
@@ -98,26 +97,24 @@ public class CharacterFOV : MonoBehaviour
                             //Debug.Log(hit.collider.gameObject.name);
                             if(hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && hit.collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
+                                
                                 Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
-                                firstFOVCanSeePlayer = true;
+                                playerSeen = true;
+
 
                                 //Debug.Log("Ehi sei il player");
-                            } else {
-                                firstFOVCanSeePlayer = false;
                             }
                             
 
-                        } else {
-                            firstFOVCanSeePlayer = false;
                         }
-                    } else {
-                        firstFOVCanSeePlayer = false;
                     }
-                } else {
-                    firstFOVCanSeePlayer = false;
                 }
             }
             
+        }
+
+        if(playerSeen) {
+            firstFOVCanSeePlayer = true;
         } else {
             firstFOVCanSeePlayer = false;
         }
@@ -126,9 +123,10 @@ public class CharacterFOV : MonoBehaviour
 
 
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _secondFovRadius, targetCharacterMask);
+        bool playerSeen = false;
 
         if (hitColliders.Length != 0) {
-
+            
             foreach (Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
@@ -150,26 +148,24 @@ public class CharacterFOV : MonoBehaviour
                             //Debug.Log(hit.collider.gameObject.name);
                             if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && hit.collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
+                                if (!firstFOVCanSeePlayer)
                                 Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
-                                secondFOVCanSeePlayer = true;
+                                playerSeen = true;
+                                
 
                                 //Debug.Log("Ehi sei il player");
-                            } else {
-                                secondFOVCanSeePlayer = false;
                             }
 
 
-                        } else {
-                            secondFOVCanSeePlayer = false;
                         }
-                    } else {
-                        secondFOVCanSeePlayer = false;
                     }
-                } else {
-                    secondFOVCanSeePlayer = false;
                 }
             }
 
+        }
+
+        if(playerSeen) {
+            secondFOVCanSeePlayer = true;
         } else {
             secondFOVCanSeePlayer = false;
         }
@@ -275,11 +271,15 @@ public class CharacterFOV : MonoBehaviour
         Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, _areaAlert);
     }
 
-    void OnDrawGizmosSelected() {
+    void OnDrawGizmos() {
         if(!gameObject.GetComponent<CharacterManager>().isPlayer) {
-            drawfirstFOVEditor();
-            drawSecondFOVEditor();
-            drawAreaAlert();
+
+            // debugga campi visivi solo se i character rilevano altri character player
+            if(firstFOVCanSeePlayer || secondFOVCanSeePlayer) {
+                drawfirstFOVEditor();
+                drawSecondFOVEditor();
+                drawAreaAlert();
+            }
         }
     }
 #endif
