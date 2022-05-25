@@ -7,12 +7,12 @@
 
 ---
 
-## FOV NPC Characters
+# FOV NPC Characters
 > Sia il **character NPC A** tale che non sia player
 
 > Siano i due dizionari di ID dei character: **characters NPC SOSPETTI** e **characters NPC OSTILI** contenuti nei character NPC
 
-### CharacterFOV trigonometria a gogo part. 2
+## CharacterFOV trigonometria a gogo part. 2
 Sviluppato questo componente per consentire agli NPC di rilevare ed intercettare l'utente giocatore.
 I due campi visivi sono caratterizzati da due parametri: raggio e angolo visione.
 I due campi visivi sono rappresentati con colori differenti, la prima(giallo) e la seconda(ciano).
@@ -26,7 +26,7 @@ Sia il **character NPC A** tale che non sia player
 
 <p>&nbsp;</p>
 
-### Visualizzazione avanzata dei FOV da editor
+## Visualizzazione avanzata dei FOV da editor
 Implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di Unity per rappresentare gli stati dei vari FOV dei characters, disegnando i parametri, raggio e angolo visione ed il raycast usato dai FOV per verificare la presenza di ostacoli tra il **character NPC A** e il player. Vengono visualizzati solo quando il player innesca uno dei due FOV.
 
 ![Image animator](advancedEditorFOV.gif)
@@ -35,28 +35,28 @@ Implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di U
 <p>&nbsp;</p>
 
 
-### Area di allerta characters NPC
+## Area di allerta characters NPC
 L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
 
 <p>&nbsp;</p>
 
-## Gestione stati di allerta e Behaviour NPC
+# Gestione stati di allerta e Behaviour NPC
 > Sia il **character NPC A** tale che non sia player
 
 > Siano i due dizionari di ID dei character: **characters NPC SOSPETTI** e **characters NPC OSTILI** contenuti in tutti i character NPC
 
-### Comunicazione stati di allerta (livello locale e globale)
+## Comunicazione stati di allerta (livello locale e globale)
 - Se il character del player è un sospetto per **character NPC A** e se il character del player **character NPC A** cercherà di avvicinarsi al character player. Se il character del player resterà nel dizionario dei sospetti del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato sospetto(stato di allerta sospetto).
 - Se il character del player entra nel dizionario dei character ostili del **character NPC A**, il **character NPC A** cercherà di attaccare il character player. Se il character del player resterà nel dizionario degli ostili del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato ostile(stato di allerta ostilità).
 
 <p>&nbsp;</p>
 
-### Comunicazione istantanea stati di allerta NPC vicini
+## Comunicazione istantanea stati di allerta NPC vicini
 Se altri NPC sono nell'area di allerta del **character NPC A**, e se nello stesso momento il **character NPC A** riconosce un'ostilità e quindi aggiunge il character player al dizionario degli ostili, gli NPC che sono nell'area di allerta del **character NPC A** area ricevono istantaneamente l'update sul loro dizionario degli **characters NPC OSTILI**
 
 <p>&nbsp;</p>
 
-### Behaviour NPC e stati di allerta
+## Behaviour NPC e stati di allerta
 - Se il character del player entra nel dizionario dei **characters NPC SOSPETTI**, viene attivato lo stato di allerta "suspicious alert" del **character NPC A** per 30 secondi(in ciclo await) ogni volta che il character player viene rilevato nel primo campo visivo(ciano) il timer del "suspicious alert" viene resettato nuovamente a 30. Per tutto il tempo che **character NPC A** sarà nello stato di "suspicious alert" seguirà il comportamento assegnato allo stato "suspicious alert". Al termine del ciclo dei 30 secondi lo stato "suspicious alert" verrà disattivato. Il comportamento prevede che si stoppi il sistema di task/activity del **character NPC A** e che il **character NPC A** segua e si avvicini al character del player()
 
 - Se il character del player entra nel dizionario dei **characters NPC OSTILI**, viene attivato lo stato di allerta "hostility alert" del **character NPC A** per 30 secondi(in ciclo await) ogni volta che il character player viene rilevato nel secondo campo visivo(giallo) il timer del "hostility alert" viene resettato nuovamente a 30. Per tutto il tempo che **character NPC A** sarà nello stato di "hostility alert" seguirà il comportamento assegnato allo stato "hostility alert". Al termine del ciclo dei 30 secondi lo "hostility alert" verrà disattivato. Il comportamento prevede che si stoppi il sistema di task/activity del **character NPC A** e che il **character NPC A** segua a distanza e attacchi il character del player()
@@ -69,3 +69,7 @@ Gli stati di allerta innescati sono visualizzabili con un'animazione punto escla
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+
+# Vari fix
+- Quando il character è morto ed è un player non ci sono più input sul giocatore
+- Quando il character è morto ed è un player viene resettata l'UI e gli outline degli interactable objects focussati.
