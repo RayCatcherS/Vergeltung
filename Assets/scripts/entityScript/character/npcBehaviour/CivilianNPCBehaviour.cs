@@ -18,13 +18,13 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// implementazione comportamento di allerta 1 
     /// </summary>
     public override void alertBehaviour1() {
-
+        stopAgent();
     }
     /// <summary>
     /// implementazione comportamento di allerta 2
     /// </summary>
     public override void alertBehaviour2() {
-
+        stopAgent();
     }
     /// <summary>
     /// implementazione comportamento di allerta 3

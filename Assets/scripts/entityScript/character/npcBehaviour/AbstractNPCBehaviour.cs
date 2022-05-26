@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AlertState {
+public enum CharacterAlertState {
     Unalert,
-    Alert1,
-    Alert2,
+    SuspiciousAlert,
+    HostilityAlert,
     Alert3
 }
 

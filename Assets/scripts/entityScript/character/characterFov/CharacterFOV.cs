@@ -15,7 +15,7 @@ public class CharacterFOV : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform _recognitionTarget; // target utilizzato per confermare dai campi visivi dei character che il character è stato rilevato
-    [SerializeField] private BaseNPCBehaviour baseNPCBehaviour; // Reference Behaviour character
+    [SerializeField] private BaseNPCBehaviour nPCBehaviour; // Reference Behaviour character
 
     [Header("Impostazioni")]
     [SerializeField] private LayerMask targetCharacterMask;
@@ -111,7 +111,7 @@ public class CharacterFOV : MonoBehaviour
                                 
                                 Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
                                 playerSeen = true;
-
+                                onFirstFOVCanSeePlayer();
 
                                 //Debug.Log("Ehi sei il player");
                             }
@@ -162,7 +162,7 @@ public class CharacterFOV : MonoBehaviour
                                 if (!firstFOVCanSeePlayer)
                                 Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
                                 playerSeen = true;
-                                
+                                onSecondFOVCanSeePlayer();
 
                                 //Debug.Log("Ehi sei il player");
                             }
@@ -180,6 +180,19 @@ public class CharacterFOV : MonoBehaviour
         } else {
             secondFOVCanSeePlayer = false;
         }
+    }
+
+
+    private void onFirstFOVCanSeePlayer() {
+
+        //TODO hostility checks
+        nPCBehaviour.setAlert(CharacterAlertState.HostilityAlert);
+    }
+
+    private void onSecondFOVCanSeePlayer() {
+
+        //TODO hostility checks
+        nPCBehaviour.setAlert(CharacterAlertState.SuspiciousAlert);
     }
 
 #if UNITY_EDITOR

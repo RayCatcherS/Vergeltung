@@ -7,10 +7,19 @@ using UnityEngine.AI;
 /// Comportamento dell'npc base classe padre, implementazione astrazione AbstractNPCBehaviour
 /// </summary>
 public class BaseNPCBehaviour : AbstractNPCBehaviour {
+
+    // const
     private const int INTERACTABLE_LAYER = 3;
 
+    // values
+    private float cNPCBehaviourCoroutineFrequency = 0.02f;
 
-    protected AlertState alert = AlertState.Unalert;
+    protected CharacterAlertState _characterState = CharacterAlertState.Unalert;
+    public CharacterAlertState characterAlertState {
+        get { return _characterState; }
+    }
+    
+    // ref
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
     protected CharacterMovement characterMovement; // characterMovement collegato
     protected NavMeshAgent agent;
@@ -18,13 +27,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     protected CharacterActivityManager characterActivityManager;
 
-    public void Start() {
-        
-    }
-
-    void setAlert(AlertState alertState) {
-        alert = alertState;
-    }
 
     public void initNPCComponent(CharacterSpawnPoint spawnPoint, CharacterMovement movement) {
         this.spawnPoint = spawnPoint;
@@ -35,26 +37,48 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
     }
+    public void Start() {
+        StartCoroutine(cNPCBehaviourCoroutine());
+    }
+    private IEnumerator cNPCBehaviourCoroutine() {
+
+        while (true) {
+            yield return new WaitForSeconds(cNPCBehaviourCoroutineFrequency);
+            nPCBehaviour();
+        }
+    }
 
     
+    public void setAlert(CharacterAlertState alertState) {
 
-    public void Update() {
+        _characterState = alertState;
+    }
+
+    // stoppa agente e animazione dell'agente che dipende dal move character
+    public void stopAgent() {
+        agent.isStopped = true;
+        characterMovement.moveCharacter(Vector2.zero, false);
+    }
+
+
+    
+    private void nPCBehaviour() {
 
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
-            switch (alert) {
-                case AlertState.Unalert: {
+            switch (_characterState) {
+                case CharacterAlertState.Unalert: {
                         unalertBehaviour1();
                     }
                     break;
-                case AlertState.Alert1: {
+                case CharacterAlertState.SuspiciousAlert: {
                         alertBehaviour1();
                     }
                     break;
-                case AlertState.Alert2: {
+                case CharacterAlertState.HostilityAlert: {
                         alertBehaviour2();
                     }
                     break;
-                case AlertState.Alert3: {
+                case CharacterAlertState.Alert3: {
                         alertBehaviour3();
                     }
                     break;
@@ -64,9 +88,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     public override async void unalertBehaviour1() {
+        agent.isStopped = false;
 
-
-        if(characterActivityManager.getCharacterActivities().Count > 0) {
+        if (characterActivityManager.getCharacterActivities().Count > 0) {
             if (agentDestinationSetted == false) {
 
                 updateAgentTarget();
@@ -93,7 +117,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         
                         // esegui task ed attendi task
                         await characterActivityManager.getCurrentTask().executeTask(
-                            gameObject.GetComponent<CharacterManager>());
+                            gameObject.GetComponent<CharacterManager>(),
+                            this
+                        );
                         //Debug.Log("task eseguito");
 
 
@@ -146,11 +172,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             );
         }
     }
-
-
-    protected void startBehaviour() {
-
-    }
+    
 
     /// <summary>
     /// comportamento di allerta 1 da implementare nelle classi figlie
@@ -187,7 +209,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
-    private void OnTriggerStay(Collider collision) {
+    /*private void OnTriggerStay(Collider collision) {
 
 
         if (collision.gameObject.layer == INTERACTABLE_LAYER) {
@@ -201,6 +223,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             }
         }
-    }
+    }*/
 
 }

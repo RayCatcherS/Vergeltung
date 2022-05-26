@@ -40,25 +40,33 @@ public class ActivityTask : MonoBehaviour
         characterActivity.removeActivityPointByIID(this);
     }
 
-    public async Task executeTask(CharacterManager characterInteraction) {
+    public async Task executeTask(CharacterManager character, BaseNPCBehaviour nPCBehaviour) {
 
-        characterInteraction.isBusy = true;
+        character.isBusy = true;
         
 
         if (taskEvent != null) {
-            taskEvent.getMainInteraction().getUnityEvent().Invoke(characterInteraction);
+            taskEvent.getMainInteraction().getUnityEvent().Invoke(character);
         }
 
 
         float end = Time.time + taskTiming;
         while (Time.time < end) {
-            await Task.Yield();
+
+            if(nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
+                await Task.Yield();
+            } else {
+
+                Debug.Log("Uscita task allerta!");
+                break;
+            }
+            
         }
+        
 
 
-
-        characterInteraction.isBusy = false;
-
+        character.isBusy = false;
+        return;
 
     }
 

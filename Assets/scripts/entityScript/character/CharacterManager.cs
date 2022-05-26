@@ -229,8 +229,8 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CharacterController>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
-        // reset interactable objects
-        resetAllInteractableObjects();
+        // reset character interactable objects
+        resetAllInteractableDictionaryObjects();
 
         // stoppa componenti
         gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
@@ -265,7 +265,12 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
     }
 
-    public void resetAllInteractableObjects() {
+    /// <summary>
+    /// Disattiva gli outline di tutti gli interactable objects nel dizionario del character
+    /// Resetta dizionario del character svuotandolo
+    /// Rebuilda UI
+    /// </summary>
+    public void resetAllInteractableDictionaryObjects() {
         // unfocus outline di tutti gli interactable
         foreach(var interactable in interactableObjects) {
             interactable.Value.unFocusInteractable();
