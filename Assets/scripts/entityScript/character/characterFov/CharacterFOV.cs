@@ -13,9 +13,14 @@ public class CharacterFOV : MonoBehaviour
     private const int PLAYER_CHARACTER_LAYERS = 7;
     private const int ALL_LAYERS = -1;
 
-    [SerializeField] private LayerMask targetCharacterMask;
-    [SerializeField] private float fovCheckFrequency = 0.2f;
+    [Header("References")]
     [SerializeField] private Transform _recognitionTarget; // target utilizzato per confermare dai campi visivi dei character che il character è stato rilevato
+    [SerializeField] private BaseNPCBehaviour baseNPCBehaviour; // Reference Behaviour character
+
+    [Header("Impostazioni")]
+    [SerializeField] private LayerMask targetCharacterMask;
+    [SerializeField] private float fovCheckFrequency = 0.2f; // frequenza check campi visivi
+    
 
 
     [Header("Primo campo visivo(ravvicinato)")]
@@ -31,7 +36,7 @@ public class CharacterFOV : MonoBehaviour
     [SerializeField] private bool secondFOVCanSeePlayer = false;
 
     [Header("Area di allerta")]
-    [SerializeField] private float _areaAlert = 25;
+    [SerializeField] private float _alertArea = 25;
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
 
     public float firstFovRadius {
@@ -274,7 +279,7 @@ public class CharacterFOV : MonoBehaviour
     
     private void drawAreaAlert() {
         Handles.color = Color.gray;
-        Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, _areaAlert);
+        Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, _alertArea);
     }
 
     void OnDrawGizmos() {

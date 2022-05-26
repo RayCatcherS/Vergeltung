@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CivilianNPCBehaviour : BaseNPCBehaviour {
-    static public GameObject addToGOCivilianNPCComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
-        gameObject.AddComponent<CivilianNPCBehaviour>();
+    static public GameObject initCivilianNPCComponent(GameObject gameObject, CharacterSpawnPoint spawnPoint) {
 
         CivilianNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<CivilianNPCBehaviour>();
-        enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());
+        enemyNPCNewComponent.initNPCComponent(spawnPoint, gameObject.GetComponent<CharacterMovement>());
 
         return gameObject;
     }

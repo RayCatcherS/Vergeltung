@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
-    static public GameObject addToGOEnemyNPComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
-        gameObject.AddComponent<EnemyNPCBehaviour>();
+    static public GameObject initEnemyNPComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
 
         EnemyNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<EnemyNPCBehaviour>();
         enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());

@@ -88,11 +88,7 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject addToGOCharacterManagerComponent(GameObject gameObject, InteractionUIController controller) {
-        
-        if(gameObject.GetComponent<CharacterManager>() == null) {
-            gameObject.AddComponent<CharacterManager>();
-        }
+    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller) {
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
