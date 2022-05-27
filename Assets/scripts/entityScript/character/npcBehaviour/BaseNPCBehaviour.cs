@@ -27,14 +27,16 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
-    
+    protected bool agentDestinationSetted = false;
+
     // ref
+    [Header("Reference")]
+    [SerializeField] protected Animator alertSignAnimator;
+    protected CharacterActivityManager characterActivityManager;
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
     protected CharacterMovement characterMovement; // characterMovement collegato
     protected NavMeshAgent agent;
-    protected bool agentDestinationSetted = false;
-
-    protected CharacterActivityManager characterActivityManager;
+    
 
 
     public void initNPCComponent(CharacterSpawnPoint spawnPoint, CharacterMovement movement) {
@@ -74,20 +76,26 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     public void setAlert(CharacterAlertState alertState) {
 
-        if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) {
+        if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
             startSuspiciousTimer();
-        }else if(_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) {
+            // animation sign
+            alertSignAnimator.SetTrigger("suspiciousAlert");
+
+        } else if(_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
             resetSuspiciousTimer();
-        } else if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) {
+        } else if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             startHostilityTimer();
-        } else if (_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) {
+        } else if (_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             stopSuspiciousTimer();
             startHostilityTimer();
-        } else if(_characterState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
+
+            // animation sign
+            alertSignAnimator.SetTrigger("hostilityAlert");
+        } else if(_characterState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             stopSuspiciousTimer();
             resetHostilityTimer();
@@ -95,6 +103,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             
         }
+        
+        if(alertState == CharacterAlertState.Unalert) {
+            // animation sign
+            alertSignAnimator.SetTrigger("unalertState");
+        }
+
         _characterState = alertState;
     }
 
@@ -260,9 +274,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 setAlert(CharacterAlertState.SuspiciousAlert);
             }
         }
-        
-        //.
-        //throw new System.NotImplementedException();
     }
 
     public override void hostilityCheck(CharacterManager seenCharacterManager) {
@@ -270,11 +281,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         if (isCharacterInProhibitedAreaCheck) {
             setAlert(CharacterAlertState.HostilityAlert);
+        } else {
+            if(_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
+                setAlert(CharacterAlertState.Unalert);
+            }
         }
-
-        // TODO
-        // aggiunta character id nel dizionario
-        //throw new System.NotImplementedException();
     }
 
 
@@ -284,6 +295,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// e avvia il suspiciousTimerLoop
     /// </summary>
     private void startSuspiciousTimer() {
+
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
         suspiciousTimerLoop();
     }
@@ -299,6 +311,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// e avvia il hostilityTimerLoop
     /// </summary>
     private void startHostilityTimer() {
+
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
         hostilityTimerLoop();
     }

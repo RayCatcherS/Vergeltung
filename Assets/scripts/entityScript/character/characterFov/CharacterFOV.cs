@@ -24,7 +24,7 @@ public class CharacterFOV : MonoBehaviour
 
 
     [Header("Primo campo visivo(ravvicinato)")]
-    [SerializeField] private float _firstFovRadius = 9f;
+    [SerializeField] private float _firstFovRadius = 7f;
     [Range(0, 360)]
     [SerializeField] private float _firstFovAngle = 55;
     [SerializeField] private bool firstFOVCanSeePlayer = false;
@@ -315,6 +315,15 @@ public class CharacterFOV : MonoBehaviour
                 drawSecondFOVEditor();
                 drawAreaAlert();
             }
+        }
+    }
+
+    void OnDrawGizmosSelected() {
+        if (!gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+            drawfirstFOVEditor();
+            drawSecondFOVEditor();
+            drawAreaAlert();
         }
     }
 #endif

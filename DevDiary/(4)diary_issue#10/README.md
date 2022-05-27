@@ -10,24 +10,24 @@
 # FOV NPC Characters
 > Sia il **character NPC A** tale che non sia player
 
-> Siano i due dizionari di ID dei character: **characters NPC SOSPETTI** e **characters NPC OSTILI** contenuti nei character NPC
-
 ## CharacterFOV trigonometria a gogo part. 2
 Sviluppato questo componente per consentire agli NPC di rilevare ed intercettare l'utente giocatore.
 I due campi visivi sono caratterizzati da due parametri: raggio e angolo visione.
-I due campi visivi sono rappresentati con colori differenti, la prima(giallo) e la seconda(ciano).
-Quando il player si trova in una di questi due campi visivi, viene sparatato un raycast dall'NPC al player (raycast magenta FOV 2, raycast rosso FOV 1), se uno dei due raycast raggiunge con successo il player, il player allora è stato intercettato dall'NPC, altrimenti c'è un ostacolo e non è possibile intercettare il player.
+I due campi visivi sono rappresentati con colori differenti, la prima(giallo-ravvicinato) e la seconda(ciano-distante).
+Quando il player si trova in una di questi due campi visivi, viene utilizzato un raycast dal **character NPC A** al player (raycast magenta dal secondo FOV ciano-distante, raycast rosso dal primo FOV giallo-ravvicinato), se uno dei due raycast raggiunge con successo il character del player, **character NPC A** è riuscito ad intercettare il character player, altrimenti se il raycast viene interrotto da un ostacolo non sarà possibile intercettare il player.
 Queste due aree quindi servono ad intercettare il player con 2 differenti livelli.
-Sia il **character NPC A** tale che non sia player
-- Se il player viene intercettato tramite il primo campo visivo(ciano) dal **character NPC A**, allora il **character NPC A** in base ad alcuni check stabilirà se far entrare l'ID del character del player nel dizionario degli **characters NPC SOSPETTI**.
-- Se il player viene intercettato tramite il secondo campo visivo(giallo) dal **character NPC A**, allora **character NPC A** in base ad alcuni check stabilirà se far entrare l'ID del character del player nel dizionario degli **characters NPC OSTILI**.
+- Se il character del player viene intercettato tramite il secondo campo visivo(ciano-distante) dal **character NPC A**, allora il **character NPC A** avvierà alcuni check che stabiliranno se valutare il character del player come sospetto o meno.
+- Se il character del player viene intercettato tramite il primo campo visivo(giallo-ravvicinato) dal **character NPC A**, allora **character NPC A** avvierà alcuni check che stabiliranno se valutare il character del player come ostile o meno.
 
 ![Image animator](characterFOV.gif)
 
 <p>&nbsp;</p>
 
 ## Visualizzazione avanzata dei FOV da editor
-Implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di Unity per rappresentare gli stati dei vari FOV dei characters, disegnando i parametri, raggio e angolo visione ed il raycast usato dai FOV per verificare la presenza di ostacoli tra il **character NPC A** e il player. Vengono visualizzati solo quando il player innesca uno dei due FOV.
+Sono state implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di Unity, disegnando i parametri, raggio e angolo visione ed il raycast usato dai FOV per verificare la presenza di ostacoli tra il **character NPC A** e il player. Vengono visualizzati solo quando il player innesca uno dei due FOV.
+Questi strumenti di visual debugging mi sono tornati molto utile al fine di testare e verificare il funzionamento dell'IA e degli stati di allarme.
+- Primo FOV giallo-ravvicinato, raycast rosso
+- Secondo FOV ciano-distante, raycast magenta
 
 ![Image animator](advancedEditorFOV.gif)
 
@@ -36,16 +36,33 @@ Implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di U
 
 
 ## Area di allerta characters NPC
-L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
+L'area di allerta è una terza area circolare che viene utilizzata per rilevare i Characters vicini al **character NPC A** che nel caso in cui rileva attività ostile informerà  e aggiornerà istantaneamente i character vicini(Dizionario character ostili)
 
 <p>&nbsp;</p>
 
 # Gestione stati di allerta e Behaviour NPC
 > Sia il **character NPC A** tale che non sia player
 
-> Siano i due dizionari di ID dei character: **characters NPC SOSPETTI** e **characters NPC OSTILI** contenuti in tutti i character NPC
+Gli stati di allerta di un **character NPC A** sono due:
+- **SuspiciousAlert**, durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di SuspiciousAlert. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili).
+- **HostilityAlert**, durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di HostilityAlert. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili). Ad esempio il civile nello stato di HostilityAlert cercherà di raggiungere e avvisare la guardia più vicina, la guardia nemica invece attaccherà.
 
-## Comunicazione stati di allerta (livello locale e globale)
+<p>&nbsp;</p>
+
+## Check(controlli) affinchè vengano impostati degli stati di allerta
+Quando il character del player entra in uno dei due campi visivi(FOV) del **character NPC A**, vengono avviati dei check per verificare se il character del player è sospetto, ostile oppure nessuna delle due opzioni.
+- Check "isCharacterInProhibitedAreaCheck". Verifica se il character del player rilevato da **character NPC A** si trovi in una area proibita //se il ruolo del character è abilitato all'accesso di una certa area
+- Check "isCharacterWanted". Verifica se il character del player rilevato da **character NPC A** sia ricercato o meno usando un dizionario // sistema dizionari
+- Check "usesProhibitedItem". Verifica se il character del player rilevato da **character NPC A**  stia impugnando in modo esplicito (!weaponPuttedAway) un item non consentito(weaponItem ecc ecc).
+
+### Check "isCharacterInProhibitedAreaCheck"
+Per realizzare la possibilità di controllore se un character si trovi in una area proibita o meno, sono state realizzate le "CharacterArea" (trigger BoxCollider) con id univoco.
+ed un CharacterAreaManager assegnato ad ogni Character NPC. Il CharacterAreaManager allo spawn dell'NPC assegnerà l'id dell'area in cui l'NPC è spawnato all'NPC stesso, questo consetirà di verificare se un certo NPC appartiene o meno ad una certa area e se una certa area è proibita o meno.
+Il check "isCharacterInProhibitedAreaCheck" utilizza anche il ruolo dei character. Ad esempio le guardie nemiche possono accedere a tutte le aree. Invece i civili non potranno trovarsi in aree proibite o che non sono di loro appartenenza.
+
+<p>&nbsp;</p>
+
+## Stati di allerta e Comunicazione degli stati di allerta
 - Se il character del player resterà nel dizionario dei sospetti del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato sospetto(stato di allerta sospetto).
 - Se il character del player resterà nel dizionario degli ostili del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato ostile(stato di allerta ostilità).
 

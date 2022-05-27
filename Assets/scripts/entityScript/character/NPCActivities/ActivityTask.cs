@@ -65,7 +65,7 @@ public class ActivityTask : MonoBehaviour
                 await Task.Yield();
             } else {
 
-                Debug.Log("Uscita task allerta!");
+                Debug.Log("Interruzione task, allerta!");
                 break;
             }
             

@@ -10,6 +10,7 @@ public class CharacterManager : MonoBehaviour {
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
     [Header("References")]
+    [SerializeField] private Outline characterOutline; // outline character
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
@@ -63,18 +64,18 @@ public class CharacterManager : MonoBehaviour {
             if(value == null) { // null quando no si sta mirando un character
 
                 if(_aimedCharacter != null) { // si stava già mirando un character
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(false); // disattiva outline del character precedentemente mirato
+                    _aimedCharacter.characterOutline.setEnableOutline(false); // disattiva outline del character precedentemente mirato
                     _aimedCharacter = value;
                 }
             } else {
 
                 if (_aimedCharacter != null) { // si stava già mirando un character
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(false);
+                    _aimedCharacter.characterOutline.setEnableOutline(false);
                     _aimedCharacter = value;
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(true);
+                    _aimedCharacter.characterOutline.setEnableOutline(true);
                 } else {
                     _aimedCharacter = value;
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(true);
+                    _aimedCharacter.characterOutline.setEnableOutline(true);
                 }
             }
             

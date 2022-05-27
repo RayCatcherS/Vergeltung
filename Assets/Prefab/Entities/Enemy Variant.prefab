@@ -31,6 +31,14 @@ PrefabInstance:
       propertyPath: _weaponPuttedAway
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4661837539409756147, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+      propertyPath: outlineColor.b
+      value: 0.15686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 4661837539409756147, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+      propertyPath: outlineColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: nPCBehaviour
       value: 
@@ -118,9 +126,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63b05bab2f2cce4f95de549e4a4ba05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterState: 0
+  alertSignAnimator: {fileID: 8089895231307943866}
 --- !u!4 &1907272338256723037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9188659755673647185, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 7346306999184950284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8089895231307943866 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1564516616528333750, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
   m_PrefabInstance: {fileID: 7346306999184950284}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8274510491421689909
