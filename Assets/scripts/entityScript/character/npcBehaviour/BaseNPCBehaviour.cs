@@ -93,9 +93,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetHostilityTimer();
         } else if((_characterState == CharacterAlertState.HostilityAlert || _characterState == CharacterAlertState.SuspiciousAlert) && alertState == CharacterAlertState.Unalert) {
 
-            //TODO 
-            // implementazione metodi di start unalert behaviour
-            // sono chiamati da qui ma sono da reimplementare nelle classi figlie(esempio: EnemyNPCBehaviour, CivilianNPCBehaviour)
+            
         }
         _characterState = alertState;
     }
@@ -256,15 +254,23 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void suspiciousCheck(CharacterManager seenCharacterManager) {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
 
-        if (isCharacterInProhibitedAreaCheck) {
-            setAlert(CharacterAlertState.SuspiciousAlert);
+        if(_characterState == CharacterAlertState.Unalert) {
+
+            if (isCharacterInProhibitedAreaCheck) {
+                setAlert(CharacterAlertState.SuspiciousAlert);
+            }
         }
+        
         //.
         //throw new System.NotImplementedException();
     }
 
     public override void hostilityCheck(CharacterManager seenCharacterManager) {
-        //TODO .setAlert(CharacterAlertState.HostilityAlert);
+        bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
+
+        if (isCharacterInProhibitedAreaCheck) {
+            setAlert(CharacterAlertState.HostilityAlert);
+        }
 
         // TODO
         // aggiunta character id nel dizionario
@@ -317,7 +323,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         while (Time.time < suspiciousTimerEndStateValue) {
             await Task.Yield();
         }
-        setAlert(CharacterAlertState.Unalert);
+
+        if(characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
+        
 
         // TODO fine timer
         // ritorno allo stato Unalert
@@ -328,7 +338,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         while (Time.time < hostilityTimerEndStateValue) {
             await Task.Yield();
         }
-        setAlert(CharacterAlertState.Unalert);
+        if (characterAlertState == CharacterAlertState.HostilityAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
 
         // TODO fine timer
         // aggiunta character id nel dizionario
