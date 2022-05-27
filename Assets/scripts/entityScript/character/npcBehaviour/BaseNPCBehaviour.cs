@@ -28,6 +28,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         get { return _characterState; }
     }
     protected bool agentDestinationSetted = false;
+    Dictionary<int, CharacterManager> wantedHostileCharacters = new Dictionary<int, CharacterManager>();
 
     // ref
     [Header("Reference")]
@@ -80,6 +81,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             startSuspiciousTimer();
             // animation sign
+            resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
 
         } else if(_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
@@ -94,6 +96,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             startHostilityTimer();
 
             // animation sign
+            resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
         } else if(_characterState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
@@ -106,6 +109,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
         if(alertState == CharacterAlertState.Unalert) {
             // animation sign
+            resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("unalertState");
         }
 
@@ -267,10 +271,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// <param name="seenCharacterManager"></param>
     public override void suspiciousCheck(CharacterManager seenCharacterManager) {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
+        bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
 
-        if(_characterState == CharacterAlertState.Unalert) {
+        if (_characterState == CharacterAlertState.Unalert) {
 
-            if (isCharacterInProhibitedAreaCheck) {
+            if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
                 setAlert(CharacterAlertState.SuspiciousAlert);
             }
         }
@@ -278,9 +283,18 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     public override void hostilityCheck(CharacterManager seenCharacterManager) {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
+        bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
 
-        if (isCharacterInProhibitedAreaCheck) {
+        if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
             setAlert(CharacterAlertState.HostilityAlert);
+
+
+
+            // se non è già contenuto nel dizionario dei character ostili ricercati
+            if(!wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
+                wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager); // aggiungi character al dizionario dei character ostili ricercati
+            }
+
         } else {
             if(_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
                 setAlert(CharacterAlertState.Unalert);
@@ -322,10 +336,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
 
-    private void stopSuspiciousTimer() {
+    public void stopSuspiciousTimer() {
         suspiciousTimerEndStateValue = 0;
     }
-    private void stopHostilityCheckTimer() {
+    public void stopHostilityCheckTimer() {
         hostilityTimerEndStateValue = 0;
     }
 
@@ -343,7 +357,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
 
         // TODO fine timer
-        // ritorno allo stato Unalert
         // rimozione del alarmFocusCharacter
     }
     private async void hostilityTimerLoop() {
@@ -356,7 +369,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         // TODO fine timer
-        // aggiunta character id nel dizionario
+        // se non è morto, aggiungi character id nel dizionario
         // ritorno allo stato Unalert
         // rimozione del alarmFocusCharacter
         // (caso enemy)comunicazione del character a tutti gli altri character della mappa
@@ -368,4 +381,32 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     // TODO check character è contenuto nel dizionario dei character ostili
 
     // TODO check il character impugna un item non compatibile con il suo ruolo
+
+
+
+    void resetAlertAnimatorTrigger() {
+        alertSignAnimator.ResetTrigger("suspiciousAlert");
+        alertSignAnimator.ResetTrigger("hostilityAlert");
+        alertSignAnimator.ResetTrigger("unalertState");
+    }
+
+
+    /// <summary>
+    /// Questo metodo verifica se un certo character si trova
+    /// all'interno del dizionario wantedHostileCharacters, il dizionario
+    /// dei character o stili
+    /// </summary>
+    /// <param name="character">character da verificare se è all'interno del dizionario</param>
+    /// <returns>Torna [true] se il [character] inserito è all'interno del dizionario, altrimenti false </returns>
+    bool isCharacterWantedCheck(CharacterManager character) {
+        bool result = false;
+
+        if(wantedHostileCharacters.ContainsKey(character.GetInstanceID())) {
+            result = true;
+        } else {
+            result = false;
+        }
+
+        return result;
+    }
 }

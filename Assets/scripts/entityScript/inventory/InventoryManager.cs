@@ -600,4 +600,37 @@ public class InventoryManager : Interactable {
             _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata
         }
     }
+
+
+    /// <summary>
+    /// Verifica se il character sta impugnando un item proibito
+    /// Il risultato dipenderà dal ruolo.
+    /// Il ruolo EnemyGuard avrà la possibilita di impugnare qualsiasi tipo di item
+    /// </summary>
+    /// <returns></returns>
+    public bool isUsedItemProhibitedCheck() {
+        bool result = false;
+
+
+        if(characterManager.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+            result = false;
+        } else {
+
+
+            if (!weaponPuttedAway) {
+
+                if(weaponItems[selectedWeapon].itemNameID == BASE_MELEE_ID) {
+                    result = false;
+                } else {
+                    result = true;
+                }
+                
+            } else {
+                result = false;
+            }
+        }
+        
+
+        return result;
+    }
 }

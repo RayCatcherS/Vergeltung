@@ -40,9 +40,10 @@ L'area di allerta è una terza area circolare che viene utilizzata per rilevare 
 
 <p>&nbsp;</p>
 
-# Gestione stati di allerta e Behaviour NPC
+# Stati di allerta e Behaviour NPC
 > Sia il **character NPC A** tale che non sia player
 
+L'attivazione di uno stato di allerta comporta l'interruzione instantanea del task che stanno eseguendo
 Gli stati di allerta di un **character NPC A** sono due:
 - **SuspiciousAlert**, durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di SuspiciousAlert. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili).
 - **HostilityAlert**, durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di HostilityAlert. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili). Ad esempio il civile nello stato di HostilityAlert cercherà di raggiungere e avvisare la guardia più vicina, la guardia nemica invece attaccherà.
@@ -51,9 +52,10 @@ Gli stati di allerta di un **character NPC A** sono due:
 
 ## Check(controlli) affinchè vengano impostati degli stati di allerta
 Quando il character del player entra in uno dei due campi visivi(FOV) del **character NPC A**, vengono avviati dei check per verificare se il character del player è sospetto, ostile oppure nessuna delle due opzioni.
-- Check "isCharacterInProhibitedAreaCheck". Verifica se il character del player rilevato da **character NPC A** si trovi in una area proibita //se il ruolo del character è abilitato all'accesso di una certa area
-- Check "isCharacterWanted". Verifica se il character del player rilevato da **character NPC A** sia ricercato o meno usando un dizionario // sistema dizionari
-- Check "usesProhibitedItem". Verifica se il character del player rilevato da **character NPC A**  stia impugnando in modo esplicito (!weaponPuttedAway) un item non consentito(weaponItem ecc ecc).
+- Check **"isCharacterInProhibitedAreaCheck"**. Verifica se il character del player rilevato da **character NPC A** si trovi in una area proibita //se il ruolo del character è abilitato all'accesso di una certa area
+- Check **"isUsedItemProhibitedCheck"**. Verifica se il character del player rilevato da **character NPC A**  stia impugnando in modo esplicito (!weaponPuttedAway) un item non consentito(weaponItem ecc ecc)
+- Check **"isCharacterWantedCheck"**. Verifica se il character del player rilevato da **character NPC A** sia ricercato o meno usando un dizionario // sistema dizionari
+
 
 ### Check "isCharacterInProhibitedAreaCheck"
 Per realizzare la possibilità di controllore se un character si trovi in una area proibita o meno, sono state realizzate le "CharacterArea" (trigger BoxCollider) con id univoco.
@@ -62,7 +64,7 @@ Il check "isCharacterInProhibitedAreaCheck" utilizza anche il ruolo dei characte
 
 <p>&nbsp;</p>
 
-## Stati di allerta e Comunicazione degli stati di allerta
+## Comunicazione degli stati di allerta
 - Se il character del player resterà nel dizionario dei sospetti del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato sospetto(stato di allerta sospetto).
 - Se il character del player resterà nel dizionario degli ostili del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato ostile(stato di allerta ostilità).
 
