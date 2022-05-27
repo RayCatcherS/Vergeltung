@@ -91,7 +91,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
 
         Vector3 pos = transform.position;
 
-        if (characterRole == Role.Enemy) {
+        if (characterRole == Role.EnemyGuard) {
 
             Handles.color = Color.red;
             
@@ -109,7 +109,7 @@ public class CharacterSpawnPoint : MonoBehaviour {
         // tra la camera della scena e l'oggetto è <20
         if (scenViewCameraDistance < 20f) { 
 
-            if(characterRole == Role.Enemy) {
+            if(characterRole == Role.EnemyGuard) {
 
                 Handles.Label(
                     pos,

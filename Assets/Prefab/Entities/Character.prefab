@@ -1116,6 +1116,7 @@ GameObject:
   - component: {fileID: 511194201638674844}
   - component: {fileID: 7076768707108263790}
   - component: {fileID: 9168440622864638927}
+  - component: {fileID: 7190702502433912288}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -1286,18 +1287,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb918ae08e5f9a74188f61c66a508f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _recognitionTarget: {fileID: 6816719811461315178}
+  nPCBehaviour: {fileID: 0}
   targetCharacterMask:
     serializedVersion: 2
     m_Bits: 128
   fovCheckFrequency: 0.2
-  _recognitionTarget: {fileID: 6816719811461315178}
   _firstFovRadius: 9
   _firstFovAngle: 55
   firstFOVCanSeePlayer: 0
   _secondFovRadius: 16
   _secondFovAngle: 125
   secondFOVCanSeePlayer: 0
-  _areaAlert: 25
+  _alertArea: 25
+  seenCharacter: {fileID: 0}
+--- !u!114 &7190702502433912288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c29d97e1509354f9e1d249039e45be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  belongingAreaId: 0
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0

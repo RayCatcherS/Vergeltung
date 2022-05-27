@@ -36,8 +36,8 @@ public class CharacterFOV : MonoBehaviour
     [SerializeField] private bool secondFOVCanSeePlayer = false;
 
     [Header("Area di allerta")]
-    [SerializeField] private float _alertArea = 25;
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
+    [SerializeField] private float _alertArea = 25;
 
     public float firstFovRadius {
         get => _firstFovRadius;
@@ -78,7 +78,9 @@ public class CharacterFOV : MonoBehaviour
         StopAllCoroutines();
     }
 
-
+    /// <summary>
+    /// check campo visivo ravvicinato
+    /// </summary>
     private void firstFOVCheck() {
 
         
@@ -106,12 +108,14 @@ public class CharacterFOV : MonoBehaviour
                         if (Physics.Raycast(fromPosition, direction, out hit, _firstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                             //Debug.Log(hit.collider.gameObject.name);
-                            if(hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && hit.collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+                            CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
+                            if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
 
                                 
                                 Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
                                 playerSeen = true;
-                                onFirstFOVCanSeePlayer();
+                                onFirstFOVCanSeePlayer(seenCharacter);
 
                                 //Debug.Log("Ehi sei il player");
                             }
@@ -130,6 +134,10 @@ public class CharacterFOV : MonoBehaviour
             firstFOVCanSeePlayer = false;
         }
     }
+
+    /// <summary>
+    /// check campo visivo lontananza
+    /// </summary>
     private void secondFOVCheck() {
 
 
@@ -157,12 +165,15 @@ public class CharacterFOV : MonoBehaviour
                         if (Physics.Raycast(fromPosition, direction, out hit, _secondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                             //Debug.Log(hit.collider.gameObject.name);
-                            if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && hit.collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+                            CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
+                            if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
 
-                                if (!firstFOVCanSeePlayer)
-                                Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
+                                if (!firstFOVCanSeePlayer) {
+                                    Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
+                                }
+                                
                                 playerSeen = true;
-                                onSecondFOVCanSeePlayer();
+                                onSecondFOVCanSeePlayer(seenCharacter);
 
                                 //Debug.Log("Ehi sei il player");
                             }
@@ -183,16 +194,16 @@ public class CharacterFOV : MonoBehaviour
     }
 
 
-    private void onFirstFOVCanSeePlayer() {
+    private void onFirstFOVCanSeePlayer(CharacterManager seenCharacter) {
 
-        //TODO hostility checks
-        nPCBehaviour.setAlert(CharacterAlertState.HostilityAlert);
+        nPCBehaviour.hostilityCheck(seenCharacter);
     }
 
-    private void onSecondFOVCanSeePlayer() {
+    private void onSecondFOVCanSeePlayer(CharacterManager seenCharacter) {
 
-        //TODO hostility checks
-        nPCBehaviour.setAlert(CharacterAlertState.SuspiciousAlert);
+        if(!firstFOVCanSeePlayer) {
+            nPCBehaviour.suspiciousCheck(seenCharacter);
+        }
     }
 
 #if UNITY_EDITOR

@@ -11,25 +11,25 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         return gameObject;
     }
 
-    
+
 
 
     /// <summary>
-    /// implementazione comportamento di allerta 1 
+    /// implementazione suspiciousAlertBehaviour
     /// </summary>
-    public override void alertBehaviour1() {
+    public override void suspiciousAlertBehaviour() {
         stopAgent();
     }
     /// <summary>
-    /// implementazione comportamento di allerta 2
+    /// implementazione hostilityAlertBehaviour
     /// </summary>
-    public override void alertBehaviour2() {
+    public override void hostilityAlertBehaviour() {
         stopAgent();
     }
     /// <summary>
-    /// implementazione comportamento di allerta 3
+    /// implementazione soundAlert1Behaviour
     /// </summary>
-    public override void alertBehaviour3() {
+    public override void soundAlert1Behaviour() {
 
     }
 }

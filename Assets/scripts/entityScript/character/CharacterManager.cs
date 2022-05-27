@@ -249,14 +249,18 @@ public class CharacterManager : MonoBehaviour {
 
             Role role = gameObject.GetComponent<CharacterRole>().role;
 
-            if(role == Role.Enemy) {
+            if(role == Role.EnemyGuard) {
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
-
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
             } else if (role == Role.Civilian) {
+
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
             }
         } else {
             _inventoryManager.weaponLineRenderer.enabled = false;

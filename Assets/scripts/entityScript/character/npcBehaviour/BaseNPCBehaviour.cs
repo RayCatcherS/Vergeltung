@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,9 +13,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     private const int INTERACTABLE_LAYER = 3;
 
     // values
-    private float cNPCBehaviourCoroutineFrequency = 0.02f;
+    [Header("Configurazione")]
+    [SerializeField] private const float suspiciousTimerValue = 15f;
+    private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
+    [SerializeField] private const float hostilityTimerValue = 15f;
+    private float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
+    [SerializeField] private const float cNPCBehaviourCoroutineFrequency = 0.02f;
 
-    protected CharacterAlertState _characterState = CharacterAlertState.Unalert;
+    // states
+    [Header("Stati")]
+    protected CharacterManager alarmFocusCharacter; // ref del character che ha provocato gli stati di allarme 
+    [SerializeField] protected CharacterAlertState _characterState = CharacterAlertState.Unalert;
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
@@ -48,38 +57,68 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
-    
-    public void setAlert(CharacterAlertState alertState) {
-
-        _characterState = alertState;
-    }
-
     // stoppa agente e animazione dell'agente che dipende dal move character
     public void stopAgent() {
         agent.isStopped = true;
         characterMovement.moveCharacter(Vector2.zero, false);
     }
 
+    public void stopAllCoroutines() {
+        StopAllCoroutines();
+    }
 
-    
+
+
+
+
+
+    public void setAlert(CharacterAlertState alertState) {
+
+        if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) {
+
+            startSuspiciousTimer();
+        }else if(_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) {
+
+            resetSuspiciousTimer();
+        } else if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) {
+
+            startHostilityTimer();
+        } else if (_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) {
+
+            stopSuspiciousTimer();
+            startHostilityTimer();
+        } else if(_characterState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
+
+            stopSuspiciousTimer();
+            resetHostilityTimer();
+        } else if((_characterState == CharacterAlertState.HostilityAlert || _characterState == CharacterAlertState.SuspiciousAlert) && alertState == CharacterAlertState.Unalert) {
+
+            //TODO 
+            // implementazione metodi di start unalert behaviour
+            // sono chiamati da qui ma sono da reimplementare nelle classi figlie(esempio: EnemyNPCBehaviour, CivilianNPCBehaviour)
+        }
+        _characterState = alertState;
+    }
+
+
     private void nPCBehaviour() {
 
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
             switch (_characterState) {
                 case CharacterAlertState.Unalert: {
-                        unalertBehaviour1();
+                        unalertBehaviour();
                     }
                     break;
                 case CharacterAlertState.SuspiciousAlert: {
-                        alertBehaviour1();
+                        suspiciousAlertBehaviour();
                     }
                     break;
                 case CharacterAlertState.HostilityAlert: {
-                        alertBehaviour2();
+                        hostilityAlertBehaviour();
                     }
                     break;
-                case CharacterAlertState.Alert3: {
-                        alertBehaviour3();
+                case CharacterAlertState.SoundAlert1: {
+                        soundAlert1Behaviour();
                     }
                     break;
             }
@@ -87,13 +126,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
     }
 
-    public override async void unalertBehaviour1() {
+    /// <summary>
+    /// Questa funzione implementa il comportamento di unalertBehaviour
+    /// Vengono selezionate delle activity in modo casuale e vengono portati a termine tutti i task
+    /// </summary>
+    public override async void unalertBehaviour() {
         agent.isStopped = false;
 
         if (characterActivityManager.getCharacterActivities().Count > 0) {
             if (agentDestinationSetted == false) {
 
-                updateAgentTarget();
+                updateUnalertAgentTarget();
             
 
                 agentDestinationSetted = true;
@@ -129,13 +172,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                             if(characterActivityManager.getCharacterActivities().Count > 1) { // se le attività sono più di una
 
                                 characterActivityManager.randomCharacterActivity(); // scegli nuova attività e parti dal primo task
-                                updateAgentTarget();
+                                updateUnalertAgentTarget();
                             } else { // se l'attività è unica
                                 // Debug.Log("solo una attività");
                                 if(characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attività è ripetibile
 
                                     characterActivityManager.resetSelectedTaskPos(); // scegli nuova attività e parti dal primo task
-                                    updateAgentTarget();
+                                    updateUnalertAgentTarget();
 
                                 } else {
                                     characterMovement.moveCharacter(Vector2.zero, false); // resta fermo
@@ -147,12 +190,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
                             // Debug.Log("passa alla prossima attività");
                             characterActivityManager.setNextTaskPosOfActualActivity(); // setta in nuovo task della attività corrente
-                            updateAgentTarget();
+                            updateUnalertAgentTarget();
 
                         }
-                        
-
-
                         
                     }
                 } else {
@@ -164,7 +204,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     }
 
-    private void updateAgentTarget() {
+    private void updateUnalertAgentTarget() {
 
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
             agent.SetDestination(
@@ -172,24 +212,24 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             );
         }
     }
-    
+
 
     /// <summary>
-    /// comportamento di allerta 1 da implementare nelle classi figlie
+    /// comportamento suspiciousAlertBehaviour da implementare nelle classi figlie
     /// </summary>
-    public override void alertBehaviour1() {
-
-    }
-    /// <summary>
-    /// comportamento di allerta 2 da implementare nelle classi figlie
-    /// </summary>
-    public override void alertBehaviour2() {
+    public override void suspiciousAlertBehaviour() {
 
     }
     /// <summary>
-    /// comportamento di allerta 3 da implementare nelle classi figlie
+    /// comportamento HostilityAlertBehaviour da implementare nelle classi figlie
     /// </summary>
-    public override void alertBehaviour3() {
+    public override void hostilityAlertBehaviour() {
+
+    }
+    /// <summary>
+    /// comportamento SoundAlert1Behaviour da implementare nelle classi figlie
+    /// </summary>
+    public override void soundAlert1Behaviour() {
 
     }
 
@@ -209,20 +249,98 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
-    /*private void OnTriggerStay(Collider collision) {
+    /// <summary>
+    /// Metodo avviato dal FOV dei character
+    /// </summary>
+    /// <param name="seenCharacterManager"></param>
+    public override void suspiciousCheck(CharacterManager seenCharacterManager) {
+        bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
 
-
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
-
-            DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
-            if (doorInteractable != null) {
-
-                if (doorInteractable.doorState.isDoorClosed()) {
-                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
-                }
-
-            }
+        if (isCharacterInProhibitedAreaCheck) {
+            setAlert(CharacterAlertState.SuspiciousAlert);
         }
-    }*/
+        //.
+        //throw new System.NotImplementedException();
+    }
 
+    public override void hostilityCheck(CharacterManager seenCharacterManager) {
+        //TODO .setAlert(CharacterAlertState.HostilityAlert);
+
+        // TODO
+        // aggiunta character id nel dizionario
+        //throw new System.NotImplementedException();
+    }
+
+
+
+    /// <summary>
+    /// Questa funzione setta il punto di fine del suspiciousTimerLoop
+    /// e avvia il suspiciousTimerLoop
+    /// </summary>
+    private void startSuspiciousTimer() {
+        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+        suspiciousTimerLoop();
+    }
+    /// <summary>
+    /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
+    /// </summary>
+    private void resetSuspiciousTimer() {
+        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+    }
+
+    /// <summary>
+    /// Questa funzione setta il punto di fine del hostilityTimerEndStateValue
+    /// e avvia il hostilityTimerLoop
+    /// </summary>
+    private void startHostilityTimer() {
+        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
+        hostilityTimerLoop();
+    }
+    /// <summary>
+    /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
+    /// </summary>
+    private void resetHostilityTimer() {
+        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
+    }
+
+    private void stopSuspiciousTimer() {
+        suspiciousTimerEndStateValue = 0;
+    }
+    private void stopHostilityCheckTimer() {
+        hostilityTimerEndStateValue = 0;
+    }
+
+    
+    private async void suspiciousTimerLoop() {
+        
+
+        while (Time.time < suspiciousTimerEndStateValue) {
+            await Task.Yield();
+        }
+        setAlert(CharacterAlertState.Unalert);
+
+        // TODO fine timer
+        // ritorno allo stato Unalert
+        // rimozione del alarmFocusCharacter
+    }
+    private async void hostilityTimerLoop() {
+        
+        while (Time.time < hostilityTimerEndStateValue) {
+            await Task.Yield();
+        }
+        setAlert(CharacterAlertState.Unalert);
+
+        // TODO fine timer
+        // aggiunta character id nel dizionario
+        // ritorno allo stato Unalert
+        // rimozione del alarmFocusCharacter
+        // (caso enemy)comunicazione del character a tutti gli altri character della mappa
+        // (caso civilian)
+    }
+
+    // TODO check area accessibile
+
+    // TODO check character è contenuto nel dizionario dei character ostili
+
+    // TODO check il character impugna un item non compatibile con il suo ruolo
 }

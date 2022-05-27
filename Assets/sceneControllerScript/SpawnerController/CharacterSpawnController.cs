@@ -89,7 +89,7 @@ public class CharacterSpawnController : MonoBehaviour {
         newCharacterSpawn.name = CharacterRole.GetCharacterRoleName(characterRole) + "SpawnPoint"; // nome del gameobject
 
 
-        if(characterRole == Role.Enemy) {
+        if(characterRole == Role.EnemyGuard) {
             enemyCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista
 
             newCharacterSpawn.name = newCharacterSpawn.name + enemyCharacterSpawnPoints.Count;
@@ -114,7 +114,7 @@ public class CharacterSpawnController : MonoBehaviour {
     public void removeCharacterSpawnByGOId(int instanceID, Role characterRole) {
 
 
-        if(characterRole == Role.Enemy) {
+        if(characterRole == Role.EnemyGuard) {
             for (int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
                 if (enemyCharacterSpawnPoints[i].gameObject.GetInstanceID() == instanceID) {
