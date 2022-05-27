@@ -159,7 +159,8 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                GameState gameState = gameObject.GetComponent<GameState>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // associa npc istanziato al componente sceneEntities
@@ -187,7 +188,8 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                GameState gameState = gameObject.GetComponent<GameState>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // aggiungi npc istanziato al componente sceneEntities
@@ -243,7 +245,8 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
             InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+            GameState gameState = gameObject.GetComponent<GameState>();
+            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
             // associa npc istanziato al componente sceneEntities

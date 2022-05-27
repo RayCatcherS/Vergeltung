@@ -15,7 +15,10 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
-
+    [SerializeField] private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
+    public GameState globalGameState {
+        get { return _globalGameState; }
+    }
     // stati del player
     [Header("Character States")]
     [SerializeField] public bool isRunning = false;
@@ -89,11 +92,11 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller) {
+    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState) {
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
-
+        characterInteraction._globalGameState = gameState;
         return gameObject;
     }
 

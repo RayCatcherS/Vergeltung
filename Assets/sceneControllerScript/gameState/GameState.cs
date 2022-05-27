@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Game state di gioco, utilizzato per accedere a stati e metodi globali che hanno ripercussioni sull'intero gioco
+/// </summary>
 public class GameState : MonoBehaviour
 {
+    [Header("Power settings and states")]
     [SerializeField] private int energyPowerLife = 5;
-
     [SerializeField] private int powerOffTimer = 15;
-
     [SerializeField] private LightSourcesScript[] lightSources;
     [SerializeField] private ElectricGateController[] electricGateControllers;
-
-
     [SerializeField] private bool powerOn = true;
+
+    [Header("Game global value state")]
+    Dictionary<int, CharacterManager> globalWantedHostileCharacters = new Dictionary<int, CharacterManager>();
 
     private void Start() {
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
@@ -33,9 +36,6 @@ public class GameState : MonoBehaviour
         energyPowerLife--;
         StartCoroutine(turnOffPowerTimed());
     }
-
-
-    
 
     private IEnumerator turnOffPowerTimed() {
 
@@ -76,6 +76,31 @@ public class GameState : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Questo metodo (unione tra dictionaryToUseToUpdate e globalWantedHostileCharacters)
+    /// aggiorna il dizionario globale degli NPC ostili e aggiorna il dizionario locale di tutti gli NPC
+    /// </summary>
+    /// <param name="dictionaryToUseToUpdate"></param>
+    public void updateGlobalWantedHostileCharacters(Dictionary<int, CharacterManager> dictionaryToUseToUpdate) {
+
+
+        foreach (var character in dictionaryToUseToUpdate) {
+            
+
+            if(!globalWantedHostileCharacters.ContainsKey(character.Key)) {
+                globalWantedHostileCharacters.Add(character.Value.GetInstanceID(), character.Value);
+            }
+        }
+
+
+        // get all game characters
+        List<BaseNPCBehaviour> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
+        foreach(var character in allCharactersBehaviour) {
+            character.wantedHostileCharacters = globalWantedHostileCharacters;
+        }
+
+    }
 
     
 }

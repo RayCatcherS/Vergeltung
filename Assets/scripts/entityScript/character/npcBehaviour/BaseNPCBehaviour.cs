@@ -28,7 +28,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         get { return _characterState; }
     }
     protected bool agentDestinationSetted = false;
-    Dictionary<int, CharacterManager> wantedHostileCharacters = new Dictionary<int, CharacterManager>();
+    protected Dictionary<int, CharacterManager> _wantedHostileCharacters = new Dictionary<int, CharacterManager>();
+    public Dictionary<int, CharacterManager> wantedHostileCharacters {
+        set {
+            _wantedHostileCharacters = value;
+        }
+    }
 
     // ref
     [Header("Reference")]
@@ -80,6 +85,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
             startSuspiciousTimer();
+
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
@@ -90,11 +96,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         } else if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             startHostilityTimer();
+
+            // animation sign
+            resetAlertAnimatorTrigger();
+            alertSignAnimator.SetTrigger("hostilityAlert");
         } else if (_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             stopSuspiciousTimer();
             startHostilityTimer();
-
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
@@ -291,8 +300,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
             // se non è già contenuto nel dizionario dei character ostili ricercati
-            if(!wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
-                wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager); // aggiungi character al dizionario dei character ostili ricercati
+            if(!_wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
+                _wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager); // aggiungi character al dizionario dei character ostili ricercati
             }
 
         } else {
@@ -356,7 +365,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         
 
-        // TODO fine timer
+        // TODO
         // rimozione del alarmFocusCharacter
     }
     private async void hostilityTimerLoop() {
@@ -368,19 +377,22 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             setAlert(CharacterAlertState.Unalert);
         }
 
-        // TODO fine timer
-        // se non è morto, aggiungi character id nel dizionario
-        // ritorno allo stato Unalert
+        // TODO
+
         // rimozione del alarmFocusCharacter
-        // (caso enemy)comunicazione del character a tutti gli altri character della mappa
-        // (caso civilian)
+
+        // aggiorna dizionari ostilità
+        if(!gameObject.GetComponent<CharacterManager>().isDead) {
+            onHostilityTimerEnd();
+        }
     }
 
-    // TODO check area accessibile
+    /// <summary>
+    /// Implementare metodi che si vogliono eseguire una volta che l'hostilityTimerLoop termina
+    /// </summary>
+    public virtual void onHostilityTimerEnd() {
 
-    // TODO check character è contenuto nel dizionario dei character ostili
-
-    // TODO check il character impugna un item non compatibile con il suo ruolo
+    }
 
 
 
@@ -401,7 +413,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     bool isCharacterWantedCheck(CharacterManager character) {
         bool result = false;
 
-        if(wantedHostileCharacters.ContainsKey(character.GetInstanceID())) {
+        if(_wantedHostileCharacters.ContainsKey(character.GetInstanceID())) {
             result = true;
         } else {
             result = false;

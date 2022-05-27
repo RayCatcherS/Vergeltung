@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class SceneEntitiesController : MonoBehaviour
 {
-    [SerializeField] private List<BaseNPCBehaviour> allNpcList = new List<BaseNPCBehaviour>();
+    [SerializeField] private List<BaseNPCBehaviour> _allNpcList = new List<BaseNPCBehaviour>();
+    public List<BaseNPCBehaviour> allNpcList {
+        get { return _allNpcList; }
+    }
     [SerializeField] private List<EnemyNPCBehaviour> enemyNpcList = new List<EnemyNPCBehaviour>();
     [SerializeField] private List<EnemyNPCBehaviour> civilianNpcList = new List<EnemyNPCBehaviour>();
 
     [SerializeField] private GameObject player;
 
     public void addNPCEnemyIstance(EnemyNPCBehaviour enemyNPCBehaviour) {
-        allNpcList.Add(enemyNPCBehaviour);
+        _allNpcList.Add(enemyNPCBehaviour);
         enemyNpcList.Add(enemyNPCBehaviour);
     }
 
     public void addNPCCivilianIstance(EnemyNPCBehaviour enemyNPCBehaviour) {
-        allNpcList.Add(enemyNPCBehaviour);
+        _allNpcList.Add(enemyNPCBehaviour);
         civilianNpcList.Add(enemyNPCBehaviour);
     }
 
