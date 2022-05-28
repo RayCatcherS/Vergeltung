@@ -130,6 +130,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("unalertState");
 
+            alarmFocusCharacter = null;
         }
 
         
