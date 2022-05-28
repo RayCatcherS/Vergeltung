@@ -9,7 +9,7 @@ public class SceneEntitiesController : MonoBehaviour
         get { return _allNpcList; }
     }
     [SerializeField] private List<EnemyNPCBehaviour> enemyNpcList = new List<EnemyNPCBehaviour>();
-    [SerializeField] private List<EnemyNPCBehaviour> civilianNpcList = new List<EnemyNPCBehaviour>();
+    [SerializeField] private List<CivilianNPCBehaviour> civilianNpcList = new List<CivilianNPCBehaviour>();
 
     [SerializeField] private GameObject player;
 
@@ -18,7 +18,7 @@ public class SceneEntitiesController : MonoBehaviour
         enemyNpcList.Add(enemyNPCBehaviour);
     }
 
-    public void addNPCCivilianIstance(EnemyNPCBehaviour enemyNPCBehaviour) {
+    public void addNPCCivilianIstance(CivilianNPCBehaviour enemyNPCBehaviour) {
         _allNpcList.Add(enemyNPCBehaviour);
         civilianNpcList.Add(enemyNPCBehaviour);
     }

@@ -194,7 +194,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
                 // aggiungi npc istanziato al componente sceneEntities
                 SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviour>());
 
                 // inizializza equipaggiamento
                 initializeEquipment(civilianCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<CharacterManager>().inventoryManager, civilianCharacterSpawnPoints[i].getStartSelectedEquipment());

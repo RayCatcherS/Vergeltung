@@ -99,10 +99,14 @@ public class GameState : MonoBehaviour
         foreach(var character in allCharactersBehaviour) {
 
 
-            character.wantedHostileCharacters = new Dictionary<int, CharacterManager>();
+            CharacterManager characterManager = character.gameObject.GetComponent<CharacterManager>();
 
-            foreach(var globalWantedHostileCharacter in globalWantedHostileCharacters) {
-                character.wantedHostileCharacters.Add(globalWantedHostileCharacter.Key, globalWantedHostileCharacter.Value);
+            if (!characterManager.isDead) {
+                character.wantedHostileCharacters = new Dictionary<int, CharacterManager>();
+
+                foreach (var globalWantedHostileCharacter in globalWantedHostileCharacters) {
+                    character.wantedHostileCharacters.Add(globalWantedHostileCharacter.Key, globalWantedHostileCharacter.Value);
+                }
             }
         }
 
