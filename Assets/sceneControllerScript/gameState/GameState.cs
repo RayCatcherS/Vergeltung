@@ -97,7 +97,13 @@ public class GameState : MonoBehaviour
         // get all game characters
         List<BaseNPCBehaviour> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
         foreach(var character in allCharactersBehaviour) {
-            character.wantedHostileCharacters = globalWantedHostileCharacters;
+
+
+            character.wantedHostileCharacters = new Dictionary<int, CharacterManager>();
+
+            foreach(var globalWantedHostileCharacter in globalWantedHostileCharacters) {
+                character.wantedHostileCharacters.Add(globalWantedHostileCharacter.Key, globalWantedHostileCharacter.Value);
+            }
         }
 
     }

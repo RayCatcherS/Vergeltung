@@ -231,7 +231,6 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CharacterManager>().enabled = false;
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
-        gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
         // reset character interactable objects
         resetAllInteractableDictionaryObjects();

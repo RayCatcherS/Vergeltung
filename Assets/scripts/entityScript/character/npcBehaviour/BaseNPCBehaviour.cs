@@ -22,8 +22,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // states
     [Header("Stati")]
-    protected CharacterManager alarmFocusCharacter; // ref del character che ha provocato gli stati di allarme 
-    [SerializeField] protected CharacterAlertState _characterState = CharacterAlertState.Unalert;
+    
+    protected CharacterManager alarmFocusCharacter; // ref del character che ha provocato gli stati di allarme
+    [SerializeField] protected CharacterAlertState _characterState = CharacterAlertState.Unalert; // stato 
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
@@ -32,6 +33,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public Dictionary<int, CharacterManager> wantedHostileCharacters {
         set {
             _wantedHostileCharacters = value;
+        }
+        get {
+            return _wantedHostileCharacters;
         }
     }
 
@@ -80,9 +84,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
 
-    public void setAlert(CharacterAlertState alertState) {
+    private void setAlert(CharacterAlertState alertState) {
 
-        if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
+        CharacterAlertState oldAlertState = _characterState;
+
+        _characterState = alertState;
+
+        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
             startSuspiciousTimer();
 
@@ -90,28 +98,29 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
 
-        } else if(_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
+        } else if(oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
             resetSuspiciousTimer();
-        } else if(_characterState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+        } else if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             startHostilityTimer();
 
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
-        } else if (_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+        } else if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
             stopSuspiciousTimer();
             startHostilityTimer();
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
-        } else if(_characterState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+        } else if(oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+
 
             stopSuspiciousTimer();
             resetHostilityTimer();
-        } else if((_characterState == CharacterAlertState.HostilityAlert || _characterState == CharacterAlertState.SuspiciousAlert) && alertState == CharacterAlertState.Unalert) {
+        } else if((oldAlertState == CharacterAlertState.HostilityAlert || oldAlertState == CharacterAlertState.SuspiciousAlert) && alertState == CharacterAlertState.Unalert) {
 
             
         }
@@ -120,9 +129,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("unalertState");
+
         }
 
-        _characterState = alertState;
+        
     }
 
 
@@ -282,10 +292,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
 
-        if (_characterState == CharacterAlertState.Unalert) {
+        if (_characterState == CharacterAlertState.Unalert) {alarmFocusCharacter = null;
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
+
+                alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
                 setAlert(CharacterAlertState.SuspiciousAlert);
+            } else {
+                alarmFocusCharacter = null;
             }
         }
     }
@@ -295,17 +309,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
 
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
+
+            alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
             setAlert(CharacterAlertState.HostilityAlert);
 
 
-
+            // aggiungi character al dizionario dei character ostili ricercati
             // se non è già contenuto nel dizionario dei character ostili ricercati
-            if(!_wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
-                _wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager); // aggiungi character al dizionario dei character ostili ricercati
+            if (!_wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
+                _wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager);
             }
 
         } else {
-            if(_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
+
+            alarmFocusCharacter = null;
+            if (_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
                 setAlert(CharacterAlertState.Unalert);
             }
         }
@@ -326,6 +344,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
     /// </summary>
     private void resetSuspiciousTimer() {
+        onHostilityAlert(); // start dell'evento on hostility
+
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
     }
 
@@ -334,6 +354,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// e avvia il hostilityTimerLoop
     /// </summary>
     private void startHostilityTimer() {
+        onHostilityAlert(); // start dell'evento on hostility
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
         hostilityTimerLoop();
@@ -342,6 +363,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
     private void resetHostilityTimer() {
+
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
 
@@ -383,14 +405,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         // aggiorna dizionari ostilità
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
-            onHostilityTimerEnd();
+            onHostilityAlertTimerEnd();
         }
     }
 
     /// <summary>
-    /// Implementare metodi che si vogliono eseguire una volta che l'hostilityTimerLoop termina
+    /// Implementare metodo nelle classi figle se si vuole eseguire una volta che l'hostilityTimerLoop termina
     /// </summary>
-    public virtual void onHostilityTimerEnd() {
+    public virtual void onHostilityAlertTimerEnd() {
+
+    }
+
+    /// <summary>
+    /// Implementare metodo nelle classi figle se si vuole eseguire quando l'HostilityAlert inizia
+    /// </summary>
+    public virtual void onHostilityAlert() {
 
     }
 

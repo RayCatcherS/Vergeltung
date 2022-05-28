@@ -194,6 +194,40 @@ public class CharacterFOV : MonoBehaviour
     }
 
 
+    public Dictionary<int, BaseNPCBehaviour> getAlertAreaCharacters() {
+
+        Dictionary<int, BaseNPCBehaviour> characters = new Dictionary<int, BaseNPCBehaviour>();
+
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _alertArea, targetCharacterMask);
+
+        if (hitColliders.Length != 0) {
+
+            foreach (Collider collider in hitColliders) {
+
+                if (!collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+                    if (collider.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+
+                        // evita la creazione di doppioni
+                        if(!characters.ContainsKey(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID()))
+                            characters.Add(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<EnemyNPCBehaviour>());
+
+                    } else if (collider.gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
+
+                        // evita la creazione di doppioni
+                        if (!characters.ContainsKey(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID()))
+                            characters.Add(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<CivilianNPCBehaviour>());
+
+                    }
+                }
+                
+            }
+
+        }
+
+        return characters;
+    }
+
     private void onFirstFOVCanSeePlayer(CharacterManager seenCharacter) {
 
         nPCBehaviour.hostilityCheck(seenCharacter);

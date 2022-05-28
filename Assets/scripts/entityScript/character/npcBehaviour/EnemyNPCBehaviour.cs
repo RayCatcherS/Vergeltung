@@ -37,7 +37,20 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// passando il dizionario del character (viene fatta l'unione)
     /// Inoltre tutti gli altri character nemici avranno il dizionario hostility aggiornato
     /// </summary>
-    public override void onHostilityTimerEnd() {
+    public override void onHostilityAlertTimerEnd() {
         gameObject.GetComponent<CharacterManager>().globalGameState.updateGlobalWantedHostileCharacters(this._wantedHostileCharacters);
+    }
+
+    public override void onHostilityAlert() {
+
+        
+        Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
+        
+
+
+        // aggiorna dizionario dei characters in modo istantaneo
+        foreach (var character in characters) {
+            character.Value.hostilityCheck(alarmFocusCharacter);
+        }
     }
 }

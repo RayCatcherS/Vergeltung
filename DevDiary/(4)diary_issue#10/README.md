@@ -1,7 +1,8 @@
 # Devlog Capitolo 4(Diario di sviluppo issue 10)
 
-- Implementato componenete "CharacterFOV". Implementa tramite un doppio Field Of View la rilevazione del player
-
+- "CharacterFOV". Implementa tramite un doppio Field Of View la rilevazione del character player
+- Attivazione degli stati di allerta in base all'area del FOV usando i check **"isCharacterInProhibitedAreaCheck"**, **"isUsedItemProhibitedCheck"**, **"isCharacterWantedCheck"**
+- Comunicazione locale e globale degli stati di allerta
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -36,17 +37,14 @@ Questi strumenti di visual debugging mi sono tornati molto utile al fine di test
 
 
 ## Area di allerta characters NPC
-L'area di allerta è una terza area circolare che viene utilizzata per rilevare i Characters vicini al **character NPC A** che nel caso in cui rileva attività ostile informerà  e aggiornerà istantaneamente i character vicini(Dizionario character ostili)
+L'area di allerta è una terza area circolare che viene utilizzata per rilevare i Characters vicini al **character NPC A**. Da usare per simulare le comunicazioni di informazioni tra characters.
 
 <p>&nbsp;</p>
 
-# Stati di allerta e Behaviour NPC
+# Attivazione stati di allerta e Behaviour NPC
 > Sia il **character NPC A** tale che non sia player
 
 L'attivazione di uno stato di allerta comporta l'interruzione instantanea del task che stanno eseguendo
-Gli stati di allerta di un **character NPC A** sono due:
-- **SuspiciousAlert**, durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di SuspiciousAlert. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili).
-- **HostilityAlert**, durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di HostilityAlert. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili). Ad esempio il civile nello stato di HostilityAlert cercherà di raggiungere e avvisare la guardia più vicina, la guardia nemica invece attaccherà.
 
 <p>&nbsp;</p>
 
@@ -62,27 +60,51 @@ Per realizzare la possibilità di controllore se un character si trovi in una ar
 ed un CharacterAreaManager assegnato ad ogni Character NPC. Il CharacterAreaManager allo spawn dell'NPC assegnerà l'id dell'area in cui l'NPC è spawnato all'NPC stesso, questo consetirà di verificare se un certo NPC appartiene o meno ad una certa area e se una certa area è proibita o meno.
 Il check "isCharacterInProhibitedAreaCheck" utilizza anche il ruolo dei character. Ad esempio le guardie nemiche possono accedere a tutte le aree. Invece i civili non potranno trovarsi in aree proibite o che non sono di loro appartenenza.
 
+### **Stati di allerta provocati da equipagiamento proibito** 
+![Image animator](gunAlert.gif)
+### **Stati di allerta provocati da area proibita** 
+
 <p>&nbsp;</p>
 
-## Comunicazione degli stati di allerta
-- Se il character del player resterà nel dizionario dei sospetti del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato sospetto(stato di allerta sospetto).
-- Se il character del player resterà nel dizionario degli ostili del **character NPC A** per più di 30 secondi allora verranno aggiornati i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato ostile(stato di allerta ostilità).
+## Stati di allerta
+
+Gli stati di allerta di un **character NPC A** sono due.
+Gli stati di allerta innescati sono visualizzabili con un'animazione punto esclamativo
+- giallo per lo stato di allerta "SuspiciousAlert"
+- rosso per lo stato di allerta "HostilityAlert"
+
+### **SuspiciousAlert** 
+Questo stato viene attivato quando almeno uno dei tre check è vero. 
+
+1. Il timer dello stato ha una durata di x secondi.
+2. Per tutto il tempo in cui il character si trova nel secondo fov ciano e se almeno uno dei check è vero, allora viene resettato il timer dello stato **SuspiciousAlert**
+3. Durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di SuspiciousAlert.
+4. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili).
+
+<p>&nbsp;</p>
+
+### **HostilityAlert** 
+Questo stato viene attivato quando almeno uno dei tre check è vero.
+
+1. **Se tutti i 3 check all'interno del secondo FOV giallo risultano falsi decade anche l'eventuale stato di SuspiciousAlert**
+2. Il timer dello stato ha una durata di x secondi.
+3. Per tutto il tempo in cui il character si trova nel primo fov giallo e se almeno uno dei check è vero, allora viene resettato il timer dello stato **HostilityAlert**
+4. Il character player viene aggiunto all'interno del dizionario del **character NPC A**. 
+5. Durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di HostilityAlert.
+6. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili). Ad esempio il civile nello stato di HostilityAlert cercherà di raggiungere e avvisare la guardia più vicina, la guardia nemica invece attaccherà.
+
+
+<p>&nbsp;</p>
+
+## Comunicazione e fine degli stati di allerta
+- Dopo x secondi quando si conclude il suspiciousTimerLoop(lo stato di SuspiciousAlert) del **character NPC A**, il **character NPC A** torna nello stato di unalert.
+- Dopo x secondi quando si conclude il hostilityTimerLoop(lo stato di HostilityAlert) del **character NPC A**, il **character NPC A** lancia dal GameState il metodo **"updateGlobalWantedHostileCharacters"** che aggiorna tutti i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato ostile nel dizionario del **character NPC A**.
 
 <p>&nbsp;</p>
 
 ## Comunicazione istantanea stati di allerta NPC vicini
 Se altri NPC sono nell'area di allerta del **character NPC A**, e se nello stesso momento il **character NPC A** riconosce un'ostilità e quindi aggiunge il character player al dizionario degli ostili, gli NPC che sono nell'area di allerta del **character NPC A** area ricevono istantaneamente l'update sul loro dizionario degli **characters NPC OSTILI**
 
-<p>&nbsp;</p>
-
-## Behaviour NPC e stati di allerta
-- Se il suspiciousCheck del **character NPC A** nei confronti del player è vero allora viene impostato lo stato di allerta **SuspiciousAlert** del **character NPC A** per 30 secondi(in ciclo await) ogni volta che il character player viene rilevato nel primo campo visivo(ciano) il timer del "suspicious alert" viene resettato nuovamente a 30. Per tutto il tempo che **character NPC A** sarà nello stato di "suspicious alert" seguirà il comportamento assegnato allo stato "suspicious alert". Al termine del ciclo dei 30 secondi lo stato "suspicious alert" verrà disattivato. Il comportamento prevede che si stoppi il sistema di task/activity del **character NPC A** e che il **character NPC A** segua e si avvicini al character del player
-
-- Se l'hostilityCheck del **character NPC A** nei confronti del player è vero allora **character NPC A** va in stato **HostilityAlert** ed il character del player entra nel dizionario dei **characters NPC OSTILI**, viene attivato lo stato di allerta "hostility alert" del **character NPC A** per 30 secondi(in ciclo await) ogni volta che il character player viene rilevato nel secondo campo visivo(giallo) il timer del "hostility alert" viene resettato nuovamente a 30. Per tutto il tempo che **character NPC A** sarà nello stato di "hostility alert" seguirà il comportamento assegnato allo stato "hostility alert". Al termine del ciclo dei 30 secondi lo "hostility alert" verrà disattivato. Il comportamento prevede che si stoppi il sistema di task/activity del **character NPC A** e che il **character NPC A** segua a distanza e attacchi il character del player
-
-Gli stati di allerta innescati sono visualizzabili con un'animazione punto esclamativo alla metal gear solid
-- giallo per lo stato di allerta "SuspiciousAlert"
-- rosso per lo stato di allerta "HostilityAlert"
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
