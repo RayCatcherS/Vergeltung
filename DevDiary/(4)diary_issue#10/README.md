@@ -86,6 +86,11 @@ Questo stato viene attivato quando almeno uno dei tre check è vero.
 3. Durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di SuspiciousAlert.
 4. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili).
 
+Se il character player ha già innescato lo stato di **SuspiciousAlert** del **character NPC A** questo può trasformarsi direttamente in stato **HostilityAlert** se il character del player **inizia a correre** o **inizia a sparare** nel secondo campo visivo ciano
+| Passaggio diretto a **HostilityAlert** del **character NPC A** iniziando a correre: | Passaggio diretto a **HostilityAlert** del **character NPC A** iniziando a sparare: |
+| ------------- |:-------------:|
+| ![Image animator](HostilityAlertByRunning.gif) | ![Image animator](HostilityAlertByShooting.gif) |
+
 <p>&nbsp;</p>
 
 ### **HostilityAlert** 

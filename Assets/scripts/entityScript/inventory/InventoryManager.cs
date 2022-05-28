@@ -68,7 +68,16 @@ public class InventoryManager : Interactable {
     public bool weaponPuttedAway {
         get { return _weaponPuttedAway; }
     }
-    
+
+    /// <summary>
+    /// Verifica se l'arma selezionata sta sparando
+    /// </summary>
+    public bool isWeaponFiring {
+        get {
+
+            return weaponItems[selectedWeapon].isWeaponFiring;
+        }
+    }
 
 
     public void Awake() {

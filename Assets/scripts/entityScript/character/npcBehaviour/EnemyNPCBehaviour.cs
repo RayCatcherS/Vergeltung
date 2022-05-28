@@ -50,7 +50,10 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         // aggiorna dizionario dei characters in modo istantaneo
         foreach (var character in characters) {
-            character.Value.hostilityCheck(alarmFocusCharacter);
+
+            if(character.Value.characterAlertState != CharacterAlertState.HostilityAlert) {
+                character.Value.hostilityCheck(alarmFocusCharacter);
+            }
         }
     }
 }

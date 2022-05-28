@@ -225,6 +225,17 @@ public class CharacterFOV : MonoBehaviour
 
         }
 
+        // rimozione character che fa il controllo
+        // se stesso non fa parte dei character rilevati dall'alarm area
+        if(gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+
+            characters.Remove(gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID());
+        } else if(gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
+
+            characters.Remove(gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID());
+        }
+        
+
         return characters;
     }
 

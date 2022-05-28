@@ -52,6 +52,12 @@ public class CharacterManager : MonoBehaviour {
     public InventoryManager inventoryManager {
         get { return _inventoryManager; }
     }
+    public bool isWeaponCharacterFiring {
+        get {
+
+            return inventoryManager.weaponItems[inventoryManager.selectedWeapon].isWeaponFiring;
+        }
+    }
     public Animator characterAnimator {
         get { return _characterAnimator; }
     }

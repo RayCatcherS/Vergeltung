@@ -83,7 +83,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
 
-
+    /// <summary>
+    /// cambia lo stato di allerta del character e avvia animazione 
+    /// di allerta
+    /// </summary>
+    /// <param name="alertState"></param>
     private void setAlert(CharacterAlertState alertState) {
 
         CharacterAlertState oldAlertState = _characterState;
@@ -137,6 +141,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
 
+    /// <summary>
+    /// Switch dei behaviour
+    /// </summary>
     private void nPCBehaviour() {
 
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
@@ -239,7 +246,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
 
     }
-
     private void updateUnalertAgentTarget() {
 
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
@@ -293,12 +299,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
 
-        if (_characterState == CharacterAlertState.Unalert) {alarmFocusCharacter = null;
+        if (_characterState == CharacterAlertState.Unalert || _characterState == CharacterAlertState.SuspiciousAlert) {
+
+            
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
 
                 alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-                setAlert(CharacterAlertState.SuspiciousAlert);
+
+                if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
+
+                    setAlert(CharacterAlertState.HostilityAlert);
+                } else {
+                    setAlert(CharacterAlertState.SuspiciousAlert);
+                }
+                
             } else {
                 alarmFocusCharacter = null;
             }
@@ -306,6 +321,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     public override void hostilityCheck(CharacterManager seenCharacterManager) {
+
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
 
@@ -345,7 +361,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
     /// </summary>
     private void resetSuspiciousTimer() {
-        onHostilityAlert(); // start dell'evento on hostility
 
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
     }
@@ -364,6 +379,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
     private void resetHostilityTimer() {
+        onHostilityAlert(); // start dell'evento on hostility
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
