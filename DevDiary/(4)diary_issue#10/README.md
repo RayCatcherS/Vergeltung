@@ -62,7 +62,12 @@ Il check "isCharacterInProhibitedAreaCheck" utilizza anche il ruolo dei characte
 
 ### **Stati di allerta provocati da equipagiamento proibito** 
 ![Image animator](gunAlert.gif)
+
 ### **Stati di allerta provocati da area proibita** 
+![Image animator](areaAlert.gif)
+
+### **Stati di allerta provocati dall'essere ricercato** 
+![Image animator](wantedAlarm.gif)
 
 <p>&nbsp;</p>
 
@@ -86,17 +91,19 @@ Questo stato viene attivato quando almeno uno dei tre check è vero.
 ### **HostilityAlert** 
 Questo stato viene attivato quando almeno uno dei tre check è vero.
 
-1. **Se tutti i 3 check all'interno del secondo FOV giallo risultano falsi decade anche l'eventuale stato di SuspiciousAlert**
+1. **Se tutti i 3 check all'interno del secondo FOV giallo risultano falsi si annulla l'eventuale stato di SuspiciousAlert**
 2. Il timer dello stato ha una durata di x secondi.
 3. Per tutto il tempo in cui il character si trova nel primo fov giallo e se almeno uno dei check è vero, allora viene resettato il timer dello stato **HostilityAlert**
 4. Il character player viene aggiunto all'interno del dizionario del **character NPC A**. 
 5. Durante questo stato il **character NPC A** eseguirà l'implementazione del comportamento dello stato di HostilityAlert.
 6. Le specializzazione del **character NPC A** implementa comportamenti differenti(guardie nemiche e civili). Ad esempio il civile nello stato di HostilityAlert cercherà di raggiungere e avvisare la guardia più vicina, la guardia nemica invece attaccherà.
 
+### **Caso in cui lo stato SuspiciousAlert si annulla** 
+![Image animator](cancelSuspiciousAlert.gif)
 
 <p>&nbsp;</p>
 
-## Comunicazione e fine degli stati di allerta
+## Comunicazione globale stati allerta e fine degli stati di allerta
 - Dopo x secondi quando si conclude il suspiciousTimerLoop(lo stato di SuspiciousAlert) del **character NPC A**, il **character NPC A** torna nello stato di unalert.
 - Dopo x secondi quando si conclude il hostilityTimerLoop(lo stato di HostilityAlert) del **character NPC A**, il **character NPC A** lancia dal GameState il metodo **"updateGlobalWantedHostileCharacters"** che aggiorna tutti i dizionari di tutti gli NPC della mappa con il nuovo character player dichiarato ostile nel dizionario del **character NPC A**.
 
@@ -104,6 +111,9 @@ Questo stato viene attivato quando almeno uno dei tre check è vero.
 
 ## Comunicazione istantanea stati di allerta NPC vicini
 Se altri NPC sono nell'area di allerta del **character NPC A**, e se nello stesso momento il **character NPC A** riconosce un'ostilità e quindi aggiunge il character player al dizionario degli ostili, gli NPC che sono nell'area di allerta del **character NPC A** area ricevono istantaneamente l'update sul loro dizionario degli **characters NPC OSTILI**
+
+![Image animator](instantaneousAlarm.gif)
+
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
