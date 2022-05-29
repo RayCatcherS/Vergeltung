@@ -42,6 +42,17 @@ public class InventoryManager : Interactable {
     [Header("Inventory Objects")]
     [SerializeField] private List<WeaponItem> _weaponItems = new List<WeaponItem>();
     [SerializeField] private List<ActionObjectItem> actionObjectItems = new List<ActionObjectItem>();
+    [SerializeField] private bool _isFlashlightTaken = false;
+    public bool isFlashlightTaken {
+        get { return _isFlashlightTaken; }
+        set {
+            _isFlashlightTaken = value;
+        }
+    }
+    [SerializeField] private CharacterFlashLight _characterFlashLight;
+    public CharacterFlashLight characterFlashLight {
+        get { return _characterFlashLight; }
+    }
 
     [Header("Inventory state")]
     [SerializeField] private bool _weaponPuttedAway = true;
@@ -85,6 +96,7 @@ public class InventoryManager : Interactable {
         initDrawPlayerWeaponLineRendered();
 
         gamePadVibration = GameObject.Find("GameController").GetComponent<GamePadVibrationController>();
+
     }
 
     public void Update() {

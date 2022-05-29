@@ -1,7 +1,7 @@
-using UnityEngine.AI;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Collections;
 
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
@@ -11,6 +11,7 @@ public class CharacterManager : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private Outline characterOutline; // outline character
+    [SerializeField] private CharacterFOV characterFOV; // componente fov del character
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
@@ -30,6 +31,15 @@ public class CharacterManager : MonoBehaviour {
 
     [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
+    [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia 
+    [Range(0, 360)]
+    [SerializeField] private float _firstMalusFovAngle = 60;
+    
+    [Range(0, 360)]
+    [SerializeField] private float _secondMalusFovAngle = 90;
+    [SerializeField] private int dividerFOVMalusValue = 2; // valore divisore fov malus 
+    [SerializeField] private float dividerFOVMalusFlashlightValue = 1.4f; // valore divisore fov malus
+
 
     public void Start() {
 
@@ -65,7 +75,6 @@ public class CharacterManager : MonoBehaviour {
     public Transform occlusionTargetTransform {
         get { return _occlusionTargetTransform; }
     }
-    
 
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
@@ -221,6 +230,56 @@ public class CharacterManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Applica malus sul FOV del character riducendone la visibilità
+    /// </summary>
+    public async void applyFOVMalus() {
+
+        characterFOV.setFOVValues(
+            firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
+            firstFovAngle: _firstMalusFovAngle,
+
+            secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusValue,
+            secondFovAngle: _secondMalusFovAngle
+        );
+
+
+        // se il character ha una torcia
+        if (_inventoryManager.isFlashlightTaken) {
+            /// Permette di accendere le torce dopo un tempo t
+            /// ripristinando il fov del character
+            /// Da usare per le guardie più specializzate
+            float endTime = FOVUnmalusFlashlightTimer + Time.time;
+            while (Time.time < endTime) {
+                await Task.Yield();
+            }
+
+
+
+            // flashlight fov
+            await restoreFOVMalus();
+
+            await _inventoryManager.characterFlashLight.lightOnFlashLight();
+
+            characterFOV.setFOVValues(
+                firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusFlashlightValue,
+                firstFovAngle: _firstMalusFovAngle,
+
+                secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusFlashlightValue,
+                secondFovAngle: _secondMalusFovAngle
+            );
+        }
+    }
+
+    /// <summary>
+    /// Ripristina valori default del FOV
+    /// </summary>
+    public async Task<bool> restoreFOVMalus() {
+        characterFOV.setFOVValuesToDefault();
+        await _inventoryManager.characterFlashLight.lightOffFlashLight();
+
+        return true;
+    }
 
     /// <summary>
     /// Porta il character nello stato Dead
@@ -239,7 +298,7 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CharacterController>().enabled = false;
 
         // reset character interactable objects
-        resetAllInteractableDictionaryObjects();
+        emptyAllInteractableDictionaryObjects();
 
         // stoppa componenti
         gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
@@ -255,9 +314,11 @@ public class CharacterManager : MonoBehaviour {
 
         if(!isPlayer) {
 
+            inventoryManager.characterFlashLight.instantLightOffFlashLight();
+
             Role role = gameObject.GetComponent<CharacterRole>().role;
             
-            if(role == Role.EnemyGuard) {
+            if (role == Role.EnemyGuard) {
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
@@ -285,7 +346,7 @@ public class CharacterManager : MonoBehaviour {
     /// Resetta dizionario del character svuotandolo
     /// Rebuilda UI
     /// </summary>
-    public void resetAllInteractableDictionaryObjects() {
+    public void emptyAllInteractableDictionaryObjects() {
         // unfocus outline di tutti gli interactable
         foreach(var interactable in interactableObjects) {
             interactable.Value.unFocusInteractable();

@@ -8,6 +8,19 @@ public class SceneEntitiesController : MonoBehaviour
     public List<BaseNPCBehaviour> allNpcList {
         get { return _allNpcList; }
     }
+    public List<CharacterManager> getAllNPC() {
+        List<CharacterManager> characterManagers = new List<CharacterManager>();
+
+        for(int i = 0; i < _allNpcList.Count; i++) {
+
+            characterManagers.Add(
+                _allNpcList[i].gameObject.GetComponent<CharacterManager>()
+            );
+        }
+
+        return characterManagers;
+    }
+
     [SerializeField] private List<EnemyNPCBehaviour> enemyNpcList = new List<EnemyNPCBehaviour>();
     [SerializeField] private List<CivilianNPCBehaviour> civilianNpcList = new List<CivilianNPCBehaviour>();
 

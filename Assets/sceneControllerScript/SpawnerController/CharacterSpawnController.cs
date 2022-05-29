@@ -168,7 +168,12 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(enemyCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<CharacterManager>().inventoryManager, enemyCharacterSpawnPoints[i].getStartSelectedEquipment());
+                initializeEquipment(
+                    enemyCharacterSpawnPoints[i].getCharacterEquipment(),
+                    newCharacter.GetComponent<CharacterManager>().inventoryManager,
+                    enemyCharacterSpawnPoints[i].getStartSelectedEquipment(),
+                    enemyCharacterSpawnPoints[i].flashlightTaken
+                );
             }
             
 
@@ -197,13 +202,18 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviour>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(civilianCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<CharacterManager>().inventoryManager, civilianCharacterSpawnPoints[i].getStartSelectedEquipment());
+                initializeEquipment(
+                    civilianCharacterSpawnPoints[i].getCharacterEquipment(),
+                    newCharacter.GetComponent<CharacterManager>().inventoryManager,
+                    civilianCharacterSpawnPoints[i].getStartSelectedEquipment(),
+                    civilianCharacterSpawnPoints[i].flashlightTaken
+                );
             }
             
         }
     }
 
-    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon) {
+    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon, bool flashLightTaken) {
         
         if(equip == Equipment.noWeaponEquipment) {
             for(int i = 0; i < noWeaponEquipment.Count; i++) {
@@ -230,6 +240,8 @@ public class CharacterSpawnController : MonoBehaviour {
             }
 
         }
+
+        inventoryM.isFlashlightTaken = flashLightTaken;
 
         inventoryM.selectWeapon(selectedWeapon);
     }
@@ -259,7 +271,12 @@ public class CharacterSpawnController : MonoBehaviour {
             playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
 
             // inizializza equipaggiamento
-            initializeEquipment(playerSpawnPoint.getCharacterEquipment(), newPlayer.GetComponent<CharacterManager>().inventoryManager, playerSpawnPoint.getStartSelectedEquipment());
+            initializeEquipment(
+                playerSpawnPoint.getCharacterEquipment(),
+                newPlayer.GetComponent<CharacterManager>().inventoryManager,
+                playerSpawnPoint.getStartSelectedEquipment(),
+                playerSpawnPoint.flashlightTaken
+            );
         }
     }
 }

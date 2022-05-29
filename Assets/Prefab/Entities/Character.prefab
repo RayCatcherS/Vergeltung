@@ -224,6 +224,8 @@ MonoBehaviour:
   _leftHandRig: {fileID: 7892442787022868577}
   _weaponItems: []
   actionObjectItems: []
+  _isFlashlightTaken: 0
+  _characterFlashLight: {fileID: 4031843635860128937}
   _weaponPuttedAway: 0
   _selectedWeapon: 0
   _weaponLineRenderer: {fileID: 5523876777131510061}
@@ -1218,6 +1220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterOutline: {fileID: 4661837539409756147}
+  characterFOV: {fileID: 9168440622864638927}
   _interactionUIController: {fileID: 0}
   _weaponUIController: {fileID: 0}
   _inventoryManager: {fileID: 3018318475669417757}
@@ -1230,6 +1233,10 @@ MonoBehaviour:
   _aimedCharacter: {fileID: 0}
   _characterAnimator: {fileID: 9188659755258602905}
   characterHealth: 100
+  FOVUnmalusFlashlightTimer: 4
+  _firstMalusFovAngle: 60
+  _secondMalusFovAngle: 90
+  dividerFOVMalusValue: 2
 --- !u!114 &7076768707108263790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1262,11 +1269,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   fovCheckFrequency: 0.2
-  _firstFovRadius: 7
-  _firstFovAngle: 90
+  _defaultFirstFovRadius: 6
+  _defaultFirstFovAngle: 110
   firstFOVCanSeePlayer: 0
-  _secondFovRadius: 18
-  _secondFovAngle: 145
+  _defaultSecondFovRadius: 18
+  _defaultSecondFovAngle: 145
   secondFOVCanSeePlayer: 0
   _alertArea: 15
 --- !u!114 &7190702502433912288
@@ -3308,10 +3315,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterSpotLight
       objectReference: {fileID: 0}
-    - target: {fileID: 412018264984731758, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 683357788125547477, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3326,7 +3329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 683357788125547477, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.37
+      value: 0.579
       objectReference: {fileID: 0}
     - target: {fileID: 683357788125547477, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3358,6 +3361,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
+--- !u!114 &4031843635860128937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 566858437605275584, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
+  m_PrefabInstance: {fileID: 3471746251018072937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947f4daf0e56ab84082ae1fe630d3abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4131446396056352956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 683357788125547477, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}

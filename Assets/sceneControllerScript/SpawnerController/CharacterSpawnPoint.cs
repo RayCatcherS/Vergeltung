@@ -13,7 +13,10 @@ public class CharacterSpawnPoint : MonoBehaviour {
     [Header("Character equipment config")]
     [SerializeField] private Equipment characterEquipment;
     [SerializeField] private int startSelectedEquipment = 0;
-    
+    [SerializeField] private bool _flashlightTaken = false;
+    public bool flashlightTaken {
+        get { return _flashlightTaken; }
+    }
 
     // getter
     public Role getSpawnCharacterRole() {

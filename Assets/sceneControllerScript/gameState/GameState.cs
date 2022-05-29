@@ -8,7 +8,6 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     [Header("Power settings and states")]
-    [SerializeField] private int energyPowerLife = 5;
     [SerializeField] private int powerOffTimer = 15;
     [SerializeField] private LightSourcesScript[] lightSources;
     [SerializeField] private ElectricGateController[] electricGateControllers;
@@ -33,8 +32,9 @@ public class GameState : MonoBehaviour
     /// </summary>
     public void turnOffPower() {
 
-        energyPowerLife--;
-        StartCoroutine(turnOffPowerTimed());
+        if(powerOn) {
+            StartCoroutine(turnOffPowerTimed());
+        }
     }
 
     private IEnumerator turnOffPowerTimed() {
@@ -54,26 +54,37 @@ public class GameState : MonoBehaviour
             lightSources[i].turnOffLigth();
         }
 
+
+        // applica FOV malus a tutti i character della scena
+        List<CharacterManager> characterManagers = gameObject.GetComponent<SceneEntitiesController>().getAllNPC();
+        for (int i = 0; i < characterManagers.Count; i++) {
+
+            characterManagers[i].applyFOVMalus();
+        }
+
         powerOn = false;
 
         yield return new WaitForSeconds(powerOffTimer);
 
-        
-        if (energyPowerLife > 0) { // se le life power sono > 0
 
-            // riattiva tutte le luci
-            for (int i = 0; i < lightSources.Length; i++) {
-                lightSources[i].turnOnLigth();
-            }
-
-
-            // chiudi tutti i cancelli
-            for (int i = 0; i < electricGateControllers.Length; i++) {
-                electricGateControllers[i].closeGate();
-            }
-
-            powerOn = true;
+        // riattiva tutte le luci
+        for (int i = 0; i < lightSources.Length; i++) {
+            lightSources[i].turnOnLigth();
         }
+
+
+        // chiudi tutti i cancelli
+        for (int i = 0; i < electricGateControllers.Length; i++) {
+            electricGateControllers[i].closeGate();
+        }
+
+        // rimuovi FOV malus a tutti i character della scena
+        for (int i = 0; i < characterManagers.Count; i++) {
+
+            _ = characterManagers[i].restoreFOVMalus();
+        }
+
+        powerOn = true;
     }
 
 
