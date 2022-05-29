@@ -38,7 +38,7 @@ public class CharacterManager : MonoBehaviour {
     [Range(0, 360)]
     [SerializeField] private float _secondMalusFovAngle = 90;
     [SerializeField] private int dividerFOVMalusValue = 2; // valore divisore fov malus 
-    [SerializeField] private float dividerFOVMalusFlashlightValue = 1.4f; // valore divisore fov malus
+    [SerializeField] private float dividerFOVMalusFlashlightValue = 1.3f; // valore divisore fov malus
 
 
     public void Start() {
@@ -257,7 +257,7 @@ public class CharacterManager : MonoBehaviour {
 
 
             // flashlight fov
-            await restoreFOVMalus();
+            characterFOV.setFOVValuesToDefault();
 
             await _inventoryManager.characterFlashLight.lightOnFlashLight();
 

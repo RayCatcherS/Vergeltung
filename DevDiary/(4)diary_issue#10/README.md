@@ -133,6 +133,20 @@ Se altri NPC sono nell'area di allerta del **character NPC A**, e se nello stess
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
+
+<p>&nbsp;</p>
+
+# Meccaniche malus FOV degli NPC
+## Riduzione campo visivo NPC al sabotaggio dei generatori
+Il campo visivo dei characters viene ridotto quando viene sabotato un generatore(parametro configurabile).
+
+![Image animator](reduceFOVOnSabotageGenerator.gif)
+
+## Flashlight guardie
+Le guardie con una **flashligh** possono ripristinare parte del campo visivo dopo un tempo t quando non c'è luce ed è stato applicato il "malus".
+
+![Image animator](flashlightFOV.gif)
+
 # Vari fix
 - Quando il character è morto ed è un player non ci sono più input sul giocatore
 - Quando il character è morto ed è un player viene resettata l'UI e gli outline degli interactable objects focussati.
