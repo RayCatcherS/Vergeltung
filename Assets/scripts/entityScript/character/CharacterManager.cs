@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-
+using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
 
@@ -304,9 +304,9 @@ public class CharacterManager : MonoBehaviour {
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        gameObject.GetComponent<NavMeshObstacle>().enabled = false;
 
-        // reset character interactable objects
-        emptyAllInteractableDictionaryObjects();
+        
 
         // stoppa componenti
         gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
@@ -326,12 +326,14 @@ public class CharacterManager : MonoBehaviour {
 
             Role role = gameObject.GetComponent<CharacterRole>().role;
             
+
             if (role == Role.EnemyGuard) {
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
@@ -341,9 +343,15 @@ public class CharacterManager : MonoBehaviour {
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<NavMeshAgent>().enabled = false;
+
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
             }
         } else {
             _inventoryManager.weaponLineRenderer.enabled = false;
+            // reset character interactable objects
+            emptyAllInteractableDictionaryObjects();
         }
 
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
