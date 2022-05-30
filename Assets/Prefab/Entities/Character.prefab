@@ -1117,6 +1117,8 @@ GameObject:
   - component: {fileID: 7076768707108263790}
   - component: {fileID: 9168440622864638927}
   - component: {fileID: 7190702502433912288}
+  - component: {fileID: 4296973334219569000}
+  - component: {fileID: -3313717082689666708}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -1166,7 +1168,7 @@ MonoBehaviour:
   characterModelRotation: {x: 0, y: 0}
   inventoryManager: {fileID: 3018318475669417757}
   characterManager: {fileID: -2880058954286248499}
-  gravity: 9.8
+  gravity: 0.15
 --- !u!143 &1493404731
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1178,13 +1180,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 3.5
-  m_Radius: 0.8
+  m_Height: 3
+  m_Radius: 0.65
   m_SlopeLimit: 60
   m_StepOffset: 0.35
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.75, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!195 &5218232153561137235
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1219,7 +1221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a7817f6bf2de544a9e28df77982afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterOutline: {fileID: 4661837539409756147}
+  _characterOutline: {fileID: 4661837539409756147}
   characterFOV: {fileID: 9168440622864638927}
   _interactionUIController: {fileID: 0}
   _weaponUIController: {fileID: 0}
@@ -1293,6 +1295,36 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 65536
   belongingAreaId: 0
+--- !u!136 &4296973334219569000
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.65
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!208 &-3313717082689666708
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188659755221051705}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &9188659755258602911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,7 +1672,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9188659755295414195}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 

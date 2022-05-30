@@ -26,11 +26,12 @@ public class PlayerWarpController : MonoBehaviour
             character.resetCharacterMovmentState();
 
             //disabilita componenti non necessari
-            if(character.gameObject.GetComponent<Outline>() != null)
-                character.gameObject.GetComponent<Outline>().enabled = false;
-            if (character.gameObject.GetComponent<NavMeshAgent>() != null)
-                character.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            character.characterOutline.enabled = false;
+            character.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             character.gameObject.GetComponent<CharacterFOV>().enabled = false;
+
+            //abilita componenti necessari
+            character.gameObject.GetComponent<NavMeshObstacle>().enabled = true;
 
             // configurazione character controllato dall'utente
             character.isPlayer = true;

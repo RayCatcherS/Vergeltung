@@ -10,7 +10,10 @@ public class CharacterManager : MonoBehaviour {
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
     [Header("References")]
-    [SerializeField] private Outline characterOutline; // outline character
+    [SerializeField] private Outline _characterOutline; // outline character
+    public Outline characterOutline {
+        get { return _characterOutline; }
+    }
     [SerializeField] private CharacterFOV characterFOV; // componente fov del character
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
@@ -82,18 +85,18 @@ public class CharacterManager : MonoBehaviour {
             if(value == null) { // null quando no si sta mirando un character
 
                 if(_aimedCharacter != null) { // si stava già mirando un character
-                    _aimedCharacter.characterOutline.setEnableOutline(false); // disattiva outline del character precedentemente mirato
+                    _aimedCharacter._characterOutline.setEnableOutline(false); // disattiva outline del character precedentemente mirato
                     _aimedCharacter = value;
                 }
             } else {
 
                 if (_aimedCharacter != null) { // si stava già mirando un character
-                    _aimedCharacter.characterOutline.setEnableOutline(false);
+                    _aimedCharacter._characterOutline.setEnableOutline(false);
                     _aimedCharacter = value;
-                    _aimedCharacter.characterOutline.setEnableOutline(true);
+                    _aimedCharacter._characterOutline.setEnableOutline(true);
                 } else {
                     _aimedCharacter = value;
-                    _aimedCharacter.characterOutline.setEnableOutline(true);
+                    _aimedCharacter._characterOutline.setEnableOutline(true);
                 }
             }
             
@@ -235,7 +238,9 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public async void applyFOVMalus() {
 
-        characterFOV.setFOVValues(
+
+        if(!isDead) {
+            characterFOV.setFOVValues(
             firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
             firstFovAngle: _firstMalusFovAngle,
 
@@ -244,31 +249,33 @@ public class CharacterManager : MonoBehaviour {
         );
 
 
-        // se il character ha una torcia
-        if (_inventoryManager.isFlashlightTaken) {
-            /// Permette di accendere le torce dopo un tempo t
-            /// ripristinando il fov del character
-            /// Da usare per le guardie più specializzate
-            float endTime = FOVUnmalusFlashlightTimer + Time.time;
-            while (Time.time < endTime) {
-                await Task.Yield();
+            // se il character ha una torcia
+            if (_inventoryManager.isFlashlightTaken) {
+                /// Permette di accendere le torce dopo un tempo t
+                /// ripristinando il fov del character
+                /// Da usare per le guardie più specializzate
+                float endTime = FOVUnmalusFlashlightTimer + Time.time;
+                while (Time.time < endTime) {
+                    await Task.Yield();
+                }
+
+
+
+                // flashlight fov
+                characterFOV.setFOVValuesToDefault();
+
+                await _inventoryManager.characterFlashLight.lightOnFlashLight();
+
+                characterFOV.setFOVValues(
+                    firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusFlashlightValue,
+                    firstFovAngle: _firstMalusFovAngle,
+
+                    secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusFlashlightValue,
+                    secondFovAngle: _secondMalusFovAngle
+                );
             }
-
-
-
-            // flashlight fov
-            characterFOV.setFOVValuesToDefault();
-
-            await _inventoryManager.characterFlashLight.lightOnFlashLight();
-
-            characterFOV.setFOVValues(
-                firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusFlashlightValue,
-                firstFovAngle: _firstMalusFovAngle,
-
-                secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusFlashlightValue,
-                secondFovAngle: _secondMalusFovAngle
-            );
         }
+        
     }
 
     /// <summary>
@@ -296,6 +303,7 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CharacterManager>().enabled = false;
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
         // reset character interactable objects
         emptyAllInteractableDictionaryObjects();
