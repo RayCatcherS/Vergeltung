@@ -8,13 +8,17 @@ using UnityEngine;
 /// </summary>
 public class CharacterAreaManager : MonoBehaviour
 {
+    [Header("Ref")]
+    [SerializeField] private CharacterManager characterManager;
+
+    [Header("Configuration")]
     [SerializeField] private LayerMask targetLayerMask;
-    private float _collideRadius = 0.5f;
+    private float _collideRadius = 0.3f;
     [SerializeField] private int belongingAreaId = -1; // area appartenenza character -1 significa area non assegnata
+    [SerializeField] private float belongAreaIconCheckFrequency = 0.5f;
     void Start()
     {
         belongingAreaId = getIdArea(); // assegna area appartenenza
-        
     }
 
     /// <summary>
@@ -82,5 +86,19 @@ public class CharacterAreaManager : MonoBehaviour
         }
 
         return result;
+    }
+
+
+    public IEnumerator belongAreaCoroutine() {
+
+        while(true) {
+            yield return new WaitForSeconds(belongAreaIconCheckFrequency);
+
+            // verifica area appartenenza
+            if (characterManager.isPlayer) {
+                characterManager.rebuildUIProhibitedAreaIcon();
+            }
+        }
+        
     }
 }

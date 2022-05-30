@@ -310,8 +310,10 @@ public class InventoryManager : Interactable {
                 }
             }
         }
-        
 
+        if (characterManager.isPlayer) {
+            prohibitedWeaponAlarmUICheck();
+        }
     }
 
 
@@ -331,7 +333,10 @@ public class InventoryManager : Interactable {
                 }
             }
         }
-        
+
+        if (characterManager.isPlayer) {
+            prohibitedWeaponAlarmUICheck();
+        }
     }
 
     /// <summary>
@@ -575,6 +580,12 @@ public class InventoryManager : Interactable {
     private void putAwayWeapon() {
         _weaponPuttedAway = true;
         configPutAwayExtractWeapon();
+
+        // aggiorna ui solo se sei il player
+        if (characterManager.isPlayer) {
+            prohibitedWeaponAlarmUICheck();
+        }
+        
     }
 
     /// <summary>
@@ -583,8 +594,23 @@ public class InventoryManager : Interactable {
     private void extractWeapon() {
         _weaponPuttedAway = false;
         configPutAwayExtractWeapon();
+
+        // aggiorna ui solo se sei il player
+        if (characterManager.isPlayer) {
+            prohibitedWeaponAlarmUICheck();
+        }
     }
 
+    /// <summary>
+    /// usare questo check per verificare e abilitare icona arma proibita
+    /// </summary>
+    private void prohibitedWeaponAlarmUICheck() {
+        if(isUsedItemProhibitedCheck()) {
+            characterManager.alarmAlertUIController.visiblyArmedAlarmOn();
+        } else {
+            characterManager.alarmAlertUIController.visiblyArmedAlarmOff();
+        }
+    }
 
     /// <summary>
     /// richiama putAwayWeapon o extractWeapon in base

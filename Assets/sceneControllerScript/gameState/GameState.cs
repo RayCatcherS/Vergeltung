@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class GameState : MonoBehaviour
 {
+
+    [Header("Ref")]
+    [SerializeField] private PlayerWarpController playerWarpController;
+    [SerializeField] private AlarmAlertUIController alarmAlertUIController;
+
     [Header("Power settings and states")]
     [SerializeField] private int powerOffTimer = 15;
     [SerializeField] private LightSourcesScript[] lightSources;
@@ -121,7 +126,24 @@ public class GameState : MonoBehaviour
             }
         }
 
+        updateWantedUICharacter();
+
     }
 
-    
+
+    /// <summary>
+    /// Imposta l'icona di ricercato nell'UI
+    /// Verifica se il character attualmente in utilizzo è ricercato o meno
+    /// </summary>
+    public void updateWantedUICharacter() {
+        CharacterManager characterManager = playerWarpController.getUsingCharacter();
+
+
+        if (globalWantedHostileCharacters.ContainsKey(characterManager.GetInstanceID())) {
+            alarmAlertUIController.wantedAlarmOn();
+        } else {
+            alarmAlertUIController.wantedAlarmOff();
+        }
+        
+    }
 }

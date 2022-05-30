@@ -7,7 +7,7 @@ public class DoorState : MonoBehaviour
 
     private const int CHARACTER_LAYER = 7;
 
-
+    [SerializeField] public bool isDoorPickLocking = false;
     [SerializeField] private bool doorLocked = true;
     [SerializeField] private bool doorClosed = true;
 
@@ -21,7 +21,10 @@ public class DoorState : MonoBehaviour
 
 
     [SerializeField] private int doorTimeOut = 5; // stabilisce il valore di time out dopo cui la porta si chiude automaticamente
-
+    [SerializeField] private int _doorLockPickTime = 5; // stabilisce il valore di tempo che bisogna aspettare durante lo scassinamento
+    public int doorLockPickTime {
+        get { return _doorLockPickTime; }
+    }
 
     // getter 
     public int getDoorTimeOut() {

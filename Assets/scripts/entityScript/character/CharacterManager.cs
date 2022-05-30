@@ -5,11 +5,14 @@ using System.Collections;
 using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
+    private const int CHARACTER_AREA_LAYER = 16;
 
-    
+
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
     [Header("References")]
+    [SerializeField] private CharacterManager _aimedCharacter;
+    [SerializeField] private Animator _characterAnimator;
     [SerializeField] private Outline _characterOutline; // outline character
     public Outline characterOutline {
         get { return _characterOutline; }
@@ -17,6 +20,7 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] private CharacterFOV characterFOV; // componente fov del character
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
+    [SerializeField] public AlarmAlertUIController alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
     [SerializeField] private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
@@ -29,8 +33,9 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] public bool isBusy = false;
     [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
     [SerializeField] public bool isDead = false;
-    [SerializeField] private CharacterManager _aimedCharacter;
-    [SerializeField] private Animator _characterAnimator;
+    [SerializeField] public bool isPickLocking = false;
+
+    
 
     [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
@@ -127,48 +132,7 @@ public class CharacterManager : MonoBehaviour {
         _interactionUIController = controller;
     }
 
-    private void OnTriggerEnter(Collider collision) {
-        
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
-
-            
-            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
-
-
-
-            // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
-            // evita che collisioni multiple aggiungano la stessa key al dizionario
-            if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
-                interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
-            }
-
-
-            // rebuild lista interactions
-            buildListOfInteraction();
-        }
-    }
-
-
-    private void OnTriggerExit(Collider collision) {
-
-
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
-
-            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
-
-
-            if (isPlayer) {
-                interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
-            }
-                
-
-            // rimuovi interazione al dizionario delle interazioni
-            interactableObjects.Remove(interactableObject.GetInstanceID());
-            
-            // rebuild lista interactions
-            buildListOfInteraction();
-        }
-    }
+    
 
 
     /// <summary>
@@ -374,5 +338,78 @@ public class CharacterManager : MonoBehaviour {
     public void resetCharacterMovmentState() {
         isRunning = false;
         isBusy = false;
+    }
+
+
+    private void OnTriggerEnter(Collider collision) {
+
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+
+            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+
+
+
+            // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+            // evita che collisioni multiple aggiungano la stessa key al dizionario
+            if (!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+            }
+
+
+            // rebuild lista interactions
+            buildListOfInteraction();
+        }
+    }
+
+
+    private void OnTriggerExit(Collider collision) {
+
+
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+
+
+            if (isPlayer) {
+                interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
+            }
+
+
+            // rimuovi interazione al dizionario delle interazioni
+            interactableObjects.Remove(interactableObject.GetInstanceID());
+
+            // rebuild lista interactions
+            buildListOfInteraction();
+        }
+    }
+
+    /// <summary>
+    /// Esecuzione task a tempo
+    /// ritorna [true] se il task è stato completato correttamente
+    /// altrimenti [false]
+    /// </summary>
+    public async Task<bool> startTimedTask(float timeToWait) {
+
+        bool result = true;
+        float endTime = Time.time + timeToWait;
+        while(Time.time < endTime) {
+            await Task.Yield();
+        }
+
+
+
+        return result;
+    }
+
+    /// <summary>
+    /// Attiva o meno l'icona dell'area proibita in base al check dell'area proibita
+    /// </summary>
+    public void rebuildUIProhibitedAreaIcon() {
+        if (gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck()) {
+            alarmAlertUIController.prohibitedAreaAlarmOn();
+        } else {
+            alarmAlertUIController.prohibitedAreaAlarmOff();
+        }
     }
 }

@@ -6,10 +6,11 @@ public class PlayerWarpController : MonoBehaviour
 {
     [Header("Ref")]
     [SerializeField] private Camera gameCamera;
+    [SerializeField] private GameState gameState;
 
     [Header("Warp state")]
     [SerializeField] private List<CharacterManager> warpedCharacterManagerStach = new List<CharacterManager>();
-    
+    [SerializeField] private int usingCharacterManager = 0;
 
 
     /// <summary>
@@ -17,6 +18,7 @@ public class PlayerWarpController : MonoBehaviour
     /// </summary>
     public void warpPlayerToCharacter(CharacterManager character) {
 
+        // controllo primo character (solitamente è il player)
         if(warpedCharacterManagerStach.Count == 0) {
 
             // aggiungi ref
@@ -39,6 +41,8 @@ public class PlayerWarpController : MonoBehaviour
             // configurazione UI
             character.interactionUIController = gameObject.GetComponent<InteractionUIController>();
             character.weaponUIController = gameObject.GetComponent<WeaponUIController>();
+            character.alarmAlertUIController = gameObject.GetComponent<AlarmAlertUIController>();
+
 
             // configurazione comandi
             gameObject.GetComponent<PlayerInputController>().characterMovement = character.GetComponent<CharacterMovement>();
@@ -48,7 +52,24 @@ public class PlayerWarpController : MonoBehaviour
             // configurazione camera
             gameCamera.GetComponent<CoutoutObject>().targetObject = character.occlusionTargetTransform;
             gameCamera.GetComponent<FollowPlayer>().objectToFollow = character.occlusionTargetTransform;
+
+            // setta posizione character attualmente usato
+            usingCharacterManager = 0;
+
+            // setta primo character controllato come ricercato
+            Dictionary<int, CharacterManager> wanted = new Dictionary<int, CharacterManager>();
+            wanted.Add(character.GetInstanceID(), character);
+            gameState.updateGlobalWantedHostileCharacters(wanted);
+
+            // avvia coroutines character player
+            StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
         }
 
+        // Rebuild UI
+        gameState.updateWantedUICharacter();
+    }
+
+    public CharacterManager getUsingCharacter() {
+        return warpedCharacterManagerStach[usingCharacterManager];
     }
 }
