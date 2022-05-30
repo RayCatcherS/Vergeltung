@@ -298,12 +298,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void suspiciousCheck(CharacterManager seenCharacterManager) {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
+        bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
 
         if (_characterState == CharacterAlertState.Unalert || _characterState == CharacterAlertState.SuspiciousAlert) {
 
             
 
-            if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
+            if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
                 alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
 
@@ -324,8 +325,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
+        bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
 
-        if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager)) {
+
+        if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
             alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
             setAlert(CharacterAlertState.HostilityAlert);

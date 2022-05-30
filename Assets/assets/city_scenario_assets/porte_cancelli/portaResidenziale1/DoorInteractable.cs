@@ -53,7 +53,7 @@ public class DoorInteractable : Interactable {
 
         characterInteraction.isPickLocking = true; // permette al player di diventare sospetto/ostile
         // avvia task sul character che ha avviato il task
-        bool playerTaskResultDone = await characterInteraction.startTimedTask(doorState.doorLockPickTime);
+        bool playerTaskResultDone = await characterInteraction.startTimedTask(doorState.doorLockPickTime, "Lockpicking");
         characterInteraction.isPickLocking = false;
 
         if (playerTaskResultDone) { // sblocca la porta se il task è stato portato a termine

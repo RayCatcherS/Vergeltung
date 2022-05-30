@@ -22,7 +22,7 @@ public class PlayerInputController : MonoBehaviour
     private bool isRunPressed = false;
 
 
-    
+    // inventary input
     private float inputIsNextWeaponPressed;
     private float inputIsPreviousWeaponPressed;
     private float inputIsUseWeaponItemPressed;
@@ -31,6 +31,9 @@ public class PlayerInputController : MonoBehaviour
     private bool isNextWeaponPressed = false;
     private bool isPreviousWeaponPressed = false;
     private bool isPutAwayExtractWeapon = false;
+
+    // discard input
+    private float inputIsDiscardActionPressed;
 
     // getters and setters ref
     public CharacterMovement characterMovement {
@@ -72,9 +75,13 @@ public class PlayerInputController : MonoBehaviour
         if(!_characterManager.isDead) {
             moveAndRotateInput();
             inventaryInput();
+            onDiscardPressed();
         }
     }
 
+    /// <summary>
+    /// Input move and rotate character
+    /// </summary>
     private void moveAndRotateInput() {
         vec2Movement = playerActions.Player.AnalogMovement.ReadValue<Vector2>(); // ottieni valore input controller analogico movimento
         vec2Rotation = playerActions.Player.AnalogRotation.ReadValue<Vector2>(); // ottieni valore input controller analogico rotazione
@@ -119,6 +126,9 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Input inventario
+    /// </summary>
     private void inventaryInput() {
 
         inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
@@ -192,7 +202,17 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private void onDiscardPressed() {
+        inputIsDiscardActionPressed = playerActions.Player.DiscardAction.ReadValue<float>();
 
+        if (inputIsDiscardActionPressed == 1) {
+
+            characterManager.discardCharacterAction();
+        }
+    }
     /*void OnGUI() {
         GUI.TextArea(new Rect(0, 0, 200, 100), "Direzioni vettori: \n" + "input rotazione \n" + characterMovement.getRotationAimInput.ToString() + "\n" +
             "rotazione target \n" + characterMovement.getRotationAimTarget.ToString()

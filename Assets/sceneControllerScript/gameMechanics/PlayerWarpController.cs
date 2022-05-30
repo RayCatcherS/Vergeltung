@@ -59,7 +59,7 @@ public class PlayerWarpController : MonoBehaviour
             // setta primo character controllato come ricercato
             Dictionary<int, CharacterManager> wanted = new Dictionary<int, CharacterManager>();
             wanted.Add(character.GetInstanceID(), character);
-            gameState.updateGlobalWantedHostileCharacters(wanted);
+            //gameState.updateGlobalWantedHostileCharacters(wanted);
 
             // avvia coroutines character player
             StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());

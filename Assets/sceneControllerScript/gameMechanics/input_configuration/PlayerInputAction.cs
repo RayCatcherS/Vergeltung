@@ -37,6 +37,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""DiscardAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""75d1322b-0a14-4d98-a5a5-6a8d722049ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""AnalogMovement"",
                     ""type"": ""PassThrough"",
                     ""id"": ""4a37ee72-ad4a-49b5-ad30-e8d0ca7f7cb2"",
@@ -421,6 +430,28 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""PutAwayExtractWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3e34308-c800-41b5-8301-0e726dd1e1eb"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""DiscardAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26651639-c1de-4bb9-ba6d-a6cb5f98cb84"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""DiscardAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -512,6 +543,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
+        m_Player_DiscardAction = m_Player.FindAction("DiscardAction", throwIfNotFound: true);
         m_Player_AnalogMovement = m_Player.FindAction("AnalogMovement", throwIfNotFound: true);
         m_Player_AnalogRotation = m_Player.FindAction("AnalogRotation", throwIfNotFound: true);
         m_Player_InventaryNextWeapon = m_Player.FindAction("InventaryNextWeapon", throwIfNotFound: true);
@@ -582,6 +614,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Run;
+    private readonly InputAction m_Player_DiscardAction;
     private readonly InputAction m_Player_AnalogMovement;
     private readonly InputAction m_Player_AnalogRotation;
     private readonly InputAction m_Player_InventaryNextWeapon;
@@ -593,6 +626,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         private @PlayerInputAction m_Wrapper;
         public PlayerActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Run => m_Wrapper.m_Player_Run;
+        public InputAction @DiscardAction => m_Wrapper.m_Player_DiscardAction;
         public InputAction @AnalogMovement => m_Wrapper.m_Player_AnalogMovement;
         public InputAction @AnalogRotation => m_Wrapper.m_Player_AnalogRotation;
         public InputAction @InventaryNextWeapon => m_Wrapper.m_Player_InventaryNextWeapon;
@@ -611,6 +645,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @DiscardAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDiscardAction;
+                @DiscardAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDiscardAction;
+                @DiscardAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDiscardAction;
                 @AnalogMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
                 @AnalogMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
                 @AnalogMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
@@ -636,6 +673,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @DiscardAction.started += instance.OnDiscardAction;
+                @DiscardAction.performed += instance.OnDiscardAction;
+                @DiscardAction.canceled += instance.OnDiscardAction;
                 @AnalogMovement.started += instance.OnAnalogMovement;
                 @AnalogMovement.performed += instance.OnAnalogMovement;
                 @AnalogMovement.canceled += instance.OnAnalogMovement;
@@ -711,6 +751,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnRun(InputAction.CallbackContext context);
+        void OnDiscardAction(InputAction.CallbackContext context);
         void OnAnalogMovement(InputAction.CallbackContext context);
         void OnAnalogRotation(InputAction.CallbackContext context);
         void OnInventaryNextWeapon(InputAction.CallbackContext context);

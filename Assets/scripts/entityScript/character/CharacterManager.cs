@@ -18,6 +18,8 @@ public class CharacterManager : MonoBehaviour {
         get { return _characterOutline; }
     }
     [SerializeField] private CharacterFOV characterFOV; // componente fov del character
+    [SerializeField] private CharacterMovement characterMovement;
+    [SerializeField] private TimeTaskSliderManager timeTaskSliderUIManager; // manager slider ui dei timer task
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
     [SerializeField] public AlarmAlertUIController alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
@@ -33,11 +35,15 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] public bool isBusy = false;
     [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
     [SerializeField] public bool isDead = false;
-    [SerializeField] public bool isPickLocking = false;
+    [SerializeField] public bool isPickLocking = false; // stato che rappresenta se il character sta scassinando
 
-    
+    [SerializeField] private bool _isTimedTaskProcessing = false; // con questo stato il character è impegnato e non pu
+    public bool isTimedTaskProcessing {
+        get { return _isTimedTaskProcessing; }
+    }
 
-    [Header("Character Settings")]
+
+        [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
     [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia 
     [Range(0, 360)]
@@ -305,12 +311,12 @@ public class CharacterManager : MonoBehaviour {
 
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopAllCoroutines();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
             }
         } else {
             _inventoryManager.weaponLineRenderer.enabled = false;
@@ -389,14 +395,27 @@ public class CharacterManager : MonoBehaviour {
     /// ritorna [true] se il task è stato completato correttamente
     /// altrimenti [false]
     /// </summary>
-    public async Task<bool> startTimedTask(float timeToWait) {
+    public async Task<bool> startTimedTask(float timeToWait, string sliderTitle) {
 
         bool result = true;
+        float startTime = Time.time;
         float endTime = Time.time + timeToWait;
-        while(Time.time < endTime) {
+
+        timeTaskSliderUIManager.enableAndInitializeTimerSlider(minValue: 0, maxValue: endTime - startTime, sliderTitle: sliderTitle);
+
+        _isTimedTaskProcessing = true;
+        while (Time.time < endTime) {
+
+            timeTaskSliderUIManager.setSliderValue(Time.time - startTime);
+
+            if(!isTimedTaskProcessing) {
+                result = false; // task fallito
+                break;
+            }
             await Task.Yield();
         }
-
+        _isTimedTaskProcessing = false;
+        timeTaskSliderUIManager.disableTimeSlider();
 
 
         return result;
@@ -411,5 +430,9 @@ public class CharacterManager : MonoBehaviour {
         } else {
             alarmAlertUIController.prohibitedAreaAlarmOff();
         }
+    }
+
+    public void discardCharacterAction() {
+        _isTimedTaskProcessing = false;
     }
 }

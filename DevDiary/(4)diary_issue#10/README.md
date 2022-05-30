@@ -50,17 +50,17 @@ L'attivazione di uno stato di allerta comporta l'interruzione instantanea del ta
 
 ## Check(controlli) affinchè vengano impostati degli stati di allerta
 Quando il character del player entra in uno dei due campi visivi(FOV) del **character NPC A**, vengono avviati dei check per verificare se il character del player è sospetto, ostile oppure nessuna delle due opzioni.
-- Check **"isCharacterInProhibitedAreaCheck"**. Verifica se il character del player rilevato da **character NPC A** si trovi in una area proibita //se il ruolo del character è abilitato all'accesso di una certa area
+- Check **"isCharacterInProhibitedAreaCheck"**. Verifica se il character del player rilevato da **character NPC A** si trovi in un'area proibita //se il ruolo del character è abilitato all'accesso di una certa area
 - Check **"isUsedItemProhibitedCheck"**. Verifica se il character del player rilevato da **character NPC A**  stia impugnando in modo esplicito (!weaponPuttedAway) un item non consentito(weaponItem ecc ecc)
 - Check **"isCharacterWantedCheck"**. Verifica se il character del player rilevato da **character NPC A** sia ricercato o meno usando un dizionario // sistema dizionari
 
 
 ### Check "isCharacterInProhibitedAreaCheck"
-Per realizzare la possibilità di controllore se un character si trovi in una area proibita o meno, sono state realizzate le "CharacterArea" (trigger BoxCollider) con id univoco.
+Per realizzare la possibilità di controllore se un character si trovi in un'area proibita o meno, sono state realizzate le "CharacterArea" (trigger BoxCollider) con id univoco.
 ed un CharacterAreaManager assegnato ad ogni Character NPC. Il CharacterAreaManager allo spawn dell'NPC assegnerà l'id dell'area in cui l'NPC è spawnato all'NPC stesso, questo consetirà di verificare se un certo NPC appartiene o meno ad una certa area e se una certa area è proibita o meno.
 Il check "isCharacterInProhibitedAreaCheck" utilizza anche il ruolo dei character. Ad esempio le guardie nemiche possono accedere a tutte le aree. Invece i civili non potranno trovarsi in aree proibite o che non sono di loro appartenenza.
 
-### **Stati di allerta provocati da equipagiamento proibito** 
+### **Stati di allerta provocati da equipaggiamento proibito** 
 ![Image animator](gunAlert.gif)
 
 ### **Stati di allerta provocati da area proibita** 
@@ -148,5 +148,6 @@ Le guardie con una **flashligh** possono ripristinare parte del campo visivo dop
 ![Image animator](flashlightFOV.gif)
 
 # Vari fix
+- Migliorati comandi di mira (improved dead zone)
 - Quando il character è morto ed è un player non ci sono più input sul giocatore
 - Quando il character è morto ed è un player viene resettata l'UI e gli outline degli interactable objects focussati.
