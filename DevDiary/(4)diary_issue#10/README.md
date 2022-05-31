@@ -1,4 +1,5 @@
 # Devlog Capitolo 4(Diario di sviluppo issue 10)
+![Image animator](cover.png)
 
 - "CharacterFOV". Implementa tramite un doppio Field Of View la rilevazione del character player
 - Attivazione degli stati di allerta in base all'area del FOV usando i check **"isCharacterInProhibitedAreaCheck"**, **"isUsedItemProhibitedCheck"**, **"isCharacterWantedCheck"**
