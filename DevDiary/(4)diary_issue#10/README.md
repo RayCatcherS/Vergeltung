@@ -148,6 +148,15 @@ Le guardie con una **flashligh** possono ripristinare parte del campo visivo dop
 ![Image animator](flashlightFOV.gif)
 
 # Vari fix
-- Migliorati comandi di mira (improved dead zone)
+
+## Miglioramenti navmesh
+- Aggiunto NavMeshObstacle al character giocante. Adesso il player è uno ostacolo per i Navmesh Agent
+
+![Image animator](PlayerNavMeshObstacle.gif)
+
+- I navmesh agent dei characters adesso non si ignorano e si tengono a distanza per evitare collisioni tra di loro.
+
+## Miglioramenti vari
+- Migliorati comandi di mira (improved dead zone).
 - Quando il character è morto ed è un player non ci sono più input sul giocatore
 - Quando il character è morto ed è un player viene resettata l'UI e gli outline degli interactable objects focussati.

@@ -12,6 +12,9 @@ public class PlayerWarpController : MonoBehaviour
     [SerializeField] private List<CharacterManager> warpedCharacterManagerStach = new List<CharacterManager>();
     [SerializeField] private int usingCharacterManager = 0;
 
+    [Header("Settings")]
+    [SerializeField] private bool firstCharacterPlayerIsWanted = true;
+
 
     /// <summary>
     /// warp to a new character player and push to stack the new warped character
@@ -57,9 +60,12 @@ public class PlayerWarpController : MonoBehaviour
             usingCharacterManager = 0;
 
             // setta primo character controllato come ricercato
-            Dictionary<int, CharacterManager> wanted = new Dictionary<int, CharacterManager>();
-            wanted.Add(character.GetInstanceID(), character);
-            gameState.updateGlobalWantedHostileCharacters(wanted);
+            if(firstCharacterPlayerIsWanted) {
+                Dictionary<int, CharacterManager> wanted = new Dictionary<int, CharacterManager>();
+                wanted.Add(character.GetInstanceID(), character);
+                gameState.updateGlobalWantedHostileCharacters(wanted);
+            }
+            
 
             // avvia coroutines character player
             StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
