@@ -7,6 +7,7 @@ public class RagdollManager : MonoBehaviour
     const int RAGDOLL_BONE_LAYER = 15;
 
     [SerializeField] private List<GameObject> ragdollBones;
+    [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
 
     void Start()
     {
@@ -35,9 +36,8 @@ public class RagdollManager : MonoBehaviour
     }
 
     public void enableRagdoll() {
-
-        gameObject.GetComponent<InventoryManager>().rightHandRig.weight = 0;
-        gameObject.GetComponent<InventoryManager>().leftHandRig.weight = 0;
+        _inventoryManager.rightHandRig.weight = 0;
+        _inventoryManager.leftHandRig.weight = 0;
 
         for (int i = 0; i < ragdollBones.Count; i++) {
             ragdollBones[i].GetComponent<Rigidbody>().isKinematic = false;

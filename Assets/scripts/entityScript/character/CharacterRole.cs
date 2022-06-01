@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Role {
-    Enemy,
+    EnemyGuard,
     Player,
     Civilian,
     Hostage
@@ -37,7 +37,7 @@ public class CharacterRole : MonoBehaviour
 
 
         switch (role) {
-            case Role.Enemy: {
+            case Role.EnemyGuard: {
                 res = "Enemy";
             }break;
 

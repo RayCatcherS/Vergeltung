@@ -37,6 +37,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""DiscardAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""75d1322b-0a14-4d98-a5a5-6a8d722049ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""AnalogMovement"",
                     ""type"": ""PassThrough"",
                     ""id"": ""4a37ee72-ad4a-49b5-ad30-e8d0ca7f7cb2"",
@@ -104,6 +113,17 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""67be78c2-e33f-4a39-bb8e-1b337b94f39c"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""2D Vector"",
                     ""id"": ""32d4ced5-f819-4979-a5d7-e710991cbb5c"",
                     ""path"": ""2DVector(mode=2)"",
@@ -151,6 +171,61 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""name"": ""right"",
                     ""id"": ""19326fc8-49bd-4f4e-8f13-fcb670d618ea"",
                     ""path"": ""<XInputController>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""52f8b190-adc6-4fae-bc4c-c1a693a2d670"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnalogMovement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4362e178-f8e2-427f-8777-5501d971ac46"",
+                    ""path"": ""<DualShockGamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""651a4b5e-f887-42c1-aa26-471862f672b6"",
+                    ""path"": ""<DualShockGamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""68d640ef-d431-4baf-92b5-a20beecff964"",
+                    ""path"": ""<DualShockGamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""fd45a983-c0c3-407e-ad7f-33a74dca06d5"",
+                    ""path"": ""<DualShockGamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
@@ -214,9 +289,75 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""237a1688-82f4-45ba-b031-4963bd364f6e"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5f227ca1-2936-4b80-85f9-90f4d4f39c5c"",
+                    ""path"": ""<DualShockGamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b31217f5-f3a9-4211-93c2-6f3489e0777d"",
+                    ""path"": ""<DualShockGamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""ed57359b-065b-4cfa-aea4-601d174e4dcf"",
+                    ""path"": ""<DualShockGamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7a412ffc-afcd-41f9-bd6b-b272819360ad"",
+                    ""path"": ""<DualShockGamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""AnalogRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""5d1d137d-6c35-43c1-ae63-765b09bcc6cd"",
                     ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""InventaryNextWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e2fa66a-20ed-405d-b6e5-61415ab93a92"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
@@ -237,8 +378,30 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""bbb193fb-0aa1-4083-b671-35d9b5918e55"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""InventaryPreviousWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""61fa808a-f83b-4862-a38f-eb571fcef398"",
                     ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""InventaryUseWeaponItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""717558b8-7118-4b84-9854-6db4ccca4690"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
@@ -254,6 +417,39 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""PutAwayExtractWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c38bb96a-297e-44ee-9d42-8707283d040a"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""PutAwayExtractWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3e34308-c800-41b5-8301-0e726dd1e1eb"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""DiscardAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26651639-c1de-4bb9-ba6d-a6cb5f98cb84"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""DiscardAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -296,8 +492,30 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""fcbd7d83-b3a2-4a6b-8c27-7edf552171a8"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""de39514a-3124-489c-a719-e117df35cf92"",
                     ""path"": ""<XInputController>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuNavigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51837914-07a8-4dfa-931d-d36d416afc60"",
+                    ""path"": ""<DualShockGamepad>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
@@ -325,6 +543,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
+        m_Player_DiscardAction = m_Player.FindAction("DiscardAction", throwIfNotFound: true);
         m_Player_AnalogMovement = m_Player.FindAction("AnalogMovement", throwIfNotFound: true);
         m_Player_AnalogRotation = m_Player.FindAction("AnalogRotation", throwIfNotFound: true);
         m_Player_InventaryNextWeapon = m_Player.FindAction("InventaryNextWeapon", throwIfNotFound: true);
@@ -395,6 +614,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Run;
+    private readonly InputAction m_Player_DiscardAction;
     private readonly InputAction m_Player_AnalogMovement;
     private readonly InputAction m_Player_AnalogRotation;
     private readonly InputAction m_Player_InventaryNextWeapon;
@@ -406,6 +626,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         private @PlayerInputAction m_Wrapper;
         public PlayerActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Run => m_Wrapper.m_Player_Run;
+        public InputAction @DiscardAction => m_Wrapper.m_Player_DiscardAction;
         public InputAction @AnalogMovement => m_Wrapper.m_Player_AnalogMovement;
         public InputAction @AnalogRotation => m_Wrapper.m_Player_AnalogRotation;
         public InputAction @InventaryNextWeapon => m_Wrapper.m_Player_InventaryNextWeapon;
@@ -424,6 +645,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
+                @DiscardAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDiscardAction;
+                @DiscardAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDiscardAction;
+                @DiscardAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDiscardAction;
                 @AnalogMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
                 @AnalogMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
                 @AnalogMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogMovement;
@@ -449,6 +673,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @DiscardAction.started += instance.OnDiscardAction;
+                @DiscardAction.performed += instance.OnDiscardAction;
+                @DiscardAction.canceled += instance.OnDiscardAction;
                 @AnalogMovement.started += instance.OnAnalogMovement;
                 @AnalogMovement.performed += instance.OnAnalogMovement;
                 @AnalogMovement.canceled += instance.OnAnalogMovement;
@@ -524,6 +751,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnRun(InputAction.CallbackContext context);
+        void OnDiscardAction(InputAction.CallbackContext context);
         void OnAnalogMovement(InputAction.CallbackContext context);
         void OnAnalogRotation(InputAction.CallbackContext context);
         void OnInventaryNextWeapon(InputAction.CallbackContext context);

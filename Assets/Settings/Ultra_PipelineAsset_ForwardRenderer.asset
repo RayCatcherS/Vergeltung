@@ -174,6 +174,8 @@ MonoBehaviour:
   - {fileID: 2804602230353626385}
   - {fileID: 3552760909832018456}
   - {fileID: -6039450755744108434}
+  - {fileID: 9137904678381668261}
+  - {fileID: 3052343328141556114}
   m_RendererFeatureMap: 
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -298,6 +300,23 @@ MonoBehaviour:
     injectionPoint: 550
     alwaysEnable: 0
     cameraTypes: 5
+--- !u!114 &3052343328141556114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b1aa0fcc082a04480388013aa6535c, type: 3}
+  m_Name: '[SCPE] BlurRenderer'
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    injectionPoint: 550
+    alwaysEnable: 0
+    cameraTypes: 3
 --- !u!114 &3263060734667338413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,3 +471,20 @@ MonoBehaviour:
     injectionPoint: 550
     alwaysEnable: 0
     cameraTypes: 5
+--- !u!114 &9137904678381668261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee8851bdeb459741ada1bac26e556aa, type: 3}
+  m_Name: '[SCPE] DoubleVisionRenderer'
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    injectionPoint: 550
+    alwaysEnable: 0
+    cameraTypes: 3

@@ -9,6 +9,9 @@ public enum WeaponType{
 }
 public class WeaponItem : InventoryItem
 {
+
+    private const string BASE_MELEE_ID = "base_melee";
+
     [Header("Weapon ref")]
     [SerializeField] private Transform _shootingTransform;
     [SerializeField] private Vector3 _weaponOffsetRotation;
@@ -39,6 +42,27 @@ public class WeaponItem : InventoryItem
 
     [Header("Weapon state")]
     public bool weaponUsed = false;
+    /// <summary>
+    /// Verifica se l'arma sta sparando
+    /// </summary>
+    public bool isWeaponFiring {
+        get {
+
+            bool result = false;
+            if(Time.time > busyWeaponDurationTimeEnd) {
+                result = false;
+            } else {
+
+                if(itemNameID != BASE_MELEE_ID) {
+                    result = true;
+                }
+            }
+
+
+            return result; 
+       }
+    }
+    
 
     [Header("Weapon effects")]
     [SerializeField] private Transform spawnDamageObjectParticleTransform;

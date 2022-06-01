@@ -21,9 +21,11 @@ public class DoorInteractable : Interactable {
     public override void Start() {
         initInteractable();
 
-        lockPickingEvent.AddListener(lockPicking);
+        lockPickingEvent.AddListener(lockPick);
         openDoorEvent.AddListener(openDoor);
         closeDoorEvent.AddListener(closeDoor);
+
+        doorState.isDoorPickLocking = false;
     }
 
     public void openDoor(CharacterManager characterInteraction) {
@@ -41,8 +43,30 @@ public class DoorInteractable : Interactable {
 
     }
 
-    public void lockPicking(CharacterManager characterInteraction) {
-        doorState.setDoorLocked(false);
+    public async void lockPick(CharacterManager characterWhoIsInteracting) {
+
+        doorState.isDoorPickLocking = true; // setta lo stato della porta in "PickLocking"
+        characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
+
+
+        
+
+        characterWhoIsInteracting.isPickLocking = true; // permette al player di diventare sospetto/ostile
+        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia alert 
+
+        // avvia task sul character che ha avviato il task
+        bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(doorState.doorLockPickTime, "Lock-Picking");
+        characterWhoIsInteracting.isPickLocking = false;
+
+        if (playerTaskResultDone) { // sblocca la porta se il task è stato portato a termine
+            doorState.setDoorLocked(false);
+        }
+
+
+
+        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();
+        doorState.isDoorPickLocking = false; // disattiva stato della porta in "PickLocking"
+        characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
     }
 
 
@@ -50,22 +74,34 @@ public class DoorInteractable : Interactable {
 
         List<Interaction> eventRes = new List<Interaction>();
 
-        if (doorState.isDoorLocked()) {
-            eventRes.Add(
-                new Interaction(lockPickingEvent, lockPickingEventName, this)
-            );
-        } else {
 
-            if (doorState.isDoorClosed()) {
-                eventRes.Add(
-                    new Interaction(openDoorEvent, openDoorEventName, this)
-                );
+        if(!doorState.isDoorPickLocking) {
+            if (doorState.isDoorLocked()) {
+
+                if(!doorState.isDoorClosed()) {
+                    eventRes.Add(
+                        new Interaction(closeDoorEvent, closeDoorEventName, this)
+                    );
+                } else {
+                    eventRes.Add(
+                        new Interaction(lockPickingEvent, lockPickingEventName, this)
+                    );
+                }
+                
             } else {
-                eventRes.Add(
-                    new Interaction(closeDoorEvent, closeDoorEventName, this)
-                );
+
+                if (doorState.isDoorClosed()) {
+                    eventRes.Add(
+                        new Interaction(openDoorEvent, openDoorEventName, this)
+                    );
+                } else {
+                    eventRes.Add(
+                        new Interaction(closeDoorEvent, closeDoorEventName, this)
+                    );
+                }
             }
         }
+        
 
         return eventRes;
     }

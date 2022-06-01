@@ -18,7 +18,6 @@ public class CharacterMovement : MonoBehaviour {
 
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
-    [SerializeField] private GameObject _characterModel;
 
 
     [SerializeField] private Vector3 rotationAimInput;
@@ -27,6 +26,7 @@ public class CharacterMovement : MonoBehaviour {
 
 
     [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private CharacterManager characterManager;
 
 
 
@@ -41,7 +41,7 @@ public class CharacterMovement : MonoBehaviour {
 
     // ref getters 
     public GameObject characterModel {
-        get { return _characterModel; }
+        get { return gameObject; }
     }
 
     void Awake() {
@@ -66,7 +66,7 @@ public class CharacterMovement : MonoBehaviour {
         animator.Rebind();
 
 
-
+        //Debug.Log(inventoryManager.getSelectedWeaponType);
         if(!inventoryManager.weaponPuttedAway) {
             switch (inventoryManager.getSelectedWeaponType) {
                 case WeaponType.melee: {
@@ -92,14 +92,6 @@ public class CharacterMovement : MonoBehaviour {
 
     void initCharacterMovement() {
 
-        InventoryManager iM = gameObject.GetComponent<InventoryManager>();
-
-        if (iM == null) {
-            gameObject.AddComponent<InventoryManager>();
-            iM = gameObject.GetComponent<InventoryManager>();
-        }
-        inventoryManager = iM;
-
 
         updateAnimatorStateByInventoryWeaponType(inventoryManager.getSelectedWeaponType, inventoryManager);
     }
@@ -114,57 +106,55 @@ public class CharacterMovement : MonoBehaviour {
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
-
-        _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
-
-
+        if(!characterManager.isTimedInteractionProcessing) {
+            _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
 
 
 
-        // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
-        // evitando che il movimento del character dipenda dai fotogrammi
-        if (_movement.magnitude > 0) {
 
+
+            // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
+            // evitando che il movimento del character dipenda dai fotogrammi
+            if (_movement.magnitude > 0) {
+
+                if (isRun) {
+
+
+                    _movement = _movement * runMovementSpeed * Time.deltaTime;
+
+                    rotateCharacter(_2Dmove, isRun, true);
+                } else {
+
+                    _movement = _movement * movementSpeed * Time.deltaTime;
+
+                }
+                characterManager.isRunning = isRun;
+            }
+
+
+
+
+            // setta valori animazione partendo dal _movementAnimationVelocity
+            float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
+            float velocityZ;
             if (isRun) {
-                
 
-                _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                rotateCharacter(_2Dmove, isRun, true);
+                animator.SetBool("isRunning", isRun);
+                animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
             } else {
 
-                _movement = _movement * movementSpeed * Time.deltaTime;
-
-                /*if(gameObject.GetComponent<CharacterManager>().isPlayer) {
-                    if (inventoryManager.getSelectedWeaponType == WeaponType.melee) {
-                        rotateCharacter(_2Dmove, isRun, true);
-                    }
-                }*/
-                
+                animator.SetBool("isRunning", isRun);
+                velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
+                animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
             }
-            gameObject.GetComponent<CharacterManager>().isRunning = isRun;
-        }
 
 
-
-
-        // setta valori animazione partendo dal _movementAnimationVelocity
-        float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
-        float velocityZ;
-        if (isRun) {
-
-
-            animator.SetBool("isRunning", isRun);
-            animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
+            animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
         } else {
 
-            animator.SetBool("isRunning", isRun);
-            velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-            animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
+            stopCharacter();
         }
-
-
-        animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
         
     }
 
@@ -178,38 +168,39 @@ public class CharacterMovement : MonoBehaviour {
     public void rotateCharacter(Vector2 _2Drotate, bool _isRun, bool _istantRotation) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
-        // clamp dei valori passati 
-        rotationAimTargetInput = new Vector3(
+        if (!characterManager.isTimedInteractionProcessing) {
+            // clamp dei valori passati 
+            rotationAimTargetInput = new Vector3(
             _2Drotate.x,
             _2Drotate.y,
             0f);
 
-        rotationAimInput = rotationAimTargetInput;
+            rotationAimInput = rotationAimTargetInput;
 
 
 
 
-        if (rotationAimTargetInput.magnitude > 0) {
+            if (rotationAimTargetInput.magnitude > 0) {
 
 
-            if (!_istantRotation) {
+                if (!_istantRotation) {
 
 
-                characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
-            } else {
+                    characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
+                } else {
 
-                characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
+                    characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
+                }
+
             }
-
         }
-
     }
 
     void Update() {
 
         // muovi character solo se il character è il giocatore
         // caso in cui il character è slegato dal nav mesh agent (sei un player)
-        if (gameObject.GetComponent<CharacterManager>().isPlayer) {
+        if (characterManager.isPlayer) {
 
             characterController.SimpleMove(Vector3.zero); // utile per rilevare le collisioni
             if (!isGrounded) {
@@ -238,12 +229,17 @@ public class CharacterMovement : MonoBehaviour {
         }
     }
 
-#if UNITY_EDITOR
-    void OnDrawGizmos() {
-        Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.position, Vector3.up, 2); //debug player
+    /// <summary>
+    /// Stoppa il character resettando il vettore _movement
+    /// Stoppa animazione character
+    /// </summary>
+    private void stopCharacter() {
+        characterManager.isRunning = false;
+        animator.SetBool("isRunning", false);
+        animator.SetFloat("VelocityX", 0, 0f, Time.deltaTime);
+        animator.SetFloat("VelocityZ", 0, 0f, Time.deltaTime);
+        _movement = Vector3.zero;
     }
-#endif
 }
 
 

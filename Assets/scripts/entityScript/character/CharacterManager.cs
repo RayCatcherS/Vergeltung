@@ -1,46 +1,62 @@
-using UnityEngine.AI;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using System.Collections;
+using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
+    private const int CHARACTER_AREA_LAYER = 16;
 
-    
+
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
     [Header("References")]
+    [SerializeField] private CharacterManager _aimedCharacter;
+    [SerializeField] private Animator _characterAnimator;
+    [SerializeField] private Outline _characterOutline; // outline character
+    public Outline characterOutline {
+        get { return _characterOutline; }
+    }
+    [SerializeField] private CharacterFOV characterFOV; // componente fov del character
+    [SerializeField] private CharacterMovement characterMovement;
+    [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
+    [SerializeField] public AlarmAlertUIController alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
-
-
+    [SerializeField] private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
+    public GameState globalGameState {
+        get { return _globalGameState; }
+    }
     // stati del player
     [Header("Character States")]
     [SerializeField] public bool isRunning = false;
     [SerializeField] public bool isBusy = false;
     [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
     [SerializeField] public bool isDead = false;
-    [SerializeField] private CharacterManager _aimedCharacter;
-    [SerializeField] private Animator _characterAnimator;
+    [SerializeField] public bool isPickLocking = false; // stato che rappresenta se il character sta scassinando
 
-    [Header("Character Settings")]
+    [SerializeField] private bool _isTimedInteractionProcessing = false; // con questo stato il character è impegnato e non pu
+    public bool isTimedInteractionProcessing {
+        get { return _isTimedInteractionProcessing; }
+    }
+
+
+        [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
+    [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia 
+    [Range(0, 360)]
+    [SerializeField] private float _firstMalusFovAngle = 60;
+    
+    [Range(0, 360)]
+    [SerializeField] private float _secondMalusFovAngle = 90;
+    [SerializeField] private int dividerFOVMalusValue = 2; // valore divisore fov malus 
+    [SerializeField] private float dividerFOVMalusFlashlightValue = 1.3f; // valore divisore fov malus
+
 
     public void Start() {
 
-        initCharacterManager();
-    }
-
-    private void initCharacterManager() {
-
-        _inventoryManager = gameObject.GetComponent<InventoryManager>();
-
-        if (_inventoryManager == null) {
-            gameObject.AddComponent<InventoryManager>();
-        }
-        _inventoryManager = gameObject.GetComponent<InventoryManager>();
     }
 
 
@@ -60,6 +76,12 @@ public class CharacterManager : MonoBehaviour {
     public InventoryManager inventoryManager {
         get { return _inventoryManager; }
     }
+    public bool isWeaponCharacterFiring {
+        get {
+
+            return inventoryManager.weaponItems[inventoryManager.selectedWeapon].isWeaponFiring;
+        }
+    }
     public Animator characterAnimator {
         get { return _characterAnimator; }
     }
@@ -68,25 +90,24 @@ public class CharacterManager : MonoBehaviour {
         get { return _occlusionTargetTransform; }
     }
 
-
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
         set {
             if(value == null) { // null quando no si sta mirando un character
 
                 if(_aimedCharacter != null) { // si stava già mirando un character
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(false); // disattiva outline del character precedentemente mirato
+                    _aimedCharacter._characterOutline.setEnableOutline(false); // disattiva outline del character precedentemente mirato
                     _aimedCharacter = value;
                 }
             } else {
 
                 if (_aimedCharacter != null) { // si stava già mirando un character
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(false);
+                    _aimedCharacter._characterOutline.setEnableOutline(false);
                     _aimedCharacter = value;
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(true);
+                    _aimedCharacter._characterOutline.setEnableOutline(true);
                 } else {
                     _aimedCharacter = value;
-                    _aimedCharacter.GetComponent<Outline>().setEnableOutline(true);
+                    _aimedCharacter._characterOutline.setEnableOutline(true);
                 }
             }
             
@@ -100,15 +121,11 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject addToGOCharacterManagerComponent(GameObject gameObject, InteractionUIController controller) {
-        
-        if(gameObject.GetComponent<CharacterManager>() == null) {
-            gameObject.AddComponent<CharacterManager>();
-        }
+    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState) {
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
-
+        characterInteraction._globalGameState = gameState;
         return gameObject;
     }
 
@@ -121,43 +138,7 @@ public class CharacterManager : MonoBehaviour {
         _interactionUIController = controller;
     }
 
-    private void OnTriggerEnter(Collider collision) {
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
-
-            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
-
-
-
-            // aggiungi interazione al dizionario delle interazioni
-            interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
-
-
-            // rebuild lista interactions
-            buildListOfInteraction();
-        }
-    }
-
-
-    private void OnTriggerExit(Collider collision) {
-
-
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
-
-            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
-
-
-            if (isPlayer) {
-                interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
-            }
-                
-
-            // rimuovi interazione al dizionario delle interazioni
-            interactableObjects.Remove(interactableObject.GetInstanceID());
-            
-            // rebuild lista interactions
-            buildListOfInteraction();
-        }
-    }
+    
 
 
     /// <summary>
@@ -222,6 +203,60 @@ public class CharacterManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Applica malus sul FOV del character riducendone la visibilità
+    /// </summary>
+    public async void applyFOVMalus() {
+
+
+        if(!isDead) {
+            characterFOV.setFOVValues(
+            firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
+            firstFovAngle: _firstMalusFovAngle,
+
+            secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusValue,
+            secondFovAngle: _secondMalusFovAngle
+        );
+
+
+            // se il character ha una torcia
+            if (_inventoryManager.isFlashlightTaken) {
+                /// Permette di accendere le torce dopo un tempo t
+                /// ripristinando il fov del character
+                /// Da usare per le guardie più specializzate
+                float endTime = FOVUnmalusFlashlightTimer + Time.time;
+                while (Time.time < endTime) {
+                    await Task.Yield();
+                }
+
+
+
+                // flashlight fov
+                characterFOV.setFOVValuesToDefault();
+
+                await _inventoryManager.characterFlashLight.lightOnFlashLight();
+
+                characterFOV.setFOVValues(
+                    firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusFlashlightValue,
+                    firstFovAngle: _firstMalusFovAngle,
+
+                    secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusFlashlightValue,
+                    secondFovAngle: _secondMalusFovAngle
+                );
+            }
+        }
+        
+    }
+
+    /// <summary>
+    /// Ripristina valori default del FOV
+    /// </summary>
+    public async Task<bool> restoreFOVMalus() {
+        characterFOV.setFOVValuesToDefault();
+        await _inventoryManager.characterFlashLight.lightOffFlashLight();
+
+        return true;
+    }
 
     /// <summary>
     /// Porta il character nello stato Dead
@@ -233,12 +268,19 @@ public class CharacterManager : MonoBehaviour {
         
         resetCharacterMovmentState();
 
-        // disabilità componenti
+        // disabilita componenti
         gameObject.GetComponent<CharacterMovement>().enabled = false;
         gameObject.GetComponent<CharacterManager>().enabled = false;
-        gameObject.GetComponent<InventoryManager>().enabled = false;
+        _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        gameObject.GetComponent<NavMeshObstacle>().enabled = false;
+
+        
+
+        // stoppa componenti
+        gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
+        gameObject.GetComponent<CharacterFOV>().enabled = false;
 
         _inventoryManager.setInventoryAsInteractable();
 
@@ -249,28 +291,148 @@ public class CharacterManager : MonoBehaviour {
 
 
         if(!isPlayer) {
-            gameObject.GetComponent<NavMeshAgent>().enabled = false;
+
+            inventoryManager.characterFlashLight.instantLightOffFlashLight();
 
             Role role = gameObject.GetComponent<CharacterRole>().role;
+            
 
-            if(role == Role.Enemy) {
+            if (role == Role.EnemyGuard) {
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
             } else if (role == Role.Civilian) {
+
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopAllCoroutines();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<NavMeshAgent>().enabled = false;
+
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
             }
         } else {
-
+            _inventoryManager.weaponLineRenderer.enabled = false;
+            // reset character interactable objects
+            emptyAllInteractableDictionaryObjects();
         }
 
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
     }
 
+    /// <summary>
+    /// Disattiva gli outline di tutti gli interactable objects nel dizionario del character
+    /// Resetta dizionario del character svuotandolo
+    /// Rebuilda UI
+    /// </summary>
+    public void emptyAllInteractableDictionaryObjects() {
+        // unfocus outline di tutti gli interactable
+        foreach(var interactable in interactableObjects) {
+            interactable.Value.unFocusInteractable();
+        }
+        interactableObjects = new Dictionary<int, Interactable>();
+        buildListOfInteraction();
+    }
+
     public void resetCharacterMovmentState() {
         isRunning = false;
         isBusy = false;
+    }
+
+
+    private void OnTriggerEnter(Collider collision) {
+
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+
+            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+
+
+
+            // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+            // evita che collisioni multiple aggiungano la stessa key al dizionario
+            if (!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+            }
+
+
+            // rebuild lista interactions
+            buildListOfInteraction();
+        }
+    }
+
+
+    private void OnTriggerExit(Collider collision) {
+
+
+        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+
+
+            if (isPlayer) {
+                interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
+            }
+
+
+            // rimuovi interazione al dizionario delle interazioni
+            interactableObjects.Remove(interactableObject.GetInstanceID());
+
+            // rebuild lista interactions
+            buildListOfInteraction();
+        }
+    }
+
+    /// <summary>
+    /// Esecuzione task a tempo
+    /// ritorna [true] se il task è stato completato correttamente
+    /// altrimenti [false]
+    /// </summary>
+    public async Task<bool> startTimedInteraction(float timeToWait, string interactionTitle) {
+
+        bool result = true;
+        float startTime = Time.time;
+        float endTime = Time.time + timeToWait;
+
+        timedInteractionSliderManager.enableAndInitializeTimerSlider(minValue: 0, maxValue: endTime - startTime, sliderTitle: interactionTitle);
+
+        _isTimedInteractionProcessing = true;
+        while (Time.time < endTime) {
+
+            timedInteractionSliderManager.setSliderValue(Time.time - startTime);
+
+            if(!isTimedInteractionProcessing) {
+                result = false; // interaction fallita
+                break;
+            }
+            await Task.Yield();
+        }
+        _isTimedInteractionProcessing = false;
+        timedInteractionSliderManager.disableTimeSlider();
+
+
+        return result;
+    }
+
+    /// <summary>
+    /// Attiva o meno l'icona dell'area proibita in base al check dell'area proibita
+    /// </summary>
+    public void rebuildUIProhibitedAreaIcon() {
+        if (gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck()) {
+            alarmAlertUIController.potentialProhibitedAreaAlarmOn();
+        } else {
+            alarmAlertUIController.potentialProhibitedAreaAlarmOff();
+        }
+    }
+
+    public void discardCharacterAction() {
+        _isTimedInteractionProcessing = false;
     }
 }

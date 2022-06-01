@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
-    static public GameObject addToGOEnemyNPComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
-        gameObject.AddComponent<EnemyNPCBehaviour>();
+    static public GameObject initEnemyNPComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
 
         EnemyNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<EnemyNPCBehaviour>();
         enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());
@@ -15,21 +14,46 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
 
     /// <summary>
-    /// implementazione comportamento di allerta 1 
+    /// implementazione suspiciousAlertBehaviour
     /// </summary>
-    public override void alertBehaviour1() {
-
+    public override void suspiciousAlertBehaviour() {
+        stopAgent();
     }
     /// <summary>
-    /// implementazione comportamento di allerta 2
+    /// implementazione hostilityAlertBehaviour
     /// </summary>
-    public override void alertBehaviour2() {
-
+    public override void hostilityAlertBehaviour() {
+        stopAgent();
     }
     /// <summary>
-    /// implementazione comportamento di allerta 3
+    /// implementazione soundAlert1Behaviour
     /// </summary>
-    public override void alertBehaviour3() {
+    public override void soundAlert1Behaviour() {
 
+    }
+
+    /// <summary>
+    /// Per le guardie nemiche quando termina l'HostilityTimer viene aggiornato il dizionario a livello globale
+    /// passando il dizionario del character (viene fatta l'unione)
+    /// Inoltre tutti gli altri character nemici avranno il dizionario hostility aggiornato
+    /// </summary>
+    public override void onHostilityAlertTimerEnd() {
+        gameObject.GetComponent<CharacterManager>().globalGameState.updateGlobalWantedHostileCharacters(this._wantedHostileCharacters);
+    }
+
+    public override void onHostilityAlert() {
+
+        
+        Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
+        
+
+
+        // aggiorna dizionario dei characters in modo istantaneo
+        foreach (var character in characters) {
+
+            if(character.Value.characterAlertState != CharacterAlertState.HostilityAlert) {
+                character.Value.hostilityCheck(alarmFocusCharacter);
+            }
+        }
     }
 }

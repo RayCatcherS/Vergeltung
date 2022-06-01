@@ -3,34 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CivilianNPCBehaviour : BaseNPCBehaviour {
-    static public GameObject addToGOCivilianNPCComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
-        gameObject.AddComponent<CivilianNPCBehaviour>();
+    static public GameObject initCivilianNPCComponent(GameObject gameObject, CharacterSpawnPoint spawnPoint) {
 
         CivilianNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<CivilianNPCBehaviour>();
-        enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());
+        enemyNPCNewComponent.initNPCComponent(spawnPoint, gameObject.GetComponent<CharacterMovement>());
 
         return gameObject;
     }
 
-    
+
 
 
     /// <summary>
-    /// implementazione comportamento di allerta 1 
+    /// implementazione suspiciousAlertBehaviour
     /// </summary>
-    public override void alertBehaviour1() {
-
+    public override void suspiciousAlertBehaviour() {
+        stopAgent();
     }
     /// <summary>
-    /// implementazione comportamento di allerta 2
+    /// implementazione hostilityAlertBehaviour
     /// </summary>
-    public override void alertBehaviour2() {
-
+    public override void hostilityAlertBehaviour() {
+        stopAgent();
     }
     /// <summary>
-    /// implementazione comportamento di allerta 3
+    /// implementazione soundAlert1Behaviour
     /// </summary>
-    public override void alertBehaviour3() {
+    public override void soundAlert1Behaviour() {
 
     }
 }

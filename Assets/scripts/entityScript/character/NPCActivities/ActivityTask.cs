@@ -40,25 +40,41 @@ public class ActivityTask : MonoBehaviour
         characterActivity.removeActivityPointByIID(this);
     }
 
-    public async Task executeTask(CharacterManager characterInteraction) {
+    /// <summary>
+    /// Viene eseguito il task attendendo il tempo necessario per portarlo a termine.
+    /// Se lo stato di allerta dell'nPCBehaviour che esegue il task è != da CharacterAlertState.Unalert allora
+    /// il task viene interrotto immediatamente
+    /// </summary>
+    /// <param name="character">CharacterManager che avvia l'interaction e che ne subisce l'influenza</param>
+    /// <param name="nPCBehaviour">BaseNPCBehaviour viene usato per monitorare lo stato di allerta durante il task</param>
+    /// <returns></returns>
+    public async Task executeTask(CharacterManager character, BaseNPCBehaviour nPCBehaviour) {
 
-        characterInteraction.isBusy = true;
+        character.isBusy = true;
         
 
         if (taskEvent != null) {
-            taskEvent.getMainInteraction().getUnityEvent().Invoke(characterInteraction);
+            taskEvent.getMainInteraction().getUnityEvent().Invoke(character);
         }
 
 
         float end = Time.time + taskTiming;
         while (Time.time < end) {
-            await Task.Yield();
+
+            if(nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
+                await Task.Yield();
+            } else {
+
+                Debug.Log("Interruzione task, allerta!");
+                break;
+            }
+            
         }
+        
 
 
-
-        characterInteraction.isBusy = false;
-
+        character.isBusy = false;
+        return;
 
     }
 

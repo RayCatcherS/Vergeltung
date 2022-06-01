@@ -89,7 +89,7 @@ public class CharacterSpawnController : MonoBehaviour {
         newCharacterSpawn.name = CharacterRole.GetCharacterRoleName(characterRole) + "SpawnPoint"; // nome del gameobject
 
 
-        if(characterRole == Role.Enemy) {
+        if(characterRole == Role.EnemyGuard) {
             enemyCharacterSpawnPoints.Add(newCharacterSpawn.GetComponent<CharacterSpawnPoint>()); // aggiungi il nuovo spawn alla lista
 
             newCharacterSpawn.name = newCharacterSpawn.name + enemyCharacterSpawnPoints.Count;
@@ -114,7 +114,7 @@ public class CharacterSpawnController : MonoBehaviour {
     public void removeCharacterSpawnByGOId(int instanceID, Role characterRole) {
 
 
-        if(characterRole == Role.Enemy) {
+        if(characterRole == Role.EnemyGuard) {
             for (int i = 0; i < enemyCharacterSpawnPoints.Count; i++) {
 
                 if (enemyCharacterSpawnPoints[i].gameObject.GetInstanceID() == instanceID) {
@@ -155,11 +155,12 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-                EnemyNPCBehaviour.addToGOEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
+                EnemyNPCBehaviour.initEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-                CharacterManager.addToGOCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                GameState gameState = gameObject.GetComponent<GameState>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // associa npc istanziato al componente sceneEntities
@@ -167,7 +168,12 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(enemyCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<InventoryManager>(), enemyCharacterSpawnPoints[i].getStartSelectedEquipment());
+                initializeEquipment(
+                    enemyCharacterSpawnPoints[i].getCharacterEquipment(),
+                    newCharacter.GetComponent<CharacterManager>().inventoryManager,
+                    enemyCharacterSpawnPoints[i].getStartSelectedEquipment(),
+                    enemyCharacterSpawnPoints[i].flashlightTaken
+                );
             }
             
 
@@ -183,25 +189,31 @@ public class CharacterSpawnController : MonoBehaviour {
 
                 
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-                CivilianNPCBehaviour.addToGOCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
+                CivilianNPCBehaviour.initCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-                CharacterManager.addToGOCharacterManagerComponent(newCharacter, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                GameState gameState = gameObject.GetComponent<GameState>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // aggiungi npc istanziato al componente sceneEntities
                 SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviour>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(civilianCharacterSpawnPoints[i].getCharacterEquipment(), newCharacter.GetComponent<InventoryManager>(), civilianCharacterSpawnPoints[i].getStartSelectedEquipment());
+                initializeEquipment(
+                    civilianCharacterSpawnPoints[i].getCharacterEquipment(),
+                    newCharacter.GetComponent<CharacterManager>().inventoryManager,
+                    civilianCharacterSpawnPoints[i].getStartSelectedEquipment(),
+                    civilianCharacterSpawnPoints[i].flashlightTaken
+                );
             }
             
         }
     }
 
-    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon) {
+    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon, bool flashLightTaken) {
         
         if(equip == Equipment.noWeaponEquipment) {
             for(int i = 0; i < noWeaponEquipment.Count; i++) {
@@ -229,6 +241,8 @@ public class CharacterSpawnController : MonoBehaviour {
 
         }
 
+        inventoryM.isFlashlightTaken = flashLightTaken;
+
         inventoryM.selectWeapon(selectedWeapon);
     }
 
@@ -243,7 +257,8 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
             InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
-            CharacterManager.addToGOCharacterManagerComponent(newPlayer, interactionUIController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+            GameState gameState = gameObject.GetComponent<GameState>();
+            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
             // associa npc istanziato al componente sceneEntities
@@ -256,7 +271,12 @@ public class CharacterSpawnController : MonoBehaviour {
             playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
 
             // inizializza equipaggiamento
-            initializeEquipment(playerSpawnPoint.getCharacterEquipment(), newPlayer.GetComponent<InventoryManager>(), playerSpawnPoint.getStartSelectedEquipment());
+            initializeEquipment(
+                playerSpawnPoint.getCharacterEquipment(),
+                newPlayer.GetComponent<CharacterManager>().inventoryManager,
+                playerSpawnPoint.getStartSelectedEquipment(),
+                playerSpawnPoint.flashlightTaken
+            );
         }
     }
 }
