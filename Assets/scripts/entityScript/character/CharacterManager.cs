@@ -19,7 +19,7 @@ public class CharacterManager : MonoBehaviour {
     }
     [SerializeField] private CharacterFOV characterFOV; // componente fov del character
     [SerializeField] private CharacterMovement characterMovement;
-    [SerializeField] private TimeTaskSliderManager timeTaskSliderUIManager; // manager slider ui dei timer task
+    [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
     [SerializeField] public AlarmAlertUIController alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
@@ -37,9 +37,9 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] public bool isDead = false;
     [SerializeField] public bool isPickLocking = false; // stato che rappresenta se il character sta scassinando
 
-    [SerializeField] private bool _isTimedTaskProcessing = false; // con questo stato il character è impegnato e non pu
-    public bool isTimedTaskProcessing {
-        get { return _isTimedTaskProcessing; }
+    [SerializeField] private bool _isTimedInteractionProcessing = false; // con questo stato il character è impegnato e non pu
+    public bool isTimedInteractionProcessing {
+        get { return _isTimedInteractionProcessing; }
     }
 
 
@@ -395,27 +395,27 @@ public class CharacterManager : MonoBehaviour {
     /// ritorna [true] se il task è stato completato correttamente
     /// altrimenti [false]
     /// </summary>
-    public async Task<bool> startTimedTask(float timeToWait, string sliderTitle) {
+    public async Task<bool> startTimedInteraction(float timeToWait, string interactionTitle) {
 
         bool result = true;
         float startTime = Time.time;
         float endTime = Time.time + timeToWait;
 
-        timeTaskSliderUIManager.enableAndInitializeTimerSlider(minValue: 0, maxValue: endTime - startTime, sliderTitle: sliderTitle);
+        timedInteractionSliderManager.enableAndInitializeTimerSlider(minValue: 0, maxValue: endTime - startTime, sliderTitle: interactionTitle);
 
-        _isTimedTaskProcessing = true;
+        _isTimedInteractionProcessing = true;
         while (Time.time < endTime) {
 
-            timeTaskSliderUIManager.setSliderValue(Time.time - startTime);
+            timedInteractionSliderManager.setSliderValue(Time.time - startTime);
 
-            if(!isTimedTaskProcessing) {
-                result = false; // task fallito
+            if(!isTimedInteractionProcessing) {
+                result = false; // interaction fallita
                 break;
             }
             await Task.Yield();
         }
-        _isTimedTaskProcessing = false;
-        timeTaskSliderUIManager.disableTimeSlider();
+        _isTimedInteractionProcessing = false;
+        timedInteractionSliderManager.disableTimeSlider();
 
 
         return result;
@@ -433,6 +433,6 @@ public class CharacterManager : MonoBehaviour {
     }
 
     public void discardCharacterAction() {
-        _isTimedTaskProcessing = false;
+        _isTimedInteractionProcessing = false;
     }
 }

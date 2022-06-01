@@ -55,7 +55,7 @@ public class DoorInteractable : Interactable {
         characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia alert 
 
         // avvia task sul character che ha avviato il task
-        bool playerTaskResultDone = await characterWhoIsInteracting.startTimedTask(doorState.doorLockPickTime, "Lock-Picking");
+        bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(doorState.doorLockPickTime, "Lock-Picking");
         characterWhoIsInteracting.isPickLocking = false;
 
         if (playerTaskResultDone) { // sblocca la porta se il task è stato portato a termine

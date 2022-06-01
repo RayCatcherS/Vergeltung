@@ -106,7 +106,7 @@ public class CharacterMovement : MonoBehaviour {
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
-        if(!characterManager.isTimedTaskProcessing) {
+        if(!characterManager.isTimedInteractionProcessing) {
             _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
 
 
@@ -168,7 +168,7 @@ public class CharacterMovement : MonoBehaviour {
     public void rotateCharacter(Vector2 _2Drotate, bool _isRun, bool _istantRotation) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
-        if (!characterManager.isTimedTaskProcessing) {
+        if (!characterManager.isTimedInteractionProcessing) {
             // clamp dei valori passati 
             rotationAimTargetInput = new Vector3(
             _2Drotate.x,

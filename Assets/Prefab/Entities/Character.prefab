@@ -1247,6 +1247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 609504503830122070}
   - component: {fileID: 7890728127059496551}
+  - component: {fileID: 7746865444010715077}
   - component: {fileID: 2012627332063616496}
   m_Layer: 5
   m_Name: Background
@@ -1283,6 +1284,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8804287578564993155}
   m_CullTransparentMesh: 1
+--- !u!114 &7746865444010715077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8804287578564993155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!114 &2012627332063616496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1905,7 +1919,7 @@ MonoBehaviour:
   _characterOutline: {fileID: 4661837539409756147}
   characterFOV: {fileID: 9168440622864638927}
   characterMovement: {fileID: 9188659755221051704}
-  timeTaskSliderUIManager: {fileID: 7686532811985837547}
+  timedInteractionSliderManager: {fileID: 7686532811985837547}
   _interactionUIController: {fileID: 0}
   _weaponUIController: {fileID: 0}
   alarmAlertUIController: {fileID: 0}
@@ -1917,7 +1931,7 @@ MonoBehaviour:
   isPlayer: 0
   isDead: 0
   isPickLocking: 0
-  _isTimedTaskProcessing: 0
+  _isTimedInteractionProcessing: 0
   characterHealth: 100
   FOVUnmalusFlashlightTimer: 4
   _firstMalusFovAngle: 60
