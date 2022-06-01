@@ -20,9 +20,10 @@ Documento Game Design
 </a>
 
 ## Devlog
-- [2 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diaryPullReqIssue%236-8-18-17/README.md)
-- [3 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diaryPullReqIssue%2323/README.md)
-
+- [2 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
+- [3 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
+- [4 Capitolo](https://github.com/RayCatcherS/Vergeltung/tree/main/DevDiary/(4)diary_issue%2310)
+- [5 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
 
 ## Note tecniche progetto
 ### Piattaforme di riferimento
