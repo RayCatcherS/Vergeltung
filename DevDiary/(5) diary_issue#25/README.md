@@ -1,4 +1,4 @@
-# Devlog Capitolo 5(Diario di sviluppo issue 10)
+# Devlog Capitolo 5(Diario di sviluppo issue 25)
 ![Image animator](cover.png)
 
 - Label stato di gioco possibili situazioni pericolo.
