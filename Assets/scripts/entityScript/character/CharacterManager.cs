@@ -426,9 +426,9 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public void rebuildUIProhibitedAreaIcon() {
         if (gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck()) {
-            alarmAlertUIController.prohibitedAreaAlarmOn();
+            alarmAlertUIController.potentialProhibitedAreaAlarmOn();
         } else {
-            alarmAlertUIController.prohibitedAreaAlarmOff();
+            alarmAlertUIController.potentialProhibitedAreaAlarmOff();
         }
     }
 

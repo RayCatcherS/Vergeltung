@@ -606,9 +606,9 @@ public class InventoryManager : Interactable {
     /// </summary>
     private void prohibitedWeaponAlarmUICheck() {
         if(isUsedItemProhibitedCheck()) {
-            characterManager.alarmAlertUIController.visiblyArmedAlarmOn();
+            characterManager.alarmAlertUIController.potentialVisiblyArmedAlarmOn();
         } else {
-            characterManager.alarmAlertUIController.visiblyArmedAlarmOff();
+            characterManager.alarmAlertUIController.potentialVisiblyArmedAlarmOff();
         }
     }
 

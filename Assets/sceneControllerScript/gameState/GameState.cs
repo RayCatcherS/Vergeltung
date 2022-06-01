@@ -140,9 +140,9 @@ public class GameState : MonoBehaviour
 
 
         if (globalWantedHostileCharacters.ContainsKey(characterManager.GetInstanceID())) {
-            alarmAlertUIController.wantedAlarmOn();
+            alarmAlertUIController.potentialWantedAlarmOn();
         } else {
-            alarmAlertUIController.wantedAlarmOff();
+            alarmAlertUIController.potentialWantedAlarmOff();
         }
         
     }

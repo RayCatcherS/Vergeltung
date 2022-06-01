@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AlarmAlertUIController : MonoBehaviour
@@ -13,9 +11,10 @@ public class AlarmAlertUIController : MonoBehaviour
     [SerializeField] private Animator wantedAnimator;
     [SerializeField] private Animator visiblyArmedAnimator;
     [SerializeField] private Animator prohibitedAreaAnimator;
+    [SerializeField] private Animator lockPickingAnimator;
 
 
-    public void wantedAlarmOn() {
+    public void potentialWantedAlarmOn() {
         wantedAnimator.ResetTrigger(ALARM_ON_TRIGGER);
         wantedAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
         wantedAnimator.ResetTrigger(ALARM_EXIT);
@@ -23,7 +22,7 @@ public class AlarmAlertUIController : MonoBehaviour
         wantedAnimator.gameObject.SetActive(true);
         wantedAnimator.SetTrigger(ALARM_ON_TRIGGER);
     }
-    public void wantedAlarmOff() {
+    public void potentialWantedAlarmOff() {
         wantedAnimator.ResetTrigger(ALARM_ON_TRIGGER);
         wantedAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
         wantedAnimator.ResetTrigger(ALARM_EXIT);
@@ -34,7 +33,7 @@ public class AlarmAlertUIController : MonoBehaviour
 
 
 
-    public void visiblyArmedAlarmOn() {
+    public void potentialVisiblyArmedAlarmOn() {
         visiblyArmedAnimator.ResetTrigger(ALARM_ON_TRIGGER);
         visiblyArmedAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
         visiblyArmedAnimator.ResetTrigger(ALARM_EXIT);
@@ -42,7 +41,7 @@ public class AlarmAlertUIController : MonoBehaviour
         visiblyArmedAnimator.gameObject.SetActive(true);
         visiblyArmedAnimator.SetTrigger(ALARM_ON_TRIGGER);
     }
-    public void visiblyArmedAlarmOff() {
+    public void potentialVisiblyArmedAlarmOff() {
         visiblyArmedAnimator.ResetTrigger(ALARM_ON_TRIGGER);
         visiblyArmedAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
         visiblyArmedAnimator.ResetTrigger(ALARM_EXIT);
@@ -53,7 +52,7 @@ public class AlarmAlertUIController : MonoBehaviour
 
 
 
-    public void prohibitedAreaAlarmOn() {
+    public void potentialProhibitedAreaAlarmOn() {
         prohibitedAreaAnimator.ResetTrigger(ALARM_ON_TRIGGER);
         prohibitedAreaAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
         prohibitedAreaAnimator.ResetTrigger(ALARM_EXIT);
@@ -61,12 +60,29 @@ public class AlarmAlertUIController : MonoBehaviour
         prohibitedAreaAnimator.gameObject.SetActive(true);
         prohibitedAreaAnimator.SetTrigger(ALARM_ON_TRIGGER);
     }
-    public void prohibitedAreaAlarmOff() {
+    public void potentialProhibitedAreaAlarmOff() {
         prohibitedAreaAnimator.ResetTrigger(ALARM_ON_TRIGGER);
         prohibitedAreaAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
         prohibitedAreaAnimator.ResetTrigger(ALARM_EXIT);
 
         prohibitedAreaAnimator.SetTrigger(ALARM_OFF_TRIGGER);
         prohibitedAreaAnimator.SetTrigger(ALARM_EXIT);
+    }
+
+    public void potentialLockPickingAlarmOn() {
+        lockPickingAnimator.ResetTrigger(ALARM_ON_TRIGGER);
+        lockPickingAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
+        lockPickingAnimator.ResetTrigger(ALARM_EXIT);
+
+        lockPickingAnimator.gameObject.SetActive(true);
+        lockPickingAnimator.SetTrigger(ALARM_ON_TRIGGER);
+    }
+    public void potentialLockPickingAlarmOff() {
+        lockPickingAnimator.ResetTrigger(ALARM_ON_TRIGGER);
+        lockPickingAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
+        lockPickingAnimator.ResetTrigger(ALARM_EXIT);
+
+        lockPickingAnimator.SetTrigger(ALARM_OFF_TRIGGER);
+        lockPickingAnimator.SetTrigger(ALARM_EXIT);
     }
 }
