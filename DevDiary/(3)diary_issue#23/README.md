@@ -15,7 +15,7 @@
 ---
 
 # Applicazione effetti Post processing + Bake illuminazione
-Per raggiungere il concept visivo desiderato sono stati applicati effetti: Vignette, Bloom, Color Adjustments, Chromatic Aberration, Tonemapping, White Balance. Sono state inoltre settate le impostazioni per il Bake dell'illuminazione. Tutti i modelli poligonali che ho progettato ed esportato con Blender sono predisposti per il calcolo dell'illuminazione(UV Mapping)
+Per raggiungere il concept visivo desiderato sono stati applicati effetti: Vignette, Bloom, Color Adjustments, Chromatic Aberration, Tonemapping, White Balance. Sono state inoltre settate le impostazioni per il Bake dell'illuminazione. Tutti i settaggi dei PP e dell'illuminazione scelti sono visualizzabili da editor. Tutti i modelli poligonali progettati ed esportati con Blender sono predisposti per il calcolo dell'illuminazione(UV Mapping)
 
 ## Baked lighting: OFF, Post processing: OFF
 ![Image animator](bakeOffNoPostProcessing.png)
