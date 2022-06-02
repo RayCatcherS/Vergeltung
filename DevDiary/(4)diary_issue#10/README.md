@@ -144,7 +144,7 @@ Il campo visivo dei characters viene ridotto quando viene sabotato un generatore
 ![Image animator](reduceFOVOnSabotageGenerator.gif)
 
 ## Flashlight guardie
-Le guardie con una **flashligh** possono ripristinare parte del campo visivo dopo un tempo t quando non c'è luce ed è stato applicato il "malus".
+Le guardie con una **flashlight** possono ripristinare parte del campo visivo dopo un tempo t quando non c'è luce ed è stato applicato il "malus".
 
 ![Image animator](flashlightFOV.gif)
 
