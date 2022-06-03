@@ -41,6 +41,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         gameObject.GetComponent<CharacterManager>().globalGameState.updateGlobalWantedHostileCharacters(this._wantedHostileCharacters);
     }
 
+    /// <summary>
+    /// Avvisa tutti gli npc nell'area AlertAreaCharacters
+    /// </summary>
     public override void onHostilityAlert() {
 
         

@@ -32,4 +32,23 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     public override void soundAlert1Behaviour() {
 
     }
+
+    /// <summary>
+    /// Avvisa tutti gli npc nell'area AlertAreaCharacters
+    /// </summary>
+    public override void onHostilityAlert() {
+
+
+        Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
+
+
+
+        // aggiorna dizionario dei characters in modo istantaneo
+        foreach (var character in characters) {
+
+            if (character.Value.characterAlertState != CharacterAlertState.HostilityAlert) {
+                character.Value.hostilityCheck(alarmFocusCharacter);
+            }
+        }
+    }
 }
