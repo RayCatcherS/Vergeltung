@@ -27,7 +27,7 @@ Queste due aree quindi servono ad intercettare il player con 2 differenti livell
 
 ## Visualizzazione avanzata dei FOV da editor
 Sono state implementate funzioni di visual debugging GIZMOS visualizzabili nell'editor di Unity, disegnando i parametri, raggio e angolo visione ed il raycast usato dai FOV per verificare la presenza di ostacoli tra il **character NPC A** e il player. Vengono visualizzati solo quando il player innesca uno dei due FOV.
-Questi strumenti di visual debugging mi sono tornati molto utile al fine di testare e verificare il funzionamento dell'IA e degli stati di allarme.
+Questi strumenti di visual debugging mi sono tornati molto utili al fine di testare e verificare il funzionamento dell'IA e degli stati di allarme.
 - Primo FOV giallo-ravvicinato, raycast rosso
 - Secondo FOV ciano-distante, raycast magenta
 
@@ -144,7 +144,7 @@ Il campo visivo dei characters viene ridotto quando viene sabotato un generatore
 ![Image animator](reduceFOVOnSabotageGenerator.gif)
 
 ## Flashlight guardie
-Le guardie con una **flashligh** possono ripristinare parte del campo visivo dopo un tempo t quando non c'è luce ed è stato applicato il "malus".
+Le guardie con una **flashlight** possono ripristinare parte del campo visivo dopo un tempo t quando non c'è luce ed è stato applicato il "malus".
 
 ![Image animator](flashlightFOV.gif)
 
