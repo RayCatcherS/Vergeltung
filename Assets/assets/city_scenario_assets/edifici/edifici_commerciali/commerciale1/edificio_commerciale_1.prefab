@@ -1492,6 +1492,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: portaResidenziale2
       objectReference: {fileID: 0}
+    - target: {fileID: 6301468589642512124, guid: 8048594c2e9c9d84f84123c28efab3e5, type: 3}
+      propertyPath: doorLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6601942200100966656, guid: 8048594c2e9c9d84f84123c28efab3e5, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -11838,6 +11842,22 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!208 &2095577244
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3534171770346271534}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.1560001, y: 0.13000001, z: 1.9440001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.517, y: -0.135, z: 1.9070001}
+  m_TimeToStationary: 0.5
 --- !u!199 &7356898804376353307
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -11925,22 +11945,6 @@ MonoBehaviour:
   particles: {fileID: 6685406427064175522}
   glassCollider: {fileID: 1658056309580330582}
   meshRenderer: {fileID: 1686765083709310408}
---- !u!208 &2095577244
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3534171770346271534}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 2.1560001, y: 0.13000001, z: 1.9440001}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0.517, y: -0.135, z: 1.9070001}
-  m_TimeToStationary: 0.5
 --- !u!23 &3555020066747658051 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2304367507318098233, guid: 036ae0b807569d444a44fd6f7af4017c, type: 3}
