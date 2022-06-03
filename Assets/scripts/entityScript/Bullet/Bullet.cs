@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     private const int ALL_LAYERS = -1;
     private const int CHARACTER_LAYER = 7;
     private const int RAGDOLLBONE_LAYER = 15;
+    private const int SHATTERABLEGLASS_LAYER = 17;
 
 
     [Header("Bullet configuration")]
@@ -60,6 +61,10 @@ public class Bullet : MonoBehaviour
                 } else if (hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
 
                     ragdollBoneCollision(hit.point);
+                } else if (hit.transform.gameObject.layer == SHATTERABLEGLASS_LAYER) {
+
+                    glassCollision(hit);
+                    wallCollision(hit.point, hit.normal);
                 } else {
 
                     wallCollision(hit.point, hit.normal);
@@ -89,4 +94,10 @@ public class Bullet : MonoBehaviour
     private void ragdollBoneCollision(Vector3 collisionPoint) {
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
     }
+
+    private void glassCollision(RaycastHit hit) {
+        hit.transform.gameObject.GetComponent<ShatterableGlass>().shatterGlass();
+
+    }
+
 }
