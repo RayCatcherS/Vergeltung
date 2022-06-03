@@ -26,7 +26,7 @@ public class AlarmAlertUIController : MonoBehaviour
     }
     public void potentialWantedAlarmOff() {
 
-        if (lockPickingAnimator.gameObject.activeSelf) {
+        if (wantedAnimator.gameObject.activeSelf) {
 
             wantedAnimator.ResetTrigger(ALARM_ON_TRIGGER);
             wantedAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
@@ -51,7 +51,7 @@ public class AlarmAlertUIController : MonoBehaviour
         visiblyArmedAnimator.SetTrigger(ALARM_ON_TRIGGER);
     }
     public void potentialVisiblyArmedAlarmOff() {
-        if (lockPickingAnimator.gameObject.activeSelf) {
+        if (visiblyArmedAnimator.gameObject.activeSelf) {
 
             visiblyArmedAnimator.ResetTrigger(ALARM_ON_TRIGGER);
             visiblyArmedAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
