@@ -28,7 +28,7 @@ Costruita UI ed implementato manager UI delle timed interaction. Tramite il loop
 ![Image animator](timedInteraction.png)
 
 
-## Applicazione timed Interaction nello scassinamento delle porte
+## Applicazione timed Interaction allo scassinamento delle porte
 Le timed interaction sono state usate nelle interazioni dello scassinamento delle porte. Per design scassinare la porta rende il character vulnerabile ma libero di annullare e ricominciare in seguito l'interaction
 
 ![Image animator](lockpickDoor.gif)
