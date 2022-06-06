@@ -524,6 +524,76 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MainMenu"",
+            ""id"": ""811c0a19-ebe4-4fa3-acaa-6c98c6e3b8f7"",
+            ""actions"": [
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""743f0737-a2fd-4aa2-82a6-1c74b004d52b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuNavigation"",
+                    ""type"": ""Value"",
+                    ""id"": ""869ade71-2a37-441b-9042-6fce8b9af9b5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""12e46b05-a331-4176-abbc-2a1b5d466acd"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab4afba2-4612-4e60-85cd-f0cdb3899a64"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22e85400-c493-4506-97f7-c33f8f94fc55"",
+                    ""path"": ""<XInputController>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuNavigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0781e191-1be3-47ca-b5fb-f6fde670e5c2"",
+                    ""path"": ""<DualShockGamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuNavigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -554,6 +624,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Action = m_UI.FindAction("Action", throwIfNotFound: true);
         m_UI_MenuNavigation = m_UI.FindAction("MenuNavigation", throwIfNotFound: true);
+        // MainMenu
+        m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
+        m_MainMenu_Action = m_MainMenu.FindAction("Action", throwIfNotFound: true);
+        m_MainMenu_MenuNavigation = m_MainMenu.FindAction("MenuNavigation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -739,6 +813,47 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // MainMenu
+    private readonly InputActionMap m_MainMenu;
+    private IMainMenuActions m_MainMenuActionsCallbackInterface;
+    private readonly InputAction m_MainMenu_Action;
+    private readonly InputAction m_MainMenu_MenuNavigation;
+    public struct MainMenuActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public MainMenuActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Action => m_Wrapper.m_MainMenu_Action;
+        public InputAction @MenuNavigation => m_Wrapper.m_MainMenu_MenuNavigation;
+        public InputActionMap Get() { return m_Wrapper.m_MainMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MainMenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMainMenuActions instance)
+        {
+            if (m_Wrapper.m_MainMenuActionsCallbackInterface != null)
+            {
+                @Action.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
+                @MenuNavigation.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuNavigation;
+                @MenuNavigation.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuNavigation;
+                @MenuNavigation.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuNavigation;
+            }
+            m_Wrapper.m_MainMenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
+                @MenuNavigation.started += instance.OnMenuNavigation;
+                @MenuNavigation.performed += instance.OnMenuNavigation;
+                @MenuNavigation.canceled += instance.OnMenuNavigation;
+            }
+        }
+    }
+    public MainMenuActions @MainMenu => new MainMenuActions(this);
     private int m_XboxControlSchemeSchemeIndex = -1;
     public InputControlScheme XboxControlSchemeScheme
     {
@@ -760,6 +875,11 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnPutAwayExtractWeapon(InputAction.CallbackContext context);
     }
     public interface IUIActions
+    {
+        void OnAction(InputAction.CallbackContext context);
+        void OnMenuNavigation(InputAction.CallbackContext context);
+    }
+    public interface IMainMenuActions
     {
         void OnAction(InputAction.CallbackContext context);
         void OnMenuNavigation(InputAction.CallbackContext context);
