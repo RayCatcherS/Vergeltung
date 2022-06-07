@@ -25,7 +25,7 @@ public class DoorInteractable : Interactable {
         openDoorEvent.AddListener(openDoor);
         closeDoorEvent.AddListener(closeDoor);
 
-        doorState.isDoorPickLocking = false;
+        doorState.isDoorPickLocking.value = false;
     }
 
     public void openDoor(CharacterManager characterInteraction) {
@@ -45,7 +45,7 @@ public class DoorInteractable : Interactable {
 
     public async void lockPick(CharacterManager characterWhoIsInteracting) {
 
-        doorState.isDoorPickLocking = true; // setta lo stato della porta in "PickLocking"
+        doorState.isDoorPickLocking.value = true; // setta lo stato della porta in "PickLocking"
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
 
@@ -55,7 +55,7 @@ public class DoorInteractable : Interactable {
         characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia alert 
 
         // avvia task sul character che ha avviato il task
-        bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(doorState.doorLockPickTime, "Lock-Picking");
+        bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(doorState.doorLockPickTime, "Lock-Picking", doorState.isDoorClosed(), false);
         characterWhoIsInteracting.isPickLocking = false;
 
         if (playerTaskResultDone) { // sblocca la porta se il task è stato portato a termine
@@ -65,7 +65,7 @@ public class DoorInteractable : Interactable {
 
 
         characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();
-        doorState.isDoorPickLocking = false; // disattiva stato della porta in "PickLocking"
+        doorState.isDoorPickLocking.value = false; // disattiva stato della porta in "PickLocking"
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
     }
 
@@ -75,10 +75,10 @@ public class DoorInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
 
-        if(!doorState.isDoorPickLocking) {
-            if (doorState.isDoorLocked()) {
+        if(!doorState.isDoorPickLocking.value) {
+            if (doorState.isDoorLocked().value) {
 
-                if(!doorState.isDoorClosed()) {
+                if(!doorState.isDoorClosed().value) {
                     eventRes.Add(
                         new Interaction(closeDoorEvent, closeDoorEventName, this)
                     );
@@ -90,7 +90,7 @@ public class DoorInteractable : Interactable {
                 
             } else {
 
-                if (doorState.isDoorClosed()) {
+                if (doorState.isDoorClosed().value) {
                     eventRes.Add(
                         new Interaction(openDoorEvent, openDoorEventName, this)
                     );
@@ -109,7 +109,7 @@ public class DoorInteractable : Interactable {
     IEnumerator doorClosingTimeOut(CharacterManager characterInteraction) {
         yield return new WaitForSeconds(doorState.getDoorTimeOut());
 
-        if (!doorState.getDoorClosed()) {
+        if (!doorState.getDoorClosed().value) {
             doorState.closeDoor(true); // chiudi porta
 
             characterInteraction.buildListOfInteraction();

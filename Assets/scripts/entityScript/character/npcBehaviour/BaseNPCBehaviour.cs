@@ -283,7 +283,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
             if (doorInteractable != null) {
 
-                if(doorInteractable.doorState.isDoorClosed()) {
+                if(doorInteractable.doorState.isDoorClosed().value) {
                     doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
                 }
                 

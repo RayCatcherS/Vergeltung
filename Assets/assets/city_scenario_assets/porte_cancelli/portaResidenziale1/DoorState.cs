@@ -7,9 +7,9 @@ public class DoorState : MonoBehaviour
 
     private const int CHARACTER_LAYER = 7;
 
-    [SerializeField] public bool isDoorPickLocking = false;
-    [SerializeField] private bool doorLocked = true;
-    [SerializeField] private bool doorClosed = true;
+    [SerializeField] public Boolean isDoorPickLocking = new Boolean(false);
+    [SerializeField] private Boolean doorLocked = new Boolean(true);
+    [SerializeField] private Boolean doorClosed = new Boolean(true);
 
     [SerializeField] private bool doorOpenedDirection1 = false;
     [SerializeField] private bool doorOpenedDirection2 = false;
@@ -31,7 +31,7 @@ public class DoorState : MonoBehaviour
         return doorTimeOut;
     }
 
-    public bool getDoorClosed() {
+    public Boolean getDoorClosed() {
         return doorClosed;
     }
 
@@ -90,13 +90,13 @@ public class DoorState : MonoBehaviour
 
     //setter
     public void setDoorLocked(bool lockedState) {
-        doorLocked = lockedState;
+        doorLocked.value = lockedState;
     }
 
     public void closeDoor(bool closeState) {
-        doorClosed = closeState;
+        doorClosed.value = closeState;
 
-        if(doorClosed) {
+        if(doorClosed.value) {
 
             if(doorOpenedDirection1) {
                 doorAnimator.speed = 1;
@@ -114,7 +114,7 @@ public class DoorState : MonoBehaviour
             
             
 
-            if (doorClosed == true) {
+            if (doorClosed.value == true) {
                 
                 doorAnimator.SetTrigger("close");
             }
@@ -124,11 +124,11 @@ public class DoorState : MonoBehaviour
 
 
     // getter
-    public bool isDoorLocked() {
+    public Boolean isDoorLocked() {
         return doorLocked;
     }
 
-    public bool isDoorClosed() {
+    public Boolean isDoorClosed() {
         return doorClosed;
     }
 

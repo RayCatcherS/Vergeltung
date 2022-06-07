@@ -390,12 +390,19 @@ public class CharacterManager : MonoBehaviour {
         }
     }
 
+
+
     /// <summary>
     /// Esecuzione task a tempo
     /// ritorna [true] se il task è stato completato correttamente
     /// altrimenti [false]
     /// </summary>
-    public async Task<bool> startTimedInteraction(float timeToWait, string interactionTitle) {
+    /// <param name="timeToWait">Tempo durata del task (Sospensione controllo)</param>
+    /// <param name="interactionTitle">Titolo dell'interazione da avviare</param>
+    /// <param name="triggerToInterrupt">Istanza tipo booleano che contiene l'informazione booleana di stop dell'interazione</param>
+    /// <param name="valueTointerrupt">Se il triggerToInterrupt è uguale al valueTointerrupt l'interaction si interrompe</param>
+    /// <returns></returns>
+    public async Task<bool> startTimedInteraction(float timeToWait, string interactionTitle, Boolean triggerToInterrupt = null, bool valueTointerrupt = false) {
 
         bool result = true;
         float startTime = Time.time;
@@ -411,6 +418,13 @@ public class CharacterManager : MonoBehaviour {
             if(!isTimedInteractionProcessing) {
                 result = false; // interaction fallita
                 break;
+            }
+
+            if(triggerToInterrupt != null) {
+                if(triggerToInterrupt.value == valueTointerrupt) {
+                    result = false; // interaction interrotta
+                    break;
+                }
             }
             await Task.Yield();
         }
