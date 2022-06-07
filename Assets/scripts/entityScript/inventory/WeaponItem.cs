@@ -149,29 +149,34 @@ public class WeaponItem : InventoryItem
     /// Questo metodo spawna sul luogo un damageObject
     /// </summary>
     /// <param name="p"></param>
-    public override void useItem(CharacterManager p) {
+    public override void useItem(CharacterManager p = null) {
         if (_ammunition > 0) {
-            Vector3 posA = _shootingTransform.position;
-            Vector3 posB = _shootingTransform.forward;
 
+            if (Time.time > busyWeaponDurationTimeEnd) {
 
-            GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+                Vector3 posA = _shootingTransform.position;
+                Vector3 posB = _shootingTransform.forward;
+                Debug.Log("Use gun");
 
-            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+                GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
 
-                damageGO.GetComponent<Bullet>().setupBullet(posB);
+                if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
 
-                if (spawnDamageObjectParticle != null) {
+                    damageGO.GetComponent<Bullet>().setupBullet(posB);
 
-                    GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
-                    if (inventoryManager != null) {
-                        particleGO.transform.parent = inventoryManager.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                    if (spawnDamageObjectParticle != null) {
+
+                        GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+                        if (p != null) {
+                            particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                        }
                     }
                 }
-            }
 
-            busyWeaponDurationTimeEnd = Time.time + shootFrequency;
-            _ammunition = _ammunition - 1;
+                busyWeaponDurationTimeEnd = Time.time + shootFrequency;
+                _ammunition = _ammunition - 1;
+            }
+            
         }
             
     }

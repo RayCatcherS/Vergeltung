@@ -14,7 +14,7 @@ public class CharacterFOV : MonoBehaviour
     private const int ALL_LAYERS = -1;
 
     [Header("References")]
-    [SerializeField] private Transform _recognitionTarget; // target utilizzato per confermare dai campi visivi dei character che il character è stato rilevato
+    [SerializeField] private Transform _recognitionTarget; // target partenza utilizzato per confermare dai campi visivi dei character che il character Ã¨ stato rilevato
     [SerializeField] private BaseNPCBehaviour nPCBehaviour; // Reference Behaviour character
 
     [Header("Impostazioni")]
@@ -57,7 +57,6 @@ public class CharacterFOV : MonoBehaviour
     [Header("Area di allerta")]
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
     [SerializeField] private float _alertArea = 15;
-
     
     
     public Transform recognitionTarget {
@@ -120,37 +119,9 @@ public class CharacterFOV : MonoBehaviour
             foreach(Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    //Debug.Log("radius player rilevato");
-                    Transform target = collider.gameObject.transform;
-                    Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                    if (Vector3.Angle(transform.forward, directionToTarget) < (_usedFirstFovAngle / 2)) {
-                        //Debug.Log("angle player rilevato");
+                    playerSeen = checkObjectInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
 
 
-
-                        Vector3 fromPosition = _recognitionTarget.position;
-                        Vector3 toPosition = collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position;
-                        Vector3 direction = toPosition - fromPosition;
-                        RaycastHit hit;
-                        if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
-
-                            //Debug.Log(hit.collider.gameObject.name);
-
-                            CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
-                            if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
-
-                                
-                                Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
-                                playerSeen = true;
-                                onFirstFOVCanSeePlayer(seenCharacter);
-
-                                //Debug.Log("Ehi sei il player");
-                            }
-                            
-
-                        }
-                    }
                 }
             }
             
@@ -177,38 +148,7 @@ public class CharacterFOV : MonoBehaviour
             foreach (Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    //Debug.Log("radius player rilevato");
-                    Transform target = collider.gameObject.transform;
-                    Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                    if (Vector3.Angle(transform.forward, directionToTarget) < (_usedSecondFovAngle / 2)) {
-                        //Debug.Log("angle player rilevato");
-
-
-
-                        Vector3 fromPosition = _recognitionTarget.position;
-                        Vector3 toPosition = collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position;
-                        Vector3 direction = toPosition - fromPosition;
-                        RaycastHit hit;
-                        if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
-
-                            //Debug.Log(hit.collider.gameObject.name);
-                            CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
-                            if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
-
-                                if (!firstFOVCanSeePlayer) {
-                                    Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
-                                }
-                                
-                                playerSeen = true;
-                                onSecondFOVCanSeePlayer(seenCharacter);
-
-                                //Debug.Log("Ehi sei il player");
-                            }
-
-
-                        }
-                    }
+                    playerSeen = checkObjectInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
                 }
             }
 
@@ -221,6 +161,78 @@ public class CharacterFOV : MonoBehaviour
         }
     }
 
+
+    public bool checkObjectInFirstFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
+        bool result = false;
+
+        Vector3 target = objectPositionTarget;
+        Vector3 directionToTarget = (target - transform.position).normalized;
+
+        if (Vector3.Angle(transform.forward, directionToTarget) < (_usedFirstFovAngle / 2)) {
+            //Debug.Log("angle player rilevato");
+
+
+
+            Vector3 fromPosition = _recognitionTarget.position;
+            Vector3 toPosition = raycastPositionTargetToReach;
+
+            Vector3 direction = toPosition - fromPosition;
+            RaycastHit hit;
+            if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+                //Debug.Log(hit.collider.gameObject.name);
+
+                CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
+                if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
+
+
+                    Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
+                    result = true;
+                    onFirstFOVCanSeePlayer(seenCharacter);
+                }
+
+
+            }
+        }
+        return result;
+    }
+
+    public bool checkObjectInSecondFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
+        bool result = false;
+
+        //Debug.Log("radius player rilevato");
+        Vector3 target = objectPositionTarget;
+        Vector3 directionToTarget = (target - transform.position).normalized;
+
+        if (Vector3.Angle(transform.forward, directionToTarget) < (_usedSecondFovAngle / 2)) {
+            //Debug.Log("angle player rilevato");
+
+
+
+            Vector3 fromPosition = _recognitionTarget.position;
+            Vector3 toPosition = raycastPositionTargetToReach;
+            Vector3 direction = toPosition - fromPosition;
+            RaycastHit hit;
+            if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+                //Debug.Log(hit.collider.gameObject.name);
+                CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
+                if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
+
+                    if (!firstFOVCanSeePlayer) {
+                        Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
+                    }
+
+                    result = true;
+                    onSecondFOVCanSeePlayer(seenCharacter);
+                }
+
+
+            }
+        }
+
+        return result;
+    }
 
     public Dictionary<int, BaseNPCBehaviour> getAlertAreaCharacters() {
 

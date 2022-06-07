@@ -22,8 +22,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // states
     [Header("Stati")]
-    
-    protected CharacterManager alarmFocusCharacter; // ref del character che ha provocato gli stati di allarme
+
+    [SerializeField] protected CharacterManager focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
+    public Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
+    protected bool isFocusAlarmCharacterVisible {
+        get {
+            if(focusAlarmCharacter != null) {
+                return characterFOV.checkObjectInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+            } else {
+                return false;
+            }
+        }
+
+    }
     [SerializeField] protected CharacterAlertState _characterState = CharacterAlertState.Unalert; // stato 
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
@@ -45,7 +56,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected CharacterActivityManager characterActivityManager;
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
     protected CharacterMovement characterMovement; // characterMovement collegato
-    protected NavMeshAgent agent;
+    [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] protected CharacterFOV characterFOV;
+    [SerializeField] protected InventoryManager characterInventoryManager;
     
 
 
@@ -54,9 +67,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         this.characterMovement = movement;
 
         this.characterActivityManager = this.spawnPoint.gameObject.GetComponent<CharacterActivityManager>();
-        this.agent = gameObject.gameObject.GetComponent<NavMeshAgent>();
-
-
     }
     public void Start() {
         StartCoroutine(cNPCBehaviourCoroutine());
@@ -66,13 +76,18 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         while (true) {
             yield return new WaitForSeconds(cNPCBehaviourCoroutineFrequency);
             nPCBehaviour();
+
+            if(_characterState == CharacterAlertState.HostilityAlert) {
+                onHostilityAlert(); // start dell'evento on hostility
+            }
+            
         }
     }
 
     // stoppa agente e animazione dell'agente che dipende dal move character
     public void stopAgent() {
         agent.isStopped = true;
-        characterMovement.moveCharacter(Vector2.zero, false);
+        characterMovement.stopCharacter();
     }
 
     public void stopAllCoroutines() {
@@ -90,6 +105,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// <param name="alertState"></param>
     private void setAlert(CharacterAlertState alertState) {
 
+        
         CharacterAlertState oldAlertState = _characterState;
 
         _characterState = alertState;
@@ -134,7 +150,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("unalertState");
 
-            alarmFocusCharacter = null;
+            focusAlarmCharacter = null;
         }
 
         
@@ -260,13 +276,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// comportamento suspiciousAlertBehaviour da implementare nelle classi figlie
     /// </summary>
     public override void suspiciousAlertBehaviour() {
+        
 
     }
     /// <summary>
     /// comportamento HostilityAlertBehaviour da implementare nelle classi figlie
     /// </summary>
     public override void hostilityAlertBehaviour() {
-
+        
     }
     /// <summary>
     /// comportamento SoundAlert1Behaviour da implementare nelle classi figlie
@@ -295,7 +312,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Metodo avviato dal FOV dei character
     /// </summary>
     /// <param name="seenCharacterManager"></param>
-    public override void suspiciousCheck(CharacterManager seenCharacterManager) {
+    public override void suspiciousCheck(CharacterManager seenCharacterManager)  {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
@@ -306,7 +323,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
-                alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
+                focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
 
                 if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
 
@@ -316,7 +333,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 }
                 
             } else {
-                alarmFocusCharacter = null;
+                focusAlarmCharacter = null;
             }
         }
     }
@@ -330,7 +347,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
-            alarmFocusCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
+            focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
+
+
             setAlert(CharacterAlertState.HostilityAlert);
 
 
@@ -342,7 +361,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         } else {
 
-            alarmFocusCharacter = null;
+            focusAlarmCharacter = null;
             if (_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
                 setAlert(CharacterAlertState.Unalert);
             }
@@ -356,7 +375,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// e avvia il suspiciousTimerLoop
     /// </summary>
     private void startSuspiciousTimer() {
-
+        stopAgent(); // stop task agent
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
         suspiciousTimerLoop();
     }
@@ -373,7 +392,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// e avvia il hostilityTimerLoop
     /// </summary>
     private void startHostilityTimer() {
-        onHostilityAlert(); // start dell'evento on hostility
+        stopAgent(); // stop task agent
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
         hostilityTimerLoop();
@@ -382,7 +401,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
     private void resetHostilityTimer() {
-        onHostilityAlert(); // start dell'evento on hostility
+        
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
@@ -415,6 +434,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         while (Time.time < hostilityTimerEndStateValue) {
             await Task.Yield();
         }
+
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
             setAlert(CharacterAlertState.Unalert);
         }
@@ -440,11 +460,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Implementare metodo nelle classi figle se si vuole eseguire quando l'HostilityAlert inizia
     /// </summary>
     public virtual void onHostilityAlert() {
+        Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
+
+        // aggiorna dizionario dei characters in modo istantaneo
+        foreach (var character in characters) {
+
+            character.Value.lastSeenFocusAlarmCharacterPosition = lastSeenFocusAlarmCharacterPosition;
+            character.Value.hostilityCheck(focusAlarmCharacter);
+        }
     }
 
 
-
+    /// <summary>
+    /// Resetta animazione punto esclamativo alert del character
+    /// </summary>
     void resetAlertAnimatorTrigger() {
         alertSignAnimator.ResetTrigger("suspiciousAlert");
         alertSignAnimator.ResetTrigger("hostilityAlert");

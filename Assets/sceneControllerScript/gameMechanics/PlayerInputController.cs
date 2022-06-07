@@ -122,7 +122,7 @@ public class PlayerInputController : MonoBehaviour
 
             characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
-            characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
+            characterMovement.rotateCharacter(vec2Rotation, false);
         }
     }
 

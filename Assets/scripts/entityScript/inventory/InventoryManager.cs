@@ -370,16 +370,19 @@ public class InventoryManager : Interactable {
     /// Usa arma attualmente selezionata
     /// </summary>
     public void useSelectedWeapon() {
-
+        
 
         if (_selectedWeapon != -1 && !isGunThroughWall() && !_weaponPuttedAway) {
 
             Vector3 destinationPosition = drawAimWeaponLineRendered();
-            _weaponItems[_selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
+            
 
             // builda UI solo se player
             if (characterManager.isPlayer) {
+                _weaponItems[_selectedWeapon].useItem(characterManager, destinationPosition, gamePadVibration);
                 characterManager.weaponUIController.buildUI(this);
+            } else {
+                _weaponItems[_selectedWeapon].useItem(characterManager);
             }
         }
     }

@@ -122,7 +122,7 @@ public class CharacterMovement : MonoBehaviour {
 
                     _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                    rotateCharacter(_2Dmove, isRun, true);
+                    rotateCharacter(_2Dmove, true);
                 } else {
 
                     _movement = _movement * movementSpeed * Time.deltaTime;
@@ -165,7 +165,7 @@ public class CharacterMovement : MonoBehaviour {
     /// <param name="_2Drotate">Coppia di valori che rappresenta i valori
     /// in input della rotazione dell'aim del character. I valori(x, y)</param>
     /// vengono inoltre calcolati i range delle direzioni dell'aim per ruotare l'intero character
-    public void rotateCharacter(Vector2 _2Drotate, bool _isRun, bool _istantRotation) {
+    public void rotateCharacter(Vector2 _2Drotate, bool _istantRotation) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
         if (!characterManager.isTimedInteractionProcessing) {
@@ -233,7 +233,7 @@ public class CharacterMovement : MonoBehaviour {
     /// Stoppa il character resettando il vettore _movement
     /// Stoppa animazione character
     /// </summary>
-    private void stopCharacter() {
+    public void stopCharacter() {
         characterManager.isRunning = false;
         animator.SetBool("isRunning", false);
         animator.SetFloat("VelocityX", 0, 0f, Time.deltaTime);

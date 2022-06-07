@@ -130,13 +130,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63b05bab2f2cce4f95de549e4a4ba05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  focusAlarmCharacter: {fileID: 0}
+  lastSeenFocusAlarmCharacterPosition: {x: 0, y: 0, z: 0}
   _characterState: 0
   alertSignAnimator: {fileID: 8089895231307943866}
+  agent: {fileID: 3285852240407561311}
+  characterFOV: {fileID: 1931916012273870787}
+  characterInventoryManager: {fileID: 5480999366663908113}
 --- !u!4 &1907272338256723037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9188659755673647185, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
   m_PrefabInstance: {fileID: 7346306999184950284}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1931916012273870787 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 7346306999184950284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907272337766640949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb918ae08e5f9a74188f61c66a508f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &3285852240407561311 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 5218232153561137235, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 7346306999184950284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5480999366663908113 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3018318475669417757, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 7346306999184950284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8453819f4594214b4551cf04b921f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &8089895231307943866 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1564516616528333750, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}

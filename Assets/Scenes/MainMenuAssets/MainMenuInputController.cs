@@ -3,15 +3,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+enum MainMenuState {
+    firstMainMenuScreen,
+    storyTextScreen,
+    settingsScreen,
+}
 public class MainMenuInputController : MonoBehaviour
 {
     [SerializeField] private int sceneToLoad = 1;
     [SerializeField] private Slider loadingSlider;
-    [SerializeField] private GameObject menuButtons;
+    [SerializeField] private GameObject mainMenuScreen;
+
+
+    void Start() {
+        
+    }
+
+    public void loadFirstMainMenuScreen() {
+        mainMenuScreen.SetActive(true);
+    }
 
     public void startGame() {
 
-        menuButtons.SetActive(false);
+        mainMenuScreen.SetActive(false);
         loadingSlider.gameObject.SetActive(true);
 
         StartCoroutine(LoadSceneAsynchronously(sceneToLoad));

@@ -17,13 +17,43 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// implementazione suspiciousAlertBehaviour
     /// </summary>
     public override void suspiciousAlertBehaviour() {
-        stopAgent();
+
+        if (isFocusAlarmCharacterVisible) {
+            lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+
+
+            Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
+            targetDirection.y = 0;
+            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+            
+        } else {
+            Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
+            targetDirection.y = 0;
+            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+        }
+
     }
     /// <summary>
     /// implementazione hostilityAlertBehaviour
     /// </summary>
     public override void hostilityAlertBehaviour() {
-        stopAgent();
+        if (isFocusAlarmCharacterVisible) {
+            lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+
+
+            Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
+            targetDirection.y = 0;
+            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+
+            characterInventoryManager.useSelectedWeapon();
+        } else {
+            Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
+            targetDirection.y = 0;
+            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+        }
     }
     /// <summary>
     /// implementazione soundAlert1Behaviour
@@ -46,17 +76,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void onHostilityAlert() {
 
-        
-        Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
-        
 
-
-        // aggiorna dizionario dei characters in modo istantaneo
-        foreach (var character in characters) {
-
-            if(character.Value.characterAlertState != CharacterAlertState.HostilityAlert) {
-                character.Value.hostilityCheck(alarmFocusCharacter);
-            }
-        }
+        base.onHostilityAlert();
     }
 }
