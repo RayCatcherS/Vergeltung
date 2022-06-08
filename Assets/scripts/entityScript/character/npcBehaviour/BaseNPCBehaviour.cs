@@ -460,15 +460,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Implementare metodo nelle classi figle se si vuole eseguire quando l'HostilityAlert inizia
     /// </summary>
     public virtual void onHostilityAlert() {
-        Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
+        if(!focusAlarmCharacter.isDead) { // aggiorna dizionario dei characters in modo istantaneo
+            Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
-        // aggiorna dizionario dei characters in modo istantaneo
-        foreach (var character in characters) {
+            foreach (var character in characters) {
 
-            character.Value.lastSeenFocusAlarmCharacterPosition = lastSeenFocusAlarmCharacterPosition;
-            character.Value.hostilityCheck(focusAlarmCharacter);
+                character.Value.lastSeenFocusAlarmCharacterPosition = lastSeenFocusAlarmCharacterPosition;
+                character.Value.hostilityCheck(focusAlarmCharacter);
+            }
         }
+        
     }
 
 

@@ -156,7 +156,6 @@ public class WeaponItem : InventoryItem
 
                 Vector3 posA = _shootingTransform.position;
                 Vector3 posB = _shootingTransform.forward;
-                Debug.Log("Use gun");
 
                 GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
 
