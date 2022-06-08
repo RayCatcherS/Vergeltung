@@ -7,7 +7,7 @@ public class GenericUnaryInteractable : Interactable {
     [SerializeField] string genericEventName = "ACTION";
     [SerializeField] UnityEventCharacter genericEvent = new UnityEventCharacter();
     [SerializeField] private bool repetableInteraction = false;
-    [SerializeField] private bool unRepetableInteractionStateActive = true;
+    private bool unRepetableInteractionStateActive = true;
 
     public override void Start() {
         initInteractable();

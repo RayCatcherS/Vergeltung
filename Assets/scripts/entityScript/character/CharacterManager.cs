@@ -29,6 +29,11 @@ public class CharacterManager : MonoBehaviour {
     public GameState globalGameState {
         get { return _globalGameState; }
     }
+    [SerializeField] private PlayerWarpController _playerWarpController;
+    public PlayerWarpController playerWarpController {
+        get { return _playerWarpController; }
+    }
+
     // stati del player
     [Header("Character States")]
     [SerializeField] public bool isRunning = false;
@@ -121,11 +126,12 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState) {
+    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController) {
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
         characterInteraction._globalGameState = gameState;
+        characterInteraction._playerWarpController = playerWarpController;
         return gameObject;
     }
 
@@ -318,10 +324,13 @@ public class CharacterManager : MonoBehaviour {
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
             }
-        } else {
+        } else { // ucciso character del warp stack
+
             _inventoryManager.weaponLineRenderer.enabled = false;
             // reset character interactable objects
             emptyAllInteractableDictionaryObjects();
+
+            _playerWarpController.unstackDeadCharacterAndControlPreviewCharacter(this);
         }
 
         gameObject.GetComponent<RagdollManager>().enableRagdoll();

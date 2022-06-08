@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SceneEntitiesController : MonoBehaviour
@@ -38,5 +39,11 @@ public class SceneEntitiesController : MonoBehaviour
 
     public void setPlayerEntity(CharacterManager playerCharacterManager) {
         player = playerCharacterManager.gameObject;
+    }
+
+    public async Task stopAllCharacterBehaviourInSceneAsync() {
+        for(int i = 0; i < allNpcList.Count; i++) {
+            await allNpcList[i].forceStopCharacterAndAwaitStopProcess();
+        }
     }
 }

@@ -68,6 +68,11 @@ public class ActivityTask : MonoBehaviour
                 Debug.Log("Interruzione task, allerta!");
                 break;
             }
+
+            if(nPCBehaviour.stopCharacterBehaviour) {
+                Debug.Log("Interruzione task, stop character beahviour!");
+                break;
+            }
             
         }
         

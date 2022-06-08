@@ -22,9 +22,32 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // states
     [Header("Stati")]
-
+    
     [SerializeField] protected CharacterManager focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
     public Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
+    [SerializeField] protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
+    public bool stopCharacterBehaviour {
+        get { return _stopCharacterBehaviour; }
+    }
+    [SerializeField] protected bool characterBehaviourStopped = false; // stato che indica se il character si è stoppato
+    /// <summary>
+    /// Forza stop coroutine character chiamata asincrona fino a quando il character
+    /// non è disattivo
+    /// </summary>
+    /// <returns></returns>
+    public async Task forceStopCharacterAndAwaitStopProcess() {
+
+        _stopCharacterBehaviour = true;
+        while (true) {
+            await Task.Yield();
+
+            if(characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        return;
+    }
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
@@ -74,6 +97,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     private IEnumerator cNPCBehaviourCoroutine() {
 
         while (true) {
+            if(characterBehaviourStopped) {
+                Debug.Log("stopping coroutine character behaviour ");
+                break;
+            }
+
             yield return new WaitForSeconds(cNPCBehaviourCoroutineFrequency);
             nPCBehaviour();
 
@@ -162,6 +190,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     private void nPCBehaviour() {
 
+        if(_stopCharacterBehaviour) {
+            characterBehaviourStopped = true;
+            Debug.Log("Stopping character");
+        }
+
         if(!gameObject.GetComponent<CharacterManager>().isDead) {
             switch (_characterState) {
                 case CharacterAlertState.Unalert: {
@@ -192,6 +225,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override async void unalertBehaviour() {
         agent.isStopped = false;
 
+
+
+        
         if (characterActivityManager.getCharacterActivities().Count > 0) {
             if (agentDestinationSetted == false) {
 
@@ -263,12 +299,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     }
     private void updateUnalertAgentTarget() {
-
-        if(!gameObject.GetComponent<CharacterManager>().isDead) {
+        if (!gameObject.GetComponent<CharacterManager>().isDead) {
             agent.SetDestination(
                 characterActivityManager.getCurrentTask().getTaskDestination()
             );
         }
+
     }
 
 
@@ -433,20 +469,30 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
         while (Time.time < hostilityTimerEndStateValue) {
             await Task.Yield();
+
+            if(characterBehaviourStopped) {
+                break;
+            }
         }
 
-        if (characterAlertState == CharacterAlertState.HostilityAlert) {
-            setAlert(CharacterAlertState.Unalert);
+        if (characterBehaviourStopped) {
+            if (characterAlertState == CharacterAlertState.HostilityAlert) {
+                setAlert(CharacterAlertState.Unalert);
+            }
         }
+        
 
         // TODO
 
         // rimozione del alarmFocusCharacter
 
-        // aggiorna dizionari ostilità
-        if(!gameObject.GetComponent<CharacterManager>().isDead) {
-            onHostilityAlertTimerEnd();
+        // aggiorna dizionari ostilità solo se il character non è stoppato
+        if(characterBehaviourStopped) {
+            if (!gameObject.GetComponent<CharacterManager>().isDead) {
+                onHostilityAlertTimerEnd();
+            }
         }
+        
     }
 
     /// <summary>
@@ -461,7 +507,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     public virtual void onHostilityAlert() {
 
-        if(!focusAlarmCharacter.isDead) { // aggiorna dizionario dei characters in modo istantaneo
+        if(!focusAlarmCharacter.isDead && isFocusAlarmCharacterVisible) { // aggiorna dizionario dei characters in modo istantaneo
             Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
             foreach (var character in characters) {

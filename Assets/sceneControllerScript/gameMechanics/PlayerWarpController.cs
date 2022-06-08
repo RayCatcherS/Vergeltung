@@ -9,8 +9,17 @@ public class PlayerWarpController : MonoBehaviour
     [SerializeField] private GameState gameState;
 
     [Header("Warp state")]
-    [SerializeField] private List<CharacterManager> warpedCharacterManagerStach = new List<CharacterManager>();
-    [SerializeField] private int usingCharacterManager = 0;
+    [SerializeField] private List<CharacterManager> warpedCharacterManagerStack = new List<CharacterManager>();
+    public bool iswarpedCharacterManagerStackEmpty {
+        get {
+            if(warpedCharacterManagerStack.Count == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    [SerializeField] private CharacterManager firstPlayerCharacter; // primo character usato dal player, se muore si fallisce
 
     [Header("Settings")]
     [SerializeField] private bool firstCharacterPlayerIsWanted = true;
@@ -21,11 +30,13 @@ public class PlayerWarpController : MonoBehaviour
     /// </summary>
     public void warpPlayerToCharacter(CharacterManager character) {
 
-        // controllo primo character (solitamente è il player)
-        if(warpedCharacterManagerStach.Count == 0) {
+        // controllo primo character (è il primo character usato dal player)
+        if(warpedCharacterManagerStack.Count == 0) {
 
             // aggiungi ref
-            warpedCharacterManagerStach.Add(character);
+            warpedCharacterManagerStack.Add(character);
+            // aggiungi primo character giocato dal player
+            firstPlayerCharacter = character;
 
             // configura character
             character.resetCharacterMovmentState();
@@ -56,8 +67,6 @@ public class PlayerWarpController : MonoBehaviour
             gameCamera.GetComponent<CoutoutObject>().targetObject = character.occlusionTargetTransform;
             gameCamera.GetComponent<FollowPlayer>().objectToFollow = character.occlusionTargetTransform;
 
-            // setta posizione character attualmente usato
-            usingCharacterManager = 0;
 
             // setta primo character controllato come ricercato
             if(firstCharacterPlayerIsWanted) {
@@ -76,6 +85,37 @@ public class PlayerWarpController : MonoBehaviour
     }
 
     public CharacterManager getUsingCharacter() {
-        return warpedCharacterManagerStach[usingCharacterManager];
+        return warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1];
     }
+
+
+    /// <summary>
+    /// Unstack del character morto 
+    /// </summary>
+    /// <param name="character"></param>
+    public void unstackDeadCharacterAndControlPreviewCharacter(CharacterManager character) {
+        
+        if(character.GetInstanceID() == firstPlayerCharacter.GetInstanceID()) {
+
+            // game over
+            Debug.Log("player dead");
+            gameState.initGameOverGameStateAsync();
+        }
+
+
+        // rimozione del character dallo stack
+        for (int i = 0; i < warpedCharacterManagerStack.Count; i++) {
+
+            if (warpedCharacterManagerStack[i].GetInstanceID() == character.GetInstanceID()) {
+                warpedCharacterManagerStack.RemoveAt(i);
+            }
+        }
+
+        if (warpedCharacterManagerStack.Count > 0) {
+            // warp del character precedente
+            warpPlayerToCharacter(warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1]);
+        }
+    }
+
+    
 }
