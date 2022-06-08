@@ -530,15 +530,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
             ""id"": ""811c0a19-ebe4-4fa3-acaa-6c98c6e3b8f7"",
             ""actions"": [
                 {
-                    ""name"": ""Action"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""743f0737-a2fd-4aa2-82a6-1c74b004d52b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""MenuNavigation"",
                     ""type"": ""Value"",
                     ""id"": ""869ade71-2a37-441b-9042-6fce8b9af9b5"",
@@ -546,31 +537,36 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed97980e-1d2b-4630-8921-8543bb2f8525"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonBack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a80efcd5-9311-4dcc-b8f0-47eb7b239214"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuScroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""3b1c77e1-a01a-44bc-9559-31cad529fd50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""12e46b05-a331-4176-abbc-2a1b5d466acd"",
-                    ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""Action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ab4afba2-4612-4e60-85cd-f0cdb3899a64"",
-                    ""path"": ""<DualShockGamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""Action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""22e85400-c493-4506-97f7-c33f8f94fc55"",
@@ -592,6 +588,127 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""MenuNavigation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f4065d7-f232-4135-b576-8f771fa8c788"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""905adb37-a67e-4031-b378-b1cf50b3bb5c"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9b8d813-57d5-485c-aaa9-47cb774562f8"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""ButtonBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""adc4839f-7002-45fc-a07b-e84ee583b5dc"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""ButtonBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""231a6fd5-0e73-4cc2-b595-d61e100e20ed"",
+                    ""path"": ""<XInputController>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d0ff928d-c0dd-40fe-9bcb-d52c94c14d5d"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f5500a63-a907-4816-a91f-2579f01b3626"",
+                    ""path"": ""<DualShockGamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""be2773f0-6fce-43d3-823b-d84e04d6ad32"",
+                    ""path"": ""<DualShockGamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""deba57e9-31f2-4d13-ac4a-d2bc60c75174"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""2519ae8b-64d2-43a6-af3d-9c248c56ff9d"",
+                    ""path"": ""<XInputController>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""38f40b05-b638-48b0-97d5-45615e60148f"",
+                    ""path"": ""<XInputController>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""MenuScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -626,8 +743,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_UI_MenuNavigation = m_UI.FindAction("MenuNavigation", throwIfNotFound: true);
         // MainMenu
         m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
-        m_MainMenu_Action = m_MainMenu.FindAction("Action", throwIfNotFound: true);
         m_MainMenu_MenuNavigation = m_MainMenu.FindAction("MenuNavigation", throwIfNotFound: true);
+        m_MainMenu_Action = m_MainMenu.FindAction("Action", throwIfNotFound: true);
+        m_MainMenu_ButtonBack = m_MainMenu.FindAction("ButtonBack", throwIfNotFound: true);
+        m_MainMenu_MenuScroll = m_MainMenu.FindAction("MenuScroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -817,14 +936,18 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     // MainMenu
     private readonly InputActionMap m_MainMenu;
     private IMainMenuActions m_MainMenuActionsCallbackInterface;
-    private readonly InputAction m_MainMenu_Action;
     private readonly InputAction m_MainMenu_MenuNavigation;
+    private readonly InputAction m_MainMenu_Action;
+    private readonly InputAction m_MainMenu_ButtonBack;
+    private readonly InputAction m_MainMenu_MenuScroll;
     public struct MainMenuActions
     {
         private @PlayerInputAction m_Wrapper;
         public MainMenuActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Action => m_Wrapper.m_MainMenu_Action;
         public InputAction @MenuNavigation => m_Wrapper.m_MainMenu_MenuNavigation;
+        public InputAction @Action => m_Wrapper.m_MainMenu_Action;
+        public InputAction @ButtonBack => m_Wrapper.m_MainMenu_ButtonBack;
+        public InputAction @MenuScroll => m_Wrapper.m_MainMenu_MenuScroll;
         public InputActionMap Get() { return m_Wrapper.m_MainMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -834,22 +957,34 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MainMenuActionsCallbackInterface != null)
             {
-                @Action.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
-                @Action.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
-                @Action.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
                 @MenuNavigation.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuNavigation;
                 @MenuNavigation.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuNavigation;
                 @MenuNavigation.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuNavigation;
+                @Action.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnAction;
+                @ButtonBack.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnButtonBack;
+                @ButtonBack.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnButtonBack;
+                @ButtonBack.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnButtonBack;
+                @MenuScroll.started -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuScroll;
+                @MenuScroll.performed -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuScroll;
+                @MenuScroll.canceled -= m_Wrapper.m_MainMenuActionsCallbackInterface.OnMenuScroll;
             }
             m_Wrapper.m_MainMenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Action.started += instance.OnAction;
-                @Action.performed += instance.OnAction;
-                @Action.canceled += instance.OnAction;
                 @MenuNavigation.started += instance.OnMenuNavigation;
                 @MenuNavigation.performed += instance.OnMenuNavigation;
                 @MenuNavigation.canceled += instance.OnMenuNavigation;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
+                @ButtonBack.started += instance.OnButtonBack;
+                @ButtonBack.performed += instance.OnButtonBack;
+                @ButtonBack.canceled += instance.OnButtonBack;
+                @MenuScroll.started += instance.OnMenuScroll;
+                @MenuScroll.performed += instance.OnMenuScroll;
+                @MenuScroll.canceled += instance.OnMenuScroll;
             }
         }
     }
@@ -881,7 +1016,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     }
     public interface IMainMenuActions
     {
-        void OnAction(InputAction.CallbackContext context);
         void OnMenuNavigation(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
+        void OnButtonBack(InputAction.CallbackContext context);
+        void OnMenuScroll(InputAction.CallbackContext context);
     }
 }

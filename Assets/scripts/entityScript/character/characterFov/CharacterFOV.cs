@@ -35,7 +35,7 @@ public class CharacterFOV : MonoBehaviour
     public float usedFirstFovAngle {
         get { return _usedFirstFovAngle; }
     }
-    [SerializeField] private bool firstFOVCanSeePlayer = false;
+    [SerializeField] private bool firstFOVCanSeeCharacter = false;
 
 
 
@@ -52,7 +52,7 @@ public class CharacterFOV : MonoBehaviour
     public float usedSecondFovAngle {
         get { return _usedSecondFovAngle; }
     }
-    [SerializeField] private bool secondFOVCanSeePlayer = false;
+    [SerializeField] private bool secondFOVCanSeeCharacter = false;
 
     [Header("Area di allerta")]
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
@@ -100,8 +100,8 @@ public class CharacterFOV : MonoBehaviour
     }
 
     public void stopAllCoroutines() {
-        firstFOVCanSeePlayer = false;
-        secondFOVCanSeePlayer = false;
+        firstFOVCanSeeCharacter = false;
+        secondFOVCanSeeCharacter = false;
         StopAllCoroutines();
     }
 
@@ -112,14 +112,14 @@ public class CharacterFOV : MonoBehaviour
 
         
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedFirstFovRadius, targetCharacterMask);
-        bool playerSeen = false;
+        bool characterSeen = false;
 
         if (hitColliders.Length != 0) {
 
             foreach(Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    playerSeen = checkObjectInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = checkObjectInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
 
 
                 }
@@ -127,10 +127,10 @@ public class CharacterFOV : MonoBehaviour
             
         }
 
-        if(playerSeen) {
-            firstFOVCanSeePlayer = true;
+        if(characterSeen) {
+            firstFOVCanSeeCharacter = true;
         } else {
-            firstFOVCanSeePlayer = false;
+            firstFOVCanSeeCharacter = false;
         }
     }
 
@@ -141,23 +141,23 @@ public class CharacterFOV : MonoBehaviour
 
 
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedSecondFovRadius, targetCharacterMask);
-        bool playerSeen = false;
+        bool characterSeen = false;
 
         if (hitColliders.Length != 0) {
             
             foreach (Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    playerSeen = checkObjectInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = checkObjectInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
                 }
             }
 
         }
 
-        if(playerSeen) {
-            secondFOVCanSeePlayer = true;
+        if(characterSeen) {
+            secondFOVCanSeeCharacter = true;
         } else {
-            secondFOVCanSeePlayer = false;
+            secondFOVCanSeeCharacter = false;
         }
     }
 
@@ -219,7 +219,7 @@ public class CharacterFOV : MonoBehaviour
                 CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
                 if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
 
-                    if (!firstFOVCanSeePlayer) {
+                    if (!firstFOVCanSeeCharacter) {
                         Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
                     }
 
@@ -286,7 +286,7 @@ public class CharacterFOV : MonoBehaviour
 
     private void onSecondFOVCanSeePlayer(CharacterManager seenCharacter) {
 
-        if(!firstFOVCanSeePlayer) {
+        if(!firstFOVCanSeeCharacter) {
             nPCBehaviour.suspiciousCheck(seenCharacter);
         }
     }
@@ -395,7 +395,7 @@ public class CharacterFOV : MonoBehaviour
         if(!gameObject.GetComponent<CharacterManager>().isPlayer) {
 
             // debugga campi visivi solo se i character rilevano altri character player
-            if(firstFOVCanSeePlayer || secondFOVCanSeePlayer) {
+            if(firstFOVCanSeeCharacter || secondFOVCanSeeCharacter) {
                 drawfirstFOVEditor();
                 drawSecondFOVEditor();
                 drawAreaAlert();
