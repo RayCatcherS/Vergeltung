@@ -536,37 +536,15 @@
                 },
                 {
                     "name": "MenuScroll",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "3b1c77e1-a01a-44bc-9559-31cad529fd50",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "22e85400-c493-4506-97f7-c33f8f94fc55",
-                    "path": "<XInputController>/dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Xbox Control Scheme",
-                    "action": "MenuNavigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0781e191-1be3-47ca-b5fb-f6fde670e5c2",
-                    "path": "<DualShockGamepad>/dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Xbox Control Scheme",
-                    "action": "MenuNavigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "7f4065d7-f232-4135-b576-8f771fa8c788",
@@ -612,18 +590,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "231a6fd5-0e73-4cc2-b595-d61e100e20ed",
-                    "path": "<XInputController>/dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Xbox Control Scheme",
-                    "action": "MenuScroll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
+                    "name": "2D Vector Playstation stick",
                     "id": "d0ff928d-c0dd-40fe-9bcb-d52c94c14d5d",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
@@ -656,7 +623,40 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "2D Vector",
+                    "name": "2D Vector Playstation dpad",
+                    "id": "eaaf4983-4b9c-46aa-b499-b45c930aba80",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuScroll",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "76ea3d75-7872-4ab4-ae2c-6609be05c681",
+                    "path": "<DualShockGamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "55d6d066-f2db-4fb2-a94f-01969d352f19",
+                    "path": "<DualShockGamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector Xbox stick",
                     "id": "deba57e9-31f2-4d13-ac4a-d2bc60c75174",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
@@ -685,6 +685,105 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme",
                     "action": "MenuScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector Xbox dpad",
+                    "id": "725fd5da-6774-4b83-bbda-5c67df017fcb",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuScroll",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "831d4256-16ca-4430-868d-eb19f97466f5",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9ef05434-1ab0-40aa-a8b1-c2a0267ff303",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector Playstation stick",
+                    "id": "af19eb10-7c70-4466-be46-0711f28e3d38",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuNavigation",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "right",
+                    "id": "67da215d-7e52-4895-8741-42fc048d3075",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuNavigation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "dd21f932-598d-45b2-ae2f-b4acd99f8bf4",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuNavigation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector Xbox stick",
+                    "id": "d7448934-3518-4e89-8949-3fed9f22f19d",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuNavigation",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "right",
+                    "id": "7c69fb26-552d-4152-81a8-addc301eeee9",
+                    "path": "<DualShockGamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuNavigation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "534a3d0e-24dc-4ab1-b2cb-775e9ef8e9a1",
+                    "path": "<DualShockGamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "MenuNavigation",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

@@ -8,6 +8,9 @@ public class MainMenuInputController : MonoBehaviour
     [SerializeField] private PlayerInputAction playerActions;
     [SerializeField] private MainMenuManager mainMenuManager;
 
+    [Header("Config")]
+    [SerializeField] float leftStickDeadZone = 0.4f;
+
     private void OnEnable() {
         playerActions.MainMenu.Enable();
     }
@@ -33,8 +36,16 @@ public class MainMenuInputController : MonoBehaviour
     private void inputBackButton() {
 
         float backButtonInput = playerActions.MainMenu.ButtonBack.ReadValue<float>();
+        Vector2 menuScrollInput = playerActions.MainMenu.MenuScroll.ReadValue<Vector2>();
+
         if (backButtonInput == 1f) {
             mainMenuManager.handleBackMenu();
+        }
+
+        if (menuScrollInput.magnitude < leftStickDeadZone) {
+            menuScrollInput = Vector2.zero;
+        } else {
+            mainMenuManager.scrollStory(menuScrollInput);
         }
     }
 }

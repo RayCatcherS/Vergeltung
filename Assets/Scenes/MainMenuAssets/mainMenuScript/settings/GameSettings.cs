@@ -75,8 +75,9 @@ public class GameSettings : MonoBehaviour
     }
 
     public void setPreviousResolutionSettings() {
+
         selectedResolution--;
-        if (selectedResolution < resolutionSettings.Count - 1) {
+        if (selectedResolution < 0) {
             selectedResolution = resolutionSettings.Count - 1;
         }
         setResolution(resolutionSettings[selectedResolution]);

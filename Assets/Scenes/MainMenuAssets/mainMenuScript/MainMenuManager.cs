@@ -24,6 +24,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private MenuScreen settingsScreen;
     [SerializeField] private MenuScreen loadingScreen;
     [SerializeField] private Slider loadingSlider;
+    [SerializeField] private GameObject storyContentToScroll;
 
     [Header("Menu state")]
     [SerializeField] private MainMenuState mainMenuState = MainMenuState.mainMenuScreen;
@@ -93,6 +94,18 @@ public class MainMenuManager : MonoBehaviour
             loadingSlider.value = progress;
 
             yield return null;
+        }
+    }
+
+    public void scrollStory(Vector2 scrollInput) {
+
+        if (mainMenuState == MainMenuState.storyTextScreen) {
+            storyContentToScroll.gameObject.transform.position =
+                new Vector3(
+                    storyContentToScroll.gameObject.transform.position.x,
+                    storyContentToScroll.gameObject.transform.position.y - (scrollInput.y * 1.5f),
+                    storyContentToScroll.gameObject.transform.position.z
+                );
         }
     }
 }
