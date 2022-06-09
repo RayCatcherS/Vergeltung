@@ -25,6 +25,9 @@ public class CharacterFOV : MonoBehaviour
 
     [Header("Primo campo visivo(ravvicinato)")]
     [SerializeField] private float _defaultFirstFovRadius = 7f;
+    public float defaultFirstFovRadius {
+        get { return _defaultFirstFovRadius; }
+    }
     private float _usedFirstFovRadius = 0;
     public float usedFirstFovRadius {
         get { return _usedFirstFovRadius; }
@@ -41,7 +44,9 @@ public class CharacterFOV : MonoBehaviour
 
     [Header("Secondo campo visivo(lontano)")]
     [SerializeField] private float _defaultSecondFovRadius = 18;
-    
+    public float defaultSecondFovRadius {
+        get { return _defaultSecondFovRadius; }
+    }
     private float _usedSecondFovRadius = 0;
     public float usedSecondFovRadius {
         get { return _usedSecondFovRadius; }

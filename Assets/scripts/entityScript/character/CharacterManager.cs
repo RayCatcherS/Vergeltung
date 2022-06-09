@@ -237,16 +237,15 @@ public class CharacterManager : MonoBehaviour {
 
 
 
+
+                
                 // flashlight fov
-                characterFOV.setFOVValuesToDefault();
-
                 await _inventoryManager.characterFlashLight.lightOnFlashLight();
-
                 characterFOV.setFOVValues(
-                    firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusFlashlightValue,
+                    firstFovRadius: characterFOV.defaultFirstFovRadius / dividerFOVMalusFlashlightValue,
                     firstFovAngle: _firstMalusFovAngle,
 
-                    secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusFlashlightValue,
+                    secondFovRadius: characterFOV.defaultSecondFovRadius / dividerFOVMalusFlashlightValue,
                     secondFovAngle: _secondMalusFovAngle
                 );
             }
