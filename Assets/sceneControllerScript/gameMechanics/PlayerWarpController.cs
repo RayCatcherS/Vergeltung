@@ -99,7 +99,7 @@ public class PlayerWarpController : MonoBehaviour
 
             // game over
             Debug.Log("player dead");
-            gameState.initGameOverGameStateAsync();
+            gameState.initGameOverGameState();
         }
 
 

@@ -41,9 +41,17 @@ public class SceneEntitiesController : MonoBehaviour
         player = playerCharacterManager.gameObject;
     }
 
+    /// <summary>
+    /// Questo metodo disattiva i behaviour di tutti i characters
+    /// </summary>
+    /// <returns></returns>
     public async Task stopAllCharacterBehaviourInSceneAsync() {
         for(int i = 0; i < allNpcList.Count; i++) {
-            await allNpcList[i].forceStopCharacterAndAwaitStopProcess();
+
+            if(!allNpcList[i].gameObject.GetComponent<CharacterManager>().isDead) {
+                await allNpcList[i].forceStopCharacterAndAwaitStopProcess();
+                allNpcList[i].stopAgent();
+            }
         }
     }
 }

@@ -193,26 +193,27 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         if(_stopCharacterBehaviour) {
             characterBehaviourStopped = true;
             Debug.Log("Stopping character");
-        }
 
-        if(!gameObject.GetComponent<CharacterManager>().isDead) {
-            switch (_characterState) {
-                case CharacterAlertState.Unalert: {
-                        unalertBehaviour();
-                    }
-                    break;
-                case CharacterAlertState.SuspiciousAlert: {
-                        suspiciousAlertBehaviour();
-                    }
-                    break;
-                case CharacterAlertState.HostilityAlert: {
-                        hostilityAlertBehaviour();
-                    }
-                    break;
-                case CharacterAlertState.SoundAlert1: {
-                        soundAlert1Behaviour();
-                    }
-                    break;
+        } else {
+            if (!gameObject.GetComponent<CharacterManager>().isDead) {
+                switch (_characterState) {
+                    case CharacterAlertState.Unalert: {
+                            unalertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.SuspiciousAlert: {
+                            suspiciousAlertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.HostilityAlert: {
+                            hostilityAlertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.SoundAlert1: {
+                            soundAlert1Behaviour();
+                        }
+                        break;
+                }
             }
         }
         
@@ -455,6 +456,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         while (Time.time < suspiciousTimerEndStateValue) {
             await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
         }
 
         if(characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
@@ -475,19 +480,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             }
         }
 
-        if (characterBehaviourStopped) {
-            if (characterAlertState == CharacterAlertState.HostilityAlert) {
-                setAlert(CharacterAlertState.Unalert);
-            }
+        if (characterAlertState == CharacterAlertState.HostilityAlert) {
+            setAlert(CharacterAlertState.Unalert);
         }
-        
+
 
         // TODO
 
         // rimozione del alarmFocusCharacter
 
         // aggiorna dizionari ostilità solo se il character non è stoppato
-        if(characterBehaviourStopped) {
+        if (characterBehaviourStopped) {
             if (!gameObject.GetComponent<CharacterManager>().isDead) {
                 onHostilityAlertTimerEnd();
             }
@@ -527,6 +530,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         alertSignAnimator.ResetTrigger("suspiciousAlert");
         alertSignAnimator.ResetTrigger("hostilityAlert");
         alertSignAnimator.ResetTrigger("unalertState");
+    }
+
+    public void stopAlertAnimator() {
+        alertSignAnimator.ResetTrigger("suspiciousAlert");
+        alertSignAnimator.ResetTrigger("hostilityAlert");
+        alertSignAnimator.ResetTrigger("unalertState");
+        alertSignAnimator.SetTrigger("unalertState");
     }
 
 

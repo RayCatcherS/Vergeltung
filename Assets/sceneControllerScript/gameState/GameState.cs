@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -31,13 +33,26 @@ public class GameState : MonoBehaviour
     [SerializeField] private ElectricGateController[] electricGateControllers;
     [SerializeField] private bool powerOn = true;
 
-    [Header("Game global value config")]
-    [SerializeField] private int sceneToLoadOnGameOver = 1;
+
+    [Header("Game state songs")]
+    [SerializeField] private AudioSource gameOverAudioSource;
+    
 
     [Header("Game global value state")]
     Dictionary<int, CharacterManager> globalWantedHostileCharacters = new Dictionary<int, CharacterManager>();
 
-    
+
+    private void OnEnable() {
+        playerActions.Player.Enable();
+    }
+    private void OnDisable() {
+        playerActions.Player.Disable();
+    }
+
+    void Awake() {
+        playerActions = new PlayerInputAction();
+
+    }
 
     private void Start() {
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
@@ -180,27 +195,34 @@ public class GameState : MonoBehaviour
     /// Setta il gioco in stato di gameover
     /// Avvia l'UI di game over
     /// </summary>
-    public async Task initGameOverGameStateAsync() {
+    public async Task initGameOverGameState() {
+        // start canzone fine partita
+        gameOverAudioSource.Play();
+
         // switch input 
         playerActions = new PlayerInputAction();
         playerActions.Player.Disable();
         playerActions.MainMenu.Enable();
 
-        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterBehaviourInSceneAsync();
+        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterBehaviourInSceneAsync(); // attendi e disattiva behaviour di tutti i character 
 
         // game over UI
+
+        // setta comando action event system
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+
         LoadingUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(true);
         eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
     }
 
-    public void initLoadingScreen() {
+    public void initLoadingScreen(int sceneToLoad) {
 
         gameOverUIScreen.gameObject.SetActive(false);
         LoadingUIScreen.gameObject.SetActive(true);
 
 
-        StartCoroutine(LoadSceneAsynchronously(sceneToLoadOnGameOver));
+        StartCoroutine(LoadSceneAsynchronously(sceneToLoad));
 
     }
 

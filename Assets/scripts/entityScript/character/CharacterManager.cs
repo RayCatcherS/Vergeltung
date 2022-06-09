@@ -309,20 +309,26 @@ public class CharacterManager : MonoBehaviour {
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<EnemyNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAlertAnimator();
+                
             } else if (role == Role.Civilian) {
 
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopAllCoroutines();
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
+                gameObject.GetComponent<CivilianNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopAlertAnimator();
+                
             }
         } else { // ucciso character del warp stack
 
