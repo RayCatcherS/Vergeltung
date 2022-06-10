@@ -36,6 +36,19 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
 
         }
+
+        if (suspiciousAgentDestinationSetted == false) {
+            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            suspiciousAgentDestinationSetted = true;
+        } else {
+            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                agent.isStopped = false;
+                animateMovingAgent();
+            } else {
+                stopAgent();
+
+            }
+        }
     }
     /// <summary>
     /// implementazione hostilityAlertBehaviour

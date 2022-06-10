@@ -62,7 +62,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
-    protected bool agentDestinationSetted = false;
+    protected bool unalertAgentDestinationSetted = false;
+    protected bool suspiciousAgentDestinationSetted = false;
     protected Dictionary<int, CharacterManager> _wantedHostileCharacters = new Dictionary<int, CharacterManager>();
     public Dictionary<int, CharacterManager> wantedHostileCharacters {
         set {
@@ -114,6 +115,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // stoppa agente e animazione dell'agente che dipende dal move character
     public void stopAgent() {
+
         agent.isStopped = true;
         characterMovement.stopCharacter();
     }
@@ -174,14 +176,20 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         
         if(alertState == CharacterAlertState.Unalert) {
-            // animation sign
-            resetAlertAnimatorTrigger();
+            
+            initUnalertState(); // inizializza comportamento di unalert
+            resetAlertAnimatorTrigger();// animation sign
             alertSignAnimator.SetTrigger("unalertState");
 
             focusAlarmCharacter = null;
         }
 
-        
+        if (alertState == CharacterAlertState.SuspiciousAlert) {
+            initSuspiciousState();
+
+        }
+
+
     }
 
 
@@ -226,29 +234,27 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override async void unalertBehaviour() {
         agent.isStopped = false;
 
-
-
         
         if (characterActivityManager.getCharacterActivities().Count > 0) {
-            if (agentDestinationSetted == false) {
+
+            
+            if (unalertAgentDestinationSetted == false) {
 
                 updateUnalertAgentTarget();
             
 
-                agentDestinationSetted = true;
+                unalertAgentDestinationSetted = true;
             } else {
 
 
 
                 if (!gameObject.GetComponent<CharacterManager>().isBusy) {
 
-                    float distance = Vector3.Distance(transform.position, characterActivityManager.getCurrentTask().getTaskDestination());
-                    
-                    if (distance > agent.stoppingDistance) { // controlla se è stata raggiunta la destinazione
 
-                        Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+                    Vector3 agentDestinationPosition = characterActivityManager.getCurrentTask().getTaskDestination();
+                    if (!agentReachedDestination(agentDestinationPosition)) { // controlla se è stata raggiunta la destinazione
 
-                        characterMovement.moveCharacter(movement, false); // avvia solo animazione
+                        animateMovingAgent();
                         
 
                     } else { // task raggiunto
@@ -277,7 +283,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                                     updateUnalertAgentTarget();
 
                                 } else {
-                                    characterMovement.moveCharacter(Vector2.zero, false); // resta fermo
+                                    stopAgent(); // resta fermo
                                 }
                                 
                             }
@@ -292,13 +298,15 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         
                     }
                 } else {
-                    characterMovement.moveCharacter(Vector2.zero, false); 
+                    stopAgent(); // resta fermo
                 }
             }
         }
         
 
     }
+    
+    
     private void updateUnalertAgentTarget() {
         if (!gameObject.GetComponent<CharacterManager>().isDead) {
             agent.SetDestination(
@@ -498,6 +506,16 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
     }
 
+
+    private void initUnalertState() {
+        unalertAgentDestinationSetted = false;
+    }
+
+    private void initSuspiciousState() {
+        suspiciousAgentDestinationSetted = false;
+    }
+
+
     /// <summary>
     /// Implementare metodo nelle classi figle se si vuole eseguire una volta che l'hostilityTimerLoop termina
     /// </summary>
@@ -557,5 +575,26 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         return result;
+    }
+
+    protected bool agentReachedDestination(Vector3 agentDestinationPosition) {
+        float distance = Vector3.Distance(transform.position, agentDestinationPosition);
+        bool result = false;
+
+        if (distance > agent.stoppingDistance) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Anima movimento del character 
+    /// </summary>
+    protected void animateMovingAgent() {
+        Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+
+        characterMovement.moveCharacter(movement, false); // avvia solo animazione
     }
 }

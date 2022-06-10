@@ -18,6 +18,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void suspiciousAlertBehaviour() {
 
+
         if (isFocusAlarmCharacterVisible) {
             lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
 
@@ -36,6 +37,23 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
             characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
 
         }
+
+
+
+        if (suspiciousAgentDestinationSetted == false) {
+            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            suspiciousAgentDestinationSetted = true;
+        } else {
+            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                agent.isStopped = false;
+                animateMovingAgent();
+            } else {
+                stopAgent();
+
+            }
+        }
+
+
 
     }
     /// <summary>
@@ -61,6 +79,21 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
             targetDirection.y = 0;
             characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
 
+        }
+
+
+
+        if (suspiciousAgentDestinationSetted == false) {
+            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            suspiciousAgentDestinationSetted = true;
+        } else {
+            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                agent.isStopped = false;
+                animateMovingAgent();
+            } else {
+                stopAgent();
+
+            }
         }
     }
     /// <summary>
