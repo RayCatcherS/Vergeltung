@@ -36,19 +36,38 @@ public class CharacterManager : MonoBehaviour {
 
     // stati del player
     [Header("Character States")]
-    [SerializeField] public bool isRunning = false;
-    [SerializeField] public bool isBusy = false;
-    [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
-    [SerializeField] public bool isDead = false;
-    [SerializeField] public bool isPickLocking = false; // stato che rappresenta se il character sta scassinando
-
-    [SerializeField] private bool _isTimedInteractionProcessing = false; // con questo stato il character è impegnato e non pu
-    public bool isTimedInteractionProcessing {
-        get { return _isTimedInteractionProcessing; }
+    [SerializeField] private bool _isRunning = false;
+    public bool isRunning {
+        get { return _isRunning; }
+        set { _isRunning = value; }
+    }
+    [SerializeField] private bool _isBusy = false; // con questo stato il character è impegnato e non può muoversi
+    public bool isBusy {
+        get { return _isBusy; }
+        set { _isBusy = value; }
+    }
+    [SerializeField] private bool _isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
+    public bool isPlayer {
+        get { return _isPlayer; }
+        set { _isPlayer = value; }
+    }
+    [SerializeField] private bool _isDead = false;
+    public bool isDead {
+        get { return _isDead; }
+    }
+    [SerializeField] private bool _isPickLocking = false; // stato che rappresenta se il character sta scassinando
+    public bool isPickLocking {
+        get { return _isPickLocking; }
+        set { _isPickLocking = value; }
+    }
+    [SerializeField] private bool _isTarget = false; // indica se è un obiettivo del gioco(e quindi va ucciso)
+    public bool isTarget {
+        get { return _isTarget; }
     }
 
 
-        [Header("Character Settings")]
+
+    [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
     [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia 
     [Range(0, 360)]
@@ -203,7 +222,7 @@ public class CharacterManager : MonoBehaviour {
             characterHealth -= damage;
 
             if (characterHealth <= 0) {
-                isDead = true;
+                _isDead = true;
                 killCharacter(damageVelocity);
             }
         }
@@ -424,12 +443,12 @@ public class CharacterManager : MonoBehaviour {
 
         timedInteractionSliderManager.enableAndInitializeTimerSlider(minValue: 0, maxValue: endTime - startTime, sliderTitle: interactionTitle);
 
-        _isTimedInteractionProcessing = true;
+        _isBusy = true;
         while (Time.time < endTime) {
 
             timedInteractionSliderManager.setSliderValue(Time.time - startTime);
 
-            if(!isTimedInteractionProcessing) {
+            if(!_isBusy) {
                 result = false; // interaction fallita
                 break;
             }
@@ -442,7 +461,7 @@ public class CharacterManager : MonoBehaviour {
             }
             await Task.Yield();
         }
-        _isTimedInteractionProcessing = false;
+        _isBusy = false;
         timedInteractionSliderManager.disableTimeSlider();
 
 
@@ -461,6 +480,6 @@ public class CharacterManager : MonoBehaviour {
     }
 
     public void discardCharacterAction() {
-        _isTimedInteractionProcessing = false;
+        _isBusy = false;
     }
 }
