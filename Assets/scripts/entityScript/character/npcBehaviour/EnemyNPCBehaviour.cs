@@ -19,38 +19,17 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     public override void suspiciousAlertBehaviour() {
 
 
-        if (isFocusAlarmCharacterVisible) {
-            lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+        rotateAndAimSubBehaviour();
 
 
-            Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
-            targetDirection.y = 0;
-            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-            
-        } else {
+        if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-            if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
-                lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
-            }
-            Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
-            targetDirection.y = 0;
-            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-
-        }
-
-
-
-        if (suspiciousAgentDestinationSetted == false) {
             agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
-            suspiciousAgentDestinationSetted = true;
-        } else {
-            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                agent.isStopped = false;
-                animateMovingAgent();
-            } else {
-                stopAgent();
 
-            }
+            agent.isStopped = false;
+            animateMovingAgent();
+        } else {
+            stopAgent();
         }
 
 
@@ -68,17 +47,14 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         }
 
 
-        if (suspiciousAgentDestinationSetted == false) {
-            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
-            suspiciousAgentDestinationSetted = true;
-        } else {
-            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                agent.isStopped = false;
-                animateMovingAgent();
-            } else {
-                stopAgent();
+        if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-            }
+            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+
+            agent.isStopped = false;
+            animateMovingAgent();
+        } else {
+            stopAgent();
         }
     }
     /// <summary>

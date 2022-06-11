@@ -24,7 +24,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [Header("Stati")]
     
     [SerializeField] protected CharacterManager focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
-    public Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
+    [SerializeField] protected Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
     [SerializeField] protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
     public bool stopCharacterBehaviour {
         get { return _stopCharacterBehaviour; }
@@ -62,8 +62,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
-    protected bool unalertAgentDestinationSetted = false;
-    protected bool suspiciousAgentDestinationSetted = false;
+    [SerializeField] protected bool unalertAgentDestinationSetted = false;
     protected Dictionary<int, CharacterManager> _wantedHostileCharacters = new Dictionary<int, CharacterManager>();
     public Dictionary<int, CharacterManager> wantedHostileCharacters {
         set {
@@ -182,11 +181,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             alertSignAnimator.SetTrigger("unalertState");
 
             focusAlarmCharacter = null;
-        }
-
-        if (alertState == CharacterAlertState.SuspiciousAlert) {
-            initSuspiciousState();
-
         }
 
 
@@ -343,16 +337,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     /// <summary>
     /// Questo subBehaviour fa ruotare il character verso un character
-    /// attualmente sotto focus
+    /// attualmente sotto focus.
+    /// Inoltre aggiorna l'ultima posizione in cui è stato visto il focus Character
     /// </summary>
     protected void rotateAndAimSubBehaviour() {
+
+        
         if (isFocusAlarmCharacterVisible) {
             lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
 
 
             Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
-            targetDirection.y = 0;
-            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+            }
 
 
         } else {
@@ -361,8 +360,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
             }
             Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
-            targetDirection.y = 0;
-            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+            }
 
         }
     }
@@ -539,10 +540,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     private void initUnalertState() {
         unalertAgentDestinationSetted = false;
-    }
-
-    private void initSuspiciousState() {
-        suspiciousAgentDestinationSetted = false;
     }
 
 
