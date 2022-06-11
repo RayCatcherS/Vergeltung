@@ -18,24 +18,8 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// implementazione suspiciousAlertBehaviour
     /// </summary>
     public override void suspiciousAlertBehaviour() {
-        if (isFocusAlarmCharacterVisible) {
-            lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
 
-
-            Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
-            targetDirection.y = 0;
-            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-
-        } else {
-
-            if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
-                lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
-            }
-            Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
-            targetDirection.y = 0;
-            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-
-        }
+        rotateAndAimSubBehaviour();
 
         if (suspiciousAgentDestinationSetted == false) {
             agent.SetDestination(lastSeenFocusAlarmCharacterPosition);

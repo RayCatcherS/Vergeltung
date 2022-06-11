@@ -14,11 +14,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // values
     [Header("Configurazione")]
-    [SerializeField] private const float suspiciousTimerValue = 15f;
+    [SerializeField] private float suspiciousTimerValue = 15f;
     private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
-    [SerializeField] private const float hostilityTimerValue = 15f;
+    [SerializeField] private float hostilityTimerValue = 15f;
     private float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
-    [SerializeField] private const float cNPCBehaviourCoroutineFrequency = 0.02f;
+    [SerializeField] private float cNPCBehaviourCoroutineFrequency = 0.02f;
 
     // states
     [Header("Stati")]
@@ -307,6 +307,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
     
     
+    
+
     private void updateUnalertAgentTarget() {
         if (!gameObject.GetComponent<CharacterManager>().isDead) {
             agent.SetDestination(
@@ -330,11 +332,39 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void hostilityAlertBehaviour() {
         
     }
+
+
     /// <summary>
     /// comportamento SoundAlert1Behaviour da implementare nelle classi figlie
     /// </summary>
     public override void soundAlert1Behaviour() {
 
+    }
+
+    /// <summary>
+    /// Questo subBehaviour fa ruotare il character verso un character
+    /// attualmente sotto focus
+    /// </summary>
+    protected void rotateAndAimSubBehaviour() {
+        if (isFocusAlarmCharacterVisible) {
+            lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+
+
+            Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
+            targetDirection.y = 0;
+            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+
+        } else {
+
+            if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
+                lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+            }
+            Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
+            targetDirection.y = 0;
+            characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+
+        }
     }
 
     private void OnTriggerEnter(Collider collision) {
