@@ -6,12 +6,17 @@ using UnityEngine;
 
 public class GeneratorInteractable : Interactable {
 
+    [Header("References")]
     [SerializeField] private GameState gameState; // game state per accedere ai metodi dello stato di gioco
 
+    
     [SerializeField] string sabotageGeneratorEventName = "SABOTAGE GENERATOR";
     [SerializeField] UnityEventCharacter sabotageGenerator = new UnityEventCharacter();
     [SerializeField] private GeneratorState generatorState = GeneratorState.GeneratorOn;
-    
+
+    [Header("generator config")]
+    [SerializeField] private float sabotageTime = 2f; // tempo per sabotare il generatore
+
 
     public override void Start() {
         initInteractable();
@@ -19,9 +24,17 @@ public class GeneratorInteractable : Interactable {
         sabotageGenerator.AddListener(switchOffGenerator);
     }
 
-    private void switchOffGenerator(CharacterManager p) {
+    private async void switchOffGenerator(CharacterManager characterWhoIsInteracting) {
+
+        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia potenziale stato alert
+        // avvia task sul character che ha avviato il task
+        bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
+
+
+        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();
         generatorState = GeneratorState.GeneratorOff;
         gameState.turnOffPower();
+        characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
     }
 

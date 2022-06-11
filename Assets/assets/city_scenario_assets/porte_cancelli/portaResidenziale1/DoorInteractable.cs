@@ -43,16 +43,15 @@ public class DoorInteractable : Interactable {
 
     }
 
-    public async void lockPick(CharacterManager characterWhoIsInteracting) {
+    private async void lockPick(CharacterManager characterWhoIsInteracting) {
 
         doorState.isDoorPickLocking.value = true; // setta lo stato della porta in "PickLocking"
-        characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
 
         
 
         characterWhoIsInteracting.isPickLocking = true; // permette al player di diventare sospetto/ostile
-        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia alert 
+        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia potenziale stato alert 
 
         // avvia task sul character che ha avviato il task
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(doorState.doorLockPickTime, "Lock-Picking", doorState.isDoorClosed(), false);
