@@ -30,10 +30,12 @@ public class GeneratorInteractable : Interactable {
         // avvia task sul character che ha avviato il task
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
 
+        if(playerTaskResultDone) {
+            generatorState = GeneratorState.GeneratorOff;
+            gameState.turnOffPower();
+        }
 
         characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();
-        generatorState = GeneratorState.GeneratorOff;
-        gameState.turnOffPower();
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
     }
