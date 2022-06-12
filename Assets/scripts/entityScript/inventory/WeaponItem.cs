@@ -66,7 +66,7 @@ public class WeaponItem : InventoryItem
 
     [Header("Weapon effects")]
     [SerializeField] private Transform spawnDamageObjectParticleTransform;
-    [SerializeField] private GameObject spawnDamageObjectParticle;
+    [SerializeField] private GameObject spawnDamageObjectParticle; // gameobject che provoca danno(proiettile o aree di damage)
 
     
 
@@ -166,9 +166,7 @@ public class WeaponItem : InventoryItem
                     if (spawnDamageObjectParticle != null) {
 
                         GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
-                        if (p != null) {
-                            particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
-                        }
+                        
                     }
                 }
 
