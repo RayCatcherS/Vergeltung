@@ -19,7 +19,6 @@ public class CharacterFOV : MonoBehaviour
 
     [Header("Impostazioni")]
     [SerializeField] private LayerMask targetCharacterMask;
-    [SerializeField] private float fovCheckFrequency = 0.2f; // frequenza check campi visivi
     
 
 
@@ -71,7 +70,6 @@ public class CharacterFOV : MonoBehaviour
 
     public void Start() {
         setFOVValuesToDefault();
-        StartCoroutine(cFOVRoutine());
     }
 
     public void setFOVValuesToDefault() {
@@ -95,13 +93,14 @@ public class CharacterFOV : MonoBehaviour
         _usedSecondFovAngle = secondFovAngle;
     }
 
-    private IEnumerator cFOVRoutine() {
+    /// <summary>
+    /// Avvia controllo sui check (non è una coroutine ma un singolo check sui due campi visivi)
+    /// Usare con attraverso una coroutine
+    /// </summary>
+    public void fovCheck() {
 
-        while(true) {
-            yield return new WaitForSeconds(fovCheckFrequency);
-            firstFOVCheck();
-            secondFOVCheck();
-        }
+        firstFOVCheck();
+        secondFOVCheck();
     }
 
     public void stopAllCoroutines() {

@@ -191,8 +191,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Switch dei behaviour
     /// </summary>
     private void nPCBehaviour() {
-
-        if(_stopCharacterBehaviour) {
+        characterFOV.fovCheck();
+        if (_stopCharacterBehaviour) {
             characterBehaviourStopped = true;
             Debug.Log("Stopping character");
 
@@ -342,30 +342,35 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     protected void rotateAndAimSubBehaviour() {
 
-        
-        if (isFocusAlarmCharacterVisible) {
-            lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+        Debug.Log("DEBUG");
+        if (focusAlarmCharacter != null) {
+            Debug.Log("DEBUG 2 ");
+            if (isFocusAlarmCharacterVisible) {
 
-
-            Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
-
-            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-            }
-
-
-        } else {
-
-            if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
                 lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
-            }
-            Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
-            if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-            }
 
-        }
+                Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
+
+                if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                }
+
+
+            } else {
+
+                if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
+                    lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+                }
+                Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
+
+                if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                }
+
+            }
+        } // se c'è un character focussato durante l'allarme. Il character potrebbe essere più non focussato in quanto non più sospetto
+
     }
 
     private void OnTriggerEnter(Collider collision) {
@@ -409,6 +414,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 }
                 
             } else {
+                
                 focusAlarmCharacter = null;
             }
         }
@@ -437,9 +443,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         } else {
 
-            focusAlarmCharacter = null;
+            
             if (_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
+                focusAlarmCharacter = null;
                 setAlert(CharacterAlertState.Unalert);
+                stopAgent();
             }
         }
     }
