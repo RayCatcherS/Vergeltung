@@ -22,7 +22,7 @@ Documento Game Design
 ## Release
 <a 
 href="https://drive.google.com/file/d/1yh1IyQVBtu-V9M3YKwOgCYMApvnH9wm2/view?usp=sharing" >
-Release
+Latest build
 </a>
 
 ## Devlog
