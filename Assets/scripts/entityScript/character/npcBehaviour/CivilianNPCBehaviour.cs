@@ -36,7 +36,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void hostilityAlertBehaviour() {
         rotateAndAimSubBehaviour();
-
+        stopAgent();
     }
     /// <summary>
     /// implementazione soundAlert1Behaviour
