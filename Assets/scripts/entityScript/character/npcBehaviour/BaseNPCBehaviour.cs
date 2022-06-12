@@ -26,7 +26,20 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     // states
     [Header("Stati")]
     
-    [SerializeField] protected CharacterManager focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
+    [SerializeField] protected CharacterManager _focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
+    protected CharacterManager focusAlarmCharacter {
+        set {
+            
+            _focusAlarmCharacter = value;
+            if (value != null) {
+                isFocusedAlarmCharacter = true;
+            } else {
+                isFocusedAlarmCharacter = false;
+            }
+        }
+        get { return _focusAlarmCharacter; }
+    }
+    [SerializeField] private bool isFocusedAlarmCharacter = false;
     [SerializeField] protected Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
     [SerializeField] protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
     public bool stopCharacterBehaviour {
@@ -183,6 +196,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();// animation sign
             alertSignAnimator.SetTrigger("unalertState");
 
+
             focusAlarmCharacter = null;
         }
 
@@ -200,7 +214,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             Debug.Log("Stopping character");
 
         } else {
-            characterFOV.fovCheck();
+
             if (!gameObject.GetComponent<CharacterManager>().isDead) {
                 switch (_characterState) {
                     case CharacterAlertState.Unalert: {
@@ -347,14 +361,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected void rotateAndAimSubBehaviour() {
 
 
-        if (focusAlarmCharacter != null) {
+        if (isFocusedAlarmCharacter) {
+
+            float lastPosX = focusAlarmCharacter.transform.position.x;
+            float lastPosY = focusAlarmCharacter.transform.position.y;
+            float lastPosZ = focusAlarmCharacter.transform.position.z;
+            Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
             if (isFocusAlarmCharacterVisible) {
+                
+                lastSeenFocusAlarmCharacterPosition = lastPos; // setta ultima posizione in cui è stato visto l'alarm character
 
-                lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
 
-
-                Vector3 targetDirection = focusAlarmCharacter.transform.position - gameObject.transform.position;
+                Vector3 targetDirection = lastPos - gameObject.transform.position;
 
                 if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
                     characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
@@ -364,7 +383,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             } else {
 
                 if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
-                    lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
+                    lastSeenFocusAlarmCharacterPosition = lastPos; // setta ultima posizione in cui è stato visto l'alarm character
                 }
                 Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
@@ -408,6 +427,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
+
                 focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
 
                 if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
@@ -420,6 +440,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             } else {
                 
                 focusAlarmCharacter = null;
+
             }
         }
     }
@@ -434,7 +455,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
             focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-
 
             setAlert(CharacterAlertState.HostilityAlert);
 
