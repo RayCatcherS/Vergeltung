@@ -18,7 +18,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
     [SerializeField] private float hostilityTimerValue = 15f;
     private float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
-    [SerializeField] private float cNPCBehaviourCoroutineFrequency = 0.02f;
+    [SerializeField] private float _cNPCBehaviourCoroutineFrequency = 0.02f;
+    public float cNPCBehaviourCoroutineFrequency {
+        get { return _cNPCBehaviourCoroutineFrequency; }
+    }
 
     // states
     [Header("Stati")]
@@ -102,7 +105,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 break;
             }
 
-            yield return new WaitForSeconds(cNPCBehaviourCoroutineFrequency);
+            yield return new WaitForSeconds(_cNPCBehaviourCoroutineFrequency);
             nPCBehaviour();
 
             if(_characterState == CharacterAlertState.HostilityAlert) {
@@ -191,12 +194,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Switch dei behaviour
     /// </summary>
     private void nPCBehaviour() {
-        characterFOV.fovCheck();
+        
         if (_stopCharacterBehaviour) {
             characterBehaviourStopped = true;
             Debug.Log("Stopping character");
 
         } else {
+            characterFOV.fovCheck();
             if (!gameObject.GetComponent<CharacterManager>().isDead) {
                 switch (_characterState) {
                     case CharacterAlertState.Unalert: {
@@ -342,9 +346,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     protected void rotateAndAimSubBehaviour() {
 
-        Debug.Log("DEBUG");
+
         if (focusAlarmCharacter != null) {
-            Debug.Log("DEBUG 2 ");
+
             if (isFocusAlarmCharacterVisible) {
 
                 lastSeenFocusAlarmCharacterPosition = focusAlarmCharacter.transform.position; // setta ultima posizione in cui è stato visto l'alarm character
@@ -447,7 +451,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             if (_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
                 focusAlarmCharacter = null;
                 setAlert(CharacterAlertState.Unalert);
-                stopAgent();
             }
         }
     }

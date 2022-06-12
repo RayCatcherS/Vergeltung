@@ -99,20 +99,15 @@ public class CharacterFOV : MonoBehaviour
     /// </summary>
     public void fovCheck() {
 
-        firstFOVCheck();
-        secondFOVCheck();
+        firstRangeFOVCheck();
+        secondRangeFOVCheck();
     }
 
-    public void stopAllCoroutines() {
-        firstFOVCanSeeCharacter = false;
-        secondFOVCanSeeCharacter = false;
-        StopAllCoroutines();
-    }
 
     /// <summary>
     /// check campo visivo ravvicinato
     /// </summary>
-    private void firstFOVCheck() {
+    private void firstRangeFOVCheck() {
 
         
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedFirstFovRadius, targetCharacterMask);
@@ -141,7 +136,7 @@ public class CharacterFOV : MonoBehaviour
     /// <summary>
     /// check campo visivo lontananza
     /// </summary>
-    private void secondFOVCheck() {
+    private void secondRangeFOVCheck() {
 
 
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedSecondFovRadius, targetCharacterMask);
@@ -173,7 +168,6 @@ public class CharacterFOV : MonoBehaviour
         Vector3 directionToTarget = (target - transform.position).normalized;
 
         if (Vector3.Angle(transform.forward, directionToTarget) < (_usedFirstFovAngle / 2)) {
-            //Debug.Log("angle player rilevato");
 
 
 
@@ -190,7 +184,7 @@ public class CharacterFOV : MonoBehaviour
                 if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
 
 
-                    Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
+                    Debug.DrawLine(fromPosition, hit.point, Color.red, nPCBehaviour.cNPCBehaviourCoroutineFrequency);
                     result = true;
                     onFirstFOVCanSeePlayer(seenCharacter);
                 }
@@ -224,7 +218,7 @@ public class CharacterFOV : MonoBehaviour
                 if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
 
                     if (!firstFOVCanSeeCharacter) {
-                        Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
+                        Debug.DrawLine(fromPosition, hit.point, Color.magenta, nPCBehaviour.cNPCBehaviourCoroutineFrequency);
                     }
 
                     result = true;

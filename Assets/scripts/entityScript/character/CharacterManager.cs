@@ -303,7 +303,6 @@ public class CharacterManager : MonoBehaviour {
         
 
         // stoppa componenti
-        gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
         gameObject.GetComponent<CharacterFOV>().enabled = false;
 
         _inventoryManager.setInventoryAsInteractable();
