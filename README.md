@@ -19,6 +19,12 @@ href="https://github.com/RayCatcherS/Vergeltung/blob/main/GDD/README.md" >
 Documento Game Design
 </a>
 
+## Release
+<a 
+href="https://drive.google.com/file/d/1yh1IyQVBtu-V9M3YKwOgCYMApvnH9wm2/view?usp=sharing" >
+Release
+</a>
+
 ## Devlog
 - [2 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
 - [3 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
