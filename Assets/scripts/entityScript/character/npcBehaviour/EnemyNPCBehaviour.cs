@@ -18,7 +18,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void suspiciousAlertBehaviour() {
 
-        
+
         rotateAndAimSubBehaviour();
 
 

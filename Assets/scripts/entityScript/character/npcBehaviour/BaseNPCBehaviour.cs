@@ -18,7 +18,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
     [SerializeField] private float hostilityTimerValue = 15f;
     private float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
-    [SerializeField] private float _cNPCBehaviourCoroutineFrequency = 0.02f;
+    [SerializeField] [Range(0.02f, 0.5f)] private float _cNPCBehaviourCoroutineFrequency = 0.1f;
     public float cNPCBehaviourCoroutineFrequency {
         get { return _cNPCBehaviourCoroutineFrequency; }
     }
@@ -69,6 +69,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             if(focusAlarmCharacter != null) {
                 return characterFOV.checkObjectInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
             } else {
+                Debug.Log("EHI");
                 return false;
             }
         }
@@ -119,6 +120,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             }
 
             yield return new WaitForSeconds(_cNPCBehaviourCoroutineFrequency);
+            Debug.Log("BEHAVIOUR");
             nPCBehaviour();
 
             if(_characterState == CharacterAlertState.HostilityAlert) {
@@ -244,6 +246,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Vengono selezionate delle activity in modo casuale e vengono portati a termine tutti i task
     /// </summary>
     public override async void unalertBehaviour() {
+        agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
+
         agent.isStopped = false;
 
         
@@ -359,7 +363,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Inoltre aggiorna l'ultima posizione in cui è stato visto il focus Character
     /// </summary>
     protected void rotateAndAimSubBehaviour() {
-
+        agent.updateRotation = false;
 
         if (isFocusedAlarmCharacter) {
 
@@ -368,6 +372,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             float lastPosZ = focusAlarmCharacter.transform.position.z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
+            
             if (isFocusAlarmCharacterVisible) {
                 
                 lastSeenFocusAlarmCharacterPosition = lastPos; // setta ultima posizione in cui è stato visto l'alarm character
@@ -375,9 +380,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
                 Vector3 targetDirection = lastPos - gameObject.transform.position;
 
-                if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-                }
+                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
 
 
             } else {
@@ -387,9 +390,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 }
                 Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
-                if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
-                }
+                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
 
             }
         } // se c'è un character focussato durante l'allarme. Il character potrebbe essere più non focussato in quanto non più sospetto
@@ -413,7 +414,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// Metodo avviato dal FOV dei character
+    /// Metodo per verificare se un certo character è sospetto agli occhi di [this]
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     public override void suspiciousCheck(CharacterManager seenCharacterManager)  {
@@ -445,6 +446,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
+    /// <summary>
+    /// Metodo per verificare se un certo character è ostile agli occhi di [this]
+    /// </summary>
+    /// <param name="seenCharacterManager"></param>
     public override void hostilityCheck(CharacterManager seenCharacterManager) {
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();

@@ -19,7 +19,7 @@ public class CharacterFOV : MonoBehaviour
 
     [Header("Impostazioni")]
     [SerializeField] private LayerMask targetCharacterMask;
-    [SerializeField] private float fovCheckFrequency = 0.2f; // frequenza check campi visivi
+    [SerializeField] [Range(0.1f, 1f)] private float fovCheckFrequency = 0.2f; // frequenza check campi visivi
     
 
 

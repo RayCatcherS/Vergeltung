@@ -51,6 +51,10 @@ PrefabInstance:
       propertyPath: baseNPCBehaviour
       value: 
       objectReference: {fileID: 711304410346105724}
+    - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+      propertyPath: fovCheckFrequency
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 9188659755221051704, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: movementSpeed
       value: 4
@@ -132,12 +136,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suspiciousTimerValue: 10
   hostilityTimerValue: 15
-  cNPCBehaviourCoroutineFrequency: 0.02
-  focusAlarmCharacter: {fileID: 0}
+  _cNPCBehaviourCoroutineFrequency: 0.05
+  _focusAlarmCharacter: {fileID: 0}
+  isFocusedAlarmCharacter: 0
   lastSeenFocusAlarmCharacterPosition: {x: 0, y: 0, z: 0}
   _stopCharacterBehaviour: 0
   characterBehaviourStopped: 0
   _characterState: 0
+  unalertAgentDestinationSetted: 0
   alertSignAnimator: {fileID: 8089895231307943866}
   agent: {fileID: 3285852240407561311}
   characterFOV: {fileID: 1931916012273870787}
