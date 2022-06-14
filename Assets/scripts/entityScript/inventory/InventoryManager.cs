@@ -393,7 +393,10 @@ public class InventoryManager : Interactable {
     /// Usato quando il character muore
     /// </summary>
     public void setInventoryAsInteractable() {
-        _weaponItems[_selectedWeapon].gameObject.SetActive(false);
+        if(_selectedWeapon != -1) {
+            _weaponItems[_selectedWeapon].gameObject.SetActive(false);
+        }
+        
 
         gameObject.layer = INTERACTABLE_LAYER; // cambia layer in interactable
         interactableInventoryColliderTrigger.enabled = true;

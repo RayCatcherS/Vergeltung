@@ -60,6 +60,10 @@ PrefabInstance:
       value: 0.024143457
       objectReference: {fileID: 0}
     - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+      propertyPath: _alertArea
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: nPCBehaviour
       value: 
       objectReference: {fileID: -4621767484983065693}
@@ -142,18 +146,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddbe231c7ca1ab4b8477370239e2aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suspiciousTimerValue: 10
+  suspiciousTimerValue: 15
   hostilityTimerValue: 15
-  cNPCBehaviourCoroutineFrequency: 0.02
-  focusAlarmCharacter: {fileID: 0}
+  _cNPCBehaviourCoroutineFrequency: 0.05
+  _focusAlarmCharacter: {fileID: 0}
+  isFocusedAlarmCharacter: 0
   lastSeenFocusAlarmCharacterPosition: {x: 0, y: 0, z: 0}
   _stopCharacterBehaviour: 0
   characterBehaviourStopped: 0
   _characterState: 0
+  unalertAgentDestinationSetted: 0
+  characterManager: {fileID: 2942125691695170174}
   alertSignAnimator: {fileID: 7306309242842072069}
   agent: {fileID: 4087470100445646816}
   characterFOV: {fileID: 1148319167666252924}
   characterInventoryManager: {fileID: 6426714390436339886}
+  closerEnemyCharacterToWarn: {fileID: 0}
 --- !u!114 &1148319167666252924 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
@@ -163,6 +171,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb918ae08e5f9a74188f61c66a508f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2942125691695170174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2880058954286248499, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 8129980399978762163}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105584524508505738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a7817f6bf2de544a9e28df77982afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!195 &4087470100445646816 stripped

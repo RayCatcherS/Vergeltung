@@ -51,10 +51,6 @@ PrefabInstance:
       propertyPath: baseNPCBehaviour
       value: 
       objectReference: {fileID: 711304410346105724}
-    - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
-      propertyPath: fovCheckFrequency
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 9188659755221051704, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: movementSpeed
       value: 4
@@ -134,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63b05bab2f2cce4f95de549e4a4ba05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suspiciousTimerValue: 10
+  suspiciousTimerValue: 15
   hostilityTimerValue: 15
   _cNPCBehaviourCoroutineFrequency: 0.05
   _focusAlarmCharacter: {fileID: 0}
@@ -144,6 +140,7 @@ MonoBehaviour:
   characterBehaviourStopped: 0
   _characterState: 0
   unalertAgentDestinationSetted: 0
+  characterManager: {fileID: 4464381048082876865}
   alertSignAnimator: {fileID: 8089895231307943866}
   agent: {fileID: 3285852240407561311}
   characterFOV: {fileID: 1931916012273870787}
@@ -169,6 +166,17 @@ NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 5218232153561137235, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
   m_PrefabInstance: {fileID: 7346306999184950284}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4464381048082876865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2880058954286248499, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 7346306999184950284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907272337766640949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a7817f6bf2de544a9e28df77982afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5480999366663908113 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3018318475669417757, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}

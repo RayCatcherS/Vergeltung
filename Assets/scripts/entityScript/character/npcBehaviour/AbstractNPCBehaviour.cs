@@ -35,13 +35,13 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// Verifica se un certo Character è sospetto
     /// </summary>
     /// <param name="characterManager">CharacterManager oggetto della verifica</param>
-    abstract public void suspiciousCheck(CharacterManager characterManager);
+    abstract public void suspiciousCheck(CharacterManager characterManager, Vector3 lastSeenCPosition);
 
     /// <summary>
     /// Verifica se un certo Character è ostile
     /// </summary>
     /// <param name="characterManager">CharacterManager oggetto della verifica</param>
-    abstract public void hostilityCheck(CharacterManager characterManager);
+    abstract public void hostilityCheck(CharacterManager characterManager, Vector3 lastSeenCPosition);
 
     
 }

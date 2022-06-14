@@ -62,7 +62,9 @@ public class CharacterFOV : MonoBehaviour
     [Header("Area di allerta")]
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
     [SerializeField] private float _alertArea = 15;
-    
+    public float alertArea {
+        get { return _alertArea; }
+    }
     
     public Transform recognitionTarget {
         get => _recognitionTarget;
@@ -124,7 +126,7 @@ public class CharacterFOV : MonoBehaviour
             foreach(Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    characterSeen = checkObjectInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = checkCharacterInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
 
 
                 }
@@ -153,7 +155,7 @@ public class CharacterFOV : MonoBehaviour
             foreach (Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    characterSeen = checkObjectInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = checkCharacterInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
                 }
             }
 
@@ -167,7 +169,7 @@ public class CharacterFOV : MonoBehaviour
     }
 
 
-    public bool checkObjectInFirstFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
+    public bool checkCharacterInFirstFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
         bool result = false;
 
         Vector3 target = objectPositionTarget;
@@ -202,7 +204,7 @@ public class CharacterFOV : MonoBehaviour
         return result;
     }
 
-    public bool checkObjectInSecondFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
+    public bool checkCharacterInSecondFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
         bool result = false;
 
         //Debug.Log("radius player rilevato");
@@ -286,13 +288,24 @@ public class CharacterFOV : MonoBehaviour
 
     private void onFirstFOVCanSeePlayer(CharacterManager seenCharacter) {
 
-        nPCBehaviour.hostilityCheck(seenCharacter);
+        float lastPosX = seenCharacter.transform.position.x;
+        float lastPosY = seenCharacter.transform.position.y;
+        float lastPosZ = seenCharacter.transform.position.z;
+        Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+
+        nPCBehaviour.hostilityCheck(seenCharacter, lastPos);
     }
 
     private void onSecondFOVCanSeePlayer(CharacterManager seenCharacter) {
 
         if(!firstFOVCanSeeCharacter) {
-            nPCBehaviour.suspiciousCheck(seenCharacter);
+
+            float lastPosX = seenCharacter.transform.position.x;
+            float lastPosY = seenCharacter.transform.position.y;
+            float lastPosZ = seenCharacter.transform.position.z;
+            Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+
+            nPCBehaviour.suspiciousCheck(seenCharacter, lastPos);
         }
     }
 

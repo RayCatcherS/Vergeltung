@@ -17,7 +17,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [SerializeField] private float suspiciousTimerValue = 15f;
     private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
     [SerializeField] private float hostilityTimerValue = 15f;
-    private float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
+    protected float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
     [SerializeField] [Range(0.02f, 0.5f)] private float _cNPCBehaviourCoroutineFrequency = 0.1f;
     public float cNPCBehaviourCoroutineFrequency {
         get { return _cNPCBehaviourCoroutineFrequency; }
@@ -40,7 +40,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         get { return _focusAlarmCharacter; }
     }
     [SerializeField] private bool isFocusedAlarmCharacter = false;
-    [SerializeField] protected Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
+    [SerializeField] public Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
     [SerializeField] protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
     public bool stopCharacterBehaviour {
         get { return _stopCharacterBehaviour; }
@@ -67,9 +67,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
-                return characterFOV.checkObjectInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                return characterFOV.checkCharacterInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
             } else {
-                Debug.Log("EHI");
                 return false;
             }
         }
@@ -92,6 +91,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // ref
     [Header("Reference")]
+    [SerializeField] public CharacterManager characterManager;
     [SerializeField] protected Animator alertSignAnimator;
     protected CharacterActivityManager characterActivityManager;
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
@@ -120,7 +120,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             }
 
             yield return new WaitForSeconds(_cNPCBehaviourCoroutineFrequency);
-            Debug.Log("BEHAVIOUR");
             nPCBehaviour();
 
             if(_characterState == CharacterAlertState.HostilityAlert) {
@@ -150,7 +149,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// di allerta
     /// </summary>
     /// <param name="alertState"></param>
-    private void setAlert(CharacterAlertState alertState) {
+    protected void setAlert(CharacterAlertState alertState) {
 
         
         CharacterAlertState oldAlertState = _characterState;
@@ -224,10 +223,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         }
                         break;
                     case CharacterAlertState.SuspiciousAlert: {
+                            
                             suspiciousAlertBehaviour();
+                            
                         }
                         break;
                     case CharacterAlertState.HostilityAlert: {
+                            
                             hostilityAlertBehaviour();
                         }
                         break;
@@ -268,7 +270,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
                     Vector3 agentDestinationPosition = characterActivityManager.getCurrentTask().getTaskDestination();
-                    if (!agentReachedDestination(agentDestinationPosition)) { // controlla se è stata raggiunta la destinazione
+                    if (!isAgentReachedDestination(agentDestinationPosition)) { // controlla se è stata raggiunta la destinazione
 
                         animateMovingAgent();
                         
@@ -367,30 +369,33 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         if (isFocusedAlarmCharacter) {
 
-            float lastPosX = focusAlarmCharacter.transform.position.x;
-            float lastPosY = focusAlarmCharacter.transform.position.y;
-            float lastPosZ = focusAlarmCharacter.transform.position.z;
-            Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+            
 
             
             if (isFocusAlarmCharacterVisible) {
-                
-                lastSeenFocusAlarmCharacterPosition = lastPos; // setta ultima posizione in cui è stato visto l'alarm character
 
 
-                Vector3 targetDirection = lastPos - gameObject.transform.position;
-
-                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
 
+                if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                }
             } else {
 
                 if (lastSeenFocusAlarmCharacterPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
-                    lastSeenFocusAlarmCharacterPosition = lastPos; // setta ultima posizione in cui è stato visto l'alarm character
+
+                    float lastPosX = focusAlarmCharacter.transform.position.x;
+                    float lastPosY = focusAlarmCharacter.transform.position.y;
+                    float lastPosZ = focusAlarmCharacter.transform.position.z;
+                    Vector3 noZeroPosition = new Vector3(lastPosX, lastPosY, lastPosZ);
+                    lastSeenFocusAlarmCharacterPosition = noZeroPosition; // setta ultima posizione in cui è stato visto l'alarm character
                 }
                 Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
-                characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                }
 
             }
         } // se c'è un character focussato durante l'allarme. Il character potrebbe essere più non focussato in quanto non più sospetto
@@ -417,7 +422,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Metodo per verificare se un certo character è sospetto agli occhi di [this]
     /// </summary>
     /// <param name="seenCharacterManager"></param>
-    public override void suspiciousCheck(CharacterManager seenCharacterManager)  {
+    public override void suspiciousCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition)  {
+
+        lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
+
+
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
@@ -450,7 +459,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Metodo per verificare se un certo character è ostile agli occhi di [this]
     /// </summary>
     /// <param name="seenCharacterManager"></param>
-    public override void hostilityCheck(CharacterManager seenCharacterManager) {
+    public override void hostilityCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition) {
+
+        lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
+
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
@@ -480,7 +492,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
-
+    
 
     /// <summary>
     /// Questa funzione setta il punto di fine del suspiciousTimerLoop
@@ -500,10 +512,16 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     /// <summary>
+    /// 
+    /// 
+    /// 
+    /// 
     /// Questa funzione setta il punto di fine del hostilityTimerEndStateValue
     /// e avvia il hostilityTimerLoop
     /// </summary>
-    private void startHostilityTimer() {
+    protected virtual void startHostilityTimer() {
+
+        
         stopAgent(); // stop task agent
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
@@ -545,8 +563,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         // TODO
         // rimozione del alarmFocusCharacter
     }
-    private async void hostilityTimerLoop() {
-        
+    protected virtual async void hostilityTimerLoop() {
         while (Time.time < hostilityTimerEndStateValue) {
             await Task.Yield();
 
@@ -596,8 +613,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             foreach (var character in characters) {
 
-                character.Value.lastSeenFocusAlarmCharacterPosition = lastSeenFocusAlarmCharacterPosition;
-                character.Value.hostilityCheck(focusAlarmCharacter);
+                character.Value.hostilityCheck(focusAlarmCharacter, lastSeenFocusAlarmCharacterPosition);
             }
         }
         
@@ -640,11 +656,22 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         return result;
     }
 
-    protected bool agentReachedDestination(Vector3 agentDestinationPosition) {
+    protected bool isAgentReachedDestination(Vector3 agentDestinationPosition) {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
-        bool result = false;
+        bool result;
 
         if (distance > agent.stoppingDistance) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    }
+    protected bool isAgentReachedEnemyCharacterToWarnDestination(Vector3 agentDestinationPosition) {
+        float distance = Vector3.Distance(transform.position, agentDestinationPosition);
+        bool result;
+
+        if (distance > characterFOV.alertArea) {
             result = false;
         } else {
             result = true;

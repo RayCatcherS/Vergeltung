@@ -22,7 +22,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         rotateAndAimSubBehaviour();
 
 
-        if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
             agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
@@ -47,7 +47,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         }
 
 
-        if (!agentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
             agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 

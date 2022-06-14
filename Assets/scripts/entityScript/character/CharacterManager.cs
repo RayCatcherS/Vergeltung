@@ -29,6 +29,11 @@ public class CharacterManager : MonoBehaviour {
     public GameState globalGameState {
         get { return _globalGameState; }
     }
+    [SerializeField] private SceneEntitiesController _sceneEntitiesController; // scene entities controller 
+    public SceneEntitiesController sceneEntitiesController {
+        get { return _sceneEntitiesController; }
+    }
+
     [SerializeField] private PlayerWarpController _playerWarpController;
     public PlayerWarpController playerWarpController {
         get { return _playerWarpController; }
@@ -75,7 +80,7 @@ public class CharacterManager : MonoBehaviour {
     
     [Range(0, 360)]
     [SerializeField] private float _secondMalusFovAngle = 90;
-    [SerializeField] private int dividerFOVMalusValue = 2; // valore divisore fov malus 
+    [SerializeField] private float dividerFOVMalusValue = 2; // valore divisore fov malus 
     [SerializeField] private float dividerFOVMalusFlashlightValue = 1.3f; // valore divisore fov malus
 
 
@@ -145,12 +150,14 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController) {
+    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController, SceneEntitiesController sceneEntitiesController) {
         
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
         characterInteraction._globalGameState = gameState;
         characterInteraction._playerWarpController = playerWarpController;
+        characterInteraction._sceneEntitiesController = sceneEntitiesController;
+
         return gameObject;
     }
 
@@ -289,7 +296,7 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public void killCharacter(Vector3 damageVelocity) {
 
-        
+        Debug.Log("Character dead at: " + gameObject.transform.position);
         resetCharacterMovmentState();
 
         // disabilita componenti

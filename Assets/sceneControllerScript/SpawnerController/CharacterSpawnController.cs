@@ -161,11 +161,11 @@ public class CharacterSpawnController : MonoBehaviour {
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
                 GameState gameState = gameObject.GetComponent<GameState>();
                 PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
-                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState, playerWarpController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState, playerWarpController, sceneEntitiesController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // associa npc istanziato al componente sceneEntities
-                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
                 sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
 
                 // inizializza equipaggiamento
@@ -196,11 +196,11 @@ public class CharacterSpawnController : MonoBehaviour {
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
                 GameState gameState = gameObject.GetComponent<GameState>();
                 PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
-                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState, playerWarpController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState, playerWarpController, sceneEntitiesController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // aggiungi npc istanziato al componente sceneEntities
-                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
                 sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviour>());
 
                 // inizializza equipaggiamento
@@ -261,11 +261,11 @@ public class CharacterSpawnController : MonoBehaviour {
             InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
             GameState gameState = gameObject.GetComponent<GameState>();
             PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
-            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController, gameState, playerWarpController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController, gameState, playerWarpController, sceneEntitiesController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
             // associa npc istanziato al componente sceneEntities
-            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
             sceneEntitiesController.setPlayerEntity(newPlayer.GetComponent<CharacterManager>());
 
 
