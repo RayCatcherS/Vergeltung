@@ -69,7 +69,6 @@ public class CharacterActivityManager : MonoBehaviour
 
         
         int randomizeActivity = Random.Range(0, characterActivities.Count);
-        Debug.Log("randomize act: " + randomizeActivity);
         selectedCharacterActivityPos = randomizeActivity;
     }
 

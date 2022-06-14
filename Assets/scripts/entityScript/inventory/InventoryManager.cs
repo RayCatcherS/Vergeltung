@@ -455,7 +455,7 @@ public class InventoryManager : Interactable {
 
         Vector3 aimedPosition = Vector3.zero;
 
-        if (isSelectedWeapon && /*_weaponItems[_selectedWeapon].getWeaponType != WeaponType.melee &&*/ characterManager.isPlayer && !isGunThroughWall()) {
+        if (isSelectedWeapon && characterManager.isPlayer && !isGunThroughWall()) {
             _weaponLineRenderer.enabled = true;
 
 
@@ -541,19 +541,17 @@ public class InventoryManager : Interactable {
         bool res = false;
         RaycastHit hit;
 
-        if(getSelectedWeaponType != WeaponType.melee) {
-            if (Physics.Linecast(headViewTransform.position, _weaponItems[_selectedWeapon].shootingTransform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+        if (Physics.Linecast(headViewTransform.position, _weaponItems[_selectedWeapon].shootingTransform.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
-                if (hit.collider != null) {
-                    res = true;
+            if (hit.collider != null) {
+                res = true;
 
-                    //Debug.Log("gun Throug hWall");
-                } else {
-                    res = false;
-                }
+                //Debug.Log("gun Throug hWall");
+            } else {
+                res = false;
             }
         }
-        
+
 
         return res;
     }

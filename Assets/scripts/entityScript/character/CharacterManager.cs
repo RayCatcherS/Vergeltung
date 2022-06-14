@@ -5,7 +5,6 @@ using System.Collections;
 using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
-    private const int CHARACTER_AREA_LAYER = 16;
 
 
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
