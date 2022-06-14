@@ -12,16 +12,27 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     // const
     private const int INTERACTABLE_LAYER = 3;
 
+
+
     // values
     [Header("Configurazione")]
     [SerializeField] private float suspiciousTimerValue = 15f;
     private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
+
     [SerializeField] private float hostilityTimerValue = 15f;
     protected float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
+
+    [SerializeField] private float warningOfSouspiciousTimerValue = 15f;
+    protected private float warnOfSouspiciousTimerEndStateValue = 0;
+
+
     [SerializeField] [Range(0.02f, 0.5f)] private float _cNPCBehaviourCoroutineFrequency = 0.1f;
     public float cNPCBehaviourCoroutineFrequency {
         get { return _cNPCBehaviourCoroutineFrequency; }
     }
+
+
+
 
     // states
     [Header("Stati")]
@@ -121,10 +132,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             yield return new WaitForSeconds(_cNPCBehaviourCoroutineFrequency);
             nPCBehaviour();
-
-            if(_characterState == CharacterAlertState.HostilityAlert) {
-                onHostilityAlert(); // start dell'evento on hostility
-            }
             
         }
     }
@@ -156,8 +163,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         _characterState = alertState;
 
-        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
+        if ((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.WarnOfSouspiciousAlert) && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
+
+            stopWarnOfSouspiciousTimer();
             startSuspiciousTimer();
 
             // animation sign
@@ -166,32 +175,47 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         } else if(oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
-            resetSuspiciousTimer();
-        } else if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
+            stopWarnOfSouspiciousTimer();
+            resetSuspiciousTimer();
+        } else if((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.WarnOfSouspiciousAlert) && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+            stopWarnOfSouspiciousTimer();
             startHostilityTimer();
 
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
         } else if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
-
+            stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
             startHostilityTimer();
+
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
         } else if(oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
 
-
+            stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
             resetHostilityTimer();
-        } else if((oldAlertState == CharacterAlertState.HostilityAlert || oldAlertState == CharacterAlertState.SuspiciousAlert) && alertState == CharacterAlertState.Unalert) {
+        } else if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSouspiciousAlert) {
 
             
+
+            startWarnOfSouspiciousTimer();
+
+            // animation sign
+            resetAlertAnimatorTrigger();
+            alertSignAnimator.SetTrigger("suspiciousAlert");
         }
-        
-        if(alertState == CharacterAlertState.Unalert) {
+
+        // se avviene la richiesta di warn of souspiciousAlert e lo stato precedente era di souspiciousAlert, il character resta in SuspiciousAlert
+        if (alertState == CharacterAlertState.WarnOfSouspiciousAlert && oldAlertState == CharacterAlertState.SuspiciousAlert) {
+
+            _characterState = CharacterAlertState.SuspiciousAlert;
+        }
+
+        if (alertState == CharacterAlertState.Unalert) {
             
             initUnalertState(); // inizializza comportamento di unalert
             resetAlertAnimatorTrigger();// animation sign
@@ -220,17 +244,26 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 switch (_characterState) {
                     case CharacterAlertState.Unalert: {
                             unalertBehaviour();
+                            //Debug.Log("UNALERT");
                         }
                         break;
                     case CharacterAlertState.SuspiciousAlert: {
                             
                             suspiciousAlertBehaviour();
-                            
+                            //Debug.Log("SOUSPICIOUS");
                         }
                         break;
                     case CharacterAlertState.HostilityAlert: {
                             
                             hostilityAlertBehaviour();
+                            onHostilityAlert();
+                            //Debug.Log("HOSTILITY");
+                        }
+                        break;
+
+                    case CharacterAlertState.WarnOfSouspiciousAlert: {
+                            warnOfSouspiciousAlertBehaviour();
+                            //Debug.Log("WARNSOSP");
                         }
                         break;
                     case CharacterAlertState.SoundAlert1: {
@@ -337,24 +370,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
 
-    /// <summary>
-    /// comportamento suspiciousAlertBehaviour da implementare nelle classi figlie
-    /// </summary>
+    
     public override void suspiciousAlertBehaviour() {
         
 
     }
-    /// <summary>
-    /// comportamento HostilityAlertBehaviour da implementare nelle classi figlie
-    /// </summary>
+    
     public override void hostilityAlertBehaviour() {
         
     }
 
+    public override void warnOfSouspiciousAlertBehaviour() {
 
-    /// <summary>
-    /// comportamento SoundAlert1Behaviour da implementare nelle classi figlie
-    /// </summary>
+    }
+
+    
     public override void soundAlert1Behaviour() {
 
     }
@@ -424,35 +454,34 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// <param name="seenCharacterManager"></param>
     public override void suspiciousCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition)  {
 
-        lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
-
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
 
-        if (_characterState == CharacterAlertState.Unalert || _characterState == CharacterAlertState.SuspiciousAlert) {
-
-            
+        if (_characterState == CharacterAlertState.Unalert || _characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.WarnOfSouspiciousAlert) {
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
 
                 focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-
+                lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
                 if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
 
                     setAlert(CharacterAlertState.HostilityAlert);
                 } else {
                     setAlert(CharacterAlertState.SuspiciousAlert);
                 }
-                
+
             } else {
-                
+
                 focusAlarmCharacter = null;
 
             }
+
+
         }
+        
     }
 
     /// <summary>
@@ -461,17 +490,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// <param name="seenCharacterManager"></param>
     public override void hostilityCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition) {
 
-        lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
+        
 
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
 
-
+        
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
             focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
+            lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
+
 
             setAlert(CharacterAlertState.HostilityAlert);
 
@@ -492,6 +523,28 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
+
+    public override void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
+
+        
+        lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
+        setAlert(CharacterAlertState.WarnOfSouspiciousAlert);
+    }
+
+    /// <summary>
+    /// 
+    /// 
+    /// 
+    /// 
+    /// Questa funzione setta il punto di fine del warnOfSouspiciousTimerEndStateValue
+    /// e avvia il warnOfSouspiciousTimerLoop
+    /// </summary>
+    protected virtual void startWarnOfSouspiciousTimer() {
+
+        stopAgent(); // stop task agent
+        warnOfSouspiciousTimerEndStateValue = Time.time + warningOfSouspiciousTimerValue;
+        warnOfSouspiciousTimerLoop();
+    }
     
 
     /// <summary>
@@ -536,6 +589,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
 
+    public void stopWarnOfSouspiciousTimer() {
+        warnOfSouspiciousTimerEndStateValue = 0;
+    }
     public void stopSuspiciousTimer() {
         suspiciousTimerEndStateValue = 0;
     }
@@ -589,7 +645,22 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         
     }
+    private async void warnOfSouspiciousTimerLoop() {
 
+
+        while (Time.time < warnOfSouspiciousTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (characterAlertState == CharacterAlertState.WarnOfSouspiciousAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
+    }
+    
 
     private void initUnalertState() {
         unalertAgentDestinationSetted = false;
@@ -644,7 +715,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     /// <param name="character">character da verificare se è all'interno del dizionario</param>
     /// <returns>Torna [true] se il [character] inserito è all'interno del dizionario, altrimenti false </returns>
-    bool isCharacterWantedCheck(CharacterManager character) {
+    protected bool isCharacterWantedCheck(CharacterManager character) {
         bool result = false;
 
         if(_wantedHostileCharacters.ContainsKey(character.GetInstanceID())) {

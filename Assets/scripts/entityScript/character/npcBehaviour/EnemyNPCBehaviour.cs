@@ -58,10 +58,19 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         }
     }
     /// <summary>
-    /// implementazione soundAlert1Behaviour
+    /// implementazione warnOfSouspiciousAlertBehaviour
+    /// il character nemico 
     /// </summary>
-    public override void soundAlert1Behaviour() {
+    public override void warnOfSouspiciousAlertBehaviour() {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
+            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+
+            agent.isStopped = false;
+            animateMovingAgent();
+        } else {
+            stopAgent();
+        }
     }
 
     /// <summary>

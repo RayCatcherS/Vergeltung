@@ -81,9 +81,12 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         if (!focusAlarmCharacter.isDead) { // aggiorna dizionario dei characters in modo istantaneo
             Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
+
             foreach (var character in characters) {
 
-                character.Value.suspiciousCheck(focusAlarmCharacter, lastSeenFocusAlarmCharacterPosition);
+                character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
+                closerEnemyCharacterToWarn = null;
+                break; // avvisa solo un character vicino
             }
         }
 
