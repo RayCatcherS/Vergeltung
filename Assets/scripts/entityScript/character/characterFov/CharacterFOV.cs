@@ -293,6 +293,7 @@ public class CharacterFOV : MonoBehaviour
         float lastPosZ = seenCharacter.transform.position.z;
         Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
+
         nPCBehaviour.hostilityCheck(seenCharacter, lastPos);
     }
 
@@ -305,7 +306,13 @@ public class CharacterFOV : MonoBehaviour
             float lastPosZ = seenCharacter.transform.position.z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
-            nPCBehaviour.suspiciousCheck(seenCharacter, lastPos);
+
+            if (nPCBehaviour.characterAlertState == CharacterAlertState.HostilityAlert) {
+                nPCBehaviour.hostilityCheck(seenCharacter, lastPos);
+            } else {
+                nPCBehaviour.suspiciousCheck(seenCharacter, lastPos);
+            }
+            
         }
     }
 

@@ -23,6 +23,9 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         }
     }
 
+
+    private bool isEnemyCharacterToWarnCalled = false; // se è già stata avvisata una guardia dell'hostilità
+
     /// <summary>
     /// implementazione suspiciousAlertBehaviour
     /// </summary>
@@ -36,7 +39,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
             agent.isStopped = false;
-            animateMovingAgent();
+            animateAndSpeedMovingAgent();
         } else {
             stopAgent();
         }
@@ -48,7 +51,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         //rotateAndAimSubBehaviour();
 
 
-        if(closerEnemyCharacterToWarnSelected) {
+        if (closerEnemyCharacterToWarnSelected) {
 
             if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
 
@@ -56,12 +59,14 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
 
                 agent.isStopped = false;
-                animateMovingAgent();
+                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
             } else {
+
+                rotateAndAimSubBehaviour();
                 stopAgent();
-                closerEnemyCharacterToWarn = null;
             }
         } else {
+            rotateAndAimSubBehaviour();
             stopAgent();
         }
         
@@ -82,12 +87,15 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
 
-            foreach (var character in characters) {
+            if(!isEnemyCharacterToWarnCalled) {
+                foreach (var character in characters) {
 
-                character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
-                closerEnemyCharacterToWarn = null;
-                break; // avvisa solo un character vicino
+                    character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
+                    isEnemyCharacterToWarnCalled = true;
+                    break; // avvisa solo un character vicino
+                }
             }
+            
         }
 
     }
@@ -131,16 +139,59 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     }*/
 
     protected override void startHostilityTimer() {
-        base.startHostilityTimer();
+        isEnemyCharacterToWarnCalled = false;
 
         // get the closer character
         closerEnemyCharacterToWarn = characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
 
-        if(closerEnemyCharacterToWarnSelected) {
+        if (closerEnemyCharacterToWarnSelected) {
             agent.updateRotation = true;
             agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
             agent.isStopped = false;
-            animateMovingAgent();
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
+        } else {
+
+            rotateAndAimSubBehaviour();
+            stopAgent();
         }
+
+        base.startHostilityTimer();
+    }
+
+    protected override async void hostilityTimerLoop() {
+
+        /// continua a ciclare fino a quando il character civile 
+        /// non ha raggiunto il character nemico da avvisare
+        if (closerEnemyCharacterToWarnSelected) {
+            while (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
+                await Task.Yield();
+
+                if (characterBehaviourStopped) {
+                    break;
+                }
+            }
+        }
+
+        closerEnemyCharacterToWarn = null;
+
+        hostilityTimerEndStateValue = Time.time + hostilityTimerValue; // setta
+        // una volta raggiunta la posizione esaurisci l'[hostilityTimerEndStateValue]
+        while (Time.time < hostilityTimerEndStateValue) { 
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        stopAgent();
+
+        
+        
+
+        if (characterAlertState == CharacterAlertState.HostilityAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
+
     }
 }

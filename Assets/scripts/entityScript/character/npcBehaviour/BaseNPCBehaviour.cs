@@ -19,7 +19,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [SerializeField] private float suspiciousTimerValue = 15f;
     private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
 
-    [SerializeField] private float hostilityTimerValue = 15f;
+    [SerializeField] protected float hostilityTimerValue = 15f;
     protected float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
 
     [SerializeField] private float warningOfSouspiciousTimerValue = 15f;
@@ -31,8 +31,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         get { return _cNPCBehaviourCoroutineFrequency; }
     }
 
-
-
+    [Header("Configurazione agent")]
+    [SerializeField] private float walkAgentSpeed = 3.3f;
+    [SerializeField] private float runAgentSpeed = 6.3f;
+    public enum AgentSpeed { SlowWalk, Walk, RunWalk };
 
     // states
     [Header("Stati")]
@@ -160,8 +162,23 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         
         CharacterAlertState oldAlertState = _characterState;
-
         _characterState = alertState;
+
+        // se avviene la richiesta di warn of souspiciousAlert e lo stato precedente era di souspiciousAlert, il character resta in SuspiciousAlert
+        if (alertState == CharacterAlertState.WarnOfSouspiciousAlert && oldAlertState == CharacterAlertState.SuspiciousAlert) {
+
+            _characterState = CharacterAlertState.SuspiciousAlert;
+        }
+
+        // se avviene la richiesta di warn of HostilityAlert e lo stato precedente era di souspiciousAlert, il character resta in HostilityAlert
+        if (alertState == CharacterAlertState.WarnOfSouspiciousAlert && oldAlertState == CharacterAlertState.HostilityAlert) {
+
+            _characterState = CharacterAlertState.HostilityAlert;
+        }
+
+
+
+
 
         if ((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.WarnOfSouspiciousAlert) && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
 
@@ -198,9 +215,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
             resetHostilityTimer();
-        } else if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSouspiciousAlert) {
+        } else if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSouspiciousAlert) { // WarnOfSouspiciousAlert
 
-            
+
 
             startWarnOfSouspiciousTimer();
 
@@ -208,12 +225,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
         }
-
-        // se avviene la richiesta di warn of souspiciousAlert e lo stato precedente era di souspiciousAlert, il character resta in SuspiciousAlert
-        if (alertState == CharacterAlertState.WarnOfSouspiciousAlert && oldAlertState == CharacterAlertState.SuspiciousAlert) {
-
-            _characterState = CharacterAlertState.SuspiciousAlert;
-        }
+        
 
         if (alertState == CharacterAlertState.Unalert) {
             
@@ -305,7 +317,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                     Vector3 agentDestinationPosition = characterActivityManager.getCurrentTask().getTaskDestination();
                     if (!isAgentReachedDestination(agentDestinationPosition)) { // controlla se è stata raggiunta la destinazione
 
-                        animateMovingAgent();
+                        animateAndSpeedMovingAgent();
                         
 
                     } else { // task raggiunto
@@ -542,7 +554,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected virtual void startWarnOfSouspiciousTimer() {
 
         stopAgent(); // stop task agent
-        warnOfSouspiciousTimerEndStateValue = Time.time + warningOfSouspiciousTimerValue;
+        
         warnOfSouspiciousTimerLoop();
     }
     
@@ -553,15 +565,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     private void startSuspiciousTimer() {
         stopAgent(); // stop task agent
-        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+        
         suspiciousTimerLoop();
-    }
-    /// <summary>
-    /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
-    /// </summary>
-    private void resetSuspiciousTimer() {
-
-        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
     }
 
     /// <summary>
@@ -574,12 +579,21 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     protected virtual void startHostilityTimer() {
 
-        
+
         stopAgent(); // stop task agent
 
-        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
+
         hostilityTimerLoop();
     }
+    /// <summary>
+    /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
+    /// </summary>
+    private void resetSuspiciousTimer() {
+
+        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+    }
+
+    
     /// <summary>
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
@@ -601,8 +615,15 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     
     private async void suspiciousTimerLoop() {
-        
+        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmCharacterPosition)) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
 
+        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
         while (Time.time < suspiciousTimerEndStateValue) {
             await Task.Yield();
 
@@ -615,11 +636,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             setAlert(CharacterAlertState.Unalert);
         }
         
-
-        // TODO
-        // rimozione del alarmFocusCharacter
     }
     protected virtual async void hostilityTimerLoop() {
+
+
+        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmCharacterPosition)) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
         while (Time.time < hostilityTimerEndStateValue) {
             await Task.Yield();
 
@@ -633,9 +662,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
 
-        // TODO
-
-        // rimozione del alarmFocusCharacter
 
         // aggiorna dizionari ostilità solo se il character non è stoppato
         if (characterBehaviourStopped) {
@@ -647,7 +673,15 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
     private async void warnOfSouspiciousTimerLoop() {
 
+        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmCharacterPosition)) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
 
+        warnOfSouspiciousTimerEndStateValue = Time.time + warningOfSouspiciousTimerValue;
         while (Time.time < warnOfSouspiciousTimerEndStateValue) {
             await Task.Yield();
 
@@ -655,6 +689,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 break;
             }
         }
+        
+        stopAgent();
+
+
+        
+
 
         if (characterAlertState == CharacterAlertState.WarnOfSouspiciousAlert) {
             setAlert(CharacterAlertState.Unalert);
@@ -738,6 +778,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         return result;
     }
+    protected bool isAgentReachedAlarmDestination(Vector3 agentDestinationPosition) {
+        float distance = Vector3.Distance(transform.position, agentDestinationPosition);
+        bool result;
+
+        if (distance > 3) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    }
     protected bool isAgentReachedEnemyCharacterToWarnDestination(Vector3 agentDestinationPosition) {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
         bool result;
@@ -750,12 +801,29 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         return result;
     }
 
-    /// <summary>
-    /// Anima movimento del character 
-    /// </summary>
-    protected void animateMovingAgent() {
-        Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
 
-        characterMovement.moveCharacter(movement, false); // avvia solo animazione
+
+    /// <summary>
+    /// avvia animazione in base a [agentSpeed] (corsa o camminata lenta)
+    /// gestisce animazione e velocità del character in movimento 
+    /// </summary>
+    /// <param name="agentSpeed"></param>
+    protected void animateAndSpeedMovingAgent(AgentSpeed agentSpeed = AgentSpeed.Walk) {
+        
+
+
+        if(agentSpeed == AgentSpeed.Walk) {
+            agent.speed = walkAgentSpeed;
+            Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+
+            characterMovement.moveCharacter(movement, false); // avvia solo animazione
+            
+        } else if(agentSpeed == AgentSpeed.RunWalk) {
+            agent.speed = runAgentSpeed;
+            Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+
+            characterMovement.moveCharacter(movement, true); // avvia solo animazione
+        }
+        
     }
 }

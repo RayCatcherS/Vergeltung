@@ -230,7 +230,7 @@ public class CharacterManager : MonoBehaviour {
 
             if (characterHealth <= 0) {
                 _isDead = true;
-                killCharacter(damageVelocity);
+                killCharacterAsync(damageVelocity);
             }
         }
     }
@@ -294,7 +294,7 @@ public class CharacterManager : MonoBehaviour {
     /// Disabilita componenti e abilita ragdoll
     /// </summary>
     /// <param name="damageVelocity"></param>
-    public void killCharacter(Vector3 damageVelocity) {
+    public async Task killCharacterAsync(Vector3 damageVelocity) {
 
         Debug.Log("Character dead at: " + gameObject.transform.position);
         resetCharacterMovmentState();
@@ -307,8 +307,8 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<NavMeshObstacle>().enabled = false;
 
-        
 
+        
         // stoppa componenti
         gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
         gameObject.GetComponent<CharacterFOV>().enabled = false;
@@ -318,10 +318,10 @@ public class CharacterManager : MonoBehaviour {
 
         _characterAnimator.StopPlayback();
         _characterAnimator.enabled = false;
+        gameObject.GetComponent<RagdollManager>().enableRagdoll();
 
 
-
-        if(!isPlayer) {
+        if (!isPlayer) {
 
             inventoryManager.characterFlashLight.instantLightOffFlashLight();
 
@@ -331,10 +331,10 @@ public class CharacterManager : MonoBehaviour {
             if (role == Role.EnemyGuard) {
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
+                await gameObject.GetComponent<EnemyNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
-                gameObject.GetComponent<EnemyNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
@@ -344,10 +344,10 @@ public class CharacterManager : MonoBehaviour {
             } else if (role == Role.Civilian) {
 
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
+                await gameObject.GetComponent<CivilianNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopAllCoroutines();
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
-                gameObject.GetComponent<CivilianNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
@@ -364,7 +364,7 @@ public class CharacterManager : MonoBehaviour {
             _playerWarpController.unstackDeadCharacterAndControlPreviewCharacter(this);
         }
 
-        gameObject.GetComponent<RagdollManager>().enableRagdoll();
+        
     }
 
     /// <summary>
