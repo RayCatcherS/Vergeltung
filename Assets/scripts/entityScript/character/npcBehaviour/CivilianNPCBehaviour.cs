@@ -31,24 +31,17 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void suspiciousAlertBehaviour() {
 
-        
+        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-        if (checkedByHimselfHostility) {
-            if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
-                agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
-
-                agent.isStopped = false;
-                animateAndSpeedMovingAgent();
-            } else {
-                rotateAndAimSubBehaviour();
-                stopAgent();
-            }
+            agent.isStopped = false;
+            animateAndSpeedMovingAgent();
         } else {
             rotateAndAimSubBehaviour();
             stopAgent();
         }
-        
+
     }
     /// <summary>
     /// implementazione hostilityAlertBehaviour
