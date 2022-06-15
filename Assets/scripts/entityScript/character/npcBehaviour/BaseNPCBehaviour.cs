@@ -59,24 +59,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         get { return _stopCharacterBehaviour; }
     }
     [SerializeField] protected bool characterBehaviourStopped = false; // stato che indica se il character si è stoppato
-    /// <summary>
-    /// Forza stop coroutine character chiamata asincrona fino a quando il character
-    /// non è disattivo
-    /// </summary>
-    /// <returns></returns>
-    public async Task forceStopCharacterAndAwaitStopProcess() {
 
-        _stopCharacterBehaviour = true;
-        while (true) {
-            await Task.Yield();
 
-            if(characterBehaviourStopped) {
-                break;
-            }
-        }
 
-        return;
-    }
+    // queste variabili indicano se uno stato di allerta è stato innescato da loro stessi(tramiteFOV true) o se è stato indotto(false)
+    [SerializeField] protected bool checkedByHimselfHostility = false; 
+    [SerializeField] protected bool checkedByHimselfSuspicious = false;
+
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
@@ -112,9 +101,30 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected CharacterFOV characterFOV;
     [SerializeField] protected InventoryManager characterInventoryManager;
-    
 
 
+
+
+
+
+    /// <summary>
+    /// Forza stop coroutine character chiamata asincrona fino a quando il character
+    /// non è disattivo
+    /// </summary>
+    /// <returns></returns>
+    public async Task forceStopCharacterAndAwaitStopProcess() {
+
+        _stopCharacterBehaviour = true;
+        while (true) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        return;
+    }
     public void initNPCComponent(CharacterSpawnPoint spawnPoint, CharacterMovement movement) {
         this.spawnPoint = spawnPoint;
         this.characterMovement = movement;
@@ -369,9 +379,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     }
     
-    
-    
-
     private void updateUnalertAgentTarget() {
         if (!gameObject.GetComponent<CharacterManager>().isDead) {
             agent.SetDestination(
@@ -464,7 +471,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Metodo per verificare se un certo character è sospetto agli occhi di [this]
     /// </summary>
     /// <param name="seenCharacterManager"></param>
-    public override void suspiciousCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition)  {
+    public override void suspiciousCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition, bool himselfCheck = false)  {
 
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
@@ -476,12 +483,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
 
+                
                 focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
                 lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
                 if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
 
+                    if (himselfCheck) {
+                        checkedByHimselfHostility = himselfCheck;
+                    }
                     setAlert(CharacterAlertState.HostilityAlert);
                 } else {
+                    if (himselfCheck) {
+                        checkedByHimselfSuspicious = himselfCheck;
+                    }
                     setAlert(CharacterAlertState.SuspiciousAlert);
                 }
 
@@ -500,7 +514,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Metodo per verificare se un certo character è ostile agli occhi di [this]
     /// </summary>
     /// <param name="seenCharacterManager"></param>
-    public override void hostilityCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition) {
+    public override void hostilityCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition, bool himselfCheck = false) {
 
         
 
@@ -512,6 +526,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
+
+            if (himselfCheck) {
+                checkedByHimselfHostility = himselfCheck;
+            }
             focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
             lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
 
@@ -704,6 +722,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     private void initUnalertState() {
         unalertAgentDestinationSetted = false;
+
+        checkedByHimselfHostility = false;
+        checkedByHimselfSuspicious = false;
     }
 
 

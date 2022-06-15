@@ -294,7 +294,7 @@ public class CharacterFOV : MonoBehaviour
         Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
-        nPCBehaviour.hostilityCheck(seenCharacter, lastPos);
+        nPCBehaviour.hostilityCheck(seenCharacter, lastPos, true);
     }
 
     private void onSecondFOVCanSeePlayer(CharacterManager seenCharacter) {
@@ -308,9 +308,9 @@ public class CharacterFOV : MonoBehaviour
 
 
             if (nPCBehaviour.characterAlertState == CharacterAlertState.HostilityAlert) {
-                nPCBehaviour.hostilityCheck(seenCharacter, lastPos);
+                nPCBehaviour.hostilityCheck(seenCharacter, lastPos, true);
             } else {
-                nPCBehaviour.suspiciousCheck(seenCharacter, lastPos);
+                nPCBehaviour.suspiciousCheck(seenCharacter, lastPos, true);
             }
             
         }
