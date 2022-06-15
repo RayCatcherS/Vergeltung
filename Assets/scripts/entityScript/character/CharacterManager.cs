@@ -16,7 +16,10 @@ public class CharacterManager : MonoBehaviour {
     public Outline characterOutline {
         get { return _characterOutline; }
     }
-    [SerializeField] private CharacterFOV characterFOV; // componente fov del character
+    [SerializeField] private CharacterFOV _characterFOV; // componente fov del character
+    public CharacterFOV characterFOV {
+        get { return _characterFOV; }
+    }
     [SerializeField] private CharacterMovement characterMovement;
     [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
@@ -242,11 +245,11 @@ public class CharacterManager : MonoBehaviour {
 
 
         if(!isDead) {
-            characterFOV.setFOVValues(
-            firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
+            _characterFOV.setFOVValues(
+            firstFovRadius: _characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
             firstFovAngle: _firstMalusFovAngle,
 
-            secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusValue,
+            secondFovRadius: _characterFOV.usedSecondFovRadius / dividerFOVMalusValue,
             secondFovAngle: _secondMalusFovAngle
         );
 
@@ -267,11 +270,11 @@ public class CharacterManager : MonoBehaviour {
                 
                 // flashlight fov
                 await _inventoryManager.characterFlashLight.lightOnFlashLight();
-                characterFOV.setFOVValues(
-                    firstFovRadius: characterFOV.defaultFirstFovRadius / dividerFOVMalusFlashlightValue,
+                _characterFOV.setFOVValues(
+                    firstFovRadius: _characterFOV.defaultFirstFovRadius / dividerFOVMalusFlashlightValue,
                     firstFovAngle: _firstMalusFovAngle,
 
-                    secondFovRadius: characterFOV.defaultSecondFovRadius / dividerFOVMalusFlashlightValue,
+                    secondFovRadius: _characterFOV.defaultSecondFovRadius / dividerFOVMalusFlashlightValue,
                     secondFovAngle: _secondMalusFovAngle
                 );
             }
@@ -283,7 +286,7 @@ public class CharacterManager : MonoBehaviour {
     /// Ripristina valori default del FOV
     /// </summary>
     public async Task<bool> restoreFOVMalus() {
-        characterFOV.setFOVValuesToDefault();
+        _characterFOV.setFOVValuesToDefault();
         await _inventoryManager.characterFlashLight.lightOffFlashLight();
 
         return true;

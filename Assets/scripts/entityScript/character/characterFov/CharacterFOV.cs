@@ -15,6 +15,15 @@ public class CharacterFOV : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform _recognitionTarget; // target partenza utilizzato per confermare dai campi visivi dei character che il character è stato rilevato
+    public Transform recognitionTarget {
+        get => _recognitionTarget;
+    }
+
+    [SerializeField] private Transform _reachableTarget; // target usato per verificare che il character sia raggiungibile
+    public Transform reachableTarget {
+        get => _reachableTarget;
+    }
+
     [SerializeField] private BaseNPCBehaviour nPCBehaviour; // Reference Behaviour character
 
     [Header("Impostazioni")]
@@ -66,9 +75,6 @@ public class CharacterFOV : MonoBehaviour
         get { return _alertArea; }
     }
     
-    public Transform recognitionTarget {
-        get => _recognitionTarget;
-    }
 
 
     public void Start() {
@@ -314,6 +320,36 @@ public class CharacterFOV : MonoBehaviour
             }
             
         }
+    }
+
+
+    /// <summary>
+    /// Il metodo controlla se un raggio riesce a raggiunge un altro character
+    /// senza incontrare collisioni
+    /// </summary>
+    /// <returns></returns>
+    public bool isCharacterReachableBy(CharacterFOV characterToReach) {
+        bool res = false;
+        RaycastHit hit;
+
+        if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+            if (hit.collider != null) {
+                print(hit.collider.gameObject.name);
+                res = false;
+
+                //Debug.Log("gun Throug hWall");
+            } else {
+
+                Debug.Log("RAGGIUNGIBILE");
+                res = true;
+            }
+        } else {
+            Debug.Log("RAGGIUNGIBILE");
+            res = true;
+        }
+
+        return res;
     }
 
 #if UNITY_EDITOR

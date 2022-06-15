@@ -69,7 +69,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
-                return characterFOV.checkCharacterInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                return _characterFOV.checkCharacterInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.characterFOV.recognitionTarget.position);
             } else {
                 return false;
             }
@@ -102,7 +102,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public NavMeshAgent agent {
         get { return _agent; }
     }
-    [SerializeField] protected CharacterFOV characterFOV;
+    [SerializeField] protected CharacterFOV _characterFOV;
+    public CharacterFOV characterFOV {
+        get { return _characterFOV; }
+    }
     [SerializeField] protected InventoryManager characterInventoryManager;
 
 
@@ -753,7 +756,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             foreach (var character in characters) {
 
-                character.Value.hostilityCheck(focusAlarmCharacter, lastSeenFocusAlarmCharacterPosition);
+                bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                    character.Value._characterFOV);
+
+                if(isCharacterToNotifyPossibleToSee) {
+                    character.Value.hostilityCheck(focusAlarmCharacter, lastSeenFocusAlarmCharacterPosition);
+                }
+                
             }
         }
         
@@ -822,7 +831,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
         bool result;
 
-        if (distance > characterFOV.alertArea) {
+        if (distance > _characterFOV.alertArea) {
             result = false;
         } else {
             result = true;

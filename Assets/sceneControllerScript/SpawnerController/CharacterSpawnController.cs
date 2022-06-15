@@ -33,7 +33,7 @@ public class CharacterSpawnController : MonoBehaviour {
     [Header("Spawn character civili")]
     public List<CharacterSpawnPoint> civilianCharacterSpawnPoints = new List<CharacterSpawnPoint>();
 
-    [Header("Assets character equipment")]
+    [Header("Prefab character equipment")]
     [SerializeField] private List<GameObject> noWeaponEquipment = new List<GameObject>();
     [SerializeField] private List<GameObject> baseArmyWeaponEquipment = new List<GameObject>();
     [SerializeField] private List<GameObject> mediumArmyWeaponEquipment = new List<GameObject>();

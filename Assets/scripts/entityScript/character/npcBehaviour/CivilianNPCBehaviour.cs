@@ -95,9 +95,16 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 if (!isEnemyCharacterToWarnCalled) {
                     foreach (var character in characters) {
 
-                        character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
-                        isEnemyCharacterToWarnCalled = true;
-                        break; // avvisa solo un character vicino
+                        bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                            character.Value.characterFOV
+                        );
+
+                        if(isCharacterToNotifyPossibleToSee) {
+                            character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
+                            isEnemyCharacterToWarnCalled = true;
+                            break; // avvisa solo un character vicino
+                        }
+                        
                     }
                 }
             }
