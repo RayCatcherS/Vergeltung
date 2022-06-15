@@ -822,7 +822,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             agent.speed = runAgentSpeed;
             Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
 
-            characterMovement.moveCharacter(movement, true); // avvia solo animazione
+            characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false); // avvia solo animazione
         }
         
     }

@@ -102,7 +102,7 @@ public class CharacterMovement : MonoBehaviour {
     /// </summary>
     /// <param name="_2Dmove">Coppia di valori che rappresenta i valori
     /// in input del movimento del character.</param>
-    public void moveCharacter(Vector2 _2Dmove, bool isRun) {
+    public void moveCharacter(Vector2 _2Dmove, bool isRun, bool autoRotationOnRun = true) {
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
@@ -122,7 +122,9 @@ public class CharacterMovement : MonoBehaviour {
 
                     _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                    rotateCharacter(_2Dmove, true);
+                    if(autoRotationOnRun) {
+                        rotateCharacter(_2Dmove, true);
+                    }
                 } else {
 
                     _movement = _movement * movementSpeed * Time.deltaTime;
