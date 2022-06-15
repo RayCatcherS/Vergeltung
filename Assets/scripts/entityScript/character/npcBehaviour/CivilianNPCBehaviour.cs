@@ -33,9 +33,9 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
-            agent.isStopped = false;
+            _agent.isStopped = false;
             animateAndSpeedMovingAgent();
         } else {
             rotateAndAimSubBehaviour();
@@ -55,9 +55,9 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
 
 
-                agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
+                _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
 
-                agent.isStopped = false;
+                _agent.isStopped = false;
                 animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
             } else {
 
@@ -152,9 +152,9 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             closerEnemyCharacterToWarn = characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
 
             if (closerEnemyCharacterToWarnSelected) {
-                agent.updateRotation = true;
-                agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
-                agent.isStopped = false;
+                _agent.updateRotation = true;
+                _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
+                _agent.isStopped = false;
                 animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
             } else {
 

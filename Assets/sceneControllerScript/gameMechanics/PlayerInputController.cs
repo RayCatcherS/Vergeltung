@@ -73,8 +73,13 @@ public class PlayerInputController : MonoBehaviour
     private void Update() {
 
         if(!_characterManager.isDead) {
-            moveAndRotateInput();
-            inventaryInput();
+
+            if(!_characterManager.isBusy) {
+                moveAndRotateInput();
+                inventaryInput();
+            } else {
+                _characterMovement.stopCharacter();
+            }
             onDiscardPressed();
         }
     }

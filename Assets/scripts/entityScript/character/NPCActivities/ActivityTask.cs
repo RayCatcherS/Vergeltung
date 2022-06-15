@@ -48,7 +48,7 @@ public class ActivityTask : MonoBehaviour
     /// <param name="character">CharacterManager che avvia l'interaction e che ne subisce l'influenza</param>
     /// <param name="nPCBehaviour">BaseNPCBehaviour viene usato per monitorare lo stato di allerta durante il task</param>
     /// <returns></returns>
-    public async Task executeTask(CharacterManager character, BaseNPCBehaviour nPCBehaviour) {
+    public async Task executeTask(CharacterManager character, BaseNPCBehaviour nPCBehaviour, CharacterMovement characterMovement) {
 
         character.isBusy = true;
         
@@ -58,10 +58,17 @@ public class ActivityTask : MonoBehaviour
         }
 
 
+
+
+        // setta tempo fine timing
         float end = Time.time + taskTiming;
         while (Time.time < end) {
 
-            if(nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
+
+            
+
+            // interrompi il task se lo stato di allerta non è più [CharacterAlertState.Unalert]
+            if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
                 await Task.Yield();
             } else {
 
@@ -73,7 +80,10 @@ public class ActivityTask : MonoBehaviour
                 Debug.Log("Interruzione task, stop character beahviour!");
                 break;
             }
-            
+
+            // Ruota character in direzione del task
+            Vector2 taskDirection = getTaskDirection();
+            characterMovement.rotateCharacter(taskDirection, false);
         }
         
 
@@ -95,6 +105,13 @@ public class ActivityTask : MonoBehaviour
 
     public Vector3 getTaskDestination() {
         return taskDestination;
+    }
+
+    public Vector2 getTaskDirection() {
+       return new Vector2(
+            Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
+            Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
+        );
     }
 
 #if UNITY_EDITOR
@@ -125,7 +142,7 @@ public class ActivityTask : MonoBehaviour
 
             Gizmos.color = Color.blue;
 
-            Gizmos.DrawWireCube(transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+            Gizmos.DrawWireCube(transform.position, new Vector3(1f, 1f, 1f));
 
 
             if(taskDestination != Vector3.zero) {
@@ -135,9 +152,18 @@ public class ActivityTask : MonoBehaviour
             }
         }
 
+        // indica la direzione dello spawn
+        Handles.DrawLine(
+            transform.position,
+            transform.position + new Vector3(
+                Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
+                0,
+                Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
+            ),
+            5
+        ); 
 
 
-        
     }
 #endif
 }

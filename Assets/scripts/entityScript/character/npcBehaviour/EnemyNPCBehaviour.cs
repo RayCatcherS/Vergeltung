@@ -24,9 +24,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
-            agent.isStopped = false;
+            _agent.isStopped = false;
             animateAndSpeedMovingAgent();
         } else {
             stopAgent();
@@ -49,9 +49,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
-            agent.isStopped = false;
+            _agent.isStopped = false;
             animateAndSpeedMovingAgent();
         } else {
             stopAgent();
@@ -62,13 +62,13 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// il character nemico 
     /// </summary>
     public override void warnOfSouspiciousAlertBehaviour() {
-        agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
+        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
 
-            agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
 
-            agent.isStopped = false;
+            _agent.isStopped = false;
             animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
         } else {
             stopAgent();

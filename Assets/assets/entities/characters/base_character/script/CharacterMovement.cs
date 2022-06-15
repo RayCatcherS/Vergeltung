@@ -106,57 +106,54 @@ public class CharacterMovement : MonoBehaviour {
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
-        if(!characterManager.isBusy) {
-            _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
+        
+        _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
 
 
 
 
 
-            // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
-            // evitando che il movimento del character dipenda dai fotogrammi
-            if (_movement.magnitude > 0) {
+        // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
+        // evitando che il movimento del character dipenda dai fotogrammi
+        if (_movement.magnitude > 0) {
 
-                if (isRun) {
-
-
-                    _movement = _movement * runMovementSpeed * Time.deltaTime;
-
-                    if(autoRotationOnRun) {
-                        rotateCharacter(_2Dmove, true);
-                    }
-                } else {
-
-                    _movement = _movement * movementSpeed * Time.deltaTime;
-
-                }
-                characterManager.isRunning = isRun;
-            }
-
-
-
-
-            // setta valori animazione partendo dal _movementAnimationVelocity
-            float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
-            float velocityZ;
             if (isRun) {
 
 
-                animator.SetBool("isRunning", isRun);
-                animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
+                _movement = _movement * runMovementSpeed * Time.deltaTime;
+
+                if(autoRotationOnRun) {
+                    rotateCharacter(_2Dmove, true);
+                }
             } else {
 
-                animator.SetBool("isRunning", isRun);
-                velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-                animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
+                _movement = _movement * movementSpeed * Time.deltaTime;
+
             }
+            characterManager.isRunning = isRun;
+        }
 
 
-            animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
+
+
+        // setta valori animazione partendo dal _movementAnimationVelocity
+        float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
+        float velocityZ;
+        if (isRun) {
+
+
+            animator.SetBool("isRunning", isRun);
+            animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
         } else {
 
-            stopCharacter();
+            animator.SetBool("isRunning", isRun);
+            velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
+            animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
         }
+
+
+        animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
+        
         
     }
 
@@ -170,31 +167,34 @@ public class CharacterMovement : MonoBehaviour {
     public void rotateCharacter(Vector2 _2Drotate, bool _istantRotation) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
-        if (!characterManager.isBusy) {
-            // clamp dei valori passati 
-            rotationAimTargetInput = new Vector3(
-            _2Drotate.x,
-            _2Drotate.y,
-            0f);
 
-            rotationAimInput = rotationAimTargetInput;
+        // clamp dei valori passati 
+        rotationAimTargetInput = new Vector3(
+        _2Drotate.normalized.x,
+        _2Drotate.normalized.y,
+        0f);
 
-
+        rotationAimInput = rotationAimTargetInput;
 
 
-            if (rotationAimTargetInput.magnitude > 0) {
 
 
-                if (!_istantRotation) {
+        if (rotationAimTargetInput.magnitude > 0) {
 
 
-                    characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
-                } else {
+            if (!_istantRotation) {
 
-                    characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
-                }
+                // lerp rotation
+                Quaternion fromRotation = gameObject.transform.rotation;
+                Quaternion toRotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
 
+
+                characterModel.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.time * 0.01f);
+            } else {
+
+                characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             }
+
         }
     }
 

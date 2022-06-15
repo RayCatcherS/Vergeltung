@@ -98,7 +98,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected CharacterActivityManager characterActivityManager;
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
     protected CharacterMovement characterMovement; // characterMovement collegato
-    [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] protected NavMeshAgent _agent;
+    public NavMeshAgent agent {
+        get { return _agent; }
+    }
     [SerializeField] protected CharacterFOV characterFOV;
     [SerializeField] protected InventoryManager characterInventoryManager;
 
@@ -147,11 +150,58 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             
         }
     }
+    /// <summary>
+    /// Switch dei behaviour
+    /// </summary>
+    private void nPCBehaviour() {
+
+        if (_stopCharacterBehaviour) {
+            characterBehaviourStopped = true;
+            Debug.Log("Stopping character");
+
+        } else {
+
+            if (!gameObject.GetComponent<CharacterManager>().isDead) {
+                switch (_characterState) {
+                    case CharacterAlertState.Unalert: {
+
+                            unalertBehaviour();
+                            //Debug.Log("UNALERT");
+                        }
+                        break;
+                    case CharacterAlertState.SuspiciousAlert: {
+
+                            suspiciousAlertBehaviour();
+                            //Debug.Log("SOUSPICIOUS");
+                        }
+                        break;
+                    case CharacterAlertState.HostilityAlert: {
+
+                            hostilityAlertBehaviour();
+                            onHostilityAlert();
+                            //Debug.Log("HOSTILITY");
+                        }
+                        break;
+
+                    case CharacterAlertState.WarnOfSouspiciousAlert: {
+                            warnOfSouspiciousAlertBehaviour();
+                            //Debug.Log("WARNSOSP");
+                        }
+                        break;
+                    case CharacterAlertState.SoundAlert1: {
+                            soundAlert1Behaviour();
+                        }
+                        break;
+                }
+            }
+        }
+
+    }
 
     // stoppa agente e animazione dell'agente che dipende dal move character
     public void stopAgent() {
 
-        agent.isStopped = true;
+        _agent.isStopped = true;
         characterMovement.stopCharacter();
     }
 
@@ -252,60 +302,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
     /// <summary>
-    /// Switch dei behaviour
-    /// </summary>
-    private void nPCBehaviour() {
-        
-        if (_stopCharacterBehaviour) {
-            characterBehaviourStopped = true;
-            Debug.Log("Stopping character");
-
-        } else {
-
-            if (!gameObject.GetComponent<CharacterManager>().isDead) {
-                switch (_characterState) {
-                    case CharacterAlertState.Unalert: {
-                            unalertBehaviour();
-                            //Debug.Log("UNALERT");
-                        }
-                        break;
-                    case CharacterAlertState.SuspiciousAlert: {
-                            
-                            suspiciousAlertBehaviour();
-                            //Debug.Log("SOUSPICIOUS");
-                        }
-                        break;
-                    case CharacterAlertState.HostilityAlert: {
-                            
-                            hostilityAlertBehaviour();
-                            onHostilityAlert();
-                            //Debug.Log("HOSTILITY");
-                        }
-                        break;
-
-                    case CharacterAlertState.WarnOfSouspiciousAlert: {
-                            warnOfSouspiciousAlertBehaviour();
-                            //Debug.Log("WARNSOSP");
-                        }
-                        break;
-                    case CharacterAlertState.SoundAlert1: {
-                            soundAlert1Behaviour();
-                        }
-                        break;
-                }
-            }
-        }
-        
-    }
-
-    /// <summary>
     /// Questa funzione implementa il comportamento di unalertBehaviour
     /// Vengono selezionate delle activity in modo casuale e vengono portati a termine tutti i task
     /// </summary>
     public override async void unalertBehaviour() {
-        agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
+        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
 
-        agent.isStopped = false;
+        _agent.isStopped = false;
 
         
         if (characterActivityManager.getCharacterActivities().Count > 0) {
@@ -336,7 +339,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         // esegui task ed attendi task
                         await characterActivityManager.getCurrentTask().executeTask(
                             gameObject.GetComponent<CharacterManager>(),
-                            this
+                            this,
+                            characterMovement
                         );
                         //Debug.Log("task eseguito");
 
@@ -348,14 +352,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
                                 characterActivityManager.randomCharacterActivity(); // scegli nuova attività e parti dal primo task
                                 updateUnalertAgentTarget();
+
                             } else { // se l'attività è unica
+
+                                
+
                                 // Debug.Log("solo una attività");
-                                if(characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attività è ripetibile
+                                if (characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attività è ripetibile
 
                                     characterActivityManager.resetSelectedTaskPos(); // scegli nuova attività e parti dal primo task
                                     updateUnalertAgentTarget();
 
                                 } else {
+                                    
                                     stopAgent(); // resta fermo
                                 }
                                 
@@ -381,7 +390,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     
     private void updateUnalertAgentTarget() {
         if (!gameObject.GetComponent<CharacterManager>().isDead) {
-            agent.SetDestination(
+            _agent.SetDestination(
                 characterActivityManager.getCurrentTask().getTaskDestination()
             );
         }
@@ -414,7 +423,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// Inoltre aggiorna l'ultima posizione in cui è stato visto il focus Character
     /// </summary>
     protected void rotateAndAimSubBehaviour() {
-        agent.updateRotation = false;
+        _agent.updateRotation = false;
 
         if (isFocusedAlarmCharacter) {
 
@@ -425,7 +434,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
                 Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
-
 
                 if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
                     characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
@@ -792,7 +800,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
         bool result;
 
-        if (distance > agent.stoppingDistance) {
+        if (distance > _agent.stoppingDistance) {
             result = false;
         } else {
             result = true;
@@ -834,14 +842,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
         if(agentSpeed == AgentSpeed.Walk) {
-            agent.speed = walkAgentSpeed;
-            Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+            _agent.speed = walkAgentSpeed;
+            Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
             characterMovement.moveCharacter(movement, false); // avvia solo animazione
             
         } else if(agentSpeed == AgentSpeed.RunWalk) {
-            agent.speed = runAgentSpeed;
-            Vector2 movement = new Vector2(agent.desiredVelocity.x, agent.desiredVelocity.z);
+            _agent.speed = runAgentSpeed;
+            Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
             characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false); // avvia solo animazione
         }

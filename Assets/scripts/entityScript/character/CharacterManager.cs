@@ -50,6 +50,7 @@ public class CharacterManager : MonoBehaviour {
         get { return _isBusy; }
         set { _isBusy = value; }
     }
+    
     [SerializeField] private bool _isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
     public bool isPlayer {
         get { return _isPlayer; }
