@@ -41,4 +41,4 @@ Latest build
 - Richiesto pad Xbox
 
 ### Problemi noti:
-- La versione Unity utilizzata manda in crash l'applicazione compilata(eseguibile) una volta avviata. Per risolvere, tutti gli assets di tipo 'model' nell'inspector, nella sezione "model", nell'inspector devono avere la spunta attiva sulla voce "Read/Write"
+- La versione Unity utilizzata manda in crash l'applicazione compilata(eseguibile) una volta avviata. Per risolvere, tutti gli assets di tipo 'model' nell'inspector, nella sezione "model" devono avere la spunta attiva sulla voce "Read/Write"
