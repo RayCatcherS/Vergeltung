@@ -113,12 +113,6 @@ public class GameState : MonoBehaviour
             lightSources[i].turnOnLigth();
         }
 
-
-        // chiudi tutti i cancelli
-        for (int i = 0; i < electricGateControllers.Length; i++) {
-            electricGateControllers[i].closeGate();
-        }
-
         // rimuovi FOV malus a tutti i character della scena
         for (int i = 0; i < characterManagers.Count; i++) {
 

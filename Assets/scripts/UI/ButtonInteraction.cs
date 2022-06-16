@@ -31,7 +31,7 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
             delegate { 
                 interaction.getUnityEvent().Invoke(characterInteraction); // avvia interaction
 
-                interactable.unFocusInteractable(); // unfocus dell'oggetto dell'interactable a cui appartiene
+                interactable.unFocusInteractableOutline(); // unfocus dell'oggetto dell'interactable a cui appartiene
                 characterInteraction.buildListOfInteraction(); // rebuild della lista di eventi
             }
         );
@@ -44,11 +44,11 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData) {
 
-        interactable.focusInteractable();
+        interactable.focusInteractableOutline();
     }
 
     public void OnDeselect(BaseEventData eventData) {
-        interactable.unFocusInteractable();
+        interactable.unFocusInteractableOutline();
     }
 
     void Start()

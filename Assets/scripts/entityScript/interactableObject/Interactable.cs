@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour, InteractableInterface {
-    [SerializeField] Outline outlineScript;
+    [SerializeField] private Outline outlineScript;
+    [SerializeField] private MeshRenderer interactableMeshEffect;
 
     public virtual void Start() {
         initInteractable();
@@ -32,11 +33,19 @@ public class Interactable : MonoBehaviour, InteractableInterface {
         return null;
     }
 
-    public void focusInteractable() {
+    public void focusInteractableOutline() {
         outlineScript.changeOutlineColor(GameConstant.outlineInteractableColor);
         outlineScript.setEnableOutline(true);
     }
-    public void unFocusInteractable() {
+    public void unFocusInteractableOutline() {
         outlineScript.setEnableOutline(false);
+    }
+
+    public void interactableMeshEffectSetEnebled(bool value) {
+
+        if(interactableMeshEffect != null) {
+
+            interactableMeshEffect.gameObject.SetActive(value);
+        }
     }
 }

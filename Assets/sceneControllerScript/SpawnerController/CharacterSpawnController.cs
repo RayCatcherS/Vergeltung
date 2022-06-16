@@ -219,26 +219,30 @@ public class CharacterSpawnController : MonoBehaviour {
         
         if(equip == Equipment.noWeaponEquipment) {
             for(int i = 0; i < noWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(noWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(noWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
             
         } else if (equip == Equipment.baseArmyWeaponEquipment) {
             for (int i = 0; i < baseArmyWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(baseArmyWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(baseArmyWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
 
         } else if (equip == Equipment.mediumArmyWeaponEquipment) {
             for (int i = 0; i < mediumArmyWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(mediumArmyWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(mediumArmyWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
 
         } else if (equip == Equipment.advancedArmyWeaponEquipment) {
             for (int i = 0; i < advancedArmyWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(advancedArmyWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(advancedArmyWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
 
         }

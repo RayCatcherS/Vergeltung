@@ -24,6 +24,10 @@ public class GeneratorInteractable : Interactable {
         initInteractable();
 
         sabotageGenerator.AddListener(switchOffGenerator);
+
+        if(generatorState == GeneratorState.GeneratorOn) {
+            interactableMeshEffectSetEnebled(true);
+        }
     }
 
     private async void switchOffGenerator(CharacterManager characterWhoIsInteracting) {
@@ -38,6 +42,7 @@ public class GeneratorInteractable : Interactable {
         if (playerTaskResultDone) {
             generatorState = GeneratorState.GeneratorOff;
             gameState.turnOffPower();
+            interactableMeshEffectSetEnebled(false);
         }
 
         characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();

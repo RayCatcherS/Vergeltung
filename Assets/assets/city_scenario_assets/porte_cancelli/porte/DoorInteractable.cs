@@ -74,32 +74,39 @@ public class DoorInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
 
-        if(!doorState.isDoorPickLocking.value) {
-            if (doorState.isDoorLocked().value) {
+        if(doorState.isDoorLockedByKey().value) {
 
-                if(!doorState.isDoorClosed().value) {
-                    eventRes.Add(
-                        new Interaction(closeDoorEvent, closeDoorEventName, this)
-                    );
-                } else {
-                    eventRes.Add(
-                        new Interaction(lockPickingEvent, lockPickingEventName, this)
-                    );
-                }
-                
-            } else {
+        } else {
 
-                if (doorState.isDoorClosed().value) {
-                    eventRes.Add(
-                        new Interaction(openDoorEvent, openDoorEventName, this)
-                    );
+            if (!doorState.isDoorPickLocking.value) {
+                if (doorState.isDoorLocked().value) {
+
+                    if (!doorState.isDoorClosed().value) {
+                        eventRes.Add(
+                            new Interaction(closeDoorEvent, closeDoorEventName, this)
+                        );
+                    } else {
+                        eventRes.Add(
+                            new Interaction(lockPickingEvent, lockPickingEventName, this)
+                        );
+                    }
+
                 } else {
-                    eventRes.Add(
-                        new Interaction(closeDoorEvent, closeDoorEventName, this)
-                    );
+
+                    if (doorState.isDoorClosed().value) {
+                        eventRes.Add(
+                            new Interaction(openDoorEvent, openDoorEventName, this)
+                        );
+                    } else {
+                        eventRes.Add(
+                            new Interaction(closeDoorEvent, closeDoorEventName, this)
+                        );
+                    }
                 }
             }
         }
+
+        
         
 
         return eventRes;

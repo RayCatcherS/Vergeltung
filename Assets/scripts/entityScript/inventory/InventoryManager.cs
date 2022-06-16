@@ -152,6 +152,10 @@ public class InventoryManager : Interactable {
     /// <param name="weaponItem"></param>
     public void addWeapon(WeaponItem weaponItem) {
 
+        // disabilita effetto interactable
+        weaponItem.interactableMeshEffectSetEnebled(false);
+        weaponItem.unFocusInteractableOutline();
+
         int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
 
         //cerca se la weapon è già presente

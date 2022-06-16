@@ -333,6 +333,10 @@ public class CharacterManager : MonoBehaviour {
 
             if (role == Role.EnemyGuard) {
 
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
+                gameObject.GetComponent<EnemyNPCBehaviour>().stopAlertAnimator();
+
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
                 await gameObject.GetComponent<EnemyNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
                 gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
@@ -340,11 +344,14 @@ public class CharacterManager : MonoBehaviour {
                 gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAlertAnimator();
+                
                 
             } else if (role == Role.Civilian) {
+
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
+                gameObject.GetComponent<CivilianNPCBehaviour>().stopAlertAnimator();
+
 
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
                 await gameObject.GetComponent<CivilianNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
@@ -353,9 +360,7 @@ public class CharacterManager : MonoBehaviour {
                 gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopAlertAnimator();
+                
                 
             }
         } else { // ucciso character del warp stack
@@ -378,7 +383,7 @@ public class CharacterManager : MonoBehaviour {
     public void emptyAllInteractableDictionaryObjects() {
         // unfocus outline di tutti gli interactable
         foreach(var interactable in interactableObjects) {
-            interactable.Value.unFocusInteractable();
+            interactable.Value.unFocusInteractableOutline();
         }
         interactableObjects = new Dictionary<int, Interactable>();
         buildListOfInteraction();
@@ -421,7 +426,7 @@ public class CharacterManager : MonoBehaviour {
 
 
             if (isPlayer) {
-                interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
+                interactableObject.interactable.unFocusInteractableOutline(); // disattiva effetto focus sull'oggetto interagibile
             }
 
 

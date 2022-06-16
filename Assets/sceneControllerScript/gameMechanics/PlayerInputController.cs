@@ -76,10 +76,12 @@ public class PlayerInputController : MonoBehaviour
 
             if(!_characterManager.isBusy) {
                 moveAndRotateInput();
-                inventaryInput();
+                
             } else {
+                
                 _characterMovement.stopCharacter();
             }
+            inventaryInput();
             onDiscardPressed();
         }
     }
@@ -127,7 +129,7 @@ public class PlayerInputController : MonoBehaviour
 
             characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
-            characterMovement.rotateCharacter(vec2Rotation, false);
+            characterMovement.rotateCharacter(vec2Rotation, true);
         }
     }
 

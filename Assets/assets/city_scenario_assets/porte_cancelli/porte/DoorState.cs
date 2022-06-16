@@ -10,6 +10,7 @@ public class DoorState : MonoBehaviour
     [SerializeField] public Boolean isDoorPickLocking = new Boolean(false);
     [SerializeField] private Boolean doorLocked = new Boolean(true);
     [SerializeField] private Boolean doorClosed = new Boolean(true);
+    [SerializeField] private Boolean doorLockedByKey = new Boolean(false);
 
     [SerializeField] private bool doorOpenedDirection1 = false;
     [SerializeField] private bool doorOpenedDirection2 = false;
@@ -130,6 +131,10 @@ public class DoorState : MonoBehaviour
 
     public Boolean isDoorClosed() {
         return doorClosed;
+    }
+
+    public Boolean isDoorLockedByKey() {
+        return doorLockedByKey;
     }
 
 

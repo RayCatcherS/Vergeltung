@@ -150,19 +150,19 @@ public class ActivityTask : MonoBehaviour
                 Gizmos.DrawLine(transform.position, taskDestination);
                 Gizmos.DrawSphere(taskDestination, 0.25f);
             }
+
+
+            // indica la direzione dello spawn
+            Handles.DrawLine(
+                transform.position,
+                transform.position + new Vector3(
+                    Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
+                    0,
+                    Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
+                ),
+                5
+            );
         }
-
-        // indica la direzione dello spawn
-        Handles.DrawLine(
-            transform.position,
-            transform.position + new Vector3(
-                Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                0,
-                Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
-            ),
-            5
-        ); 
-
 
     }
 #endif

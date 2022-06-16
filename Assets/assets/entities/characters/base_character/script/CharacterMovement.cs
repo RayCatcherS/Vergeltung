@@ -189,7 +189,7 @@ public class CharacterMovement : MonoBehaviour {
                 Quaternion toRotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
 
 
-                characterModel.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.time * 0.01f);
+                characterModel.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * 3f);
             } else {
 
                 characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);

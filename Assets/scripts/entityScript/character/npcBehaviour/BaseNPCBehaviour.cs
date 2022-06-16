@@ -205,7 +205,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     // stoppa agente e animazione dell'agente che dipende dal move character
     public void stopAgent() {
 
-        _agent.isStopped = true;
+        if(_agent.enabled) {
+            _agent.isStopped = true;
+        }
         characterMovement.stopCharacter();
     }
 
