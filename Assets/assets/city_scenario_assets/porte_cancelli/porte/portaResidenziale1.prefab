@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 1355117739339436745}
+  interactableMeshEffect: {fileID: 0}
   doorState: {fileID: 6301468589642512124}
   lockPickingEventName: LOCKPICK DOOR
   lockPickingEvent:
@@ -109,12 +110,12 @@ GameObject:
   - component: {fileID: 7251511757073445523}
   - component: {fileID: 1590691090987821941}
   - component: {fileID: 6502828875108184837}
-  - component: {fileID: 2036702266447275863}
-  - component: {fileID: 2438273541638212758}
   - component: {fileID: 6301468589642512124}
+  - component: {fileID: 1355117739339436745}
+  - component: {fileID: 2438273541638212758}
+  - component: {fileID: 2036702266447275863}
   - component: {fileID: 8932380228619203167}
   - component: {fileID: 510312898213807607}
-  - component: {fileID: 1355117739339436745}
   m_Layer: 10
   m_Name: porta
   m_TagString: Untagged
@@ -191,39 +192,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2036702266447275863
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209569610380078385}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.295258, y: 2.332629, z: 3.888176}
-  m_Center: {x: 0.046874996, y: 1.1663145, z: 0}
---- !u!95 &2438273541638212758
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209569610380078385}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a705f402fc4985a49b39468114cfc917, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 1
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &6301468589642512124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,39 +204,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f76fd1a5e19ac744801226f48525962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorLocked: 1
-  doorClosed: 1
+  isDoorPickLocking:
+    value: 0
+  doorLocked:
+    value: 1
+  doorClosed:
+    value: 1
+  doorLockedByKey:
+    value: 0
   doorOpenedDirection1: 0
   doorOpenedDirection2: 0
   triggerStopDoorDirection1: {fileID: 8932380228619203167}
   triggerStopDoorDirection2: {fileID: 510312898213807607}
   doorTimeOut: 5
---- !u!65 &8932380228619203167
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209569610380078385}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.38, y: 2.42, z: 3.888176}
-  m_Center: {x: -0.18, y: 1.1663145, z: 0}
---- !u!65 &510312898213807607
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209569610380078385}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.38, y: 2.42, z: 3.888176}
-  m_Center: {x: 0.22, y: 1.1663145, z: 0}
+  _doorLockPickTime: 5
 --- !u!114 &1355117739339436745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,6 +430,65 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
+--- !u!95 &2438273541638212758
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209569610380078385}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a705f402fc4985a49b39468114cfc917, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &2036702266447275863
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209569610380078385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.295258, y: 2.332629, z: 3.888176}
+  m_Center: {x: 0.046874996, y: 1.1663145, z: 0}
+--- !u!65 &8932380228619203167
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209569610380078385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.38, y: 2.42, z: 3.888176}
+  m_Center: {x: -0.18, y: 1.1663145, z: 0}
+--- !u!65 &510312898213807607
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209569610380078385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.38, y: 2.42, z: 3.888176}
+  m_Center: {x: 0.22, y: 1.1663145, z: 0}
 --- !u!1 &5824596736955222970
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 1355117739339436745}
+  interactableMeshEffect: {fileID: 0}
   doorState: {fileID: 6301468589642512124}
   lockPickingEventName: LOCKPICK DOOR
   lockPickingEvent:

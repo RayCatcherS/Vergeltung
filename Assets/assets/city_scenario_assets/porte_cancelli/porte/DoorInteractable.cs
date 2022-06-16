@@ -17,6 +17,8 @@ public class DoorInteractable : Interactable {
     [SerializeField] string closeDoorEventName = "CLOSE DOOR";
     [SerializeField] UnityEventCharacter closeDoorEvent = new UnityEventCharacter();
 
+    [SerializeField] private Boolean internalOpeningSide = new Boolean(false);
+
 
     public override void Start() {
         initInteractable();
@@ -74,37 +76,53 @@ public class DoorInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
 
-        if(doorState.isDoorLockedByKey().value) {
+        if(internalOpeningSide.value) { // se la direzione della porta interna è apribile
+
+            if (doorState.isDoorClosed().value) {
+                eventRes.Add(
+                    new Interaction(openDoorEvent, openDoorEventName, this)
+                );
+            } else {
+                eventRes.Add(
+                    new Interaction(closeDoorEvent, closeDoorEventName, this)
+                );
+            }
 
         } else {
+            if (doorState.isDoorLockedByKey().value) {
 
-            if (!doorState.isDoorPickLocking.value) {
-                if (doorState.isDoorLocked().value) {
+            } else {
 
-                    if (!doorState.isDoorClosed().value) {
-                        eventRes.Add(
-                            new Interaction(closeDoorEvent, closeDoorEventName, this)
-                        );
+                if (!doorState.isDoorPickLocking.value) {
+                    if (doorState.isDoorLocked().value) {
+
+                        if (!doorState.isDoorClosed().value) {
+                            eventRes.Add(
+                                new Interaction(closeDoorEvent, closeDoorEventName, this)
+                            );
+                        } else {
+                            eventRes.Add(
+                                new Interaction(lockPickingEvent, lockPickingEventName, this)
+                            );
+                        }
+
                     } else {
-                        eventRes.Add(
-                            new Interaction(lockPickingEvent, lockPickingEventName, this)
-                        );
-                    }
 
-                } else {
-
-                    if (doorState.isDoorClosed().value) {
-                        eventRes.Add(
-                            new Interaction(openDoorEvent, openDoorEventName, this)
-                        );
-                    } else {
-                        eventRes.Add(
-                            new Interaction(closeDoorEvent, closeDoorEventName, this)
-                        );
+                        if (doorState.isDoorClosed().value) {
+                            eventRes.Add(
+                                new Interaction(openDoorEvent, openDoorEventName, this)
+                            );
+                        } else {
+                            eventRes.Add(
+                                new Interaction(closeDoorEvent, closeDoorEventName, this)
+                            );
+                        }
                     }
                 }
             }
         }
+
+        
 
         
         
