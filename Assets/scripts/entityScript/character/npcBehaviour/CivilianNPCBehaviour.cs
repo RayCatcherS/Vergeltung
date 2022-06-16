@@ -12,7 +12,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         return gameObject;
     }
 
-    [SerializeField] private CharacterManager closerEnemyCharacterToWarn = null;
+    [SerializeField] private EnemyNPCBehaviour closerEnemyCharacterToWarn = null;
     private bool closerEnemyCharacterToWarnSelected {
         get { 
             if(closerEnemyCharacterToWarn == null) {
@@ -22,6 +22,8 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             }
         }
     }
+
+    private bool enemyCharacterImpossibleToReach = false;
 
 
     private bool isEnemyCharacterToWarnCalled = false; // se è già stata avvisata una guardia dell'hostilità
@@ -47,7 +49,6 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// implementazione hostilityAlertBehaviour
     /// </summary>
     public override void hostilityAlertBehaviour() {
-        //rotateAndAimSubBehaviour();
 
 
         if (closerEnemyCharacterToWarnSelected) {
@@ -61,12 +62,37 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
             } else {
 
-                rotateAndAimSubBehaviour();
-                stopAgent();
+                if (!isEnemyCharacterToWarnCalled) {
+
+
+
+                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                        closerEnemyCharacterToWarn.characterFOV
+                    );
+
+
+                    if (isCharacterToNotifyPossibleToSee) {
+                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
+                        isEnemyCharacterToWarnCalled = true;
+                    } else { // impossibile raggiungere il closer enemy character
+
+                        Debug.Log("enemyCharacterImpossibleToReach ");
+                        enemyCharacterImpossibleToReach = true;
+                    }
+
+
+                } else {
+                    rotateAndAimSubBehaviour();
+                    stopAgent();
+                }
+                
             }
         } else {
+
+            
             rotateAndAimSubBehaviour();
             stopAgent();
+
         }
         
         
@@ -83,41 +109,13 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void onHostilityAlert() {
 
-
         
-        if (!focusAlarmCharacter.isDead) { // aggiorna dizionario dei characters in modo istantaneo
-
-
-            if (checkedByHimselfHostility) {
-                Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
-
-
-                if (!isEnemyCharacterToWarnCalled) {
-                    foreach (var character in characters) {
-
-                        if(character.Value.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) { // avvisa solo se i character sono nemici
-                            bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
-                                character.Value.characterFOV
-                            );
-
-                            if (isCharacterToNotifyPossibleToSee) {
-                                character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
-                                isEnemyCharacterToWarnCalled = true;
-                                break; // avvisa solo un character vicino
-                            }
-
-                        }
-
-                    }
-                }
-            }
-        }
     }
 
     protected override void startHostilityTimer() {
-
+        
         // se ha scoperto da solo il character hostile (tramite il suo stesso fov)
-        if(checkedByHimselfHostility) {
+        if (checkedByHimselfHostility) {
             isEnemyCharacterToWarnCalled = false;
 
             // get the closer character
@@ -153,6 +151,10 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 if (characterBehaviourStopped) {
                     break;
                 }
+
+                if(enemyCharacterImpossibleToReach) {
+                    break;
+                }
             }
         }
 
@@ -176,15 +178,5 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
             setAlert(CharacterAlertState.Unalert);
         }
-
-    }
-
-    protected override void initUnalertState() {
-        unalertAgentDestinationSetted = false;
-
-        checkedByHimselfHostility = false;
-        checkedByHimselfSuspicious = false;
-
-        isEnemyCharacterToWarnCalled = false;
     }
 }

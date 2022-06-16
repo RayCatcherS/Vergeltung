@@ -693,7 +693,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
         // aggiorna dizionari ostilità solo se il character non è stoppato
-        if (characterBehaviourStopped) {
+        if (!characterBehaviourStopped) {
             if (!gameObject.GetComponent<CharacterManager>().isDead) {
                 onHostilityAlertTimerEnd();
             }
@@ -731,7 +731,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
     
 
-    protected virtual void initUnalertState() {
+    private void initUnalertState() {
         unalertAgentDestinationSetted = false;
 
         checkedByHimselfHostility = false;

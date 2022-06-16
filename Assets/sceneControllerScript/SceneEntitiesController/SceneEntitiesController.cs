@@ -67,7 +67,7 @@ public class SceneEntitiesController : MonoBehaviour
     /// Restituisce una istanza di CharacterManager se esiste un character nemico vicino che non è morto
     /// Restituisce null se non è disponibile alcun character nemico (esempio: sono tutti morti)
     /// </returns>
-    public CharacterManager getCloserEnemyCharacterFromPosition(Vector3 fromPosition) {
+    public EnemyNPCBehaviour getCloserEnemyCharacterFromPosition(Vector3 fromPosition) {
         EnemyNPCBehaviour closerEnenemyCharacter = null;
 
         float closerDisance = 0;
@@ -76,7 +76,7 @@ public class SceneEntitiesController : MonoBehaviour
 
 
             // character non dead o che non si stanno stoppando
-            if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour) {
+            if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour && enemy.characterAlertState == CharacterAlertState.Unalert) {
                 closerDisance = Vector3.Distance(fromPosition, enemyNpcList[0].gameObject.transform.position);
                 closerEnenemyCharacter = enemy;
                 break;
@@ -88,7 +88,7 @@ public class SceneEntitiesController : MonoBehaviour
         foreach (EnemyNPCBehaviour enemy in enemyNpcList) {
 
             // character non dead o che non si stanno stoppando
-            if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour) {
+            if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour && enemy.characterAlertState == CharacterAlertState.Unalert) {
                 float tDistance = Vector3.Distance(fromPosition, enemy.gameObject.transform.position);
                 if (tDistance < closerDisance) {
                     closerDisance = tDistance;
@@ -102,7 +102,7 @@ public class SceneEntitiesController : MonoBehaviour
         if(closerEnenemyCharacter == null) {
             return null;
         } else {
-            return closerEnenemyCharacter.characterManager;
+            return closerEnenemyCharacter;
         }
     }
 }
