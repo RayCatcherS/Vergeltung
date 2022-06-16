@@ -55,6 +55,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [SerializeField] private bool isFocusedAlarmCharacter = false;
     [SerializeField] public Vector3 lastSeenFocusAlarmCharacterPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
     [SerializeField] protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
+    
     public bool stopCharacterBehaviour {
         get { return _stopCharacterBehaviour; }
     }
@@ -213,7 +214,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
 
-
+    //controllare un po' tutto
 
 
     /// <summary>
@@ -566,7 +567,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
     public override void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
-
         
         lastSeenFocusAlarmCharacterPosition = lastSeenCPosition;
         setAlert(CharacterAlertState.WarnOfSouspiciousAlert);
@@ -731,7 +731,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
     
 
-    private void initUnalertState() {
+    protected virtual void initUnalertState() {
         unalertAgentDestinationSetted = false;
 
         checkedByHimselfHostility = false;

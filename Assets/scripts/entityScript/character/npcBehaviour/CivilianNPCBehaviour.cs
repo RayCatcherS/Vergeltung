@@ -95,59 +95,24 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 if (!isEnemyCharacterToWarnCalled) {
                     foreach (var character in characters) {
 
-                        bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
-                            character.Value.characterFOV
-                        );
+                        if(character.Value.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) { // avvisa solo se i character sono nemici
+                            bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                                character.Value.characterFOV
+                            );
 
-                        if(isCharacterToNotifyPossibleToSee) {
-                            character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
-                            isEnemyCharacterToWarnCalled = true;
-                            break; // avvisa solo un character vicino
+                            if (isCharacterToNotifyPossibleToSee) {
+                                character.Value.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
+                                isEnemyCharacterToWarnCalled = true;
+                                break; // avvisa solo un character vicino
+                            }
+
                         }
-                        
+
                     }
                 }
             }
         }
     }
-
-
-    /// <summary>
-    /// Reimplementazione dell'hostility loop timer
-    /// Nei Civili il loop si interrompe anche quando riescono a portare a termine
-    /// la consegna di messaggi di allerta ad un nemico
-    /// </summary>
-    /*protected override async void hostilityTimerLoop() {
-        Debug.Log("SPECIFIED LOOP");
-        while (Time.time < hostilityTimerEndStateValue) {
-            await Task.Yield();
-
-            if(agentReachedDestination(agent.destination)) {
-                break;
-            }
-
-            if (characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        if (characterAlertState == CharacterAlertState.HostilityAlert) {
-            setAlert(CharacterAlertState.Unalert);
-        }
-
-
-        // TODO
-
-        // rimozione del alarmFocusCharacter
-
-        // aggiorna dizionari ostilità solo se il character non è stoppato
-        if (characterBehaviourStopped) {
-            if (!gameObject.GetComponent<CharacterManager>().isDead) {
-                onHostilityAlertTimerEnd();
-            }
-        }
-
-    }*/
 
     protected override void startHostilityTimer() {
 
@@ -212,5 +177,14 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             setAlert(CharacterAlertState.Unalert);
         }
 
+    }
+
+    protected override void initUnalertState() {
+        unalertAgentDestinationSetted = false;
+
+        checkedByHimselfHostility = false;
+        checkedByHimselfSuspicious = false;
+
+        isEnemyCharacterToWarnCalled = false;
     }
 }

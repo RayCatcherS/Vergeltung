@@ -340,12 +340,9 @@ public class CharacterFOV : MonoBehaviour
 
                 //Debug.Log("gun Throug hWall");
             } else {
-
-                Debug.Log("RAGGIUNGIBILE");
                 res = true;
             }
         } else {
-            Debug.Log("RAGGIUNGIBILE");
             res = true;
         }
 

@@ -75,8 +75,8 @@ public class SceneEntitiesController : MonoBehaviour
         foreach (EnemyNPCBehaviour enemy in enemyNpcList) {
 
 
-
-            if (!enemy.characterManager.isDead) {
+            // character non dead o che non si stanno stoppando
+            if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour) {
                 closerDisance = Vector3.Distance(fromPosition, enemyNpcList[0].gameObject.transform.position);
                 closerEnenemyCharacter = enemy;
                 break;
@@ -87,8 +87,8 @@ public class SceneEntitiesController : MonoBehaviour
 
         foreach (EnemyNPCBehaviour enemy in enemyNpcList) {
 
-            
-            if(!enemy.characterManager.isDead) {
+            // character non dead o che non si stanno stoppando
+            if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour) {
                 float tDistance = Vector3.Distance(fromPosition, enemy.gameObject.transform.position);
                 if (tDistance < closerDisance) {
                     closerDisance = tDistance;
