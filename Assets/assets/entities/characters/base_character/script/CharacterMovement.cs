@@ -4,6 +4,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+public enum RotationLerpSpeedValue {
+    slow = 2,
+    normal = 3,
+    fast = 5,
+}
 public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
 
@@ -28,8 +33,6 @@ public class CharacterMovement : MonoBehaviour {
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private CharacterManager characterManager;
 
-
-
     public Vector3 getRotationAimInput { get { return rotationAimInput; } }
     public Vector3 getRotationAimTarget { get { return rotationAimTarget; } }
     public Vector3 getCharacterModelRotation { get { return characterModelRotation; } }
@@ -52,7 +55,6 @@ public class CharacterMovement : MonoBehaviour {
     void Start() {
         initCharacterMovement();
     }
-
 
     /// <summary>
     /// avvia transizione Bleend tree animation in base
@@ -164,7 +166,7 @@ public class CharacterMovement : MonoBehaviour {
     /// <param name="_2Drotate">Coppia di valori che rappresenta i valori
     /// in input della rotazione dell'aim del character. I valori(x, y)</param>
     /// vengono inoltre calcolati i range delle direzioni dell'aim per ruotare l'intero character
-    public void rotateCharacter(Vector2 _2Drotate, bool _istantRotation) {
+    public void rotateCharacter(Vector2 _2Drotate, bool _istantRotation, RotationLerpSpeedValue rotationLerpSpeedValue = RotationLerpSpeedValue.normal) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
 
@@ -189,7 +191,8 @@ public class CharacterMovement : MonoBehaviour {
                 Quaternion toRotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
 
 
-                characterModel.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * 3f);
+                float speedValue = (float)rotationLerpSpeedValue;
+                characterModel.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * speedValue);
             } else {
 
                 characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
@@ -211,10 +214,10 @@ public class CharacterMovement : MonoBehaviour {
             } else {
                 characterController.Move(_movement); // muovi player
             }
-
             groundCheck();
+        
+        
         }
-
         
         
     }

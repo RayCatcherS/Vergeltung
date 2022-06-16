@@ -61,7 +61,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
     [SerializeField] protected bool characterBehaviourStopped = false; // stato che indica se il character si è stoppato
 
-
+    // characterRotateSubRoutine
+    [SerializeField] bool characterRotateSubRoutine = false;
 
     // queste variabili indicano se uno stato di allerta è stato innescato da loro stessi(tramiteFOV true) o se è stato indotto(false)
     [SerializeField] protected bool checkedByHimselfHostility = false; 
@@ -434,15 +435,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         if (isFocusedAlarmCharacter) {
 
             
-
-            
             if (isFocusAlarmCharacterVisible) {
 
 
                 Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
                 if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
                 }
             } else {
 
@@ -457,7 +456,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 Vector3 targetDirection = lastSeenFocusAlarmCharacterPosition - gameObject.transform.position;
 
                 if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
-                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), true);
+                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
                 }
 
             }
