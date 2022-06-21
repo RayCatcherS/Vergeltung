@@ -39,7 +39,7 @@ public class PlayerWarpController : MonoBehaviour
             firstPlayerCharacter = character;
 
             // configura character
-            character.resetCharacterMovmentState();
+            character.resetCharacterStates();
 
             //disabilita componenti non necessari
             character.characterOutline.enabled = false;

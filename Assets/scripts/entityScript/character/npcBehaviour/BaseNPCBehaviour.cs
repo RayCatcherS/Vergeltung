@@ -71,7 +71,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
-                return _characterFOV.checkCharacterInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.characterFOV.recognitionTarget.position);
+                return _characterFOV.isCharactersVisibleInSecondFOV(focusAlarmCharacter.gameObject.transform.position, focusAlarmCharacter.characterFOV.recognitionTarget.position);
             } else {
                 return false;
             }
@@ -171,26 +171,22 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                     case CharacterAlertState.Unalert: {
 
                             unalertBehaviour();
-                            //Debug.Log("UNALERT");
                         }
                         break;
                     case CharacterAlertState.SuspiciousAlert: {
 
                             suspiciousAlertBehaviour();
-                            //Debug.Log("SOUSPICIOUS");
                         }
                         break;
                     case CharacterAlertState.HostilityAlert: {
 
                             hostilityAlertBehaviour();
                             onHostilityAlert();
-                            //Debug.Log("HOSTILITY");
                         }
                         break;
 
                     case CharacterAlertState.WarnOfSouspiciousAlert: {
                             warnOfSouspiciousAlertBehaviour();
-                            //Debug.Log("WARNSOSP");
                         }
                         break;
                     case CharacterAlertState.SoundAlert1: {
@@ -752,7 +748,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     public virtual void onHostilityAlert() {
 
-        if(!focusAlarmCharacter.isDead && isFocusAlarmCharacterVisible) { // aggiorna dizionario dei characters in modo istantaneo
+        if(!focusAlarmCharacter.isDead && isFocusAlarmCharacterVisible) { // aggiorna dizionario dei characters ricercati in modo istantaneo
             Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
             foreach (var character in characters) {

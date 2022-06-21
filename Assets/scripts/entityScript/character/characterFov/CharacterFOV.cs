@@ -10,7 +10,7 @@ using UnityEngine;
 public class CharacterFOV : MonoBehaviour
 {
     // const
-    private const int PLAYER_CHARACTER_LAYERS = 7;
+    private const int CHARACTER_LAYERS = 7;
     private const int ALL_LAYERS = -1;
 
     [Header("References")]
@@ -107,8 +107,8 @@ public class CharacterFOV : MonoBehaviour
 
         while(true) {
             yield return new WaitForSeconds(fovCheckFrequency);
-            firstFOVCheck();
-            secondFOVCheck();
+            characterFirstFOVCheck();
+            characterSecondFOVCheck();
         }
     }
 
@@ -121,7 +121,7 @@ public class CharacterFOV : MonoBehaviour
     /// <summary>
     /// check campo visivo ravvicinato
     /// </summary>
-    private void firstFOVCheck() {
+    private void characterFirstFOVCheck() {
 
         
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedFirstFovRadius, targetCharacterMask);
@@ -132,7 +132,7 @@ public class CharacterFOV : MonoBehaviour
             foreach(Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    characterSeen = checkCharacterInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = isCharactersVisibleInFirstFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
 
 
                 }
@@ -150,7 +150,7 @@ public class CharacterFOV : MonoBehaviour
     /// <summary>
     /// check campo visivo lontananza
     /// </summary>
-    private void secondFOVCheck() {
+    private void characterSecondFOVCheck() {
 
 
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedSecondFovRadius, targetCharacterMask);
@@ -161,7 +161,12 @@ public class CharacterFOV : MonoBehaviour
             foreach (Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    characterSeen = checkCharacterInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = isCharactersVisibleInSecondFOV(collider.gameObject.transform.position, collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                } else {
+
+                    if(collider.gameObject.GetComponent<CharacterManager>().isDead) {
+                        Debug.Log("DEAD CHARACTER IN SECOND FOV AREA"); // area not fov angle
+                    }
                 }
             }
 
@@ -175,7 +180,7 @@ public class CharacterFOV : MonoBehaviour
     }
 
 
-    public bool checkCharacterInFirstFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
+    public bool isCharactersVisibleInFirstFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
         bool result = false;
 
         Vector3 target = objectPositionTarget;
@@ -196,8 +201,7 @@ public class CharacterFOV : MonoBehaviour
                 //Debug.Log(hit.collider.gameObject.name);
 
                 CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
-                if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
-
+                if (hit.collider.gameObject.layer == CHARACTER_LAYERS) {
 
                     Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
                     result = true;
@@ -210,7 +214,7 @@ public class CharacterFOV : MonoBehaviour
         return result;
     }
 
-    public bool checkCharacterInSecondFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
+    public bool isCharactersVisibleInSecondFOV(Vector3 objectPositionTarget, Vector3 raycastPositionTargetToReach) {
         bool result = false;
 
         //Debug.Log("radius player rilevato");
@@ -228,9 +232,11 @@ public class CharacterFOV : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
+
                 //Debug.Log(hit.collider.gameObject.name);
                 CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
-                if (hit.collider.gameObject.layer == PLAYER_CHARACTER_LAYERS && seenCharacter.isPlayer) {
+                if (hit.collider.gameObject.layer == CHARACTER_LAYERS) {
+
 
                     if (!firstFOVCanSeeCharacter) {
                         Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
@@ -238,6 +244,7 @@ public class CharacterFOV : MonoBehaviour
 
                     result = true;
                     onSecondFOVCanSeePlayer(seenCharacter);
+
                 }
 
 
@@ -245,51 +252,6 @@ public class CharacterFOV : MonoBehaviour
         }
 
         return result;
-    }
-
-    public Dictionary<int, BaseNPCBehaviour> getAlertAreaCharacters() {
-
-        Dictionary<int, BaseNPCBehaviour> characters = new Dictionary<int, BaseNPCBehaviour>();
-
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _alertArea, targetCharacterMask);
-
-        if (hitColliders.Length != 0) {
-
-            foreach (Collider collider in hitColliders) {
-
-                if (!collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
-
-                    if (collider.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
-
-                        // evita la creazione di doppioni
-                        if(!characters.ContainsKey(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID()))
-                            characters.Add(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<EnemyNPCBehaviour>());
-
-                    } else if (collider.gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
-
-                        // evita la creazione di doppioni
-                        if (!characters.ContainsKey(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID()))
-                            characters.Add(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<CivilianNPCBehaviour>());
-
-                    }
-                }
-                
-            }
-
-        }
-
-        // rimozione character che fa il controllo
-        // se stesso non fa parte dei character rilevati dall'alarm area
-        if(gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
-
-            characters.Remove(gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID());
-        } else if(gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
-
-            characters.Remove(gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID());
-        }
-        
-
-        return characters;
     }
 
     private void onFirstFOVCanSeePlayer(CharacterManager seenCharacter) {
@@ -322,6 +284,17 @@ public class CharacterFOV : MonoBehaviour
         }
     }
 
+    
+    private void onSecondFOVCanSeeDeadCharacter() {
+
+    }
+
+    private void onFirstFOVCanSeeDeadCharacter() {
+
+    }
+
+
+
 
     /// <summary>
     /// Il metodo controlla se un raggio riesce a raggiunge un altro character
@@ -347,6 +320,57 @@ public class CharacterFOV : MonoBehaviour
         }
 
         return res;
+    }
+
+    
+    /// <summary>
+    /// Ottieni tutti i character nella sua area di allerta.
+    /// Da usare per comunicare istantanemente un allarme
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<int, BaseNPCBehaviour> getAlertAreaCharacters() {
+
+        Dictionary<int, BaseNPCBehaviour> characters = new Dictionary<int, BaseNPCBehaviour>();
+
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _alertArea, targetCharacterMask);
+
+        if (hitColliders.Length != 0) {
+
+            foreach (Collider collider in hitColliders) {
+
+                if (!collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+                    if (collider.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+
+                        // evita la creazione di doppioni
+                        if (!characters.ContainsKey(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID()))
+                            characters.Add(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<EnemyNPCBehaviour>());
+
+                    } else if (collider.gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
+
+                        // evita la creazione di doppioni
+                        if (!characters.ContainsKey(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID()))
+                            characters.Add(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<CivilianNPCBehaviour>());
+
+                    }
+                }
+
+            }
+
+        }
+
+        // rimozione character che fa il controllo
+        // se stesso non fa parte dei character rilevati dall'alarm area
+        if (gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+
+            characters.Remove(gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID());
+        } else if (gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
+
+            characters.Remove(gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID());
+        }
+
+
+        return characters;
     }
 
 #if UNITY_EDITOR

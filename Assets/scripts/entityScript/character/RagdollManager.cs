@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RagdollManager : MonoBehaviour
-{
+public class RagdollManager : MonoBehaviour {
     const int RAGDOLL_BONE_LAYER = 15;
 
     [SerializeField] private List<GameObject> ragdollBones;
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
+    [SerializeField] private Rigidbody _ragdollHips;
+    public Rigidbody ragdollHips {
+        get { return _ragdollHips; }
+    }
+
 
     void Start()
     {

@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: outlineColor.r
       value: 0.024143457
       objectReference: {fileID: 0}
+    - target: {fileID: 7076768707108263790, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+      propertyPath: ragdollHips
+      value: 
+      objectReference: {fileID: 2720222933988294894}
     - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: _alertArea
       value: 1
@@ -157,6 +161,7 @@ MonoBehaviour:
   lastSeenFocusAlarmCharacterPosition: {x: 0, y: 0, z: 0}
   _stopCharacterBehaviour: 0
   characterBehaviourStopped: 0
+  characterRotateSubRoutine: 0
   checkedByHimselfHostility: 0
   checkedByHimselfSuspicious: 0
   _characterState: 0
@@ -178,6 +183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb918ae08e5f9a74188f61c66a508f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &2720222933988294894 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 6130333960961593181, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 8129980399978762163}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2942125691695170174 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -2880058954286248499, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}

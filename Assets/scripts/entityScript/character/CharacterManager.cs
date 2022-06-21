@@ -40,6 +40,7 @@ public class CharacterManager : MonoBehaviour {
     public PlayerWarpController playerWarpController {
         get { return _playerWarpController; }
     }
+    [SerializeField] private GameObject characterDecalProjectorEffect;
 
     // stati del player
     [Header("Character States")]
@@ -300,14 +301,28 @@ public class CharacterManager : MonoBehaviour {
     public async Task killCharacterAsync(Vector3 damageVelocity) {
 
         Debug.Log("Character dead at: " + gameObject.transform.position);
-        resetCharacterMovmentState();
+        resetCharacterStates();
+
+
+        characterDecalProjectorEffect.SetActive(false); // disabilita decal projector
 
         // disabilita componenti
         gameObject.GetComponent<CharacterMovement>().enabled = false;
         gameObject.GetComponent<CharacterManager>().enabled = false;
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
-        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        
+
+
+        // setta il character manager come figlio dell'hips della ragdoll del character
+        // questo fa in modo che tutto il character manager e collider si muova insieme alla ragdoll
+        Transform characterParent = gameObject.transform.parent;
+        gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.SetParent(characterParent);
+        gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
+
+
+
+        gameObject.GetComponent<CapsuleCollider>().isTrigger = true; // non è possibile avere collisioni fisiche ma il character resta
         gameObject.GetComponent<NavMeshObstacle>().enabled = false;
 
 
@@ -315,13 +330,12 @@ public class CharacterManager : MonoBehaviour {
         // stoppa componenti
         gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
         gameObject.GetComponent<CharacterFOV>().enabled = false;
-
-        _inventoryManager.setInventoryAsInteractable();
-
-
         _characterAnimator.StopPlayback();
         _characterAnimator.enabled = false;
         gameObject.GetComponent<RagdollManager>().enableRagdoll();
+
+        // setta inventario come oggetto con cui poter interagire
+        _inventoryManager.setInventoryAsInteractable();
 
 
         if (!isPlayer) {
@@ -389,9 +403,10 @@ public class CharacterManager : MonoBehaviour {
         buildListOfInteraction();
     }
 
-    public void resetCharacterMovmentState() {
+    public void resetCharacterStates() {
         isRunning = false;
         isBusy = false;
+        isPickLocking = false;
     }
 
 
