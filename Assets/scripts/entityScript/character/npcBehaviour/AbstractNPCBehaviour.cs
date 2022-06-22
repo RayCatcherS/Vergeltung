@@ -6,7 +6,9 @@ public enum CharacterAlertState {
     Unalert,
     SuspiciousAlert,
     HostilityAlert,
-    WarnOfSouspiciousAlert,
+    WarnOfSuspiciousAlert,
+    SuspiciousCorpseFoundAlert,
+    SuspiciousCorpseFoundConfirmed,
     SoundAlert1,
     SoundAlert2
 }
@@ -31,6 +33,9 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// comportamento warnOfSouspiciousAlertBehaviour da implementare nelle classi figlie
     /// </summary>
     abstract public void warnOfSouspiciousAlertBehaviour();
+
+    abstract public void suspiciousCorpseFoundAlertBehaviour();
+
     /// <summary>
     /// comportamento SoundAlert1Behaviour da implementare nelle classi figlie
     /// </summary>
@@ -49,8 +54,15 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     abstract public void hostilityCheck(CharacterManager characterManager, Vector3 lastSeenCPosition, bool himselfCheck = false);
 
     /// <summary>
-    /// Ricevi il warn di un sospetto
+    /// ricevi e verifica il warn di un sospetto
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
     abstract public void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition);
+
+    /// <summary>
+    /// Verifica se avviare entrare nello stato di "suspiciousCorpseFound"
+    /// </summary>
+    /// <param name="seenCharacterManager"></param>
+    /// <param name="lastSeenCPosition"></param>
+    abstract public void suspiciousCorpseFoundCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition);
 }

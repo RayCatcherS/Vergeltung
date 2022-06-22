@@ -12,6 +12,13 @@ public class RagdollManager : MonoBehaviour {
         get { return _ragdollHips; }
     }
 
+    // transform dei target usati dai fov per essere raggiunti tramite linecast
+    // usati per confermare la visualizzazione di un cadavere
+    [SerializeField] private List<Transform> _deadCharacterTargetTransform;
+    public List<Transform> deadCharacterTargetTransform {
+        get { return _deadCharacterTargetTransform; }
+    }
+
 
     void Start()
     {

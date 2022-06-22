@@ -33,9 +33,9 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void suspiciousAlertBehaviour() {
 
-        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
-            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
             animateAndSpeedMovingAgent();
@@ -59,7 +59,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
 
                 _agent.isStopped = false;
-                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
+                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
             } else {
 
                 if (!isEnemyCharacterToWarnCalled) {
@@ -72,7 +72,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
 
                     if (isCharacterToNotifyPossibleToSee) {
-                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmCharacterPosition);
+                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmPosition);
                         isEnemyCharacterToWarnCalled = true;
                     } else { // impossibile raggiungere il closer enemy character
 
@@ -105,11 +105,24 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     }
 
     /// <summary>
-    /// Avvisa tutti gli npc nell'area AlertAreaCharacters
+    /// Implementazione del suspiciousCorpseFoundAlertBehaviour del character nemico
+    /// Cerca di raggiungere la lastSeenFocusAlarmPosition
     /// </summary>
-    public override void onHostilityAlert() {
+    public override void suspiciousCorpseFoundAlertBehaviour() {
+        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
 
-        
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
+
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
+
+            _agent.isStopped = false;
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Walk);
+        } else {
+
+
+            characterMovement.rotateCharacter(lastSeenFocusAlarmPosition, false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
+            stopAgent();
+        }
     }
 
     protected override void startHostilityTimer() {
@@ -125,7 +138,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 _agent.updateRotation = true;
                 _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
                 _agent.isStopped = false;
-                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
+                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
             } else {
 
                 rotateAndAimSubBehaviour();
@@ -178,5 +191,13 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
             setAlert(CharacterAlertState.Unalert);
         }
+    }
+
+
+    /// <summary>
+    /// Quando il character è in allerta non ha alcun comportamento aggiuntivo
+    /// </summary>
+    public override void onHostilityAlert() {
+
     }
 }

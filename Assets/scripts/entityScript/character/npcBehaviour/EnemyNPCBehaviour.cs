@@ -22,9 +22,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         rotateAndAimSubBehaviour();
 
 
-        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
-            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
             animateAndSpeedMovingAgent();
@@ -47,9 +47,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         }
 
 
-        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
-            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
             animateAndSpeedMovingAgent();
@@ -59,18 +59,38 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     }
     /// <summary>
     /// implementazione warnOfSouspiciousAlertBehaviour
-    /// il character nemico 
+    /// il character nemico cerca di raggiungere la lastSeenFocusAlarmPosition
     /// </summary>
     public override void warnOfSouspiciousAlertBehaviour() {
         _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
 
-        if (!isAgentReachedDestination(lastSeenFocusAlarmCharacterPosition)) {
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
-            _agent.SetDestination(lastSeenFocusAlarmCharacterPosition);
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
-            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.RunWalk);
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
         } else {
+            stopAgent();
+        }
+    }
+
+    /// <summary>
+    /// Implementazione del suspiciousCorpseFoundAlertBehaviour del character nemico
+    /// Cerca di raggiungere la lastSeenFocusAlarmPosition
+    /// </summary>
+    public override void suspiciousCorpseFoundAlertBehaviour() {
+        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
+
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
+           
+
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
+
+            _agent.isStopped = false;
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Walk);
+        } else {
+
             stopAgent();
         }
     }
@@ -89,7 +109,25 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void onHostilityAlert() {
 
+        if(focusAlarmCharacter != null) {
+            if (!focusAlarmCharacter.isDead && isFocusAlarmCharacterVisible) { // aggiorna dizionario dei characters ricercati in modo istantaneo
+                Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
-        base.onHostilityAlert();
+                foreach (var character in characters) {
+
+                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                        character.Value.characterFOV);
+
+                    if (isCharacterToNotifyPossibleToSee) {
+                        character.Value.hostilityCheck(focusAlarmCharacter, lastSeenFocusAlarmPosition);
+                    }
+
+                }
+            }
+        } else {
+            throw new System.NotImplementedException();
+        }
+        
+
     }
 }
