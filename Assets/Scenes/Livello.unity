@@ -3154,73 +3154,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4868608296195354964, guid: 3bc44613876e5e042acdff01b00c5a3c, type: 3}
   m_PrefabInstance: {fileID: 204644224}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &214630180
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 214630181}
-  - component: {fileID: 214630183}
-  - component: {fileID: 214630182}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint42
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &214630181
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214630180}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.2400007, y: 0, z: -27.22}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 526142320}
-  m_Father: {fileID: 1908805309}
-  m_RootOrder: 57
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &214630182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214630180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6188f1b7cfec04594aca6f7ac6653730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterActivities:
-  - {fileID: 526142319}
-  selectedCharacterActivityPos: 0
-  selectedTaskPos: 0
---- !u!114 &214630183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214630180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterSpawnController: {fileID: 1908805308}
-  characterRole: 0
-  characterEquipment: 0
-  startSelectedEquipment: 0
-  _flashlightTaken: 0
 --- !u!1 &214917298
 GameObject:
   m_ObjectHideFlags: 0
@@ -8137,55 +8070,6 @@ Transform:
   m_Father: {fileID: 1908805309}
   m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!1 &526142318
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 526142320}
-  - component: {fileID: 526142319}
-  m_Layer: 0
-  m_Name: Activity 0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &526142319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526142318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a04cc1293fea54685cde77a02c6e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterActivityManager: {fileID: 214630182}
-  tasks:
-  - {fileID: 1146288775}
-  _loopActivity: 1
---- !u!4 &526142320
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526142318}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1146288776}
-  m_Father: {fileID: 214630181}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &534625208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14445,71 +14329,6 @@ Transform:
   m_Father: {fileID: 56193418}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &948310892
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 948310893}
-  - component: {fileID: 948310895}
-  - component: {fileID: 948310894}
-  m_Layer: 0
-  m_Name: CivilianSpawnPoint15
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &948310893
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948310892}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.81, y: 0, z: -38.57}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1908805309}
-  m_RootOrder: 58
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &948310894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948310892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6188f1b7cfec04594aca6f7ac6653730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterActivities: []
-  selectedCharacterActivityPos: 0
-  selectedTaskPos: 0
---- !u!114 &948310895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948310892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterSpawnController: {fileID: 1908805308}
-  characterRole: 2
-  characterEquipment: 0
-  startSelectedEquipment: 0
-  _flashlightTaken: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -14877,7 +14696,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 979559058}
   m_LocalRotation: {x: -0, y: -0.0000014156103, z: -0, w: 1}
-  m_LocalPosition: {x: 12.06, y: 0.12, z: -34.3}
+  m_LocalPosition: {x: -22.83, y: 0.12, z: -57.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18166,54 +17985,6 @@ MonoBehaviour:
   taskEvent: {fileID: 0}
   taskTiming: 5
   taskDestination: {x: 0, y: 0, z: 0}
---- !u!1 &1146288774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1146288776}
-  - component: {fileID: 1146288775}
-  m_Layer: 0
-  m_Name: Task 0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1146288775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146288774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6b93c5dec7ae69499329922cc97075d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterActivity: {fileID: 526142319}
-  taskEvent: {fileID: 0}
-  taskTiming: 555
-  taskDestination: {x: 0, y: 0, z: 0}
---- !u!4 &1146288776
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146288774}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.74, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 526142320}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1149189143
 GameObject:
   m_ObjectHideFlags: 0
@@ -20046,71 +19817,6 @@ Transform:
   - {fileID: 1555197767}
   m_Father: {fileID: 1318815592}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1230284964
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1230284967}
-  - component: {fileID: 1230284965}
-  - component: {fileID: 1230284966}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint41
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1230284965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230284964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterSpawnController: {fileID: 1908805308}
-  characterRole: 0
-  characterEquipment: 2
-  startSelectedEquipment: 0
-  _flashlightTaken: 0
---- !u!114 &1230284966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230284964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6188f1b7cfec04594aca6f7ac6653730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterActivities: []
-  selectedCharacterActivityPos: 0
-  selectedTaskPos: 0
---- !u!4 &1230284967
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230284964}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.37, y: 0, z: -15.45}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1908805309}
-  m_RootOrder: 56
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1236082761
 PrefabInstance:
@@ -30616,8 +30322,6 @@ MonoBehaviour:
   - {fileID: 991314086}
   - {fileID: 2146132668}
   - {fileID: 2145856367}
-  - {fileID: 1230284965}
-  - {fileID: 214630183}
   civilianCharacterSpawnPoints:
   - {fileID: 518456556}
   - {fileID: 1680636017}
@@ -30633,7 +30337,6 @@ MonoBehaviour:
   - {fileID: 14561189}
   - {fileID: 1464918523}
   - {fileID: 362532523}
-  - {fileID: 948310895}
   noWeaponEquipment:
   - {fileID: 780440991035246355, guid: c8c1418051ca2ac499fdb43223397453, type: 3}
   baseArmyWeaponEquipment:
@@ -30716,9 +30419,6 @@ Transform:
   - {fileID: 362532521}
   - {fileID: 2146132666}
   - {fileID: 2145856365}
-  - {fileID: 1230284967}
-  - {fileID: 214630181}
-  - {fileID: 948310893}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30837,7 +30537,7 @@ MonoBehaviour:
   gameState: {fileID: 1908805313}
   warpedCharacterManagerStack: []
   firstPlayerCharacter: {fileID: 0}
-  firstCharacterPlayerIsWanted: 0
+  firstCharacterPlayerIsWanted: 1
 --- !u!114 &1908805316
 MonoBehaviour:
   m_ObjectHideFlags: 0

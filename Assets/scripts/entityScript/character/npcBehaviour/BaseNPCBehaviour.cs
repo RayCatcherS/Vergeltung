@@ -16,14 +16,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // values
     [Header("Configurazione")]
-    [SerializeField] private float suspiciousTimerValue = 15f;
-    private float suspiciousTimerEndStateValue = 0f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa
+    [SerializeField] private float suspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    private float suspiciousTimerEndStateValue = -1f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] protected float hostilityTimerValue = 15f;
-    protected float hostilityTimerEndStateValue = 0f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa
+    [SerializeField] protected float hostilityTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    protected float hostilityTimerEndStateValue = -1f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] private float warningOfSouspiciousTimerValue = 15f;
-    protected private float warnOfSouspiciousTimerEndStateValue = 0;
+    [SerializeField] private float warningOfSouspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    protected private float warnOfSouspiciousTimerEndStateValue = -1; // timer che indica il valore in cui il warnOfSouspiciousTimerLoop si stoppa. -1 indica non settato
+
+    [SerializeField] private float suspiciousCorpseFoundTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    protected private float suspiciousCorpseFoundTimerEndStateValue = -1; // timer che indica il valore in cui il suspiciousCorpseFoundTimerLoop si stoppa. -1 indica non settato
 
 
     [SerializeField] [Range(0.02f, 0.5f)] private float _cNPCBehaviourCoroutineFrequency = 0.1f;
@@ -216,8 +219,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
 
-    //controllare un po' tutto
-
 
     /// <summary>
     /// cambia lo stato di allerta del character e avvia animazione 
@@ -230,30 +231,26 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         CharacterAlertState oldAlertState = _characterState;
         _characterState = alertState;
 
-        // se avviene la richiesta di warn of souspiciousAlert e lo stato precedente era di souspiciousAlert, il character resta in SuspiciousAlert
-        if (alertState == CharacterAlertState.WarnOfSuspiciousAlert && oldAlertState == CharacterAlertState.SuspiciousAlert) {
 
-            _characterState = CharacterAlertState.SuspiciousAlert;
+
+        // se avviene la richiesta di warn of souspiciousAlert e lo stato precedente era di souspiciousAlert oppure HostilityAlert, il character torna nell'oldAlertState
+        if (alertState == CharacterAlertState.WarnOfSuspiciousAlert && (oldAlertState == CharacterAlertState.SuspiciousAlert || oldAlertState == CharacterAlertState.HostilityAlert)) {
+
+            _characterState = oldAlertState;
         }
 
-        // se avviene la richiesta di warn of HostilityAlert e lo stato precedente era di HostilityAlert, il character resta in HostilityAlert
-        if (alertState == CharacterAlertState.WarnOfSuspiciousAlert && oldAlertState == CharacterAlertState.HostilityAlert) {
-
-            _characterState = CharacterAlertState.HostilityAlert;
+        // se avviene la richiesta di souspiciousCorpseFoundAlert e lo stato precedente era di souspiciousAlert oppure HostilityAlert, il character torna nell'oldAlertState
+        if (
+            alertState == CharacterAlertState.SuspiciousCorpseFoundAlert && 
+            (oldAlertState == CharacterAlertState.SuspiciousAlert || oldAlertState == CharacterAlertState.HostilityAlert)) {
+            _characterState = oldAlertState;
         }
 
-        // se avviene la richiesta di souspiciousCorpseFoundAlert e lo stato precedente era di souspiciousAlert, il character resta in SuspiciousAlert
-        if (alertState == CharacterAlertState.SuspiciousCorpseFoundAlert && oldAlertState == CharacterAlertState.SuspiciousAlert) {
-            _characterState = CharacterAlertState.SuspiciousAlert;
-        }
-
-        // se avviene la richiesta di souspiciousCorpseFoundAlert e lo stato precedente era di souspiciousAlert, il character resta in SuspiciousAlert
-        if (alertState == CharacterAlertState.SuspiciousCorpseFoundAlert && oldAlertState == CharacterAlertState.HostilityAlert) {
-            _characterState = CharacterAlertState.HostilityAlert;
-        }
+        
 
 
 
+        // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) SuspiciousAlert
         if (
             (oldAlertState == CharacterAlertState.Unalert ||
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
@@ -262,7 +259,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
             && 
             alertState == CharacterAlertState.SuspiciousAlert
-        ) { // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) SuspiciousAlert
+        ) {
 
             //stopSuspiciousCorpseFoundConfirmedTimer();
             //stopSuspiciousCorpseFoundTimer();
@@ -274,13 +271,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             alertSignAnimator.SetTrigger("suspiciousAlert");
 
         }
-        if(oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // (CONFIRM) SuspiciousAlert
+
+        // (CONFIRM) SuspiciousAlert
+        if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { 
 
 
             stopWarnOfSouspiciousTimer();
             resetSuspiciousTimer();
         }
-        if(
+
+        // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) HostilityAlert
+        if (
             (oldAlertState == CharacterAlertState.Unalert || 
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousAlert ||
@@ -289,7 +290,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             )
             && 
             alertState == CharacterAlertState.HostilityAlert
-        ) { // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) HostilityAlert
+        ) { 
 
             //stopSuspiciousCorpseFoundConfirmedTimer();
             //stopSuspiciousCorpseFoundTimer();
@@ -301,13 +302,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
         }
-        if(oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // (CONFIRM) HostilityAlert
+
+
+        // (CONFIRM) HostilityAlert
+        if (oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { 
 
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
             resetHostilityTimer();
         }
-        if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) { // Unalert => (START) WarnOfSouspiciousAlert
+
+
+        // Unalert => (START) WarnOfSouspiciousAlert
+        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) { 
 
 
 
@@ -317,7 +324,18 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
         }
-        
+
+        // Unalert => (START) SuspiciousCorpseFoundAlert
+        if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
+            startSuspiciousCorpseFoundTimer();
+
+            // animation sign
+            resetAlertAnimatorTrigger();
+            alertSignAnimator.SetTrigger("suspiciousAlert");
+        }
+
+
+
 
         if (alertState == CharacterAlertState.Unalert) {
             
@@ -450,10 +468,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     /// <summary>
     /// Questo subBehaviour fa ruotare il character verso un character
-    /// attualmente sotto focus.
+    /// attualmente sotto focus negli stati di Souspicious e Hostility alarm.
+    /// Usando l'ultima rotazione in cui è stato avvistato il character oppure usando la
+    /// posizione attuale del character se questo è sotto focus di [this]
     /// Inoltre aggiorna l'ultima posizione in cui è stato visto il focus Character
     /// </summary>
-    protected void rotateAndAimSubBehaviour() {
+    protected void rotateAndAimSuspiciousAndHostilitySubBehaviour() {
         _agent.updateRotation = false;
 
         if (isFocusedAlarmCharacter) {
@@ -516,7 +536,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
 
-        if (_characterState == CharacterAlertState.Unalert || _characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.WarnOfSuspiciousAlert) {
+        if (_characterState == CharacterAlertState.Unalert || 
+            _characterState == CharacterAlertState.SuspiciousAlert ||
+            _characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
+            _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert
+        ) {
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
@@ -598,17 +622,27 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
     public override void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
-        
-        lastSeenFocusAlarmPosition = lastSeenCPosition;
-        setAlert(CharacterAlertState.WarnOfSuspiciousAlert);
+
+        // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
+        // character che è in tutti gli altri stati(compreso WarnOfSuspiciousAlert) non cambiano il loro alert
+        if (_characterState == CharacterAlertState.Unalert) {
+            lastSeenFocusAlarmPosition = lastSeenCPosition;
+            setAlert(CharacterAlertState.WarnOfSuspiciousAlert);
+        }
+            
     }
 
-
-    public override void suspiciousCorpseFoundCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition) {
+    /// <summary>
+    /// Metodo per verificare se [this] può entrare nello stato di SuspiciousCorpseFoundAlert
+    /// </summary>
+    /// <param name="seenCharacterManager"></param>
+    /// <param name="lastSeenCPosition"></param>
+    public override void suspiciousCorpseFoundCheck(Vector3 lastSeenCPosition) {
 
 
 
         // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
+        // character che è in tutti gli altri stati(compreso SuspiciousCorpseFoundAlert) non cambiano il loro alert
         if (_characterState == CharacterAlertState.Unalert) {
             lastSeenFocusAlarmPosition = lastSeenCPosition;
             setAlert(CharacterAlertState.SuspiciousCorpseFoundAlert);
@@ -623,7 +657,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         stopAgent(); // stop task agent
 
-        //suspiciousCorpseFoundTimerLoop();
+        suspiciousCorpseFoundTimerLoop();
     }
 
     /// <summary>
@@ -692,12 +726,18 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         hostilityTimerEndStateValue = 0;
     }
 
-    
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato suspiciousAlert
+    /// </summary>
     private async void suspiciousTimerLoop() {
         // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
         while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
             await Task.Yield();
             if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (suspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
                 break;
             }
         }
@@ -711,11 +751,18 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             }
         }
 
-        if(characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+        if (characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
             setAlert(CharacterAlertState.Unalert);
         }
         
     }
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato hostilityAlert
+    /// </summary>
     protected virtual async void hostilityTimerLoop() {
 
 
@@ -723,6 +770,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
             await Task.Yield();
             if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (hostilityTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
                 break;
             }
         }
@@ -734,6 +785,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             if(characterBehaviourStopped) {
                 break;
             }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
         }
 
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
@@ -750,12 +805,19 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         
     }
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato warnOfSouspiciousAlert
+    /// </summary>
     private async void warnOfSouspiciousTimerLoop() {
 
-        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        // timer aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
         while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
             await Task.Yield();
             if (characterBehaviourStopped) {
+                break;
+            }
+
+            if(warnOfSouspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
                 break;
             }
         }
@@ -768,18 +830,53 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 break;
             }
         }
-        
-        stopAgent();
 
-
-        
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
 
 
         if (characterAlertState == CharacterAlertState.WarnOfSuspiciousAlert) {
             setAlert(CharacterAlertState.Unalert);
         }
     }
-    
+
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato suspiciousCorpseFoundAlert
+    /// </summary>
+    private async void suspiciousCorpseFoundTimerLoop() {
+        // timer aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (suspiciousCorpseFoundTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+        suspiciousCorpseFoundTimerEndStateValue = Time.time + suspiciousCorpseFoundTimerValue;
+        while (Time.time < suspiciousCorpseFoundTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+            
+
+        if (characterAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
+    }
+
+
 
     private void initUnalertState() {
         unalertAgentDestinationSetted = false;

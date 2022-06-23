@@ -19,7 +19,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     public override void suspiciousAlertBehaviour() {
 
 
-        rotateAndAimSubBehaviour();
+        rotateAndAimSuspiciousAndHostilitySubBehaviour();
 
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
@@ -40,7 +40,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// </summary>
     public override void hostilityAlertBehaviour() {
 
-        rotateAndAimSubBehaviour();
+        rotateAndAimSuspiciousAndHostilitySubBehaviour();
 
         if (isFocusAlarmCharacterVisible) {
             characterInventoryManager.useSelectedWeapon();

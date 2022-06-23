@@ -11,7 +11,7 @@ public class CharacterFOV : MonoBehaviour
 {
     // const
     private const int CHARACTER_LAYERS = 7;
-    private const int ALL_LAYERS = -1;
+    private const int ALL_LAYERS = -1 << RAGDOLL_BONE;
     private const int RAGDOLL_BONE = 15;
 
     [Header("References")]
@@ -26,6 +26,11 @@ public class CharacterFOV : MonoBehaviour
     }
 
     [SerializeField] private BaseNPCBehaviour nPCBehaviour; // Reference Behaviour character
+
+
+    [Header("Component as Colliders References")]
+    [SerializeField] private CharacterController characterController;
+    [SerializeField] private CapsuleCollider characterCapsuleCollider;
 
     [Header("Impostazioni")]
     [SerializeField] private LayerMask targetCharacterMask;
@@ -159,6 +164,7 @@ public class CharacterFOV : MonoBehaviour
 
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedSecondFovRadius, targetCharacterMask);
         bool characterSeen = false;
+        bool deadCharacterVisible = false;
 
         if (hitColliders.Length != 0) {
             
@@ -172,18 +178,16 @@ public class CharacterFOV : MonoBehaviour
 
 
                         CharacterManager deadCharacterManager = collider.gameObject.GetComponent<CharacterManager>();
-                        bool deadCharacterVisible = isDeadCharactersVisibleInSecondFOV(collider.gameObject.transform.position, deadCharacterManager);
+                        deadCharacterVisible = isDeadCharactersVisibleInSecondFOV(collider.gameObject.transform.position, deadCharacterManager);
                     }
                 }
             }
 
         }
 
-        if(characterSeen) {
-            secondFOVCanSeeCharacter = true;
-        } else {
-            secondFOVCanSeeCharacter = false;
-        }
+        secondFOVCanSeeDeadCharacter = deadCharacterVisible;
+        secondFOVCanSeeCharacter = characterSeen;
+
     }
 
 
@@ -199,7 +203,7 @@ public class CharacterFOV : MonoBehaviour
 
 
 
-            
+            disableCharacterCollider();
             RaycastHit hit;
             if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
@@ -215,6 +219,7 @@ public class CharacterFOV : MonoBehaviour
 
 
             }
+            enableCharacterCollider();
         }
         return result;
     }
@@ -230,7 +235,7 @@ public class CharacterFOV : MonoBehaviour
 
 
 
-            
+            disableCharacterCollider();
             RaycastHit hit;
             if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
@@ -251,6 +256,7 @@ public class CharacterFOV : MonoBehaviour
 
 
             }
+            enableCharacterCollider();
         }
 
         return result;
@@ -273,15 +279,13 @@ public class CharacterFOV : MonoBehaviour
 
             foreach(Transform deadCharacterTarget in deadCharacterTargetTransforms) {
 
-                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+                disableCharacterCollider();
+                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                     if (hit.collider != null) {
 
-
-                        if(hit.transform.gameObject.layer == RAGDOLL_BONE) {
-                            result = true;
-                            Debug.DrawLine(reachableTarget.position, hit.point, Color.magenta, fovCheckFrequency);
-                        }
+                        Debug.Log(hit.collider.gameObject.name);
                     } else {
                         result = true;
                         Debug.Log("line not cast collide");
@@ -292,13 +296,16 @@ public class CharacterFOV : MonoBehaviour
                     result = true;
                     Debug.DrawLine(reachableTarget.position, hit.point, Color.magenta, fovCheckFrequency);
                 }
+                enableCharacterCollider();
             }
             
 
 
 
-            if (result)
+            if (result) {
                 onSecondFOVCanSeeDeadCharacter(deadCharacter);
+            }
+                
         }
 
         return result;
@@ -345,7 +352,7 @@ public class CharacterFOV : MonoBehaviour
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
-            nPCBehaviour.suspiciousCorpseFoundCheck(seenDeadCharacter, lastPos);
+            nPCBehaviour.suspiciousCorpseFoundCheck(lastPos);
         }
         
 
@@ -364,6 +371,7 @@ public class CharacterFOV : MonoBehaviour
         bool res = false;
         RaycastHit hit;
 
+        disableCharacterCollider();
         if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
             if (hit.collider != null) {
@@ -375,6 +383,7 @@ public class CharacterFOV : MonoBehaviour
         } else {
             res = true;
         }
+        enableCharacterCollider();
 
         return res;
     }
@@ -428,6 +437,23 @@ public class CharacterFOV : MonoBehaviour
 
 
         return characters;
+    }
+
+
+    /// <summary>
+    /// metodo che disattiva i collider del character per consentire i check(linecast, raycast)
+    /// </summary>
+    private void disableCharacterCollider() {
+        characterController.enabled = false;
+        characterCapsuleCollider.enabled = false;
+    }
+
+    /// <summary>
+    /// metodo riattiva i collider del character
+    /// </summary>
+    private void enableCharacterCollider() {
+        characterController.enabled = true;
+        characterCapsuleCollider.enabled = true;
     }
 
 #if UNITY_EDITOR

@@ -1993,6 +1993,8 @@ MonoBehaviour:
   _recognitionTarget: {fileID: 6816719811461315178}
   _reachableTarget: {fileID: 2769515448196465831}
   nPCBehaviour: {fileID: 0}
+  characterController: {fileID: 1493404731}
+  characterCapsuleCollider: {fileID: 4296973334219569000}
   targetCharacterMask:
     serializedVersion: 2
     m_Bits: 128
@@ -2000,9 +2002,11 @@ MonoBehaviour:
   _defaultFirstFovRadius: 6
   _defaultFirstFovAngle: 110
   firstFOVCanSeeCharacter: 0
+  secondFOVCanSeeCharacter: 0
+  firstFOVCanSeeDeadCharacter: 0
+  secondFOVCanSeeDeadCharacter: 0
   _defaultSecondFovRadius: 15
   _defaultSecondFovAngle: 145
-  secondFOVCanSeeCharacter: 0
   _alertArea: 12
 --- !u!114 &7190702502433912288
 MonoBehaviour:

@@ -40,7 +40,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             _agent.isStopped = false;
             animateAndSpeedMovingAgent();
         } else {
-            rotateAndAimSubBehaviour();
+            rotateAndAimSuspiciousAndHostilitySubBehaviour();
             stopAgent();
         }
 
@@ -82,7 +82,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
 
                 } else {
-                    rotateAndAimSubBehaviour();
+                    rotateAndAimSuspiciousAndHostilitySubBehaviour();
                     stopAgent();
                 }
                 
@@ -90,7 +90,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         } else {
 
             
-            rotateAndAimSubBehaviour();
+            rotateAndAimSuspiciousAndHostilitySubBehaviour();
             stopAgent();
 
         }
@@ -120,7 +120,6 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         } else {
 
 
-            characterMovement.rotateCharacter(lastSeenFocusAlarmPosition, false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
             stopAgent();
         }
     }
@@ -141,11 +140,11 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
             } else {
 
-                rotateAndAimSubBehaviour();
+                rotateAndAimSuspiciousAndHostilitySubBehaviour();
                 stopAgent();
             }
         } else {
-            rotateAndAimSubBehaviour();
+            rotateAndAimSuspiciousAndHostilitySubBehaviour();
             stopAgent();
         }
         

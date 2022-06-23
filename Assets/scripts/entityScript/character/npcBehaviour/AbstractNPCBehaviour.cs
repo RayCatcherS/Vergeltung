@@ -64,5 +64,5 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     /// <param name="lastSeenCPosition"></param>
-    abstract public void suspiciousCorpseFoundCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition);
+    abstract public void suspiciousCorpseFoundCheck(Vector3 lastSeenCPosition);
 }
