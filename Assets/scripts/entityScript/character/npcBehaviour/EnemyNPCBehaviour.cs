@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
@@ -49,7 +50,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
+
             _agent.SetDestination(lastSeenFocusAlarmPosition);
+
 
             _agent.isStopped = false;
             animateAndSpeedMovingAgent();
@@ -88,7 +91,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
-            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Walk);
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
         } else {
 
             stopAgent();

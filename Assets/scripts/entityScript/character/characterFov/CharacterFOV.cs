@@ -171,7 +171,9 @@ public class CharacterFOV : MonoBehaviour
             foreach (Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    characterSeen = isCharactersVisibleInSecondFOV(collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = isCharactersVisibleInSecondFOV(
+                        collider.gameObject.GetComponent<CharacterManager>(),
+                        collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
                 } else {
 
                     if(collider.gameObject.GetComponent<CharacterManager>().isDead) {
@@ -205,7 +207,7 @@ public class CharacterFOV : MonoBehaviour
 
             disableCharacterCollider();
             RaycastHit hit;
-            if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                 //Debug.Log(hit.collider.gameObject.name);
 
@@ -224,7 +226,7 @@ public class CharacterFOV : MonoBehaviour
         return result;
     }
 
-    public bool isCharactersVisibleInSecondFOV(Vector3 raycastPositionTargetToReach) {
+    public bool isCharactersVisibleInSecondFOV(CharacterManager characterToSee, Vector3 raycastPositionTargetToReach) {
         bool result = false;
         Vector3 fromPosition = _recognitionTarget.position;
         Vector3 toPosition = raycastPositionTargetToReach;
@@ -237,7 +239,7 @@ public class CharacterFOV : MonoBehaviour
 
             disableCharacterCollider();
             RaycastHit hit;
-            if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
 
                 //Debug.Log(hit.collider.gameObject.name);
@@ -245,12 +247,14 @@ public class CharacterFOV : MonoBehaviour
                 if (hit.collider.gameObject.layer == CHARACTER_LAYERS) {
 
 
-                    if (!firstFOVCanSeeCharacter) {
-                        Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
-                    }
+                    if(characterToSee.GetInstanceID() == hit.collider.gameObject.GetComponent<CharacterManager>().GetInstanceID()) {
+                        if (!firstFOVCanSeeCharacter) {
+                            Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
+                        }
 
-                    result = true;
-                    onSecondFOVCanSeeCharacter(seenCharacter);
+                        result = true;
+                        onSecondFOVCanSeeCharacter(seenCharacter);
+                    }
 
                 }
 
@@ -313,9 +317,9 @@ public class CharacterFOV : MonoBehaviour
 
     private void onFirstFOVCanSeeCharacter(CharacterManager seenCharacter) {
 
-        float lastPosX = seenCharacter.transform.position.x;
-        float lastPosY = seenCharacter.transform.position.y;
-        float lastPosZ = seenCharacter.transform.position.z;
+        float lastPosX = seenCharacter.getCharacterPosition().x;
+        float lastPosY = seenCharacter.getCharacterPosition().y;
+        float lastPosZ = seenCharacter.getCharacterPosition().z;
         Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
@@ -326,9 +330,9 @@ public class CharacterFOV : MonoBehaviour
 
         if(!firstFOVCanSeeCharacter) {
 
-            float lastPosX = seenCharacter.transform.position.x;
-            float lastPosY = seenCharacter.transform.position.y;
-            float lastPosZ = seenCharacter.transform.position.z;
+            float lastPosX = seenCharacter.getCharacterPosition().x;
+            float lastPosY = seenCharacter.getCharacterPosition().y;
+            float lastPosZ = seenCharacter.getCharacterPosition().z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
@@ -346,9 +350,9 @@ public class CharacterFOV : MonoBehaviour
 
 
         if(!firstFOVCanSeeDeadCharacter) {
-            float lastPosX = seenDeadCharacter.transform.position.x;
-            float lastPosY = seenDeadCharacter.transform.position.y;
-            float lastPosZ = seenDeadCharacter.transform.position.z;
+            float lastPosX = seenDeadCharacter.getCharacterPosition().x;
+            float lastPosY = seenDeadCharacter.getCharacterPosition().y;
+            float lastPosZ = seenDeadCharacter.getCharacterPosition().z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
@@ -372,7 +376,7 @@ public class CharacterFOV : MonoBehaviour
         RaycastHit hit;
 
         disableCharacterCollider();
-        if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+        if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
             if (hit.collider != null) {
                 res = false;

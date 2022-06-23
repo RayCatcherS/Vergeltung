@@ -116,7 +116,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
-            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Walk);
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
         } else {
 
 

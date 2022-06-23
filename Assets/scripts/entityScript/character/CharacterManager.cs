@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
@@ -73,6 +72,8 @@ public class CharacterManager : MonoBehaviour {
     public bool isTarget {
         get { return _isTarget; }
     }
+
+    Vector3 _deadPosition = new Vector3();
 
 
 
@@ -512,4 +513,32 @@ public class CharacterManager : MonoBehaviour {
     public void discardCharacterAction() {
         _isBusy = false;
     }
+
+    public Vector3 getCharacterPosition() {
+        
+
+        if (isDead) {
+
+            NavMeshHit hit;
+            
+            if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 1.0f, NavMesh.AllAreas)) {
+                _deadPosition = hit.position;
+            }
+
+        } else {
+            _deadPosition = gameObject.transform.position;
+        }
+
+        return _deadPosition;
+    }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos() {
+        if (isDead) {
+            Gizmos.color = Color.grey;
+            Gizmos.DrawLine(transform.position, getCharacterPosition());
+            Gizmos.DrawSphere(getCharacterPosition(), 0.25f);
+        }
+    }
+#endif
 }

@@ -72,7 +72,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
-                return _characterFOV.isCharactersVisibleInSecondFOV(focusAlarmCharacter.characterFOV.recognitionTarget.position);
+                return _characterFOV.isCharactersVisibleInSecondFOV(
+                    focusAlarmCharacter,
+                    focusAlarmCharacter.characterFOV.recognitionTarget.position);
             } else {
                 return false;
             }
@@ -950,6 +952,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         return result;
     }
+
     protected bool isAgentReachedAlarmDestination(Vector3 agentDestinationPosition) {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
         bool result;
