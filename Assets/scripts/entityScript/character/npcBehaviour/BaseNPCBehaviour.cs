@@ -254,9 +254,18 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
 
-        if ((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert) && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
+        if (
+            (oldAlertState == CharacterAlertState.Unalert ||
+            oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
+            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert /*||*/
+            /*oldAlertState == CharacterAlertState.SuspiciousCorpseFoundConfirmedAlert */)
 
+            && 
+            alertState == CharacterAlertState.SuspiciousAlert
+        ) { // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) SuspiciousAlert
 
+            //stopSuspiciousCorpseFoundConfirmedTimer();
+            //stopSuspiciousCorpseFoundTimer();
             stopWarnOfSouspiciousTimer();
             startSuspiciousTimer();
 
@@ -264,19 +273,26 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
 
-        } else if(oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // SuspiciousAlert
+        }
+        if(oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { // (CONFIRM) SuspiciousAlert
 
 
             stopWarnOfSouspiciousTimer();
             resetSuspiciousTimer();
-        } else if((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert) && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
-            stopWarnOfSouspiciousTimer();
-            startHostilityTimer();
+        }
+        if(
+            (oldAlertState == CharacterAlertState.Unalert || 
+            oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
+            oldAlertState == CharacterAlertState.SuspiciousAlert ||
+            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert /*||*/
+            /*oldAlertState == CharacterAlertState.SuspiciousCorpseFoundConfirmedAlert */
+            )
+            && 
+            alertState == CharacterAlertState.HostilityAlert
+        ) { // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) HostilityAlert
 
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("hostilityAlert");
-        } else if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+            //stopSuspiciousCorpseFoundConfirmedTimer();
+            //stopSuspiciousCorpseFoundTimer();
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
             startHostilityTimer();
@@ -284,12 +300,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("hostilityAlert");
-        } else if(oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // HostilityAlert
+        }
+        if(oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { // (CONFIRM) HostilityAlert
 
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
             resetHostilityTimer();
-        } else if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) { // WarnOfSouspiciousAlert
+        }
+        if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) { // Unalert => (START) WarnOfSouspiciousAlert
 
 
 
@@ -598,10 +616,17 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// 
-    /// 
-    /// 
-    /// 
+    /// Questa funzione setta il punto di fine del warnOfSouspiciousTimerEndStateValue
+    /// e avvia il warnOfSouspiciousTimerLoop
+    /// </summary>
+    protected virtual void startSuspiciousCorpseFoundTimer() {
+
+        stopAgent(); // stop task agent
+
+        //suspiciousCorpseFoundTimerLoop();
+    }
+
+    /// <summary>
     /// Questa funzione setta il punto di fine del warnOfSouspiciousTimerEndStateValue
     /// e avvia il warnOfSouspiciousTimerLoop
     /// </summary>

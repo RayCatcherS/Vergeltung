@@ -8,7 +8,7 @@ public enum CharacterAlertState {
     HostilityAlert,
     WarnOfSuspiciousAlert,
     SuspiciousCorpseFoundAlert,
-    SuspiciousCorpseFoundConfirmed,
+    SuspiciousCorpseFoundConfirmedAlert,
     SoundAlert1,
     SoundAlert2
 }
