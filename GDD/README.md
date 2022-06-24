@@ -63,7 +63,7 @@ esseri umani. Il protagonista userà questa tecnologia per usare i civili e i so
 sabotando ed utilizzando armi e dispositivi della fazione nemica.
 
 
-Conquistando le varie zone strategiche e accedendo ai monoliti, il giocatore potrà creare una catena di controllo partendo dal protagonista,
+Il giocatore conquistando le varie zone strategiche e accedendo ai monoliti, potrà creare una catena di controllo partendo dal protagonista,
 permettendogli di sfruttare i character controllati come "vite sacrificabili" per il compimento della vendetta. Il gioco terminerà con una vittoria
 quando il protagonista completerà tutti gli obiettivi. Oppure il gioco terminerà con una sconfitta nel caso in cui il protagonista morisse.
 
