@@ -75,5 +75,7 @@ Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCB
 > Durante l'**hostilityAlertBehaviour** il **character NPC A** civile chiederà al controller **SceneEntitiesController** tramite un metodo di restituire la prima guardia nemica più vicina che non è impegnata in
 > alcuno stato di allerta(Ovvero le guardie nemiche che sono nello stato di **Unaler** state). Il **character NPC A** civile raggiungerà la guardia nemica correndo e la notificherà passando il
 > **lastSeenFocusAlarmPosition** e avviando il **receiveWarnOfSouspiciousCheck**. Il behaviour non terminerà fino a quando il civile non avrà raggiunto la guardia da notificare.
+> I civili non chiameranno la guardia più vicina se riceveranno lo stato di **hostilityAlertBehaviour** in modo indotto, quindi in caso lo stato sia stato indotto i civili resteranno fermi. I civili chiameranno la
+> guardia più vicina solo se hanno attivato lo stato **HostilityAlert** tramite il loro stesso FOV. Gli stati indotti vengono spiegati nel [capitolo 4](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md#comunicazione-istantanea-stati-di-allerta-npc-vicini)
 
 ![Image animator](CivilianHostilityAlertStateBehaviour.gif)
