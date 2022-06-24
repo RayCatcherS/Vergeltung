@@ -62,8 +62,18 @@ Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCB
 
 ### Implementazione EnemyNPCBehaviour:
 > Durante lo stato di **HostilityAlert**, viene eseguito in loop il behaviour corrispondente **hostilityAlertBehaviour**.
-> Durante l'**hostilityAlertBehaviour** il **character NPC A** cercherà di avvicinarsi al character che ha rilevato come ostile. Se il character che ha provocato l'allarme va fuori dalla portata del FOV del
+> Durante l'**hostilityAlertBehaviour** il **character NPC A** nemico cercherà di avvicinarsi al character che ha rilevato come ostile. Se il character che ha provocato l'allarme va fuori dalla portata del FOV del
 > **character NPC A**, allora il **character NPC A** cercherà di raggiungere la **lastSeenFocusAlarmPosition** (l'ultima posizione in cui è stato visto il character), altrimenti se il character che ha provocato
 > l'allarme è alla portata del fov del **character NPC A** cercherà di raggiungere la posizione del character, ruotando(non istantaneamente ma usando una funzione di interpolazione) nella direzione del character che ha scatenato l'allarme.
 > Inoltre il character aprirà il fuoco in base all'arma selezionata
 > Quando il character che ha scatenato l'allarme è fuori portata il **character NPC A** resterà fermo nell'ultima posizione in cui è stato avvistato il character che ha scatenato l'allarme.
+
+![Image animator](EnemyHostilityAlertStateBehaviour.gif)
+
+### Implementazione CivilianNPCBehaviour:
+> Durante lo stato di **HostilityAlert**, viene eseguito in loop il behaviour corrispondente **hostilityAlertBehaviour**.
+> Durante l'**hostilityAlertBehaviour** il **character NPC A** civile chiederà al controller **SceneEntitiesController** tramite un metodo di restituire la prima guardia nemica più vicina che non è impegnata in
+> alcuno stato di allerta(Ovvero le guardie nemiche che sono nello stato di **Unaler** state). Il **character NPC A** civile raggiungerà la guardia nemica correndo e la notificherà passando il
+> **lastSeenFocusAlarmPosition** e avviando il **receiveWarnOfSouspiciousCheck**. Il behaviour non terminerà fino a quando il civile non avrà raggiunto la guardia da notificare.
+
+![Image animator](CivilianHostilityAlertStateBehaviour.gif)
