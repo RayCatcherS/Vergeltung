@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Threading.Tasks;
+using UnityEngine.AI;
 
 public class ActivityTask : MonoBehaviour
 {
@@ -95,11 +96,11 @@ public class ActivityTask : MonoBehaviour
 
 
     private void initTaskDestination() {
-        RaycastHit raycastHit;
 
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
 
-        if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, 100)) {
-            taskDestination = raycastHit.point;
+            taskDestination = hit.position;
         }
     }
 

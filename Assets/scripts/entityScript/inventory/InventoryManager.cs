@@ -412,16 +412,21 @@ public class InventoryManager : Interactable {
         for(int i = 0; i < _weaponItems.Count; i++) {
 
             if(_weaponItems[i].itemNameID != BASE_MELEE_ID) {
-                UnityEventCharacter eventWeapon = new UnityEventCharacter();
-                eventWeapon.AddListener(_weaponItems[i].getItem);
 
-                allWeaponsInteractions.Add(
-                    new Interaction(
-                        eventWeapon,
-                        _weaponItems[i].getItemEventName,
-                        this
-                    )
-                );
+
+                if(_weaponItems[i].ammunition != 0) {
+                    UnityEventCharacter eventWeapon = new UnityEventCharacter();
+                    eventWeapon.AddListener(_weaponItems[i].getItem);
+
+                    allWeaponsInteractions.Add(
+                        new Interaction(
+                            eventWeapon,
+                            _weaponItems[i].getItemEventName,
+                            this
+                        )
+                    );
+                }
+                
             }
         }
 

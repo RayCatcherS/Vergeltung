@@ -55,7 +55,6 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
             if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
 
-
                 _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
 
                 _agent.isStopped = false;
@@ -74,6 +73,8 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                     if (isCharacterToNotifyPossibleToSee) {
                         closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmPosition);
                         isEnemyCharacterToWarnCalled = true;
+
+                        print("WARN");
                     } else { // impossibile raggiungere il closer enemy character
 
                         Debug.Log("enemyCharacterImpossibleToReach ");
@@ -82,6 +83,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
 
                 } else {
+
                     rotateAndAimSuspiciousAndHostilitySubBehaviour();
                     stopAgent();
                 }
@@ -89,13 +91,58 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             }
         } else {
 
-            
             rotateAndAimSuspiciousAndHostilitySubBehaviour();
             stopAgent();
 
         }
         
-        
+    }
+
+    /// <summary>
+    /// implementazione hostilityAlertBehaviour
+    /// </summary>
+    public override void corpseFoundConfirmedAlertBehaviour() {
+
+
+        if (closerEnemyCharacterToWarnSelected) {
+
+            if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
+                
+
+                _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
+
+                _agent.isStopped = false;
+                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
+            } else {
+
+                if (!isEnemyCharacterToWarnCalled) {
+
+
+
+                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                        closerEnemyCharacterToWarn.characterFOV
+                    );
+
+                    if (isCharacterToNotifyPossibleToSee) {
+                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmPosition);
+                        isEnemyCharacterToWarnCalled = true;
+                    } else { // impossibile raggiungere il closer enemy character
+
+                        Debug.Log("enemyCharacterImpossibleToReach ");
+                        enemyCharacterImpossibleToReach = true;
+                    }
+
+
+                } else {
+                    stopAgent();
+                }
+
+            }
+        } else {
+
+            stopAgent();
+        }
+
     }
     /// <summary>
     /// implementazione soundAlert1Behaviour
@@ -125,7 +172,8 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     }
 
     protected override void startHostilityTimer() {
-        
+        stopAgent();
+
         // se ha scoperto da solo il character hostile (tramite il suo stesso fov)
         if (checkedByHimselfHostility) {
             isEnemyCharacterToWarnCalled = false;
@@ -152,6 +200,27 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         base.startHostilityTimer();
     }
 
+    protected override void startCorpseFoundConfirmedTimer() {
+        stopAgent();
+
+        isEnemyCharacterToWarnCalled = false;
+
+        // get the closer character
+        closerEnemyCharacterToWarn = characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
+
+        if (closerEnemyCharacterToWarnSelected) {
+            _agent.updateRotation = true;
+            _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
+            _agent.isStopped = false;
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
+        } else {
+
+            stopAgent();
+        }
+
+        base.startCorpseFoundConfirmedTimer();
+    }
+
     protected override async void hostilityTimerLoop() {
 
         /// continua a ciclare fino a quando il character civile 
@@ -163,14 +232,17 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                 if (characterBehaviourStopped) {
                     break;
                 }
-
-                if(enemyCharacterImpossibleToReach) {
+                if (hostilityTimerEndStateValue == 0) {
+                    break;
+                }
+                if (enemyCharacterImpossibleToReach) {
                     break;
                 }
             }
         }
 
-        closerEnemyCharacterToWarn = null;
+
+        closerEnemyCharacterToWarn = null; // una volta che il character è stato raggiunto può fare a meno del closerEnemyCharacterToWarn
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue; // setta
         // una volta raggiunta la posizione esaurisci l'[hostilityTimerEndStateValue]
@@ -182,14 +254,63 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             }
         }
 
-        stopAgent();
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
 
-        
-        
+
 
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
             setAlert(CharacterAlertState.Unalert);
         }
+    }
+
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
+    /// </summary>
+    protected override async void corpseFoundConfirmedTimerLoop() {
+
+
+        /// continua a ciclare fino a quando il character civile 
+        /// non ha raggiunto il character nemico da avvisare
+        if (closerEnemyCharacterToWarnSelected) {
+            while (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
+
+                await Task.Yield();
+
+                if (characterBehaviourStopped) {
+                    break;
+                }
+                if (corpseFoundConfirmedTimerEndStateValue == 0) {
+                    break;
+                }
+                if (enemyCharacterImpossibleToReach) {
+                    break;
+                }
+            }
+        }
+
+
+        closerEnemyCharacterToWarn = null; // una volta che il character è stato raggiunto può fare a meno del closerEnemyCharacterToWarn
+
+        corpseFoundConfirmedTimerEndStateValue = Time.time + corpseFoundConfirmedTimerValue;
+        while (Time.time < corpseFoundConfirmedTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+        if (characterAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
+
+
     }
 
 

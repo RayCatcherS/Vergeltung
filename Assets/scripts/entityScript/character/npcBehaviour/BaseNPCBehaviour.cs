@@ -28,6 +28,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [SerializeField] private float suspiciousCorpseFoundTimerValue = 15f; // durata del timer prima della scadenza dello stato
     protected private float suspiciousCorpseFoundTimerEndStateValue = -1; // timer che indica il valore in cui il suspiciousCorpseFoundTimerLoop si stoppa. -1 indica non settato
 
+    [SerializeField] protected float corpseFoundConfirmedTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    protected private float corpseFoundConfirmedTimerEndStateValue = -1; // timer che indica il valore in cui il corpseFoundConfirmedTimerLoop si stoppa. -1 indica non settato
+
+
 
     [SerializeField] [Range(0.02f, 0.5f)] private float _cNPCBehaviourCoroutineFrequency = 0.1f;
     public float cNPCBehaviourCoroutineFrequency {
@@ -197,6 +201,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                             suspiciousCorpseFoundAlertBehaviour();
                         }
                         break;
+                    case CharacterAlertState.CorpseFoundConfirmedAlert: {
+                            corpseFoundConfirmedAlertBehaviour();
+                        }
+                        break;
                     case CharacterAlertState.SoundAlert1: {
                             soundAlert1Behaviour();
                         }
@@ -235,36 +243,38 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
 
-        // se avviene la richiesta di warn of souspiciousAlert e lo stato precedente era di souspiciousAlert oppure HostilityAlert, il character torna nell'oldAlertState
-        if (alertState == CharacterAlertState.WarnOfSuspiciousAlert && (oldAlertState == CharacterAlertState.SuspiciousAlert || oldAlertState == CharacterAlertState.HostilityAlert)) {
-
-            _characterState = oldAlertState;
-        }
-
-        // se avviene la richiesta di souspiciousCorpseFoundAlert e lo stato precedente era di souspiciousAlert oppure HostilityAlert, il character torna nell'oldAlertState
+        // se avviene la richiesta di WarnOfSuspiciousAlert o SuspiciousCorpseFoundAlert o CorpseFoundConfirmedAlert e lo stato precedente era di souspiciousAlert oppure HostilityAlert, il character torna nell'oldAlertState
         if (
-            alertState == CharacterAlertState.SuspiciousCorpseFoundAlert && 
-            (oldAlertState == CharacterAlertState.SuspiciousAlert || oldAlertState == CharacterAlertState.HostilityAlert)) {
+            (alertState == CharacterAlertState.WarnOfSuspiciousAlert ||
+            alertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+            alertState == CharacterAlertState.CorpseFoundConfirmedAlert)
+
+            && 
+            
+            
+            (oldAlertState == CharacterAlertState.SuspiciousAlert ||
+            oldAlertState == CharacterAlertState.HostilityAlert)) {
+
             _characterState = oldAlertState;
         }
 
-        
 
 
 
-        // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) SuspiciousAlert
+
+        // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) SuspiciousAlert
         if (
             (oldAlertState == CharacterAlertState.Unalert ||
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert /*||*/
-            /*oldAlertState == CharacterAlertState.SuspiciousCorpseFoundConfirmedAlert */)
+            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert)
 
             && 
             alertState == CharacterAlertState.SuspiciousAlert
         ) {
 
-            //stopSuspiciousCorpseFoundConfirmedTimer();
-            //stopSuspiciousCorpseFoundTimer();
+            stopSuspiciousCorpseFoundTimer();
+            stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
             startSuspiciousTimer();
 
@@ -275,29 +285,32 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         // (CONFIRM) SuspiciousAlert
-        if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) { 
-
-
+        if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) {
+            stopSuspiciousCorpseFoundTimer();
+            stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
+
             resetSuspiciousTimer();
         }
 
-        // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | SuspiciousCorpseFoundConfirmedAlert => (START) HostilityAlert
+        // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) HostilityAlert
         if (
             (oldAlertState == CharacterAlertState.Unalert || 
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert /*||*/
-            /*oldAlertState == CharacterAlertState.SuspiciousCorpseFoundConfirmedAlert */
+            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert
             )
             && 
             alertState == CharacterAlertState.HostilityAlert
-        ) { 
+        ) {
 
-            //stopSuspiciousCorpseFoundConfirmedTimer();
-            //stopSuspiciousCorpseFoundTimer();
+            stopSuspiciousCorpseFoundTimer();
+            stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
+
+
             startHostilityTimer();
 
             // animation sign
@@ -307,10 +320,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
         // (CONFIRM) HostilityAlert
-        if (oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) { 
-
+        if (oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
+            
+            stopSuspiciousCorpseFoundTimer();
+            stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
+
             resetHostilityTimer();
         }
 
@@ -329,11 +345,30 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         // Unalert => (START) SuspiciousCorpseFoundAlert
         if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
+            stopWarnOfSouspiciousTimer(); // stop stato di warning
+
+
             startSuspiciousCorpseFoundTimer();
 
             // animation sign
             resetAlertAnimatorTrigger();
             alertSignAnimator.SetTrigger("suspiciousAlert");
+        }
+
+        if((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert || oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert) 
+            && 
+            alertState == CharacterAlertState.CorpseFoundConfirmedAlert)
+        {
+
+            stopWarnOfSouspiciousTimer(); // stop stato di warning
+            stopSuspiciousCorpseFoundTimer();
+
+
+            startCorpseFoundConfirmedTimer();
+
+            // animation sign
+            resetAlertAnimatorTrigger();
+            alertSignAnimator.SetTrigger("hostilityAlert");
         }
 
 
@@ -463,7 +498,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         throw new System.NotImplementedException();
     }
 
-    
+    public override void corpseFoundConfirmedAlertBehaviour() {
+        throw new System.NotImplementedException();
+    }
+
+
     public override void soundAlert1Behaviour() {
         throw new System.NotImplementedException();
     }
@@ -639,23 +678,62 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     /// <param name="lastSeenCPosition"></param>
-    public override void suspiciousCorpseFoundCheck(Vector3 lastSeenCPosition) {
+    public override void suspiciousCorpseFoundCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition) {
 
 
 
         // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
         // character che è in tutti gli altri stati(compreso SuspiciousCorpseFoundAlert) non cambiano il loro alert
         if (_characterState == CharacterAlertState.Unalert) {
-            lastSeenFocusAlarmPosition = lastSeenCPosition;
-            setAlert(CharacterAlertState.SuspiciousCorpseFoundAlert);
+
+            if (!seenDeadCharacter.isBusyDeadAlarmCheck) {
+
+                seenDeadCharacter.isBusyDeadAlarmCheck = true;
+                lastSeenFocusAlarmPosition = lastSeenCPosition;
+                setAlert(CharacterAlertState.SuspiciousCorpseFoundAlert);
+            }
+        }
+    }
+    /// <summary>
+    /// Metodo per verificare se [this] può entrare nello stato di CorpseFoundConfirmedAlert
+    /// </summary>
+    /// <param name="seenDeadCharacter"></param>
+    /// <param name="lastSeenCPosition"></param>
+    public override void corpseFoundConfirmedCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition) {
+
+
+        if (_characterState == CharacterAlertState.Unalert ||
+            _characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
+            _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert
+        ) {
+
+            if(!seenDeadCharacter.isDeadCharacterMarked) {
+                seenDeadCharacter.isBusyDeadAlarmCheck = true;
+                lastSeenFocusAlarmPosition = lastSeenCPosition;
+
+                if(gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+                    seenDeadCharacter.isDeadCharacterMarked = true;
+                }
+
+                setAlert(CharacterAlertState.CorpseFoundConfirmedAlert);
+            }
+            
+
         }
     }
 
+
+    protected virtual void startCorpseFoundConfirmedTimer() {
+        stopAgent(); // stop task agent
+
+        corpseFoundConfirmedTimerLoop();
+    }
+
+
     /// <summary>
-    /// Questa funzione setta il punto di fine del warnOfSouspiciousTimerEndStateValue
-    /// e avvia il warnOfSouspiciousTimerLoop
+    /// Questa funzione avvia il warnOfSouspiciousTimerLoop
     /// </summary>
-    protected virtual void startSuspiciousCorpseFoundTimer() {
+    protected void startSuspiciousCorpseFoundTimer() {
 
         stopAgent(); // stop task agent
 
@@ -663,10 +741,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// Questa funzione setta il punto di fine del warnOfSouspiciousTimerEndStateValue
-    /// e avvia il warnOfSouspiciousTimerLoop
+    /// Questa funzione avvia il warnOfSouspiciousTimerLoop
     /// </summary>
-    protected virtual void startWarnOfSouspiciousTimer() {
+    protected void startWarnOfSouspiciousTimer() {
 
         stopAgent(); // stop task agent
         
@@ -693,10 +770,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// e avvia il hostilityTimerLoop
     /// </summary>
     protected virtual void startHostilityTimer() {
-
-
         stopAgent(); // stop task agent
-
 
         hostilityTimerLoop();
     }
@@ -718,6 +792,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
 
+    public void stopSuspiciousCorpseFoundTimer() {
+        suspiciousCorpseFoundTimerEndStateValue = 0;
+    }
+    public void stopCorpseFoundConfirmedTimer() {
+        corpseFoundConfirmedTimerEndStateValue = 0;
+    }
     public void stopWarnOfSouspiciousTimer() {
         warnOfSouspiciousTimerEndStateValue = 0;
     }
@@ -878,7 +958,43 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
     }
 
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
+    /// </summary>
+    protected virtual async void corpseFoundConfirmedTimerLoop() {
 
+
+        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (corpseFoundConfirmedTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+        corpseFoundConfirmedTimerEndStateValue = Time.time + corpseFoundConfirmedTimerValue;
+        while (Time.time < corpseFoundConfirmedTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+        if (characterAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
+            setAlert(CharacterAlertState.Unalert);
+        }
+
+
+    }
 
     private void initUnalertState() {
         unalertAgentDestinationSetted = false;

@@ -73,6 +73,22 @@ public class CharacterManager : MonoBehaviour {
         get { return _isTarget; }
     }
 
+    // indica se qualcuno si è allarmato trovando il cadavere
+    // evita che più persone contemporaneamente si avvicinino al cadavere
+    private bool _isBusyDeadAlarmCheck = false;
+    public bool isBusyDeadAlarmCheck {
+        get { return _isBusyDeadAlarmCheck; }
+        set { _isBusyDeadAlarmCheck = value; }
+    }
+
+    // indica se un character morto è stato marcato 
+    // un character marcato non può provocare altri stati di allerta nei FOV
+    private bool _isDeadCharacterMarked = false;
+    public bool isDeadCharacterMarked {
+        get { return _isDeadCharacterMarked; }
+        set { _isDeadCharacterMarked = value; }
+    }
+
     Vector3 _deadPosition = new Vector3();
 
 
@@ -514,30 +530,49 @@ public class CharacterManager : MonoBehaviour {
         _isBusy = false;
     }
 
-    public Vector3 getCharacterPosition() {
-        
+    /// <summary>
+    /// Partendo dal character restituisce la posizione più raggiungibile per un agent(sulla navmesh)
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 getCharacterPositionReachebleByAgents() {
+        Vector3 pos = new Vector3();
+        NavMeshHit hit;
+
 
         if (isDead) {
-
-            NavMeshHit hit;
             
-            if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 1.0f, NavMesh.AllAreas)) {
+            if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
                 _deadPosition = hit.position;
+
+                pos = _deadPosition;
+            } else {
+
+                // nel caso in cui fallisse restituisce la posizione del character
+                pos = gameObject.transform.position;
             }
 
+            
         } else {
-            _deadPosition = gameObject.transform.position;
+
+            if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
+
+                pos = hit.position;
+            } else {
+
+                // nel caso in cui fallisse restituisce la posizione del character
+                pos = gameObject.transform.position;
+            }
         }
 
-        return _deadPosition;
+        return pos;
     }
 
 #if UNITY_EDITOR
     void OnDrawGizmos() {
         if (isDead) {
             Gizmos.color = Color.grey;
-            Gizmos.DrawLine(transform.position, getCharacterPosition());
-            Gizmos.DrawSphere(getCharacterPosition(), 0.25f);
+            Gizmos.DrawLine(transform.position, getCharacterPositionReachebleByAgents());
+            Gizmos.DrawSphere(getCharacterPositionReachebleByAgents(), 0.25f);
         }
     }
 #endif

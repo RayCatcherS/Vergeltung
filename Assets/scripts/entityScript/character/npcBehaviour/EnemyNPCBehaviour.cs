@@ -99,6 +99,29 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     }
 
     /// <summary>
+    /// Implementazione del suspiciousCorpseFoundAlertBehaviour del character nemico
+    /// Cerca di raggiungere la lastSeenFocusAlarmPosition
+    /// </summary>
+    public override void corpseFoundConfirmedAlertBehaviour() {
+        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
+
+        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
+
+
+            _agent.SetDestination(lastSeenFocusAlarmPosition);
+
+            _agent.isStopped = false;
+            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
+        } else {
+
+
+            Vector3 targetDirection = lastSeenFocusAlarmPosition - gameObject.transform.position;
+            characterMovement.rotateCharacter(targetDirection, false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
+            stopAgent();
+        }
+    }
+
+    /// <summary>
     /// Per le guardie nemiche quando termina l'HostilityTimer viene aggiornato il dizionario a livello globale
     /// passando il dizionario del character (viene fatta l'unione)
     /// Inoltre tutti gli altri character nemici avranno il dizionario hostility aggiornato
@@ -133,4 +156,5 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         
 
     }
+
 }

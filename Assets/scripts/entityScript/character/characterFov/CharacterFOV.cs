@@ -135,25 +135,32 @@ public class CharacterFOV : MonoBehaviour
         
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedFirstFovRadius, targetCharacterMask);
         bool characterSeen = false;
+        bool deadCharacterVisible = false;
 
         if (hitColliders.Length != 0) {
 
             foreach(Collider collider in hitColliders) {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
-                    characterSeen = isCharactersVisibleInFirstFOV(collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
+                    characterSeen = isCharactersVisibleInFirstFOV(
+                        collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
 
 
+                } else {
+
+
+                    if (collider.gameObject.GetComponent<CharacterManager>().isDead) {
+                        CharacterManager deadCharacterManager = collider.gameObject.GetComponent<CharacterManager>();
+                        deadCharacterVisible = isDeadCharactersVisibleInFirstFOV(collider.gameObject.transform.position, deadCharacterManager);
+                    }
                 }
             }
             
         }
 
-        if(characterSeen) {
-            firstFOVCanSeeCharacter = true;
-        } else {
-            firstFOVCanSeeCharacter = false;
-        }
+
+        firstFOVCanSeeDeadCharacter = deadCharacterVisible;
+        firstFOVCanSeeCharacter = characterSeen;
     }
 
     /// <summary>
@@ -176,9 +183,8 @@ public class CharacterFOV : MonoBehaviour
                         collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
                 } else {
 
+
                     if(collider.gameObject.GetComponent<CharacterManager>().isDead) {
-
-
                         CharacterManager deadCharacterManager = collider.gameObject.GetComponent<CharacterManager>();
                         deadCharacterVisible = isDeadCharactersVisibleInSecondFOV(collider.gameObject.transform.position, deadCharacterManager);
                     }
@@ -191,6 +197,12 @@ public class CharacterFOV : MonoBehaviour
         secondFOVCanSeeCharacter = characterSeen;
 
     }
+
+
+
+
+
+
 
 
     public bool isCharactersVisibleInFirstFOV(Vector3 raycastPositionTargetToReach) {
@@ -214,6 +226,8 @@ public class CharacterFOV : MonoBehaviour
                 CharacterManager seenCharacter = hit.collider.gameObject.GetComponent<CharacterManager>();
                 if (hit.collider.gameObject.layer == CHARACTER_LAYERS) {
 
+
+
                     Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
                     result = true;
                     onFirstFOVCanSeeCharacter(seenCharacter);
@@ -225,7 +239,6 @@ public class CharacterFOV : MonoBehaviour
         }
         return result;
     }
-
     public bool isCharactersVisibleInSecondFOV(CharacterManager characterToSee, Vector3 raycastPositionTargetToReach) {
         bool result = false;
         Vector3 fromPosition = _recognitionTarget.position;
@@ -247,7 +260,8 @@ public class CharacterFOV : MonoBehaviour
                 if (hit.collider.gameObject.layer == CHARACTER_LAYERS) {
 
 
-                    if(characterToSee.GetInstanceID() == hit.collider.gameObject.GetComponent<CharacterManager>().GetInstanceID()) {
+                    // il character hittato ha lo stesso id del characterToSee
+                    if (characterToSee.GetInstanceID() == hit.collider.gameObject.GetComponent<CharacterManager>().GetInstanceID()) {
                         if (!firstFOVCanSeeCharacter) {
                             Debug.DrawLine(fromPosition, hit.point, Color.magenta, fovCheckFrequency);
                         }
@@ -289,16 +303,16 @@ public class CharacterFOV : MonoBehaviour
 
                     if (hit.collider != null) {
 
-                        Debug.Log(hit.collider.gameObject.name);
+
                     } else {
                         result = true;
-                        Debug.Log("line not cast collide");
-                        Debug.DrawLine(reachableTarget.position, hit.point, Color.magenta, fovCheckFrequency);
+
+                        Debug.DrawLine(reachableTarget.position, hit.point, Color.black, fovCheckFrequency);
                     }
                 } else {
-                    Debug.Log("line not cast collide");
+
                     result = true;
-                    Debug.DrawLine(reachableTarget.position, hit.point, Color.magenta, fovCheckFrequency);
+
                 }
                 enableCharacterCollider();
             }
@@ -314,25 +328,80 @@ public class CharacterFOV : MonoBehaviour
 
         return result;
     }
+    public bool isDeadCharactersVisibleInFirstFOV(Vector3 raycastPositionTargetToReach, CharacterManager deadCharacter) {
+        bool result = false;
+        Vector3 fromPosition = _recognitionTarget.position;
+        Vector3 toPosition = raycastPositionTargetToReach;
+        Vector3 direction = toPosition - fromPosition;
+
+
+        if (Vector3.Angle(transform.forward, direction) < (_usedFirstFovAngle / 2)) {
+
+
+            // ottieni i transform per la conferma della visualizzazione del character
+            List<Transform> deadCharacterTargetTransforms = deadCharacter.gameObject.GetComponent<RagdollManager>().deadCharacterTargetTransform;
+
+            RaycastHit hit;
+
+            foreach (Transform deadCharacterTarget in deadCharacterTargetTransforms) {
+
+
+                disableCharacterCollider();
+                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+
+                    if (hit.collider != null) {
+
+                        //Debug.Log(hit.collider.gameObject.name);
+                    } else {
+                        result = true;
+
+                        Debug.DrawLine(reachableTarget.position, hit.point, Color.magenta, fovCheckFrequency);
+                    }
+                } else {
+
+                    result = true;
+                }
+                enableCharacterCollider();
+            }
+
+
+
+
+            if (result) {
+                onFirstFOVCanSeeDeadCharacter(deadCharacter);
+            }
+
+        }
+
+        return result;
+    }
+
+
+
+
+
+
+
+
+
 
     private void onFirstFOVCanSeeCharacter(CharacterManager seenCharacter) {
 
-        float lastPosX = seenCharacter.getCharacterPosition().x;
-        float lastPosY = seenCharacter.getCharacterPosition().y;
-        float lastPosZ = seenCharacter.getCharacterPosition().z;
+        float lastPosX = seenCharacter.getCharacterPositionReachebleByAgents().x;
+        float lastPosY = seenCharacter.getCharacterPositionReachebleByAgents().y;
+        float lastPosZ = seenCharacter.getCharacterPositionReachebleByAgents().z;
         Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
         nPCBehaviour.hostilityCheck(seenCharacter, lastPos, true);
     }
-
     private void onSecondFOVCanSeeCharacter(CharacterManager seenCharacter) {
 
         if(!firstFOVCanSeeCharacter) {
 
-            float lastPosX = seenCharacter.getCharacterPosition().x;
-            float lastPosY = seenCharacter.getCharacterPosition().y;
-            float lastPosZ = seenCharacter.getCharacterPosition().z;
+            float lastPosX = seenCharacter.getCharacterPositionReachebleByAgents().x;
+            float lastPosY = seenCharacter.getCharacterPositionReachebleByAgents().y;
+            float lastPosZ = seenCharacter.getCharacterPositionReachebleByAgents().z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
 
@@ -344,25 +413,45 @@ public class CharacterFOV : MonoBehaviour
             
         }
     }
-
     private void onSecondFOVCanSeeDeadCharacter(CharacterManager seenDeadCharacter) {
         
 
 
         if(!firstFOVCanSeeDeadCharacter) {
-            float lastPosX = seenDeadCharacter.getCharacterPosition().x;
-            float lastPosY = seenDeadCharacter.getCharacterPosition().y;
-            float lastPosZ = seenDeadCharacter.getCharacterPosition().z;
+            float lastPosX = seenDeadCharacter.getCharacterPositionReachebleByAgents().x;
+            float lastPosY = seenDeadCharacter.getCharacterPositionReachebleByAgents().y;
+            float lastPosZ = seenDeadCharacter.getCharacterPositionReachebleByAgents().z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
-
-            nPCBehaviour.suspiciousCorpseFoundCheck(lastPos);
+            if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
+                nPCBehaviour.suspiciousCorpseFoundCheck(seenDeadCharacter, lastPos);
+            }
+                
         }
         
 
 
     }
+    private void onFirstFOVCanSeeDeadCharacter(CharacterManager seenDeadCharacter) {
 
+
+        float lastPosX = seenDeadCharacter.getCharacterPositionReachebleByAgents().x;
+        float lastPosY = seenDeadCharacter.getCharacterPositionReachebleByAgents().y;
+        float lastPosZ = seenDeadCharacter.getCharacterPositionReachebleByAgents().z;
+        Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+
+        if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert ||
+            nPCBehaviour.characterAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+            nPCBehaviour.characterAlertState == CharacterAlertState.WarnOfSuspiciousAlert
+            ) {
+
+            
+            nPCBehaviour.corpseFoundConfirmedCheck(seenDeadCharacter, lastPos);
+        }
+
+
+
+    }
 
 
 
