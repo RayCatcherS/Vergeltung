@@ -5,39 +5,65 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
-# LastSeenCharacterPosition (ultima posizione in cui è stato rilevato il character)
+# Stati dell'IA e implementazione Behaviour degli stati
 
-> Sia il **character NPC A** tale che non sia player
+- Nuovi stati di allerta
+- Implementazione dei behaviour dei rispettivi stati del character
 
-Il componente **CharacterFOV** del **character NPC A** quando rileva un character, restituisce anche l'ultima posizione in cui il character è stato rilevato.
-Questa posizione viene usata negli stati di allarme Suspicious e Hostility alert del **character NPC A** quando il character che provocato l'allarme è fuori dal campo visivo.
 
-# Suspicious alert state behaviour character civili e nemici
+Il modo con cui vengono gestiti gli stati del'IA può essere rappresentato con una struttra simile agli automi a stati finiti ma senza uno stato finale. In cui le transizioni sono le chiamate a dei metodi di check che verificano se si può entrare in uno stato o meno.
+(ultima posizione in cui è stato rilevato il character)
 
-Implementato il suspicious alert behaviour dei civili e dei nemici. Per tutto il tempo che ii **character NPC A** è nello stato di **Suspicious alert state** cercherà di avvicinarsi al character che ha rilevato come ostile. Se il character che ha provocato l'allarme va fuori dalla portata del FOV del **character NPC A**, allora il **character NPC A** cercherà di raggiungere la **LastSeenCharacterPosition** (l'ultima posizione in cui è stato visto il character)
+> Sia il **character NPC A** istanza di una entità character tale che non sia player
+
+L'istanza del componente **BaseNPCBehaviour** del **character NPC A** contiene l'implementazione dei metodi di check, i metodi check alarm per essere chiamati prevedono il passaggio di una posizione o di un character che potenzialmente può innescare uno stato di allarme. Se questa verifica da un esito positivo allora si può settare un certo stato di allarme che provocherà l'esecuzione di un certo behaviour o meno. Questi metodi di check possono essere reimplementati nelle classi figlie(CivilianNPCBheaviour, EnemyNPCBehaviour), per fare dei controlli più specifici o per avere implementazioni più specifiche rispetto al ruolo del character(civile o nemico)
+> Esempi di metodi check alarm
+> - suspiciousCheck
+> - hostilityCheck
+> - receiveWarnOfSouspiciousCheck
+> - suspiciousCorpseFoundCheck
+> - corpseFoundConfirmedCheck
+
+Questi metodi di check sono chiamati dall'istanza del componente FOV del **character NPC A** che rappresenta i "sensori dell'IA".
+
+## lastSeenFocusAlarmPosition
+
+La **lastSeenFocusAlarmPosition** è una variabile Vector3(vettore posizione) e viene aggiornata dai metodi di check e rappresenta l'ultima posizione in cui qualcosa ha innescato un certo stato del character. Questa posizione verrà usata nell'esecuzione dei behaviour:
+
+> ### Esempio 1:
+> Nel check degli stati **suspiciousCheck e hostilityCheck** la **lastSeenFocusAlarmPosition** rappresenta l'ultima posizione in cui il character è stato rilevato.s
+> ### Esempio 2:
+> Nel check dello stato **receiveWarnOfSouspiciousCheck** la **lastSeenFocusAlarmPosition** rappresenta la posizione in c'è stata un'attività sospetta e che deve essere raggiunta da una guardia nemica.
+
+
+Questa posizione viene anche usata dai behaviour degli stati di allarme Suspicious e Hostility alert del **character NPC A** quando il character che ha provocato l'allarme è fuori dal campo visivo. Quindi il **character NPC A** proverà a raggiungere la **lastSeenFocusAlarmPosition**, ovvero l'ultima posizione in cui è stato avvistato un character ostile.
+
+<p>&nbsp;</p>
+
+# Implementazioni Behaviour stati
+I behaviour possono implementare una specializzazione nelle classi figle (EnemyNPCBehaviour, CivilianNPCBehaviour), infatti alcuni behaviour saranno differenti in base al ruolo del character.
+
+## SuspiciousAlert state e suspiciousAlertBehaviour 
+Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCBehaviour e EnemyNPCBehaviour behaviour dello stato del character SuspiciousAlert
+
+I Civili e i Nemici entrano nello stato di SuspiciousAlert in base al risultato dei check spiegati nel [capitolo 4](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md).
+> Durante lo stato di **SuspiciousAlert**, viene eseguito in loop il behaviour corrispondente **suspiciousAlertBehaviour**.
+> Durante il **suspiciousAlertBehaviour** il **character NPC A** cercherà di avvicinarsi al character che ha rilevato come sospetto. Se il character che ha provocato l'allarme va fuori dalla portata del FOV del
+> **character NPC A**, allora il **character NPC A** cercherà di raggiungere la **lastSeenFocusAlarmPosition** (l'ultima posizione in cui è stato visto il character), altrimenti se il character che ha provocato
+> l'allarme è alla portata del fov del **character NPC A** cercherà di raggiungere la posizione del character, ruotando in direzione del character che ha scatenato l'allarme.
+> Quando il character che ha scatenato l'allarme è fuori portata il **character NPC A** resterà fermo nell'ultima posizione in cui è stato avvistato il character che ha scatenato l'allarme.
 
 ![Image animator](SuspiciousAlertStateBehaviour.gif)
 
 <p>&nbsp;</p>
 
-# Timed Interaction
+## HostilityAlert state e hostilityAlertBehaviour 
+Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCBehaviour e EnemyNPCBehaviour behaviour dello stato del character HostilityAlert
 
-Alcune interaction degli interactable object per questione di design possono richiedere più di un istante prima di poter essere completate. Per necessità di simulare l'attesa di una interaction, sono stati implementati i "Timed task" che rappresentano appunto le interaction che richiedono del tempo affinchè vengano eseguiti. L'esecuzione di queste interaction però sempre per motivi di game design renderanno impossibile i movimenti del character player fin quando la timed interaction non è completa. La timed interaction però sempre per motivi di game design può essere interrotta dallo stesso giocatore, questo però comporterà il non completamento della stessa.
-
-## Appena più concettualmente
-Concettualmente un interactable object offre una interazione, esso può richiamare il **timed interaction** del character che sta effettuando l'interazione. Come visto nel capitolo 1 degli interactable objects, gli interactable objects sono in grado di offrire delle interazioni(eventi) che però per essere eseguiti richiedono il Character Manager di chi li esegue, questo consentirà di influenzare il character che sta effettuando l'interaction in questo caso avviando la Timed interaction. Durante l'esecuzione della timed interaction non sarà possibile eseguire movimenti del character, ma sarà sufficiente premere un tasto per annullarla uscendo dallo stato di "_isTimedInteractionProcessing" (stato del character)
-
-## Slider UI per rappresentare le Timed Interaction
-Costruita UI ed implementato manager UI delle timed interaction. Tramite il loop delle timed interaction è possibile inizializzare (min value, max value) uno slider e aggiornare in tempo reale sulla UI lo stato di avanzamento della timed interaction. Dalla barra è visualizzabile il nome della timed interaction. Nella label superiore viene visualizzato il comando per annullare la timed interaction.
-
-![Image animator](timedInteraction.png)
-
-
-## Applicazione timed Interaction nello scassinamento delle porte
-Le timed interaction sono state usate nelle interazioni dello scassinamento delle porte. Per design scassinare la porta rende il character vulnerabile ma libero di annullare e ricominciare in seguito l'interaction
-
-![Image animator](lockpickDoor.gif)
-
-# Vari fix
-- Vari fix per equilibrare il gioco(velocità reazione Characters e FOV Characters)
-- Scassinare una porta espone il character a possibili stati di allerta, questo è visualizzabile dalla label che appare in alto a destra.
+### Implementazione EnemyNPCBehaviour:
+> Durante lo stato di **HostilityAlert**, viene eseguito in loop il behaviour corrispondente **hostilityAlertBehaviour**.
+> Durante l'**hostilityAlertBehaviour** il **character NPC A** cercherà di avvicinarsi al character che ha rilevato come ostile. Se il character che ha provocato l'allarme va fuori dalla portata del FOV del
+> **character NPC A**, allora il **character NPC A** cercherà di raggiungere la **lastSeenFocusAlarmPosition** (l'ultima posizione in cui è stato visto il character), altrimenti se il character che ha provocato
+> l'allarme è alla portata del fov del **character NPC A** cercherà di raggiungere la posizione del character, ruotando(non istantaneamente ma usando una funzione di interpolazione) nella direzione del character che ha scatenato l'allarme.
+> Inoltre il character aprirà il fuoco in base all'arma selezionata
+> Quando il character che ha scatenato l'allarme è fuori portata il **character NPC A** resterà fermo nell'ultima posizione in cui è stato avvistato il character che ha scatenato l'allarme.
