@@ -285,16 +285,19 @@ public class CharacterManager : MonoBehaviour {
 
 
 
-                
-                // flashlight fov
-                await _inventoryManager.characterFlashLight.lightOnFlashLight();
-                _characterFOV.setFOVValues(
-                    firstFovRadius: _characterFOV.defaultFirstFovRadius / dividerFOVMalusFlashlightValue,
-                    firstFovAngle: _firstMalusFovAngle,
 
-                    secondFovRadius: _characterFOV.defaultSecondFovRadius / dividerFOVMalusFlashlightValue,
-                    secondFovAngle: _secondMalusFovAngle
-                );
+                // flashlight fov
+
+                if (!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
+                    await _inventoryManager.characterFlashLight.lightOnFlashLight();
+                    _characterFOV.setFOVValues(
+                        firstFovRadius: _characterFOV.defaultFirstFovRadius / dividerFOVMalusFlashlightValue,
+                        firstFovAngle: _firstMalusFovAngle,
+
+                        secondFovRadius: _characterFOV.defaultSecondFovRadius / dividerFOVMalusFlashlightValue,
+                        secondFovAngle: _secondMalusFovAngle
+                    );
+                }
             }
         }
         
