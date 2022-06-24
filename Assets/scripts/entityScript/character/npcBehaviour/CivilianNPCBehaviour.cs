@@ -74,7 +74,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
                         closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmPosition);
                         isEnemyCharacterToWarnCalled = true;
 
-                        print("WARN");
+
                     } else { // impossibile raggiungere il closer enemy character
 
                         Debug.Log("enemyCharacterImpossibleToReach ");
