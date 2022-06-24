@@ -11,8 +11,9 @@ public class CharacterFOV : MonoBehaviour
 {
     // const
     private const int CHARACTER_LAYERS = 7;
-    private const int ALL_LAYERS = -1 << RAGDOLL_BONE;
-    private const int RAGDOLL_BONE = 15;
+    private const int ALL_LAYERS = -1; // except glasses ~(1 << 17)
+    private const int RAGDOLL_BONE_LAYER = 15;
+    private const int SHATTERABLE_GLASS_LAYER = 17;
 
     [Header("References")]
     [SerializeField] private Transform _recognitionTarget; // target partenza utilizzato per confermare dai campi visivi dei character che il character è stato rilevato
@@ -219,7 +220,7 @@ public class CharacterFOV : MonoBehaviour
 
             disableCharacterCollider();
             RaycastHit hit;
-            if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                 //Debug.Log(hit.collider.gameObject.name);
 
@@ -252,7 +253,7 @@ public class CharacterFOV : MonoBehaviour
 
             disableCharacterCollider();
             RaycastHit hit;
-            if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
 
                 //Debug.Log(hit.collider.gameObject.name);
@@ -299,7 +300,7 @@ public class CharacterFOV : MonoBehaviour
 
 
                 disableCharacterCollider();
-                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ~(1 << RAGDOLL_BONE_LAYER), QueryTriggerInteraction.Ignore)) {
 
                     if (hit.collider != null) {
 
@@ -347,7 +348,7 @@ public class CharacterFOV : MonoBehaviour
 
 
                 disableCharacterCollider();
-                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+                if (Physics.Linecast(reachableTarget.position, deadCharacterTarget.position, out hit, ~(1 << RAGDOLL_BONE_LAYER), QueryTriggerInteraction.Ignore)) {
 
                     if (hit.collider != null) {
 
@@ -465,7 +466,7 @@ public class CharacterFOV : MonoBehaviour
         RaycastHit hit;
 
         disableCharacterCollider();
-        if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ~ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+        if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
             if (hit.collider != null) {
                 res = false;
