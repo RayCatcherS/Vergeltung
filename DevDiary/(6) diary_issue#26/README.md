@@ -161,6 +161,8 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 ![Image animator](InstantAlert.gif)
 
+- Implementato lo stato di game over, il passaggio alla schermata game over e la possibilità di stoppare i behaviour di tutti i characters in esecuzione.
+
 
 <p>&nbsp;</p>
 
