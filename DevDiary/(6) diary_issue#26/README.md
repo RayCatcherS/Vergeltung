@@ -138,8 +138,10 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 
 
+# Miglioramenti IA
+Il character player verrà fissato dagli altri character che non sono in uno stato di allarme se il character passerà vicino al loro campo visivo ravvicinato.
 
-
+![Image animator](characterSeenInUnalert.gif)
 
 
 <p>&nbsp;</p>
