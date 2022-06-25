@@ -427,9 +427,23 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         await characterActivityManager.getCurrentTask().executeTask(
                             gameObject.GetComponent<CharacterManager>(),
                             this,
-                            characterMovement
+                            characterMovement,
+                            executeDuringTask: () => {
+
+                                Vector2 taskDirection = characterActivityManager.getCurrentTask().getTaskDirection();
+                                agent.updateRotation = false;
+
+                                if (characterFOV.unalertSeenCharacter != Vector3.zero) {
+
+
+                                    Vector3 unalertSeenCharacterDirection = characterFOV.unalertSeenCharacter - gameObject.transform.position;
+                                    characterMovement.rotateCharacter(new Vector2(unalertSeenCharacterDirection.x, unalertSeenCharacterDirection.z), false, RotationLerpSpeedValue.fast);
+                                } else {
+                                    characterMovement.rotateCharacter(taskDirection, false);
+                                }
+                                
+                            }
                         );
-                        //Debug.Log("task eseguito");
 
 
                         if (characterActivityManager.isActualActivityLastTask()) { // se dell'attività attuale è l'ultimo task

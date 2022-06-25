@@ -7,8 +7,7 @@ using UnityEngine;
 /// Questa classe si occupa dell'istanza del componente del character che 
 /// gestisce la rilevazione e il riconosciemento degli altri character 
 /// </summary>
-public class CharacterFOV : MonoBehaviour
-{
+public class CharacterFOV : MonoBehaviour {
     // const
     private const int CHARACTER_LAYERS = 7;
     private const int ALL_LAYERS = -1; // except glasses ~(1 << 17)
@@ -36,7 +35,7 @@ public class CharacterFOV : MonoBehaviour
     [Header("Impostazioni")]
     [SerializeField] private LayerMask targetCharacterMask;
     [SerializeField] [Range(0.1f, 1f)] private float fovCheckFrequency = 0.2f; // frequenza check campi visivi
-    
+
 
 
     [Header("Primo campo visivo(ravvicinato)")]
@@ -76,7 +75,7 @@ public class CharacterFOV : MonoBehaviour
     public float usedSecondFovAngle {
         get { return _usedSecondFovAngle; }
     }
-    
+
 
     [Header("Area di allerta")]
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
@@ -84,8 +83,12 @@ public class CharacterFOV : MonoBehaviour
     public float alertArea {
         get { return _alertArea; }
     }
-    
 
+
+    private Vector3 _unalertSeenCharacter = Vector3.zero; // character guardato durante lo stato di unalert
+    public Vector3 unalertSeenCharacter {
+        get { return _unalertSeenCharacter; }
+    }
 
     public void Start() {
         setFOVValuesToDefault();
@@ -159,6 +162,10 @@ public class CharacterFOV : MonoBehaviour
             
         }
 
+        if(!firstFOVCanSeeCharacter) {
+            _unalertSeenCharacter = Vector3.zero;
+        }
+        
 
         firstFOVCanSeeDeadCharacter = deadCharacterVisible;
         firstFOVCanSeeCharacter = characterSeen;
@@ -393,6 +400,18 @@ public class CharacterFOV : MonoBehaviour
         float lastPosZ = seenCharacter.getCharacterPositionReachebleByAgents().z;
         Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
+        // i caracter che entrano nel primo fov verranno fissati se il npcBehaviour è nello stato di unalert
+        if(nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
+
+            
+            float x = seenCharacter.transform.position.x;
+            float y = seenCharacter.transform.position.y;
+            float z = seenCharacter.transform.position.z;
+            _unalertSeenCharacter = new Vector3(x, y, z);
+            
+        } else {
+            _unalertSeenCharacter = Vector3.zero;
+        }
 
         nPCBehaviour.hostilityCheck(seenCharacter, lastPos, true);
     }
