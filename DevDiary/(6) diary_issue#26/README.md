@@ -127,8 +127,11 @@ Questo behaviour rappresenta lo stato di allarme dell'aver confermato la presenz
 Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità a stati come
 **HostilityAlert** e **SuspiciousAlert**.
 
-Questo behaviour viene attivato quando il character nemico riceve un warn da un civile il cui behaviour è quello dell'**HostilityAlert** o dell'aver confermato la presenza di un cadavere (**CorpseFoundConfirmedAlert**). Nello stato di **WarnOfSuspiciousAlert** il nemico ricevere una posizione dal civile (**lastSeenFocusAlarmPosition**), questa posizione verrà raggiunta di corsa dal character nemico, simulando uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di unalert.
-Per adesso questo behaviour è implementato solo dalle guardie.
+> Questo behaviour viene attivato quando il character nemico riceve un warn da un civile il cui behaviour è quello dell'**HostilityAlert** o dell'aver confermato la presenza di
+> un cadavere (**CorpseFoundConfirmedAlert**). Nello stato di **WarnOfSuspiciousAlert** il nemico ricevere una posizione dal civile (**lastSeenFocusAlarmPosition**), questa
+> posizione verrà raggiunta di corsa dal character nemico, simulando uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di
+> unalert.
+> Per adesso questo behaviour è implementato solo dalle guardie.
 
 ![Image animator](WarnOfSuspiciousAlert.gif)
 
