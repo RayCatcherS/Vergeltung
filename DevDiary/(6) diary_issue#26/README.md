@@ -169,7 +169,7 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 # Schermate UI:
 Implementati menu + navigazione fra menu.
 ## Menu principale, Impostazioni e storia
-Nel menù principale si potranno settare le impostazioni grafiche. Puoi scrollare la storia prima di iniziare a giocare.
+Nel menù principale si potranno settare le impostazioni grafiche(risoluzione schermo). Puoi scrollare la storia prima di iniziare a giocare.
 
 ![Image animator](mainMenu.png)
 
