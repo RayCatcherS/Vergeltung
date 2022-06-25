@@ -1,7 +1,7 @@
 # Devlog Capitolo 6(Diario di sviluppo issue 26)
 ![Image animator](cover.png)
 
-- IA Behaviour dei character 
+- Mega capitolo Behaviour IA dei characters
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -88,7 +88,7 @@ Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCB
 <p>&nbsp;</p>
 
 ## SuspiciousCorpseFoundAlert state e suspiciousCorpseFoundAlertBehaviour
-Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità nel caso si attivino gli stati
+Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità a stati come
 **HostilityAlert** e **SuspiciousAlert**.
 > Questo behaviour rappresenta il sospetto di aver trovato un cadavere.
 > Durante lo stato di **SuspiciousCorpseFoundAlert**, viene eseguito in loop il behaviour corrispondente **suspiciousCorpseFoundAlertBehaviour**.
@@ -124,9 +124,13 @@ Questo behaviour rappresenta lo stato di allarme dell'aver confermato la presenz
 <p>&nbsp;</p>
 
 ## WarnOfSuspiciousAlert state e warnOfSouspiciousAlertBehaviour
+Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità a stati come
+**HostilityAlert** e **SuspiciousAlert**.
 
+Questo behaviour viene attivato quando il character nemico riceve un warn da un civile il cui behaviour è quello dell'**HostilityAlert** o dell'aver confermato la presenza di un cadavere (**CorpseFoundConfirmedAlert**). Nello stato di **WarnOfSuspiciousAlert** il nemico ricevere una posizione dal civile (**lastSeenFocusAlarmPosition**), questa posizione verrà raggiunta di corsa dal character nemico, simulando uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di unalert.
+Per adesso questo behaviour è implementato solo dalle guardie.
 
-
+![Image animator](WarnOfSuspiciousAlert.gif)
 
 
 
