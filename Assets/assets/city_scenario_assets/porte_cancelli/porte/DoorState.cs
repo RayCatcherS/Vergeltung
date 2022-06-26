@@ -146,8 +146,10 @@ public class DoorState : MonoBehaviour
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.layer == CHARACTER_LAYER) {
 
-            if (doorAnimator.IsInTransition(0)) {
-                doorAnimator.speed = 0;
+            if(!collision.gameObject.GetComponent<CharacterManager>().isDead) {
+                if (doorAnimator.IsInTransition(0)) {
+                    doorAnimator.speed = 0;
+                }
             }
         }
     }

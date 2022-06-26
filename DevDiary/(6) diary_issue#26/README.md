@@ -139,6 +139,14 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 
 # Miglioramenti IA
+## Simulazione ricerca del player
+Tramite un semplice algoritmo vengono generate *n* posizioni casuali entro un certo raggio *r* a partire dal character, da queste posizioni si ottengono le posizioni più vicine rispetto al navmesh(raggiungibili quindi dagli agent).
+I character che sono negli stati di allarme che raggiungono la **lastSeenFocusAlarmPosition** simuleranno la ricerca del possibile player ostile cercando di raggiungere tutte le posizioni generate. In modo da aumentare le probabilità che il player venga trovato.
+I pallini viola illustrati sono le posizioni generate che i character in allerta generano e che devono raggiungere, simulando la ricerca del character.
+
+![Image animator](characterSeenInUnalert.gif)
+
+## Gli NPC ruotano verso il player quando vicini
 Il character player verrà fissato dagli altri character che non sono in uno stato di allarme se il character passerà vicino al loro campo visivo ravvicinato.
 
 ![Image animator](characterSeenInUnalert.gif)

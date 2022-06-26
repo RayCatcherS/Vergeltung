@@ -1071,7 +1071,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         return result;
     }
 
-    protected bool isAgentReachedDestination(Vector3 agentDestinationPosition) {
+    public bool isAgentReachedDestination(Vector3 agentDestinationPosition) {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
         bool result;
 
@@ -1113,7 +1113,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// gestisce animazione e velocità del character in movimento 
     /// </summary>
     /// <param name="agentSpeed"></param>
-    protected void animateAndSpeedMovingAgent(AgentSpeed agentSpeed = AgentSpeed.Walk) {
+    public void animateAndSpeedMovingAgent(AgentSpeed agentSpeed = AgentSpeed.Walk) {
         
 
 
