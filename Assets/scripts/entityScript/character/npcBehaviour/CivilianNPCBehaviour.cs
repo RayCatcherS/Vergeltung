@@ -35,6 +35,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
+            _agent.updateRotation = true;
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
@@ -55,6 +56,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
             if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
 
+                _agent.updateRotation = true;
                 _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
 
                 _agent.isStopped = false;

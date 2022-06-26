@@ -117,7 +117,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
     [SerializeField] protected InventoryManager characterInventoryManager;
 
-
+    [Header("Behaviour process")]
+    MoveNPCBetweenRandomPoints simulateSearchingPlayerSubBehaviour;
 
 
 
@@ -716,8 +717,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void corpseFoundConfirmedCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition) {
 
 
-        if (_characterState == CharacterAlertState.Unalert ||
-            _characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
+        if (_characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
             _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert
         ) {
 

@@ -25,6 +25,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
+            _agent.updateRotation = true;
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
@@ -50,7 +51,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
-
+            _agent.updateRotation = true;
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
 
@@ -86,8 +87,8 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
         _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
-           
 
+            _agent.updateRotation = true;
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
@@ -107,7 +108,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
 
-
+            _agent.updateRotation = true;
             _agent.SetDestination(lastSeenFocusAlarmPosition);
 
             _agent.isStopped = false;
