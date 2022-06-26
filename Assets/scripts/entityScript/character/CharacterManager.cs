@@ -367,31 +367,31 @@ public class CharacterManager : MonoBehaviour {
 
             if (role == Role.EnemyGuard) {
 
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAlertAnimator();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopSuspiciousTimer();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopHostilityCheckTimer();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAlertAnimator();
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
-                await gameObject.GetComponent<EnemyNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
-                gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                await gameObject.GetComponent<EnemyNPCBehaviourManager>().forceStopCharacterAndAwaitStopProcess();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().enabled = false;
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAllCoroutines();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 
                 
             } else if (role == Role.Civilian) {
 
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopAlertAnimator();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopSuspiciousTimer();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopHostilityCheckTimer();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAlertAnimator();
 
 
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
-                await gameObject.GetComponent<CivilianNPCBehaviour>().forceStopCharacterAndAwaitStopProcess();
-                gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopAllCoroutines();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
+                await gameObject.GetComponent<CivilianNPCBehaviourManager>().forceStopCharacterAndAwaitStopProcess();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().enabled = false;
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAllCoroutines();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
                 

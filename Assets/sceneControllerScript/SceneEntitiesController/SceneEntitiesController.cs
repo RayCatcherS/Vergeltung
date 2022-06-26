@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class SceneEntitiesController : MonoBehaviour
 {
-    [SerializeField] private List<BaseNPCBehaviour> _allNpcList = new List<BaseNPCBehaviour>();
-    public List<BaseNPCBehaviour> allNpcList {
+    [SerializeField] private List<BaseNPCBehaviourManager> _allNpcList = new List<BaseNPCBehaviourManager>();
+    public List<BaseNPCBehaviourManager> allNpcList {
         get { return _allNpcList; }
     }
     public List<CharacterManager> getAllNPC() {
@@ -22,17 +22,17 @@ public class SceneEntitiesController : MonoBehaviour
         return characterManagers;
     }
 
-    [SerializeField] private List<EnemyNPCBehaviour> enemyNpcList = new List<EnemyNPCBehaviour>();
-    [SerializeField] private List<CivilianNPCBehaviour> civilianNpcList = new List<CivilianNPCBehaviour>();
+    [SerializeField] private List<EnemyNPCBehaviourManager> enemyNpcList = new List<EnemyNPCBehaviourManager>();
+    [SerializeField] private List<CivilianNPCBehaviourManager> civilianNpcList = new List<CivilianNPCBehaviourManager>();
 
     [SerializeField] private GameObject player;
 
-    public void addNPCEnemyIstance(EnemyNPCBehaviour enemyNPCBehaviour) {
+    public void addNPCEnemyIstance(EnemyNPCBehaviourManager enemyNPCBehaviour) {
         _allNpcList.Add(enemyNPCBehaviour);
         enemyNpcList.Add(enemyNPCBehaviour);
     }
 
-    public void addNPCCivilianIstance(CivilianNPCBehaviour enemyNPCBehaviour) {
+    public void addNPCCivilianIstance(CivilianNPCBehaviourManager enemyNPCBehaviour) {
         _allNpcList.Add(enemyNPCBehaviour);
         civilianNpcList.Add(enemyNPCBehaviour);
     }
@@ -67,12 +67,12 @@ public class SceneEntitiesController : MonoBehaviour
     /// Restituisce una istanza di CharacterManager se esiste un character nemico vicino che non è morto
     /// Restituisce null se non è disponibile alcun character nemico (esempio: sono tutti morti)
     /// </returns>
-    public EnemyNPCBehaviour getCloserEnemyCharacterFromPosition(Vector3 fromPosition) {
-        EnemyNPCBehaviour closerEnenemyCharacter = null;
+    public EnemyNPCBehaviourManager getCloserEnemyCharacterFromPosition(Vector3 fromPosition) {
+        EnemyNPCBehaviourManager closerEnenemyCharacter = null;
 
         float closerDisance = 0;
         
-        foreach (EnemyNPCBehaviour enemy in enemyNpcList) {
+        foreach (EnemyNPCBehaviourManager enemy in enemyNpcList) {
 
 
             // character non dead o che non si stanno stoppando
@@ -85,7 +85,7 @@ public class SceneEntitiesController : MonoBehaviour
         }
        
 
-        foreach (EnemyNPCBehaviour enemy in enemyNpcList) {
+        foreach (EnemyNPCBehaviourManager enemy in enemyNpcList) {
 
             // character non dead o che non si stanno stoppando
             if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour && enemy.characterAlertState == CharacterAlertState.Unalert) {

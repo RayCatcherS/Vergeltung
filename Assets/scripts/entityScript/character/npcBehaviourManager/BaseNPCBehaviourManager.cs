@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum AgentSpeed { SlowWalk, Walk, Run };
+
 /// <summary>
 /// Comportamento dell'npc base classe padre, implementazione astrazione AbstractNPCBehaviour
 /// </summary>
-public class BaseNPCBehaviour : AbstractNPCBehaviour {
+public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     // const
     private const int INTERACTABLE_LAYER = 3;
@@ -41,12 +43,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [Header("Configurazione agent")]
     [SerializeField] private float walkAgentSpeed = 3.3f;
     [SerializeField] private float runAgentSpeed = 6.3f;
-    public enum AgentSpeed { SlowWalk, Walk, Run };
+    
 
     // states
     [Header("Stati")]
     
-    [SerializeField] protected CharacterManager _focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
+    protected CharacterManager _focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
     protected CharacterManager focusAlarmCharacter {
         set {
             
@@ -59,9 +61,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         get { return _focusAlarmCharacter; }
     }
-    [SerializeField] private bool isFocusedAlarmCharacter = false;
-    [SerializeField] public Vector3 lastSeenFocusAlarmPosition; // ultima posizione che è stata visibile del character che ha provocato gli stati di allarme
-    [SerializeField] protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
+    private bool isFocusedAlarmCharacter = false;
+    [SerializeField] public Vector3 lastSeenFocusAlarmPosition; // ultima posizione d'allarma comunicata al character
+    protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
     
     public bool stopCharacterBehaviour {
         get { return _stopCharacterBehaviour; }
@@ -70,9 +72,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
     // queste variabili indicano se uno stato di allerta è stato innescato da loro stessi(tramiteFOV true) o se è stato indotto(false)
-    [SerializeField] protected bool checkedByHimselfHostility = false; 
-    [SerializeField] protected bool checkedByHimselfSuspicious = false;
-
+     
+    protected bool checkedByHimselfSuspicious = false;
     protected bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
@@ -89,7 +90,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
-    [SerializeField] protected bool unalertAgentDestinationSetted = false;
+    
     protected Dictionary<int, CharacterManager> _wantedHostileCharacters = new Dictionary<int, CharacterManager>();
     public Dictionary<int, CharacterManager> wantedHostileCharacters {
         set {
@@ -102,11 +103,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     // ref
     [Header("Reference")]
-    [SerializeField] public CharacterManager characterManager;
+    [SerializeField] protected CharacterManager _characterManager;
+    public CharacterManager characterManager {
+        get { return _characterManager; }
+    }
     [SerializeField] protected Animator alertSignAnimator;
     protected CharacterActivityManager characterActivityManager;
     protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
-    protected CharacterMovement characterMovement; // characterMovement collegato
+    [SerializeField] protected CharacterMovement _characterMovement; // characterMovement collegato
     [SerializeField] protected NavMeshAgent _agent;
     public NavMeshAgent agent {
         get { return _agent; }
@@ -118,36 +122,33 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     [SerializeField] protected InventoryManager characterInventoryManager;
 
     [Header("Behaviour process")]
-    MoveNPCBetweenRandomPoints simulateSearchingPlayerSubBehaviour;
-
-
-
-
-    /// <summary>
-    /// Forza stop coroutine character chiamata asincrona fino a quando il character
-    /// non è disattivo
-    /// </summary>
-    /// <returns></returns>
-    public async Task forceStopCharacterAndAwaitStopProcess() {
-
-        _stopCharacterBehaviour = true;
-        while (true) {
-            await Task.Yield();
-
-            if (characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        return;
-    }
-    public void initNPCComponent(CharacterSpawnPoint spawnPoint, CharacterMovement movement) {
+    BehaviourProcess simulateSearchingPlayerSubBehaviourProcess;
+    private UnalertBehaviorProcess unalertBehaviourProcess;
+    protected BehaviourProcess mainBehaviourProcess;
+    public void initNPCComponent(CharacterSpawnPoint spawnPoint) {
         this.spawnPoint = spawnPoint;
-        this.characterMovement = movement;
 
         this.characterActivityManager = this.spawnPoint.gameObject.GetComponent<CharacterActivityManager>();
     }
+    
+    
+    
+    
+    
+    
+    
     public void Start() {
+
+        // inizializza unalert behaviour process
+        unalertBehaviourProcess = new UnalertBehaviorProcess(
+            agent,
+            this,
+            characterActivityManager,
+            _characterMovement,
+            _characterFOV,
+            _characterManager
+        );
+
         StartCoroutine(cNPCBehaviourCoroutine());
     }
     private IEnumerator cNPCBehaviourCoroutine() {
@@ -188,7 +189,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                         break;
                     case CharacterAlertState.HostilityAlert: {
 
-                            hostilityAlertBehaviour();
+                            hostilityAlertBehaviourAsync();
                             onHostilityAlert();
                         }
                         break;
@@ -216,50 +217,16 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
     }
 
-    // stoppa agente e animazione dell'agente che dipende dal move character
-    public void stopAgent() {
-
-        if(_agent.enabled) {
-            _agent.isStopped = true;
-        }
-        characterMovement.stopCharacter();
-    }
-
-    public void stopAllCoroutines() {
-        StopAllCoroutines();
-    }
-
-
-
     /// <summary>
     /// cambia lo stato di allerta del character e avvia animazione 
     /// di allerta
     /// </summary>
     /// <param name="alertState"></param>
-    protected void setAlert(CharacterAlertState alertState) {
+    protected void setAlert(CharacterAlertState alertState, bool checkedByHimself) {
 
-        
+
         CharacterAlertState oldAlertState = _characterState;
         _characterState = alertState;
-
-
-
-        // se avviene la richiesta di WarnOfSuspiciousAlert o SuspiciousCorpseFoundAlert o CorpseFoundConfirmedAlert e lo stato precedente era di souspiciousAlert oppure HostilityAlert, il character torna nell'oldAlertState
-        if (
-            (alertState == CharacterAlertState.WarnOfSuspiciousAlert ||
-            alertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            alertState == CharacterAlertState.CorpseFoundConfirmedAlert)
-
-            && 
-            
-            
-            (oldAlertState == CharacterAlertState.SuspiciousAlert ||
-            oldAlertState == CharacterAlertState.HostilityAlert)) {
-
-            _characterState = oldAlertState;
-        }
-
-
 
 
 
@@ -270,7 +237,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
             oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert)
 
-            && 
+            &&
             alertState == CharacterAlertState.SuspiciousAlert
         ) {
 
@@ -296,13 +263,13 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) HostilityAlert
         if (
-            (oldAlertState == CharacterAlertState.Unalert || 
+            (oldAlertState == CharacterAlertState.Unalert ||
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
             oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert
             )
-            && 
+            &&
             alertState == CharacterAlertState.HostilityAlert
         ) {
 
@@ -311,8 +278,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
 
+            
 
-            startHostilityTimer();
+            startHostilityTimer(checkedByHimself);
 
             // animation sign
             resetAlertAnimatorTrigger();
@@ -322,7 +290,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         // (CONFIRM) HostilityAlert
         if (oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
-            
+
             stopSuspiciousCorpseFoundTimer();
             stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
@@ -333,7 +301,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
         // Unalert => (START) WarnOfSouspiciousAlert
-        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) { 
+        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) {
 
 
 
@@ -345,7 +313,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         // Unalert => (START) SuspiciousCorpseFoundAlert
-        if(oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
+        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
             stopWarnOfSouspiciousTimer(); // stop stato di warning
 
 
@@ -356,10 +324,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             alertSignAnimator.SetTrigger("suspiciousAlert");
         }
 
-        if((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert || oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert) 
-            && 
-            alertState == CharacterAlertState.CorpseFoundConfirmedAlert)
-        {
+        // Unalert | SuspiciousCorpseFoundAlert | WarnOfSuspiciousAlert => (START) SuspiciousCorpseFoundAlert
+        if ((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert || oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert)
+            &&
+            alertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
 
             stopWarnOfSouspiciousTimer(); // stop stato di warning
             stopSuspiciousCorpseFoundTimer();
@@ -376,8 +344,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
         if (alertState == CharacterAlertState.Unalert) {
-            
-            initUnalertState(); // inizializza comportamento di unalert
+
+            unalertBehaviourProcess.continueWhereUnalertLeftOff(); // contina da dove aveva lasciato
             resetAlertAnimatorTrigger();// animation sign
             alertSignAnimator.SetTrigger("unalertState");
 
@@ -389,115 +357,50 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
 
+
+
     /// <summary>
-    /// Questa funzione implementa il comportamento di unalertBehaviour
-    /// Vengono selezionate delle activity in modo casuale e vengono portati a termine tutti i task
+    /// Forza stop coroutine character chiamata asincrona fino a quando il character
+    /// non è disattivo
     /// </summary>
-    public override async void unalertBehaviour() {
-        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
+    /// <returns></returns>
+    public async Task forceStopCharacterAndAwaitStopProcess() {
 
-        _agent.isStopped = false;
+        _stopCharacterBehaviour = true;
+        while (true) {
+            await Task.Yield();
 
-        
-        if (characterActivityManager.getCharacterActivities().Count > 0) {
-
-            
-            if (unalertAgentDestinationSetted == false) {
-
-                updateUnalertAgentTarget();
-            
-
-                unalertAgentDestinationSetted = true;
-            } else {
-
-
-
-                if (!gameObject.GetComponent<CharacterManager>().isBusy) {
-
-
-                    Vector3 agentDestinationPosition = characterActivityManager.getCurrentTask().getTaskDestination();
-                    if (!isAgentReachedDestination(agentDestinationPosition)) { // controlla se è stata raggiunta la destinazione
-
-                        animateAndSpeedMovingAgent();
-                        
-
-                    } else { // task raggiunto
-
-                        
-                        // esegui task ed attendi task
-                        await characterActivityManager.getCurrentTask().executeTask(
-                            gameObject.GetComponent<CharacterManager>(),
-                            this,
-                            characterMovement,
-                            executeDuringTask: () => {
-
-                                Vector2 taskDirection = characterActivityManager.getCurrentTask().getTaskDirection();
-                                agent.updateRotation = false;
-
-                                if (characterFOV.unalertSeenCharacter != Vector3.zero) {
-
-
-                                    Vector3 unalertSeenCharacterDirection = characterFOV.unalertSeenCharacter - gameObject.transform.position;
-                                    characterMovement.rotateCharacter(new Vector2(unalertSeenCharacterDirection.x, unalertSeenCharacterDirection.z), false, RotationLerpSpeedValue.fast);
-                                } else {
-                                    characterMovement.rotateCharacter(taskDirection, false);
-                                }
-                                
-                            }
-                        );
-
-
-                        if (characterActivityManager.isActualActivityLastTask()) { // se dell'attività attuale è l'ultimo task
-
-                            
-                            if(characterActivityManager.getCharacterActivities().Count > 1) { // se le attività sono più di una
-
-                                characterActivityManager.randomCharacterActivity(); // scegli nuova attività e parti dal primo task
-                                updateUnalertAgentTarget();
-
-                            } else { // se l'attività è unica
-
-                                
-
-                                // Debug.Log("solo una attività");
-                                if (characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attività è ripetibile
-
-                                    characterActivityManager.resetSelectedTaskPos(); // scegli nuova attività e parti dal primo task
-                                    updateUnalertAgentTarget();
-
-                                } else {
-                                    
-                                    stopAgent(); // resta fermo
-                                }
-                                
-                            }
-
-                        } else { // se non è l'ultimo task dell'attività attuale
-
-                            // Debug.Log("passa alla prossima attività");
-                            characterActivityManager.setNextTaskPosOfActualActivity(); // setta in nuovo task della attività corrente
-                            updateUnalertAgentTarget();
-
-                        }
-                        
-                    }
-                } else {
-                    stopAgent(); // resta fermo
-                }
+            if (characterBehaviourStopped) {
+                break;
             }
         }
-        
+
+        return;
+    }
+
+    /// stoppa agente e animazione dell'agente che dipende dal move character
+    public void stopAgent() {
+
+        if(_agent.enabled) {
+            _agent.isStopped = true;
+        }
+        _characterMovement.stopCharacter();
+    }
+
+    public void stopAllCoroutines() {
+        StopAllCoroutines();
+    }
+
+
+
+    
+    public override async void unalertBehaviour() {
+
+        await unalertBehaviourProcess.runBehaviourAsyncProcess();
 
     }
     
-    private void updateUnalertAgentTarget() {
-        if (!gameObject.GetComponent<CharacterManager>().isDead) {
-            _agent.SetDestination(
-                characterActivityManager.getCurrentTask().getTaskDestination()
-            );
-        }
-
-    }
+    
 
 
     
@@ -505,8 +408,8 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         throw new System.NotImplementedException();
     }
     
-    public override void hostilityAlertBehaviour() {
-        throw new System.NotImplementedException();
+    public override async void hostilityAlertBehaviourAsync() {
+        await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
 
     public override void warnOfSouspiciousAlertBehaviour() {
@@ -516,7 +419,9 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void corpseFoundConfirmedAlertBehaviour() {
         throw new System.NotImplementedException();
     }
-
+    public override void suspiciousCorpseFoundAlertBehaviour() {
+        throw new System.NotImplementedException();
+    }
 
     public override void soundAlert1Behaviour() {
         throw new System.NotImplementedException();
@@ -529,7 +434,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// posizione attuale del character se questo è sotto focus di [this]
     /// Inoltre aggiorna l'ultima posizione in cui è stato visto il focus Character
     /// </summary>
-    protected void rotateAndAimSuspiciousAndHostilitySubBehaviour() {
+    public void rotateAndAimSuspiciousAndHostility() {
         _agent.updateRotation = false;
 
         if (isFocusedAlarmCharacter) {
@@ -541,7 +446,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 Vector3 targetDirection = lastSeenFocusAlarmPosition - gameObject.transform.position;
 
                 if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
-                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
+                    _characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
                 }
             } else {
 
@@ -556,7 +461,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 Vector3 targetDirection = lastSeenFocusAlarmPosition - gameObject.transform.position;
 
                 if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
-                    characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
+                    _characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
                 }
 
             }
@@ -605,16 +510,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                 focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
                 lastSeenFocusAlarmPosition = lastSeenCPosition;
                 if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
-
-                    if (himselfCheck) {
-                        checkedByHimselfHostility = himselfCheck;
-                    }
-                    setAlert(CharacterAlertState.HostilityAlert);
+                    
+                    setAlert(CharacterAlertState.HostilityAlert, himselfCheck);
                 } else {
-                    if (himselfCheck) {
-                        checkedByHimselfSuspicious = himselfCheck;
-                    }
-                    setAlert(CharacterAlertState.SuspiciousAlert);
+
+                    setAlert(CharacterAlertState.SuspiciousAlert, himselfCheck);
                 }
 
             } else {
@@ -635,8 +535,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     /// <param name="seenCharacterManager"></param>
     public override void hostilityCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition, bool himselfCheck = false) {
 
-        
-
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
@@ -646,14 +544,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
 
 
-            if (himselfCheck) {
-                checkedByHimselfHostility = himselfCheck;
-            }
             focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
             lastSeenFocusAlarmPosition = lastSeenCPosition;
 
-
-            setAlert(CharacterAlertState.HostilityAlert);
+            setAlert(CharacterAlertState.HostilityAlert, himselfCheck);
 
 
             // aggiungi character al dizionario dei character ostili ricercati
@@ -667,7 +561,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             
             if (_characterState == CharacterAlertState.SuspiciousAlert || _characterState == CharacterAlertState.Unalert) {
                 focusAlarmCharacter = null;
-                setAlert(CharacterAlertState.Unalert);
+                setAlert(CharacterAlertState.Unalert, true);
             }
         }
     }
@@ -681,9 +575,14 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
         // character che è in tutti gli altri stati(compreso WarnOfSuspiciousAlert) non cambiano il loro alert
-        if (_characterState == CharacterAlertState.Unalert) {
+        if(_characterState != CharacterAlertState.SuspiciousAlert ||
+            _characterState != CharacterAlertState.HostilityAlert ||
+            _characterState != CharacterAlertState.SuspiciousCorpseFoundAlert ||
+            _characterState != CharacterAlertState.CorpseFoundConfirmedAlert
+        ) {
+
             lastSeenFocusAlarmPosition = lastSeenCPosition;
-            setAlert(CharacterAlertState.WarnOfSuspiciousAlert);
+            setAlert(CharacterAlertState.WarnOfSuspiciousAlert, false);
         }
             
     }
@@ -699,13 +598,15 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
         // character che è in tutti gli altri stati(compreso SuspiciousCorpseFoundAlert) non cambiano il loro alert
-        if (_characterState == CharacterAlertState.Unalert) {
+        if (_characterState != CharacterAlertState.SuspiciousAlert ||
+            _characterState != CharacterAlertState.HostilityAlert
+        ) {
 
             if (!seenDeadCharacter.isBusyDeadAlarmCheck) {
 
                 seenDeadCharacter.isBusyDeadAlarmCheck = true;
                 lastSeenFocusAlarmPosition = lastSeenCPosition;
-                setAlert(CharacterAlertState.SuspiciousCorpseFoundAlert);
+                setAlert(CharacterAlertState.SuspiciousCorpseFoundAlert, true);
             }
         }
     }
@@ -717,8 +618,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public override void corpseFoundConfirmedCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition) {
 
 
-        if (_characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
-            _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert
+        if ((
+            _characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
+            _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert)
+            &&
+            (_characterState != CharacterAlertState.SuspiciousAlert ||
+            _characterState != CharacterAlertState.HostilityAlert)
         ) {
 
             if(!seenDeadCharacter.isDeadCharacterMarked) {
@@ -729,7 +634,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
                     seenDeadCharacter.isDeadCharacterMarked = true;
                 }
 
-                setAlert(CharacterAlertState.CorpseFoundConfirmedAlert);
+                setAlert(CharacterAlertState.CorpseFoundConfirmedAlert, true);
             }
             
 
@@ -737,7 +642,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
 
-    protected virtual void startCorpseFoundConfirmedTimer() {
+    protected void startCorpseFoundConfirmedTimer() {
         stopAgent(); // stop task agent
 
         corpseFoundConfirmedTimerLoop();
@@ -776,14 +681,10 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// 
-    /// 
-    /// 
-    /// 
     /// Questa funzione setta il punto di fine del hostilityTimerEndStateValue
     /// e avvia il hostilityTimerLoop
     /// </summary>
-    protected virtual void startHostilityTimer() {
+    protected virtual void startHostilityTimer(bool checkedByHimself) {
         stopAgent(); // stop task agent
 
         hostilityTimerLoop();
@@ -795,8 +696,6 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
     }
-
-    
     /// <summary>
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
@@ -852,7 +751,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         if (characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
-            setAlert(CharacterAlertState.Unalert);
+            setAlert(CharacterAlertState.Unalert, true);
         }
         
     }
@@ -888,7 +787,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
-            setAlert(CharacterAlertState.Unalert);
+            setAlert(CharacterAlertState.Unalert, true);
         }
 
 
@@ -933,7 +832,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
 
 
         if (characterAlertState == CharacterAlertState.WarnOfSuspiciousAlert) {
-            setAlert(CharacterAlertState.Unalert);
+            setAlert(CharacterAlertState.Unalert, true);
         }
     }
 
@@ -968,7 +867,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             
 
         if (characterAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
-            setAlert(CharacterAlertState.Unalert);
+            setAlert(CharacterAlertState.Unalert, true);
         }
     }
 
@@ -1004,18 +903,12 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
 
         if (characterAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
-            setAlert(CharacterAlertState.Unalert);
+            setAlert(CharacterAlertState.Unalert, true);
         }
 
 
     }
 
-    private void initUnalertState() {
-        unalertAgentDestinationSetted = false;
-
-        checkedByHimselfHostility = false;
-        checkedByHimselfSuspicious = false;
-    }
 
 
     /// <summary>
@@ -1024,14 +917,11 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
     public virtual void onHostilityAlertTimerEnd() {
         throw new System.NotImplementedException();
     }
-
     /// <summary>
     /// Implementare metodo nelle classi figle se si vuole eseguire quando l'HostilityAlert inizia
     /// </summary>
     public virtual void onHostilityAlert() {
-
         throw new System.NotImplementedException();
-
     }
 
 
@@ -1094,7 +984,7 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
         }
         return result;
     }
-    protected bool isAgentReachedEnemyCharacterToWarnDestination(Vector3 agentDestinationPosition) {
+    public bool isAgentReachedEnemyCharacterToWarnDestination(Vector3 agentDestinationPosition) {
         float distance = Vector3.Distance(transform.position, agentDestinationPosition);
         bool result;
 
@@ -1121,18 +1011,16 @@ public class BaseNPCBehaviour : AbstractNPCBehaviour {
             _agent.speed = walkAgentSpeed;
             Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
-            characterMovement.moveCharacter(movement, false); // avvia solo animazione
+            _characterMovement.moveCharacter(movement, false); // avvia solo animazione
             
         } else if(agentSpeed == AgentSpeed.Run) {
             _agent.speed = runAgentSpeed;
             Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
-            characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false); // avvia solo animazione
+            _characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false); // avvia solo animazione
         }
         
     }
 
-    public override void suspiciousCorpseFoundAlertBehaviour() {
-        throw new System.NotImplementedException();
-    }
+    
 }

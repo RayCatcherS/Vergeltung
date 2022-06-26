@@ -141,7 +141,7 @@ public class GameState : MonoBehaviour
 
 
         // get all game characters
-        List<BaseNPCBehaviour> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
+        List<BaseNPCBehaviourManager> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
         foreach(var character in allCharactersBehaviour) {
 
 

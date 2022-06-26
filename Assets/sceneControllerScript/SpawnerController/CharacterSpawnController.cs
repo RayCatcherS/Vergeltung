@@ -155,7 +155,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-                EnemyNPCBehaviour.initEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
+                EnemyNPCBehaviourManager.initEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
@@ -166,7 +166,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 // associa npc istanziato al componente sceneEntities
-                sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+                sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviourManager>());
 
                 // inizializza equipaggiamento
                 initializeEquipment(
@@ -190,7 +190,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
                 
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-                CivilianNPCBehaviour.initCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
+                CivilianNPCBehaviourManager.initCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
@@ -201,7 +201,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 // aggiungi npc istanziato al componente sceneEntities
-                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviour>());
+                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviourManager>());
 
                 // inizializza equipaggiamento
                 initializeEquipment(

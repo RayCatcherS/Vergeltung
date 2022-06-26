@@ -25,7 +25,7 @@ public class CharacterFOV : MonoBehaviour {
         get => _reachableTarget;
     }
 
-    [SerializeField] private BaseNPCBehaviour nPCBehaviour; // Reference Behaviour character
+    [SerializeField] private BaseNPCBehaviourManager nPCBehaviour; // Reference Behaviour character
 
 
     [Header("Component as Colliders References")]
@@ -507,9 +507,9 @@ public class CharacterFOV : MonoBehaviour {
     /// Da usare per comunicare istantanemente un allarme
     /// </summary>
     /// <returns></returns>
-    public Dictionary<int, BaseNPCBehaviour> getAlertAreaCharacters() {
+    public Dictionary<int, BaseNPCBehaviourManager> getAlertAreaCharacters() {
 
-        Dictionary<int, BaseNPCBehaviour> characters = new Dictionary<int, BaseNPCBehaviour>();
+        Dictionary<int, BaseNPCBehaviourManager> characters = new Dictionary<int, BaseNPCBehaviourManager>();
 
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _alertArea, targetCharacterMask);
 
@@ -522,14 +522,14 @@ public class CharacterFOV : MonoBehaviour {
                     if (collider.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
 
                         // evita la creazione di doppioni
-                        if (!characters.ContainsKey(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID()))
-                            characters.Add(collider.gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<EnemyNPCBehaviour>());
+                        if (!characters.ContainsKey(collider.gameObject.GetComponent<EnemyNPCBehaviourManager>().GetInstanceID()))
+                            characters.Add(collider.gameObject.GetComponent<EnemyNPCBehaviourManager>().GetInstanceID(), collider.gameObject.GetComponent<EnemyNPCBehaviourManager>());
 
                     } else if (collider.gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
 
                         // evita la creazione di doppioni
-                        if (!characters.ContainsKey(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID()))
-                            characters.Add(collider.gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID(), collider.gameObject.GetComponent<CivilianNPCBehaviour>());
+                        if (!characters.ContainsKey(collider.gameObject.GetComponent<CivilianNPCBehaviourManager>().GetInstanceID()))
+                            characters.Add(collider.gameObject.GetComponent<CivilianNPCBehaviourManager>().GetInstanceID(), collider.gameObject.GetComponent<CivilianNPCBehaviourManager>());
 
                     }
                 }
@@ -542,10 +542,10 @@ public class CharacterFOV : MonoBehaviour {
         // se stesso non fa parte dei character rilevati dall'alarm area
         if (gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
 
-            characters.Remove(gameObject.GetComponent<EnemyNPCBehaviour>().GetInstanceID());
+            characters.Remove(gameObject.GetComponent<EnemyNPCBehaviourManager>().GetInstanceID());
         } else if (gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
 
-            characters.Remove(gameObject.GetComponent<CivilianNPCBehaviour>().GetInstanceID());
+            characters.Remove(gameObject.GetComponent<CivilianNPCBehaviourManager>().GetInstanceID());
         }
 
 

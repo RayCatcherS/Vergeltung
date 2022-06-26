@@ -28,7 +28,7 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// <summary>
     /// comportamento HostilityAlertBehaviour da implementare nelle classi figlie
     /// </summary>
-    abstract public void hostilityAlertBehaviour();
+    abstract public void hostilityAlertBehaviourAsync();
     /// <summary>
     /// comportamento warnOfSouspiciousAlertBehaviour da implementare nelle classi figlie
     /// </summary>

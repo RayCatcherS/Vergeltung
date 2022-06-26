@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyNPCBehaviour : BaseNPCBehaviour {
+public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
     static public GameObject initEnemyNPComponent(GameObject gameObject, CharacterSpawnPoint spwanPoint) {
 
-        EnemyNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<EnemyNPCBehaviour>();
-        enemyNPCNewComponent.initNPCComponent(spwanPoint, gameObject.GetComponent<CharacterMovement>());
+        EnemyNPCBehaviourManager enemyNPCNewComponent = gameObject.GetComponent<EnemyNPCBehaviourManager>();
+        enemyNPCNewComponent.initNPCComponent(spwanPoint);
 
         return gameObject;
     }
@@ -20,7 +20,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     public override void suspiciousAlertBehaviour() {
 
 
-        rotateAndAimSuspiciousAndHostilitySubBehaviour();
+        rotateAndAimSuspiciousAndHostility();
 
 
         if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
@@ -40,9 +40,9 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
     /// <summary>
     /// implementazione hostilityAlertBehaviour
     /// </summary>
-    public override void hostilityAlertBehaviour() {
+    public override void hostilityAlertBehaviourAsync() {
 
-        rotateAndAimSuspiciousAndHostilitySubBehaviour();
+        rotateAndAimSuspiciousAndHostility();
 
         if (isFocusAlarmCharacterVisible) {
             characterInventoryManager.useSelectedWeapon();
@@ -117,7 +117,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
 
             Vector3 targetDirection = lastSeenFocusAlarmPosition - gameObject.transform.position;
-            characterMovement.rotateCharacter(targetDirection, false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
+            _characterMovement.rotateCharacter(targetDirection, false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
             stopAgent();
         }
     }
@@ -138,7 +138,7 @@ public class EnemyNPCBehaviour : BaseNPCBehaviour {
 
         if(focusAlarmCharacter != null) {
             if (!focusAlarmCharacter.isDead && isFocusAlarmCharacterVisible) { // aggiorna dizionario dei characters ricercati in modo istantaneo
-                Dictionary<int, BaseNPCBehaviour> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
+                Dictionary<int, BaseNPCBehaviourManager> characters = gameObject.GetComponent<CharacterFOV>().getAlertAreaCharacters();
 
                 foreach (var character in characters) {
 

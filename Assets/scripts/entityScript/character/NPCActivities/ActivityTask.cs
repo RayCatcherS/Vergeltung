@@ -50,7 +50,7 @@ public class ActivityTask : MonoBehaviour
     /// <param name="character">CharacterManager che avvia l'interaction e che ne subisce l'influenza</param>
     /// <param name="nPCBehaviour">BaseNPCBehaviour viene usato per monitorare lo stato di allerta durante il task</param>
     /// <returns></returns>
-    public async Task executeTask(CharacterManager character, BaseNPCBehaviour nPCBehaviour, CharacterMovement characterMovement, Action executeDuringTask = null) {
+    public async Task executeTask(CharacterManager character, BaseNPCBehaviourManager nPCBehaviour, CharacterMovement characterMovement, Action executeDuringTask = null) {
 
         character.isBusy = true;
         

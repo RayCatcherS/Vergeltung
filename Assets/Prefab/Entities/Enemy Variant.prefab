@@ -46,11 +46,11 @@ PrefabInstance:
     - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: nPCBehaviour
       value: 
-      objectReference: {fileID: 711304410346105724}
+      objectReference: {fileID: 4191981452149998355}
     - target: {fileID: 9168440622864638927, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: baseNPCBehaviour
       value: 
-      objectReference: {fileID: 711304410346105724}
+      objectReference: {fileID: 0}
     - target: {fileID: 9188659755221051704, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
       propertyPath: movementSpeed
       value: 4
@@ -113,12 +113,23 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 67c60db604ff6644bb266a0e6913c7fc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+--- !u!114 &1907272337766640948 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9188659755221051704, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
+  m_PrefabInstance: {fileID: 7346306999184950284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907272337766640949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9e99846fde5034590d314b71551057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1907272337766640949 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9188659755221051705, guid: 3cead90cf7477d84d94ce73b2ca50eb6, type: 3}
   m_PrefabInstance: {fileID: 7346306999184950284}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &711304410346105724
+--- !u!114 &4191981452149998355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,28 +138,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1907272337766640949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d63b05bab2f2cce4f95de549e4a4ba05, type: 3}
+  m_Script: {fileID: 11500000, guid: 720747a503635454b8bb1a028a598b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suspiciousTimerValue: 10
-  hostilityTimerValue: 10
-  warningOfSouspiciousTimerValue: 10
-  suspiciousCorpseFoundTimerValue: 10
-  corpseFoundConfirmedTimerValue: 6
-  _cNPCBehaviourCoroutineFrequency: 0.02
+  suspiciousTimerValue: 15
+  hostilityTimerValue: 15
+  warningOfSouspiciousTimerValue: 15
+  suspiciousCorpseFoundTimerValue: 15
+  corpseFoundConfirmedTimerValue: 15
+  _cNPCBehaviourCoroutineFrequency: 0.1
   walkAgentSpeed: 3.3
   runAgentSpeed: 6.3
-  _focusAlarmCharacter: {fileID: 0}
-  isFocusedAlarmCharacter: 0
   lastSeenFocusAlarmPosition: {x: 0, y: 0, z: 0}
-  _stopCharacterBehaviour: 0
   characterBehaviourStopped: 0
-  checkedByHimselfHostility: 0
-  checkedByHimselfSuspicious: 0
   _characterState: 0
-  unalertAgentDestinationSetted: 0
-  characterManager: {fileID: 4464381048082876865}
+  _characterManager: {fileID: 4464381048082876865}
   alertSignAnimator: {fileID: 8089895231307943866}
+  _characterMovement: {fileID: 1907272337766640948}
   _agent: {fileID: 3285852240407561311}
   _characterFOV: {fileID: 1931916012273870787}
   characterInventoryManager: {fileID: 5480999366663908113}

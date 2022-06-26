@@ -3,30 +3,25 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class CivilianNPCBehaviour : BaseNPCBehaviour {
+public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     static public GameObject initCivilianNPCComponent(GameObject gameObject, CharacterSpawnPoint spawnPoint) {
 
-        CivilianNPCBehaviour enemyNPCNewComponent = gameObject.GetComponent<CivilianNPCBehaviour>();
-        enemyNPCNewComponent.initNPCComponent(spawnPoint, gameObject.GetComponent<CharacterMovement>());
+        CivilianNPCBehaviourManager enemyNPCNewComponent = gameObject.GetComponent<CivilianNPCBehaviourManager>();
+        enemyNPCNewComponent.initNPCComponent(spawnPoint);
 
         return gameObject;
     }
 
-    [SerializeField] private EnemyNPCBehaviour closerEnemyCharacterToWarn = null;
-    private bool closerEnemyCharacterToWarnSelected {
-        get { 
-            if(closerEnemyCharacterToWarn == null) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+
+    protected override void startHostilityTimer(bool checkedByHimself) {
+        stopAgent(); // stop task agent
+
+        // start behaviour process
+        mainBehaviourProcess = new CivilianHostilityAlertProcess(_agent, this, _characterFOV, _characterManager, checkedByHimself);
+
+        hostilityTimerLoop();
     }
 
-    private bool enemyCharacterImpossibleToReach = false;
-
-
-    private bool isEnemyCharacterToWarnCalled = false; // se è già stata avvisata una guardia dell'hostilità
 
     /// <summary>
     /// implementazione suspiciousAlertBehaviour
@@ -41,70 +36,17 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
             _agent.isStopped = false;
             animateAndSpeedMovingAgent();
         } else {
-            rotateAndAimSuspiciousAndHostilitySubBehaviour();
+            rotateAndAimSuspiciousAndHostility();
             stopAgent();
         }
 
-    }
-    /// <summary>
-    /// implementazione hostilityAlertBehaviour
-    /// </summary>
-    public override void hostilityAlertBehaviour() {
-
-
-        if (closerEnemyCharacterToWarnSelected) {
-
-            if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
-
-                _agent.updateRotation = true;
-                _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
-
-                _agent.isStopped = false;
-                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
-            } else {
-
-                if (!isEnemyCharacterToWarnCalled) {
-
-
-
-                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
-                        closerEnemyCharacterToWarn.characterFOV
-                    );
-
-
-                    if (isCharacterToNotifyPossibleToSee) {
-                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmPosition);
-                        isEnemyCharacterToWarnCalled = true;
-
-
-                    } else { // impossibile raggiungere il closer enemy character
-
-                        Debug.Log("enemyCharacterImpossibleToReach ");
-                        enemyCharacterImpossibleToReach = true;
-                    }
-
-
-                } else {
-
-                    rotateAndAimSuspiciousAndHostilitySubBehaviour();
-                    stopAgent();
-                }
-                
-            }
-        } else {
-
-            rotateAndAimSuspiciousAndHostilitySubBehaviour();
-            stopAgent();
-
-        }
-        
     }
 
     /// <summary>
     /// implementazione hostilityAlertBehaviour
     /// </summary>
     public override void corpseFoundConfirmedAlertBehaviour() {
-
+        /*
 
         if (closerEnemyCharacterToWarnSelected) {
 
@@ -143,7 +85,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         } else {
 
             stopAgent();
-        }
+        }*/
 
     }
     /// <summary>
@@ -173,42 +115,14 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         }
     }
 
-    protected override void startHostilityTimer() {
-        stopAgent();
 
-        // se ha scoperto da solo il character hostile (tramite il suo stesso fov)
-        if (checkedByHimselfHostility) {
-            isEnemyCharacterToWarnCalled = false;
-
-            // get the closer character
-            closerEnemyCharacterToWarn = characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
-
-            if (closerEnemyCharacterToWarnSelected) {
-                _agent.updateRotation = true;
-                _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
-                _agent.isStopped = false;
-                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
-            } else {
-
-                rotateAndAimSuspiciousAndHostilitySubBehaviour();
-                stopAgent();
-            }
-        } else {
-            rotateAndAimSuspiciousAndHostilitySubBehaviour();
-            stopAgent();
-        }
-        
-
-        base.startHostilityTimer();
-    }
-
-    protected override void startCorpseFoundConfirmedTimer() {
+    /*protected override void startCorpseFoundConfirmedTimer() {
         stopAgent();
 
         isEnemyCharacterToWarnCalled = false;
 
         // get the closer character
-        closerEnemyCharacterToWarn = characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
+        closerEnemyCharacterToWarn = _characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
 
         if (closerEnemyCharacterToWarnSelected) {
             _agent.updateRotation = true;
@@ -221,30 +135,24 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
         }
 
         base.startCorpseFoundConfirmedTimer();
-    }
+    }*/
 
     protected override async void hostilityTimerLoop() {
 
         /// continua a ciclare fino a quando il character civile 
         /// non ha raggiunto il character nemico da avvisare
-        if (closerEnemyCharacterToWarnSelected) {
-            while (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
-                await Task.Yield();
+        while (!mainBehaviourProcess.processTaskFinished) {
+            await Task.Yield();
 
-                if (characterBehaviourStopped) {
-                    break;
-                }
-                if (hostilityTimerEndStateValue == 0) {
-                    break;
-                }
-                if (enemyCharacterImpossibleToReach) {
-                    break;
-                }
+            if (characterBehaviourStopped) {
+                break;
+            }
+            if (hostilityTimerEndStateValue == 0) {
+                break;
             }
         }
 
 
-        closerEnemyCharacterToWarn = null; // una volta che il character è stato raggiunto può fare a meno del closerEnemyCharacterToWarn
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue; // setta
         // una volta raggiunta la posizione esaurisci l'[hostilityTimerEndStateValue]
@@ -263,7 +171,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
 
         if (characterAlertState == CharacterAlertState.HostilityAlert) {
-            setAlert(CharacterAlertState.Unalert);
+            setAlert(CharacterAlertState.Unalert, true);
         }
     }
 
@@ -271,7 +179,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
     /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
     /// </summary>
     protected override async void corpseFoundConfirmedTimerLoop() {
-
+        /*
 
         /// continua a ciclare fino a quando il character civile 
         /// non ha raggiunto il character nemico da avvisare
@@ -310,7 +218,7 @@ public class CivilianNPCBehaviour : BaseNPCBehaviour {
 
         if (characterAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
             setAlert(CharacterAlertState.Unalert);
-        }
+        }*/
 
 
     }
