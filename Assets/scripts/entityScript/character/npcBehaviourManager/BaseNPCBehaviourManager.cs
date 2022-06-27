@@ -471,11 +471,15 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
         if (collision.gameObject.layer == INTERACTABLE_LAYER) {
 
+
+            // le porte venongo aperte dagli NPC solo se non sono morti
             DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
             if (doorInteractable != null) {
 
-                if(doorInteractable.doorState.isDoorClosed().value) {
-                    doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
+                if (!collision.gameObject.GetComponent<CharacterManager>().isDead) {
+                    if (doorInteractable.doorState.isDoorClosed().value) {
+                        doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
+                    }
                 }
                 
             }
