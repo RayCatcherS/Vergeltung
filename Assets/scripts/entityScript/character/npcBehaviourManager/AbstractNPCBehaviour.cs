@@ -32,7 +32,7 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// <summary>
     /// comportamento warnOfSouspiciousAlertBehaviour da implementare nelle classi figlie
     /// </summary>
-    abstract public void warnOfSouspiciousAlertBehaviour();
+    abstract public void warnOfSuspiciousAlertBehaviour();
     /// <summary>
     /// comportamento suspiciousCorpseFoundAlertBehaviour da implementare nelle classi figlie
     /// </summary>

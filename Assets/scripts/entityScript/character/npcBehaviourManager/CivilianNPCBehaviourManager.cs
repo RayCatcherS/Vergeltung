@@ -12,131 +12,136 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         return gameObject;
     }
 
+    public override async void suspiciousAlertBehaviour() {
 
+        if (!mainBehaviourProcess.processTaskFinished) {
+
+            await mainBehaviourProcess.runBehaviourAsyncProcess();
+
+            // inizializza punti casuali
+            if (mainBehaviourProcess.processTaskFinished) {
+                simulateSearchingPlayerSubBehaviourProcess.initBehaviourProcess();
+            }
+
+        } else {
+
+            if (!simulateSearchingPlayerSubBehaviourProcess.processTaskFinished) {
+                await simulateSearchingPlayerSubBehaviourProcess.runBehaviourAsyncProcess();
+            }
+
+        }
+
+    }
+    public override async void hostilityAlertBehaviourAsync() {
+        await mainBehaviourProcess.runBehaviourAsyncProcess();
+    }
+    public override async void suspiciousCorpseFoundAlertBehaviour() {
+        await mainBehaviourProcess.runBehaviourAsyncProcess();
+    }
+    public override async void corpseFoundConfirmedAlertBehaviour() {
+        await mainBehaviourProcess.runBehaviourAsyncProcess();
+    }
+
+    protected override void startSuspiciousTimer() {
+        stopAgent(); // stop task agent
+
+        // start behaviour process
+        mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
+        simulateSearchingPlayerSubBehaviourProcess
+            = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, 7, 4, 1);
+
+        suspiciousTimerLoop();
+    }
+    
     protected override void startHostilityTimer(bool checkedByHimself) {
         stopAgent(); // stop task agent
 
         // start behaviour process
-        mainBehaviourProcess = new CivilianHostilityAlertProcess(_agent, this, _characterFOV, _characterManager, checkedByHimself);
+        mainBehaviourProcess = new HostilityCivilianProcess(_agent, this, _characterFOV, _characterManager, checkedByHimself);
 
         hostilityTimerLoop();
     }
 
+    protected override void startSuspiciousCorpseFoundTimer() {
+        stopAgent(); // stop task agent
+        
+        mainBehaviourProcess = new GenericSuspiciousCorpseFoundProcess(_agent, this);
 
-    /// <summary>
-    /// implementazione suspiciousAlertBehaviour
-    /// </summary>
-    public override void suspiciousAlertBehaviour() {
-
-        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
-
-            _agent.updateRotation = true;
-            _agent.SetDestination(lastSeenFocusAlarmPosition);
-
-            _agent.isStopped = false;
-            animateAndSpeedMovingAgent();
-        } else {
-            rotateAndAimSuspiciousAndHostility();
-            stopAgent();
-        }
-
+        suspiciousCorpseFoundTimerLoop();
     }
 
-    /// <summary>
-    /// implementazione hostilityAlertBehaviour
-    /// </summary>
-    public override void corpseFoundConfirmedAlertBehaviour() {
-        /*
-
-        if (closerEnemyCharacterToWarnSelected) {
-
-            if (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
-                
-
-                _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
-
-                _agent.isStopped = false;
-                animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
-            } else {
-
-                if (!isEnemyCharacterToWarnCalled) {
-
-
-
-                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
-                        closerEnemyCharacterToWarn.characterFOV
-                    );
-
-                    if (isCharacterToNotifyPossibleToSee) {
-                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(lastSeenFocusAlarmPosition);
-                        isEnemyCharacterToWarnCalled = true;
-                    } else { // impossibile raggiungere il closer enemy character
-
-                        Debug.Log("enemyCharacterImpossibleToReach ");
-                        enemyCharacterImpossibleToReach = true;
-                    }
-
-
-                } else {
-                    stopAgent();
-                }
-
-            }
-        } else {
-
-            stopAgent();
-        }*/
-
-    }
-    /// <summary>
-    /// implementazione soundAlert1Behaviour
-    /// </summary>
-    public override void soundAlert1Behaviour() {
-
-    }
-
-    /// <summary>
-    /// Implementazione del suspiciousCorpseFoundAlertBehaviour del character nemico
-    /// Cerca di raggiungere la lastSeenFocusAlarmPosition
-    /// </summary>
-    public override void suspiciousCorpseFoundAlertBehaviour() {
-        _agent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
-
-        if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
-
-            _agent.SetDestination(lastSeenFocusAlarmPosition);
-
-            _agent.isStopped = false;
-            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
-        } else {
-
-
-            stopAgent();
-        }
-    }
-
-
-    /*protected override void startCorpseFoundConfirmedTimer() {
+    protected override void startCorpseFoundConfirmedTimer() {
         stopAgent();
 
-        isEnemyCharacterToWarnCalled = false;
+        mainBehaviourProcess = new CorpseFoundConfirmedCivilianProcess(_agent, this, _characterFOV, _characterManager);
 
-        // get the closer character
-        closerEnemyCharacterToWarn = _characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position);
+        corpseFoundConfirmedTimerLoop();
+    }
 
-        if (closerEnemyCharacterToWarnSelected) {
-            _agent.updateRotation = true;
-            _agent.SetDestination(closerEnemyCharacterToWarn.transform.position);
-            _agent.isStopped = false;
-            animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);
-        } else {
 
+    protected override void resetSuspiciousBehaviour() {
+        mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
+        simulateSearchingPlayerSubBehaviourProcess
+            = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, 7, 4, 1);
+
+        // reset time of loop
+        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+    }
+
+    protected override void resetHostilityBehaviour() {
+
+        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
+    }
+
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato suspiciousAlert
+    /// </summary>
+    protected override async void suspiciousTimerLoop() {
+
+
+
+        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!mainBehaviourProcess.processTaskFinished) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (suspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+        while (!simulateSearchingPlayerSubBehaviourProcess.processTaskFinished) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (suspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+
+        while (Time.time < suspiciousTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
             stopAgent();
         }
 
-        base.startCorpseFoundConfirmedTimer();
-    }*/
+        if (characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
+            setAlert(CharacterAlertState.Unalert, true);
+        }
 
+    }
     protected override async void hostilityTimerLoop() {
 
         /// continua a ciclare fino a quando il character civile 
@@ -175,33 +180,63 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         }
     }
 
+
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato suspiciousCorpseFoundAlert
+    /// </summary>
+    protected override async void suspiciousCorpseFoundTimerLoop() {
+
+        // timer aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+        while (!mainBehaviourProcess.processTaskFinished) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (suspiciousCorpseFoundTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+        suspiciousCorpseFoundTimerEndStateValue = Time.time + suspiciousCorpseFoundTimerValue;
+        while (Time.time < suspiciousCorpseFoundTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+
+        if (characterAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
+            setAlert(CharacterAlertState.Unalert, true);
+        }
+    }
+
+
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
     /// </summary>
     protected override async void corpseFoundConfirmedTimerLoop() {
-        /*
 
         /// continua a ciclare fino a quando il character civile 
         /// non ha raggiunto il character nemico da avvisare
-        if (closerEnemyCharacterToWarnSelected) {
-            while (!isAgentReachedEnemyCharacterToWarnDestination(closerEnemyCharacterToWarn.transform.position)) {
+        while (!mainBehaviourProcess.processTaskFinished) {
 
-                await Task.Yield();
+            await Task.Yield();
 
-                if (characterBehaviourStopped) {
-                    break;
-                }
-                if (corpseFoundConfirmedTimerEndStateValue == 0) {
-                    break;
-                }
-                if (enemyCharacterImpossibleToReach) {
-                    break;
-                }
+            if (characterBehaviourStopped) {
+                break;
+            }
+            if (corpseFoundConfirmedTimerEndStateValue == 0) {
+                break;
             }
         }
 
-
-        closerEnemyCharacterToWarn = null; // una volta che il character è stato raggiunto può fare a meno del closerEnemyCharacterToWarn
 
         corpseFoundConfirmedTimerEndStateValue = Time.time + corpseFoundConfirmedTimerValue;
         while (Time.time < corpseFoundConfirmedTimerEndStateValue) {
@@ -217,17 +252,9 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         }
 
         if (characterAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
-            setAlert(CharacterAlertState.Unalert);
-        }*/
+            setAlert(CharacterAlertState.Unalert, true);
+        }
 
-
-    }
-
-
-    /// <summary>
-    /// Quando il character è in allerta non ha alcun comportamento aggiuntivo
-    /// </summary>
-    public override void onHostilityAlert() {
 
     }
 }

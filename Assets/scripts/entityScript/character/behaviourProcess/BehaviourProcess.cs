@@ -8,6 +8,8 @@ public class BehaviourProcess {
     protected BaseNPCBehaviourManager _baseNPCBehaviour;
     protected NavMeshAgent _behaviourAgent;
 
+    protected string processIdName = "";
+
     // global states
     protected bool _processTaskFinished = false;
     public bool processTaskFinished {
@@ -20,12 +22,13 @@ public class BehaviourProcess {
     /// <returns></returns>
     public virtual async Task runBehaviourAsyncProcess() {
 
+        //Debug.Log(processIdName);
     }
 
     /// <summary>
     /// Inizializza behaviour
     /// </summary>
-    protected virtual void initBehaviourProcess() {
+    public virtual void initBehaviourProcess() {
 
     }
 }

@@ -237,7 +237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &18093333
 Transform:
   m_ObjectHideFlags: 0
@@ -450,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &71975771
 Transform:
   m_ObjectHideFlags: 0
@@ -459,7 +459,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71975770}
   m_LocalRotation: {x: -0, y: 0.25966, z: -0, w: 0.9657001}
-  m_LocalPosition: {x: 7.05, y: 0, z: -46.25}
+  m_LocalPosition: {x: 4.94, y: 0, z: -53.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -549,71 +549,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &138885362
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 138885363}
-  - component: {fileID: 138885365}
-  - component: {fileID: 138885364}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint7
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &138885363
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 138885362}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 504768188}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &138885364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 138885362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6188f1b7cfec04594aca6f7ac6653730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterActivities: []
-  selectedCharacterActivityPos: 0
-  selectedTaskPos: 0
---- !u!114 &138885365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 138885362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterSpawnController: {fileID: 504768189}
-  characterRole: 0
-  characterEquipment: 0
-  startSelectedEquipment: 0
-  _flashlightTaken: 0
 --- !u!1 &155591960
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,7 +761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &464879519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1043,7 +978,6 @@ Transform:
   - {fileID: 2082789441}
   - {fileID: 560942172}
   - {fileID: 952832838}
-  - {fileID: 138885363}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1071,7 +1005,6 @@ MonoBehaviour:
   - {fileID: 2082789439}
   - {fileID: 560942170}
   - {fileID: 952832840}
-  - {fileID: 138885365}
   civilianCharacterSpawnPoints:
   - {fileID: 71975773}
   noWeaponEquipment:
@@ -1120,7 +1053,7 @@ MonoBehaviour:
   gameState: {fileID: 504768187}
   warpedCharacterManagerStack: []
   firstPlayerCharacter: {fileID: 0}
-  firstCharacterPlayerIsWanted: 0
+  firstCharacterPlayerIsWanted: 1
 --- !u!114 &504768192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,8 +1310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSpawnController: {fileID: 504768189}
   characterRole: 0
-  characterEquipment: 1
-  startSelectedEquipment: 0
+  characterEquipment: 2
+  startSelectedEquipment: 2
   _flashlightTaken: 0
 --- !u!114 &560942171
 MonoBehaviour:
@@ -1403,15 +1336,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560942169}
-  m_LocalRotation: {x: -0, y: -0.8428008, z: -0, w: 0.53822565}
-  m_LocalPosition: {x: 14.54, y: 0, z: -29.72}
+  m_LocalRotation: {x: -0, y: -0.09894209, z: -0, w: 0.9950932}
+  m_LocalPosition: {x: 11.85, y: 0, z: -41.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 471183812}
   m_Father: {fileID: 504768188}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: -114.874, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -11.357, z: 0}
 --- !u!1 &591010228
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,7 +1958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952832837}
   m_LocalRotation: {x: -0, y: 0.5934356, z: -0, w: 0.8048815}
-  m_LocalPosition: {x: -1.64, y: 0, z: -35.17}
+  m_LocalPosition: {x: 11.27, y: 0, z: -31.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2063,8 +1996,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSpawnController: {fileID: 504768189}
   characterRole: 0
-  characterEquipment: 1
-  startSelectedEquipment: 0
+  characterEquipment: 2
+  startSelectedEquipment: 2
   _flashlightTaken: 0
 --- !u!1 &968769618
 GameObject:
@@ -2787,7 +2720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1492735711
 Transform:
   m_ObjectHideFlags: 0
@@ -3451,7 +3384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2082789439
 MonoBehaviour:
   m_ObjectHideFlags: 0

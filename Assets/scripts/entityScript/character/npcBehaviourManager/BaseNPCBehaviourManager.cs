@@ -18,16 +18,16 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     // values
     [Header("Configurazione")]
-    [SerializeField] private float suspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
-    private float suspiciousTimerEndStateValue = -1f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa. -1 indica non settato
+    [SerializeField] protected float suspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    protected float suspiciousTimerEndStateValue = -1f; // timer che indica il valore in cui il suspiciousTimerLoop si stoppa. -1 indica non settato
 
     [SerializeField] protected float hostilityTimerValue = 15f; // durata del timer prima della scadenza dello stato
     protected float hostilityTimerEndStateValue = -1f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] private float warningOfSouspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    [SerializeField] protected float warningOfSouspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
     protected private float warnOfSouspiciousTimerEndStateValue = -1; // timer che indica il valore in cui il warnOfSouspiciousTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] private float suspiciousCorpseFoundTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    [SerializeField] protected float suspiciousCorpseFoundTimerValue = 15f; // durata del timer prima della scadenza dello stato
     protected private float suspiciousCorpseFoundTimerEndStateValue = -1; // timer che indica il valore in cui il suspiciousCorpseFoundTimerLoop si stoppa. -1 indica non settato
 
     [SerializeField] protected float corpseFoundConfirmedTimerValue = 15f; // durata del timer prima della scadenza dello stato
@@ -49,8 +49,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     [Header("Stati")]
     
     protected CharacterManager _focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
-    protected CharacterManager focusAlarmCharacter {
-        set {
+    public CharacterManager focusAlarmCharacter {
+        protected set {
             
             _focusAlarmCharacter = value;
             if (value != null) {
@@ -72,9 +72,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
 
     // queste variabili indicano se uno stato di allerta è stato innescato da loro stessi(tramiteFOV true) o se è stato indotto(false)
-     
     protected bool checkedByHimselfSuspicious = false;
-    protected bool isFocusAlarmCharacterVisible {
+    public bool isFocusAlarmCharacterVisible {
         get {
             if(focusAlarmCharacter != null) {
                 return _characterFOV.isCharactersVisibleInSecondFOV(
@@ -119,11 +118,14 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public CharacterFOV characterFOV {
         get { return _characterFOV; }
     }
-    [SerializeField] protected InventoryManager characterInventoryManager;
+    [SerializeField] protected InventoryManager _characterInventoryManager;
+    public InventoryManager characterInventoryManager {
+        get { return _characterInventoryManager; }
+    }
 
     [Header("Behaviour process")]
-    BehaviourProcess simulateSearchingPlayerSubBehaviourProcess;
-    private UnalertBehaviorProcess unalertBehaviourProcess;
+    protected MoveNPCBetweenRandomPointsProcess simulateSearchingPlayerSubBehaviourProcess;
+    private GenericUnalertProcess unalertBehaviourProcess;
     protected BehaviourProcess mainBehaviourProcess;
     public void initNPCComponent(CharacterSpawnPoint spawnPoint) {
         this.spawnPoint = spawnPoint;
@@ -140,7 +142,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public void Start() {
 
         // inizializza unalert behaviour process
-        unalertBehaviourProcess = new UnalertBehaviorProcess(
+        unalertBehaviourProcess = new GenericUnalertProcess(
             agent,
             this,
             characterActivityManager,
@@ -163,6 +165,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             nPCBehaviour();
             
         }
+
+
     }
     /// <summary>
     /// Switch dei behaviour
@@ -179,6 +183,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 switch (_characterState) {
                     case CharacterAlertState.Unalert: {
 
+                            
                             unalertBehaviour();
                         }
                         break;
@@ -188,18 +193,18 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                         }
                         break;
                     case CharacterAlertState.HostilityAlert: {
-
                             hostilityAlertBehaviourAsync();
-                            onHostilityAlert();
                         }
                         break;
 
                     case CharacterAlertState.WarnOfSuspiciousAlert: {
-                            warnOfSouspiciousAlertBehaviour();
+                            warnOfSuspiciousAlertBehaviour();
                         }
                         break;
 
                     case CharacterAlertState.SuspiciousCorpseFoundAlert: {
+
+                            
                             suspiciousCorpseFoundAlertBehaviour();
                         }
                         break;
@@ -258,7 +263,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
 
-            resetSuspiciousTimer();
+            resetSuspiciousBehaviour();
         }
 
         // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) HostilityAlert
@@ -296,7 +301,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             stopWarnOfSouspiciousTimer();
             stopSuspiciousTimer();
 
-            resetHostilityTimer();
+            resetHostilityBehaviour();
         }
 
 
@@ -365,7 +370,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// </summary>
     /// <returns></returns>
     public async Task forceStopCharacterAndAwaitStopProcess() {
-
         _stopCharacterBehaviour = true;
         while (true) {
             await Task.Yield();
@@ -390,36 +394,29 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public void stopAllCoroutines() {
         StopAllCoroutines();
     }
-
-
-
     
+
+
     public override async void unalertBehaviour() {
-
         await unalertBehaviourProcess.runBehaviourAsyncProcess();
-
     }
-    
-    
 
-
-    
     public override void suspiciousAlertBehaviour() {
         throw new System.NotImplementedException();
     }
     
-    public override async void hostilityAlertBehaviourAsync() {
-        await mainBehaviourProcess.runBehaviourAsyncProcess();
-    }
-
-    public override void warnOfSouspiciousAlertBehaviour() {
+    public override void hostilityAlertBehaviourAsync() {
         throw new System.NotImplementedException();
     }
 
-    public override void corpseFoundConfirmedAlertBehaviour() {
+    public override void warnOfSuspiciousAlertBehaviour() {
         throw new System.NotImplementedException();
     }
+
     public override void suspiciousCorpseFoundAlertBehaviour() {
+        throw new System.NotImplementedException();
+    }
+    public override void corpseFoundConfirmedAlertBehaviour() {
         throw new System.NotImplementedException();
     }
 
@@ -642,31 +639,23 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     }
 
 
-    protected void startCorpseFoundConfirmedTimer() {
-        stopAgent(); // stop task agent
-
-        corpseFoundConfirmedTimerLoop();
+    protected virtual void startCorpseFoundConfirmedTimer() {
+        throw new System.NotImplementedException();
     }
 
 
     /// <summary>
     /// Questa funzione avvia il warnOfSouspiciousTimerLoop
     /// </summary>
-    protected void startSuspiciousCorpseFoundTimer() {
-
-        stopAgent(); // stop task agent
-
-        suspiciousCorpseFoundTimerLoop();
+    protected virtual void startSuspiciousCorpseFoundTimer() {
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
     /// Questa funzione avvia il warnOfSouspiciousTimerLoop
     /// </summary>
-    protected void startWarnOfSouspiciousTimer() {
-
-        stopAgent(); // stop task agent
-        
-        warnOfSouspiciousTimerLoop();
+    protected virtual void startWarnOfSouspiciousTimer() {
+        throw new System.NotImplementedException();
     }
     
 
@@ -674,10 +663,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// Questa funzione setta il punto di fine del suspiciousTimerLoop
     /// e avvia il suspiciousTimerLoop
     /// </summary>
-    private void startSuspiciousTimer() {
-        stopAgent(); // stop task agent
-        
-        suspiciousTimerLoop();
+    protected virtual void startSuspiciousTimer() {
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
@@ -685,24 +672,23 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// e avvia il hostilityTimerLoop
     /// </summary>
     protected virtual void startHostilityTimer(bool checkedByHimself) {
-        stopAgent(); // stop task agent
-
-        hostilityTimerLoop();
+        throw new System.NotImplementedException();
     }
+
+
+
     /// <summary>
     /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
     /// </summary>
-    private void resetSuspiciousTimer() {
-
-        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
+    protected virtual void resetSuspiciousBehaviour() {
+        throw new System.NotImplementedException();
     }
     /// <summary>
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
-    private void resetHostilityTimer() {
-        
+    protected virtual void resetHostilityBehaviour() {
 
-        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
+        throw new System.NotImplementedException();
     }
 
     public void stopSuspiciousCorpseFoundTimer() {
@@ -724,189 +710,36 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousAlert
     /// </summary>
-    private async void suspiciousTimerLoop() {
-        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
-        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
-            await Task.Yield();
-            if (characterBehaviourStopped) {
-                break;
-            }
+    protected virtual async void suspiciousTimerLoop() {
+        throw new System.NotImplementedException();
 
-            if (suspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
-                break;
-            }
-        }
-
-        suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
-        while (Time.time < suspiciousTimerEndStateValue) {
-            await Task.Yield();
-
-            if (characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        if (!characterBehaviourStopped) {
-            stopAgent();
-        }
-
-        if (characterAlertState != CharacterAlertState.HostilityAlert && characterAlertState == CharacterAlertState.SuspiciousAlert) {
-            setAlert(CharacterAlertState.Unalert, true);
-        }
-        
     }
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato hostilityAlert
     /// </summary>
     protected virtual async void hostilityTimerLoop() {
+        throw new System.NotImplementedException();
 
-
-        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
-        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
-            await Task.Yield();
-            if (characterBehaviourStopped) {
-                break;
-            }
-
-            if (hostilityTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
-                break;
-            }
-        }
-
-        hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
-        while (Time.time < hostilityTimerEndStateValue) {
-            await Task.Yield();
-
-            if(characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        if (!characterBehaviourStopped) {
-            stopAgent();
-        }
-
-        if (characterAlertState == CharacterAlertState.HostilityAlert) {
-            setAlert(CharacterAlertState.Unalert, true);
-        }
-
-
-
-        // aggiorna dizionari ostilità solo se il character non è stoppato
-        if (!characterBehaviourStopped) {
-            if (!gameObject.GetComponent<CharacterManager>().isDead) {
-                onHostilityAlertTimerEnd();
-            }
-        }
-        
     }
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato warnOfSouspiciousAlert
     /// </summary>
-    private async void warnOfSouspiciousTimerLoop() {
-
-        // timer aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
-        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
-            await Task.Yield();
-            if (characterBehaviourStopped) {
-                break;
-            }
-
-            if(warnOfSouspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
-                break;
-            }
-        }
-
-        warnOfSouspiciousTimerEndStateValue = Time.time + warningOfSouspiciousTimerValue;
-        while (Time.time < warnOfSouspiciousTimerEndStateValue) {
-            await Task.Yield();
-
-            if (characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        if (!characterBehaviourStopped) {
-            stopAgent();
-        }
-
-
-        if (characterAlertState == CharacterAlertState.WarnOfSuspiciousAlert) {
-            setAlert(CharacterAlertState.Unalert, true);
-        }
+    protected virtual async void warnOfSouspiciousTimerLoop() {
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousCorpseFoundAlert
     /// </summary>
-    private async void suspiciousCorpseFoundTimerLoop() {
-        // timer aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
-        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
-            await Task.Yield();
-            if (characterBehaviourStopped) {
-                break;
-            }
-
-            if (suspiciousCorpseFoundTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
-                break;
-            }
-        }
-
-        suspiciousCorpseFoundTimerEndStateValue = Time.time + suspiciousCorpseFoundTimerValue;
-        while (Time.time < suspiciousCorpseFoundTimerEndStateValue) {
-            await Task.Yield();
-
-            if (characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        if (!characterBehaviourStopped) {
-            stopAgent();
-        }
-            
-
-        if (characterAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
-            setAlert(CharacterAlertState.Unalert, true);
-        }
+    protected virtual async void suspiciousCorpseFoundTimerLoop() {
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
     /// </summary>
     protected virtual async void corpseFoundConfirmedTimerLoop() {
-
-
-        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
-        while (!isAgentReachedAlarmDestination(lastSeenFocusAlarmPosition)) {
-            await Task.Yield();
-            if (characterBehaviourStopped) {
-                break;
-            }
-
-            if (corpseFoundConfirmedTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
-                break;
-            }
-        }
-
-        corpseFoundConfirmedTimerEndStateValue = Time.time + corpseFoundConfirmedTimerValue;
-        while (Time.time < corpseFoundConfirmedTimerEndStateValue) {
-            await Task.Yield();
-
-            if (characterBehaviourStopped) {
-                break;
-            }
-        }
-
-        if (!characterBehaviourStopped) {
-            stopAgent();
-        }
-
-        if (characterAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
-            setAlert(CharacterAlertState.Unalert, true);
-        }
-
-
+        throw new System.NotImplementedException();
     }
 
 
@@ -915,12 +748,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// Implementare metodo nelle classi figle se si vuole eseguire una volta che l'hostilityTimerLoop termina
     /// </summary>
     public virtual void onHostilityAlertTimerEnd() {
-        throw new System.NotImplementedException();
-    }
-    /// <summary>
-    /// Implementare metodo nelle classi figle se si vuole eseguire quando l'HostilityAlert inizia
-    /// </summary>
-    public virtual void onHostilityAlert() {
         throw new System.NotImplementedException();
     }
 
@@ -1004,7 +831,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// </summary>
     /// <param name="agentSpeed"></param>
     public void animateAndSpeedMovingAgent(AgentSpeed agentSpeed = AgentSpeed.Walk) {
-        
 
 
         if(agentSpeed == AgentSpeed.Walk) {
@@ -1022,5 +848,20 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         
     }
 
-    
+#if UNITY_EDITOR
+    void OnDrawGizmos() {
+
+
+
+        if(simulateSearchingPlayerSubBehaviourProcess != null) {
+
+            for(int i = 0; i < simulateSearchingPlayerSubBehaviourProcess.randomNavMeshPositions.Count; i++) {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawSphere(simulateSearchingPlayerSubBehaviourProcess.randomNavMeshPositions[i], 0.4f);
+            }
+            
+        }
+
+    }
+#endif
 }

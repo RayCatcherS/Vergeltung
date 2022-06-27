@@ -140,11 +140,16 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 # Miglioramenti IA
 ## Simulazione ricerca del player
-Tramite un semplice algoritmo vengono generate *n* posizioni casuali entro un certo raggio *r* a partire dal character, da queste posizioni si ottengono le posizioni più vicine rispetto al navmesh(raggiungibili quindi dagli agent).
-I character che sono negli stati di allarme che raggiungono la **lastSeenFocusAlarmPosition** simuleranno la ricerca del possibile player ostile cercando di raggiungere tutte le posizioni generate. In modo da aumentare le probabilità che il player venga trovato.
-I pallini viola illustrati sono le posizioni generate che i character in allerta generano e che devono raggiungere, simulando la ricerca del character.
+Tramite un semplice algoritmo vengono generate *n* posizioni casuali entro un certo raggio *r* il cui centro è la posizione del character, ottenute queste posizioni, queste vengono convertite in posizioni raggiungibili dall'agent del character ottenendo le posizioni più vicine rispetto al navmesh(raggiungibili quindi dagli agent). Le posizioni che non sono raggiungibili dall'agent vengono scartate e rigenerate fino a quando non si raggiunge la quantità *n* di posizioni raggiungibili dall'agent.
+I character che sono negli stati di allarme dopo aver raggiunto la **lastSeenFocusAlarmPosition** simuleranno la ricerca del player che ha innescato lo stato di allerta cercando di raggiungere tutte le posizioni generate, ign modo da aumentare le probabilità che il player venga trovato.
+I pallini viola illustrati rappresentano le posizioni generate che i character in allerta generano e che devono raggiungere, simulando la ricerca del character.
 
-![Image animator](characterSeenInUnalert.gif)
+### Esempio 1:
+
+![Image animator](MoveNPCBetweenRandomPointsProcess1.gif)
+### Esempio 2:
+
+![Image animator](MoveNPCBetweenRandomPointsProcess2.gif)
 
 ## Gli NPC ruotano verso il player quando vicini
 Il character player verrà fissato dagli altri character che non sono in uno stato di allarme se il character passerà vicino al loro campo visivo ravvicinato.

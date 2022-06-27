@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public enum RotationLerpSpeedValue {
-    slow = 2,
+    slow = 1,
     normal = 3,
-    fast = 5,
+    fast = 10,
 }
 public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;

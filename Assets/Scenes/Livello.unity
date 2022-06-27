@@ -13451,6 +13451,10 @@ PrefabInstance:
       propertyPath: doorLockedByKey.value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6040367137796469461, guid: bc7f7a75ccfd11248949467c0fcdd117, type: 3}
+      propertyPath: internalOpeningSide.value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8307683079317570666, guid: bc7f7a75ccfd11248949467c0fcdd117, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -15159,7 +15163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSpawnController: {fileID: 1908805308}
   characterRole: 1
-  characterEquipment: 2
+  characterEquipment: 1
   startSelectedEquipment: 0
   _flashlightTaken: 0
 --- !u!114 &979559060
@@ -31579,7 +31583,7 @@ MonoBehaviour:
   gameState: {fileID: 1908805313}
   warpedCharacterManagerStack: []
   firstPlayerCharacter: {fileID: 0}
-  firstCharacterPlayerIsWanted: 0
+  firstCharacterPlayerIsWanted: 1
 --- !u!114 &1908805316
 MonoBehaviour:
   m_ObjectHideFlags: 0
