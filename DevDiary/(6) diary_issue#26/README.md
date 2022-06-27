@@ -11,13 +11,16 @@
 - Implementazione dei behaviour dei rispettivi stati del character
 - Vari miglioramenti + implementazioni minori
 
-
+## Passaggio tra behaviour
 Il modo con cui vengono gestiti gli stati del'IA può essere rappresentato con una struttra simile agli automi a stati finiti ma senza uno stato finale. In cui le transizioni sono le chiamate a dei metodi di check che verificano se si può entrare in uno stato o meno.
 (ultima posizione in cui è stato rilevato il character)
 
+## L'idea della progettazione
+L'idea è stata quella di sviluppare i vari subBehaviour come se fossero dei processi di un sistema operativo che **NPCBehaviourManager** può gestire, ogni processo specializza la classe **BehaviourProcess**, reimplementandone il metodo **runBehaviourAsyncProcess**, in modo che l'**NPCBehaviourManager** tratterà le istanze delle classi derivate da **BehaviourProcess** come un'istanza della classe **BehaviourProcess**, questi processi hanno uno stato di inizio e uno stato di fine. In questo modo è stato possibile concatenare in modo articolato i vari subBehaviour. Ad esempio una volta concluso il behaviour process dello stato di sospetto, viene fatto partire il behaviour process della ricerca del character.
+
 > Sia il **character NPC A** istanza di una entità character tale che non sia player
 
-L'istanza del componente **BaseNPCBehaviour** del character contiene l'implementazione dei metodi di check, i metodi check alarm per essere chiamati prevedono il passaggio di una posizione o di un character che potenzialmente può innescare uno stato di allarme. Se questa verifica da un esito positivo allora si può settare un certo stato di allarme che provocherà l'esecuzione di un certo behaviour o meno. Questi metodi di check possono essere reimplementati nelle classi figlie(CivilianNPCBheaviour, EnemyNPCBehaviour), per fare dei controlli più specifici o per avere implementazioni più specifiche rispetto al ruolo del character(civile o nemico)
+L'istanza del componente **BaseNPCBehaviourManager** del character contiene l'implementazione dei metodi di check, i metodi check alarm per essere chiamati prevedono il passaggio di una posizione o di un character che potenzialmente può innescare uno stato di allarme. Se questa verifica da un esito positivo allora si può settare un certo stato di allarme che provocherà l'esecuzione di un certo behaviour o meno. Questi metodi di check possono essere reimplementati nelle classi figlie(CivilianNPCBheaviour, EnemyNPCBehaviour), per fare dei controlli più specifici o per avere implementazioni più specifiche rispetto al ruolo del character(civile o nemico)
 > Esempi di metodi check alarm
 > - suspiciousCheck
 > - hostilityCheck
@@ -62,7 +65,7 @@ I Civili e i Nemici entrano nello stato di SuspiciousAlert in base al risultato 
 ## HostilityAlert state e hostilityAlertBehaviour 
 Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCBehaviour e EnemyNPCBehaviour behaviour dello stato del character HostilityAlert
 
-### Implementazione EnemyNPCBehaviour:
+### Implementazione EnemyNPCBehaviourManager:
 > Durante lo stato di **HostilityAlert**, viene eseguito in loop il behaviour corrispondente **hostilityAlertBehaviour**.
 > Durante l'**hostilityAlertBehaviour** il character nemico cercherà di avvicinarsi al character che ha rilevato come ostile. Se il character che ha provocato l'allarme va fuori dalla portata del FOV del
 > character, allora il character cercherà di raggiungere la **lastSeenFocusAlarmPosition** (l'ultima posizione in cui è stato visto il character), altrimenti se il character che ha provocato
@@ -73,7 +76,7 @@ Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCB
 
 ![Image animator](EnemyHostilityAlertStateBehaviour.gif)
 
-### Implementazione CivilianNPCBehaviour:
+### Implementazione CivilianNPCBehaviourManager:
 > Durante lo stato di **HostilityAlert**, viene eseguito in loop il behaviour corrispondente **hostilityAlertBehaviour**.
 > Durante l'**hostilityAlertBehaviour** il character civile chiederà al controller **SceneEntitiesController** tramite un metodo di restituire la prima guardia nemica più vicina che non è impegnata in
 > alcuno stato di allerta(Ovvero le guardie nemiche che sono nello stato di **Unaler** state). Il character civile raggiungerà la guardia nemica correndo e la notificherà passando il
@@ -140,8 +143,8 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 # Miglioramenti IA
 ## Simulazione ricerca del player
-Tramite un semplice algoritmo vengono generate *n* posizioni casuali entro un certo raggio *r* il cui centro è la posizione del character, ottenute queste posizioni, queste vengono convertite in posizioni raggiungibili dall'agent del character ottenendo le posizioni più vicine rispetto al navmesh(raggiungibili quindi dagli agent). Le posizioni che non sono raggiungibili dall'agent vengono scartate e rigenerate fino a quando non si raggiunge la quantità *n* di posizioni raggiungibili dall'agent.
-I character che sono negli stati di allarme dopo aver raggiunto la **lastSeenFocusAlarmPosition** simuleranno la ricerca del player che ha innescato lo stato di allerta cercando di raggiungere tutte le posizioni generate, ign modo da aumentare le probabilità che il player venga trovato.
+Tramite un semplice algoritmo vengono generate *n* posizioni casuali entro un certo raggio *r* il cui centro è la posizione del character, ottenute queste posizioni, queste vengono convertite in posizioni raggiungibili dall'agent del character, ottenendo le posizioni più vicine rispetto al sistema di navigazione navmesh(raggiungibili quindi dagli agent). Le posizioni che non sono raggiungibili dall'agent vengono scartate e rigenerate fino a quando non si raggiunge la quantità *n* di posizioni raggiungibili dall'agent.
+I character che sono negli stati di allarme dopo aver raggiunto la **lastSeenFocusAlarmPosition** simuleranno la ricerca del player che ha innescato lo stato di allerta raggiungendo tutte le posizioni generate, in modo da aumentare le probabilità che il player venga trovato.
 I pallini viola illustrati rappresentano le posizioni generate che i character in allerta generano e che devono raggiungere, simulando la ricerca del character.
 
 ### Esempio 1:
