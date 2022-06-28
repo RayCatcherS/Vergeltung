@@ -56,6 +56,9 @@ public class InventoryManager : Interactable {
 
     [Header("Inventory state")]
     [SerializeField] private bool _weaponPuttedAway = true;
+    public bool weaponPuttedAway {
+        get { return _weaponPuttedAway; }
+    }
     [SerializeField] private int _selectedWeapon = 0; // -1 significa non selezionato
     //[SerializeField] private int selectedActionObject = -1;// -1 significa non selezionato
 
@@ -75,10 +78,7 @@ public class InventoryManager : Interactable {
     }
     public List<WeaponItem> weaponItems {
         get { return _weaponItems; }
-    }
-    public bool weaponPuttedAway {
-        get { return _weaponPuttedAway; }
-    }
+    }    
 
     /// <summary>
     /// Verifica se l'arma selezionata sta sparando
@@ -434,7 +434,7 @@ public class InventoryManager : Interactable {
     }
 
 
-    public void initDrawPlayerWeaponLineRendered() {
+    private void initDrawPlayerWeaponLineRendered() {
         LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
         if (lineRenderer == null) {
             gameObject.AddComponent<LineRenderer>();
@@ -590,7 +590,7 @@ public class InventoryManager : Interactable {
     /// <summary>
     /// Riponi l'arma selezionata
     /// </summary>
-    private void putAwayWeapon() {
+    public void putAwayWeapon() {
         _weaponPuttedAway = true;
         configPutAwayExtractWeapon();
 
@@ -598,13 +598,13 @@ public class InventoryManager : Interactable {
         if (characterManager.isPlayer) {
             prohibitedWeaponAlarmUICheck();
         }
-        
+        configSelectedWeapon();
     }
 
     /// <summary>
     /// estrai l'arma selezionata
     /// </summary>
-    private void extractWeapon() {
+    public void extractWeapon() {
         _weaponPuttedAway = false;
         configPutAwayExtractWeapon();
 
@@ -612,6 +612,7 @@ public class InventoryManager : Interactable {
         if (characterManager.isPlayer) {
             prohibitedWeaponAlarmUICheck();
         }
+        configSelectedWeapon();
     }
 
     /// <summary>
@@ -635,14 +636,12 @@ public class InventoryManager : Interactable {
         } else {
             putAwayWeapon();
         }
-
-        configSelectedWeapon();
     }
 
     /// <summary>
-    /// configura gli elementi del character in base 
+    /// Builda laser puntatore e arma scoperta o meno
     /// </summary>
-    public void configPutAwayExtractWeapon() {
+    private void configPutAwayExtractWeapon() {
         if (_weaponPuttedAway) {
 
             _weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;

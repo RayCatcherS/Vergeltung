@@ -9,7 +9,7 @@ public class CharacterManager : MonoBehaviour {
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
     [Header("References")]
-    [SerializeField] private CharacterManager _aimedCharacter;
+    private CharacterManager _aimedCharacter;
     [SerializeField] private Animator _characterAnimator;
     [SerializeField] private Outline _characterOutline; // outline character
     public Outline characterOutline {
@@ -20,6 +20,7 @@ public class CharacterManager : MonoBehaviour {
         get { return _characterFOV; }
     }
     [SerializeField] private CharacterMovement characterMovement;
+    [SerializeField] private BaseNPCBehaviourManager baseNPCBehaviourManager;
     [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
@@ -72,7 +73,7 @@ public class CharacterManager : MonoBehaviour {
     public bool isTarget {
         get { return _isTarget; }
     }
-
+    
     // indica se qualcuno si è allarmato trovando il cadavere
     // evita che più persone contemporaneamente si avvicinino al cadavere
     private bool _isBusyDeadAlarmCheck = false;
@@ -135,11 +136,9 @@ public class CharacterManager : MonoBehaviour {
     public Animator characterAnimator {
         get { return _characterAnimator; }
     }
-
     public Transform occlusionTargetTransform {
         get { return _occlusionTargetTransform; }
     }
-
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
         set {
@@ -252,6 +251,12 @@ public class CharacterManager : MonoBehaviour {
             if (characterHealth <= 0) {
                 _isDead = true;
                 killCharacterAsync(damageVelocity);
+            } else {
+
+                // se è un NPC avvia il behaviour check sull'aver ricevuto del danno
+                if(!isPlayer) {
+                    baseNPCBehaviourManager.suspiciousHitReceivedCheck();
+                }
             }
         }
     }
@@ -260,7 +265,6 @@ public class CharacterManager : MonoBehaviour {
     /// Applica malus sul FOV del character riducendone la visibilità
     /// </summary>
     public async void applyFOVMalus() {
-
 
         if(!isDead) {
             _characterFOV.setFOVValues(
@@ -450,8 +454,6 @@ public class CharacterManager : MonoBehaviour {
             buildListOfInteraction();
         }
     }
-
-
     private void OnTriggerExit(Collider collision) {
 
 
@@ -528,7 +530,6 @@ public class CharacterManager : MonoBehaviour {
             alarmAlertUIController.potentialProhibitedAreaAlarmOff();
         }
     }
-
     public void discardCharacterAction() {
         _isBusy = false;
     }

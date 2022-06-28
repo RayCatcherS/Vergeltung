@@ -424,6 +424,7 @@ public class CharacterFOV : MonoBehaviour {
             float lastPosZ = seenCharacter.getCharacterPositionReachebleByAgents().z;
             Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
 
+            
 
             if (nPCBehaviour.characterAlertState == CharacterAlertState.HostilityAlert) {
                 nPCBehaviour.hostilityCheck(seenCharacter, lastPos, true);

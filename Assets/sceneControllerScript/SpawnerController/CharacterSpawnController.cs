@@ -169,11 +169,12 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviourManager>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(
+                initializeInventory(
                     enemyCharacterSpawnPoints[i].getCharacterEquipment(),
                     newCharacter.GetComponent<CharacterManager>().inventoryManager,
                     enemyCharacterSpawnPoints[i].getStartSelectedEquipment(),
-                    enemyCharacterSpawnPoints[i].flashlightTaken
+                    enemyCharacterSpawnPoints[i].flashlightTaken,
+                    enemyCharacterSpawnPoints[i].weaponPuttedAwayOnStart
                 );
             }
             
@@ -204,18 +205,19 @@ public class CharacterSpawnController : MonoBehaviour {
                 sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviourManager>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(
+                initializeInventory(
                     civilianCharacterSpawnPoints[i].getCharacterEquipment(),
                     newCharacter.GetComponent<CharacterManager>().inventoryManager,
                     civilianCharacterSpawnPoints[i].getStartSelectedEquipment(),
-                    civilianCharacterSpawnPoints[i].flashlightTaken
+                    civilianCharacterSpawnPoints[i].flashlightTaken,
+                    civilianCharacterSpawnPoints[i].weaponPuttedAwayOnStart
                 );
             }
             
         }
     }
 
-    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon, bool flashLightTaken) {
+    private void initializeInventory(Equipment equip, InventoryManager inventoryM, int selectedWeapon, bool flashLightTaken, bool weaponPuttedAway) {
         
         if(equip == Equipment.noWeaponEquipment) {
             for(int i = 0; i < noWeaponEquipment.Count; i++) {
@@ -250,6 +252,12 @@ public class CharacterSpawnController : MonoBehaviour {
         inventoryM.isFlashlightTaken = flashLightTaken;
 
         inventoryM.selectWeapon(selectedWeapon);
+
+        if(weaponPuttedAway) {
+            inventoryM.putAwayWeapon();
+        } else {
+            inventoryM.extractWeapon();
+        }
     }
 
     void spawnPlayer() {
@@ -277,11 +285,12 @@ public class CharacterSpawnController : MonoBehaviour {
             playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
 
             // inizializza equipaggiamento
-            initializeEquipment(
+            initializeInventory(
                 playerSpawnPoint.getCharacterEquipment(),
                 newPlayer.GetComponent<CharacterManager>().inventoryManager,
                 playerSpawnPoint.getStartSelectedEquipment(),
-                playerSpawnPoint.flashlightTaken
+                playerSpawnPoint.flashlightTaken,
+                playerSpawnPoint.weaponPuttedAwayOnStart
             );
         }
     }

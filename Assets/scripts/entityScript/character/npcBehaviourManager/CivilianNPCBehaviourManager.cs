@@ -41,6 +41,13 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     public override async void corpseFoundConfirmedAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
+    public override async void suspiciousHitReceivedBehaviour() {
+        await mainBehaviourProcess.runBehaviourAsyncProcess();
+    }
+
+
+
+
 
     protected override void startSuspiciousTimer() {
         stopAgent(); // stop task agent
@@ -52,7 +59,6 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         suspiciousTimerLoop();
     }
-    
     protected override void startHostilityTimer(bool checkedByHimself) {
         stopAgent(); // stop task agent
 
@@ -61,7 +67,6 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         hostilityTimerLoop();
     }
-
     protected override void startSuspiciousCorpseFoundTimer() {
         stopAgent(); // stop task agent
         
@@ -69,7 +74,6 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         suspiciousCorpseFoundTimerLoop();
     }
-
     protected override void startCorpseFoundConfirmedTimer() {
         stopAgent();
 
@@ -77,8 +81,15 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         corpseFoundConfirmedTimerLoop();
     }
+    protected override void startSuspiciousHitReceivedTimer() {
+        stopAgent();
+
+        mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, areaRadius: 4, sampleToReach: 5, waitingOnPointTime: 0.5f);
+        mainBehaviourProcess.initBehaviourProcess();
 
 
+        suspiciousHitReceivedTimerLoopAsync();
+    }
     protected override void resetSuspiciousBehaviour() {
         mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
         simulateSearchingPlayerSubBehaviourProcess
@@ -87,11 +98,12 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         // reset time of loop
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
     }
-
     protected override void resetHostilityBehaviour() {
 
         hostilityTimerEndStateValue = Time.time + hostilityTimerValue;
     }
+
+
 
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousAlert
@@ -100,7 +112,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
 
 
-        // aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+
         while (!mainBehaviourProcess.processTaskFinished) {
             await Task.Yield();
             if (characterBehaviourStopped) {
@@ -142,10 +154,12 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         }
 
     }
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato hostilityAlert
+    /// </summary>
     protected override async void hostilityTimerLoop() {
 
-        /// continua a ciclare fino a quando il character civile 
-        /// non ha raggiunto il character nemico da avvisare
+
         while (!mainBehaviourProcess.processTaskFinished) {
             await Task.Yield();
 
@@ -179,14 +193,12 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }
-
-
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousCorpseFoundAlert
     /// </summary>
     protected override async void suspiciousCorpseFoundTimerLoop() {
 
-        // timer aspetta fino a quando non è stato raggiunto il [lastSeenFocusAlarmCharacterPosition]
+
         while (!mainBehaviourProcess.processTaskFinished) {
             await Task.Yield();
             if (characterBehaviourStopped) {
@@ -216,15 +228,12 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }
-
-
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
     /// </summary>
     protected override async void corpseFoundConfirmedTimerLoop() {
 
-        /// continua a ciclare fino a quando il character civile 
-        /// non ha raggiunto il character nemico da avvisare
+
         while (!mainBehaviourProcess.processTaskFinished) {
 
             await Task.Yield();
@@ -256,5 +265,39 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         }
 
 
+    }
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato SuspiciousHitReceived
+    /// </summary>
+    protected override async void suspiciousHitReceivedTimerLoopAsync() {
+        while (!mainBehaviourProcess.processTaskFinished) {
+
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+            if (suspiciousHitReceivedTimerEndStateValue == 0) {
+                break;
+            }
+        }
+
+
+        suspiciousHitReceivedTimerEndStateValue = Time.time + suspiciousHitReceivedTimerValue;
+        while (Time.time < suspiciousHitReceivedTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+        if (characterAlertState == CharacterAlertState.SuspiciousHitReceived) {
+            setAlert(CharacterAlertState.Unalert, true);
+        }
     }
 }

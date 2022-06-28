@@ -9,6 +9,7 @@ public enum CharacterAlertState {
     WarnOfSuspiciousAlert,
     SuspiciousCorpseFoundAlert,
     CorpseFoundConfirmedAlert,
+    SuspiciousHitReceived,
     SoundAlert1,
     SoundAlert2
 }
@@ -41,20 +42,23 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// comportamento corpseFoundConfirmedAlertBehaviour da implementare nelle classi figlie
     /// </summary>
     abstract public void corpseFoundConfirmedAlertBehaviour();
-
     /// <summary>
-    /// comportamento SoundAlert1Behaviour da implementare nelle classi figlie
+    /// comportamento corpseFoundConfirmedAlertBehaviour da implementare nelle classi figlie
     /// </summary>
     abstract public void soundAlert1Behaviour();
+    /// <summary>
+    /// comportamento SuspiciousHitReceived da implementare nelle classi figlie
+    /// </summary>
+    abstract public void suspiciousHitReceivedBehaviour();
 
     /// <summary>
-    /// Verifica se un certo Character è sospetto
+    /// Verifica se un certo Character è sospetto e quindi entrare nello stato di suspicious
     /// </summary>
     /// <param name="characterManager">CharacterManager oggetto della verifica</param>
     abstract public void suspiciousCheck(CharacterManager characterManager, Vector3 lastSeenCPosition, bool himselfCheck = false);
 
     /// <summary>
-    /// Verifica se un certo Character è ostile
+    /// Verifica se un certo Character è ostile e quindi entrare nello stato di hostility
     /// </summary>
     /// <param name="characterManager">CharacterManager oggetto della verifica</param>
     abstract public void hostilityCheck(CharacterManager characterManager, Vector3 lastSeenCPosition, bool himselfCheck = false);
@@ -66,7 +70,7 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     abstract public void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition);
 
     /// <summary>
-    /// Verifica se avviare entrare nello stato di "suspiciousCorpseFound"
+    /// Verifica se entrare nello stato di "suspiciousCorpseFound"
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     /// <param name="lastSeenCPosition"></param>
@@ -74,8 +78,13 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
 
 
     /// <summary>
-    /// Verifica se avviare entrare nello stato di "corpseFoundConfirmed"
+    /// Verifica se entrare nello stato di "corpseFoundConfirmed"
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
     abstract public void corpseFoundConfirmedCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition);
+    /// <summary>
+    /// Verifica se entrare nello stato di "suspiciousHitReceived"
+    /// </summary>
+    /// <param name="lastSeenCPosition"></param>
+    abstract public void suspiciousHitReceivedCheck();
 }

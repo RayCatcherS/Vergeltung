@@ -24,14 +24,17 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     [SerializeField] protected float hostilityTimerValue = 15f; // durata del timer prima della scadenza dello stato
     protected float hostilityTimerEndStateValue = -1f; // timer che indica il valore in cui il hostilityTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] protected float warningOfSouspiciousTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    [SerializeField] protected float warningOfSouspiciousTimerValue = 10; // durata del timer prima della scadenza dello stato
     protected private float warnOfSouspiciousTimerEndStateValue = -1; // timer che indica il valore in cui il warnOfSouspiciousTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] protected float suspiciousCorpseFoundTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    [SerializeField] protected float suspiciousCorpseFoundTimerValue = 10; // durata del timer prima della scadenza dello stato
     protected private float suspiciousCorpseFoundTimerEndStateValue = -1; // timer che indica il valore in cui il suspiciousCorpseFoundTimerLoop si stoppa. -1 indica non settato
 
-    [SerializeField] protected float corpseFoundConfirmedTimerValue = 15f; // durata del timer prima della scadenza dello stato
+    [SerializeField] protected float corpseFoundConfirmedTimerValue = 10; // durata del timer prima della scadenza dello stato
     protected private float corpseFoundConfirmedTimerEndStateValue = -1; // timer che indica il valore in cui il corpseFoundConfirmedTimerLoop si stoppa. -1 indica non settato
+
+    [SerializeField] protected float suspiciousHitReceivedTimerValue = 10; // durata del timer prima della scadenza dello stato
+    protected private float suspiciousHitReceivedTimerEndStateValue = -1; // timer che indica il valore in cui il SuspiciousHitReceivedTimerLoop si stoppa. -1 indica non settato
 
 
 
@@ -89,7 +92,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public CharacterAlertState characterAlertState {
         get { return _characterState; }
     }
-    
     protected Dictionary<int, CharacterManager> _wantedHostileCharacters = new Dictionary<int, CharacterManager>();
     public Dictionary<int, CharacterManager> wantedHostileCharacters {
         set {
@@ -99,6 +101,11 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             return _wantedHostileCharacters;
         }
     }
+    public bool isAgentInMovement {
+        get {
+            return (agent.velocity != Vector3.zero); }
+    }
+
 
     // ref
     [Header("Reference")]
@@ -122,6 +129,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public InventoryManager characterInventoryManager {
         get { return _characterInventoryManager; }
     }
+
 
     [Header("Behaviour process")]
     protected MoveNPCBetweenRandomPointsProcess simulateSearchingPlayerSubBehaviourProcess;
@@ -212,6 +220,10 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                             corpseFoundConfirmedAlertBehaviour();
                         }
                         break;
+                    case CharacterAlertState.SuspiciousHitReceived: {
+                            suspiciousHitReceivedBehaviour();
+                        }
+                        break;
                     case CharacterAlertState.SoundAlert1: {
                             soundAlert1Behaviour();
                         }
@@ -240,7 +252,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             (oldAlertState == CharacterAlertState.Unalert ||
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert)
+            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) ||
+            oldAlertState == CharacterAlertState.SuspiciousHitReceived
 
             &&
             alertState == CharacterAlertState.SuspiciousAlert
@@ -272,7 +285,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert
+            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert ||
+            oldAlertState == CharacterAlertState.SuspiciousHitReceived
             )
             &&
             alertState == CharacterAlertState.HostilityAlert
@@ -330,7 +344,11 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         }
 
         // Unalert | SuspiciousCorpseFoundAlert | WarnOfSuspiciousAlert => (START) SuspiciousCorpseFoundAlert
-        if ((oldAlertState == CharacterAlertState.Unalert || oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert || oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert)
+        if (
+            (oldAlertState == CharacterAlertState.Unalert ||
+            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+            oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert
+            )
             &&
             alertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
 
@@ -345,6 +363,19 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             alertSignAnimator.SetTrigger("hostilityAlert");
         }
 
+        if(alertState == CharacterAlertState.SuspiciousHitReceived) {
+            stopSuspiciousCorpseFoundTimer();
+            stopCorpseFoundConfirmedTimer();
+            stopWarnOfSouspiciousTimer();
+
+
+            startSuspiciousHitReceivedTimer();
+
+
+            // animation sign
+            resetAlertAnimatorTrigger();
+            alertSignAnimator.SetTrigger("suspiciousAlert");
+        }
 
 
 
@@ -382,14 +413,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         return;
     }
 
-    /// stoppa agente e animazione dell'agente che dipende dal move character
-    public void stopAgent() {
-
-        if(_agent.enabled) {
-            _agent.isStopped = true;
-        }
-        _characterMovement.stopCharacter();
-    }
+    
 
     public void stopAllCoroutines() {
         StopAllCoroutines();
@@ -417,6 +441,10 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         throw new System.NotImplementedException();
     }
     public override void corpseFoundConfirmedAlertBehaviour() {
+        throw new System.NotImplementedException();
+    }
+
+    public override void suspiciousHitReceivedBehaviour() {
         throw new System.NotImplementedException();
     }
 
@@ -466,22 +494,40 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     }
 
-    private void OnTriggerEnter(Collider collision) {
+    private void OnTriggerEnter(Collider collider) {
 
 
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+        if (collider.gameObject.layer == INTERACTABLE_LAYER) {
 
 
             // le porte venongo aperte dagli NPC solo se non sono morti
-            DoorInteractable doorInteractable = collision.gameObject.GetComponent<DoorInteractable>();
+            DoorInteractable doorInteractable = collider.gameObject.GetComponent<DoorInteractable>();
             if (doorInteractable != null) {
 
-                if (!collision.gameObject.GetComponent<CharacterManager>().isDead) {
+                if (!_characterManager.isDead && !_characterManager.isPlayer && isAgentInMovement) {
                     if (doorInteractable.doorState.isDoorClosed().value) {
                         doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
                     }
                 }
                 
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider collider) {
+        if (collider.gameObject.layer == INTERACTABLE_LAYER) {
+
+
+            // le porte venongo aperte dagli NPC solo se non sono morti
+            DoorInteractable doorInteractable = collider.gameObject.GetComponent<DoorInteractable>();
+            if (doorInteractable != null) {
+
+                if (!_characterManager.isDead && !_characterManager.isPlayer && isAgentInMovement) {
+                    if (doorInteractable.doorState.isDoorClosed().value) {
+                        doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
+                    }
+                }
+
             }
         }
     }
@@ -497,11 +543,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
-
-        if (_characterState == CharacterAlertState.Unalert || 
-            _characterState == CharacterAlertState.SuspiciousAlert ||
-            _characterState == CharacterAlertState.WarnOfSuspiciousAlert ||
-            _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert
+        
+        if (_characterState != CharacterAlertState.HostilityAlert
         ) {
 
             if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
@@ -641,7 +684,21 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
         }
     }
+    /// <summary>
+    /// Metodo per verificare se [this] può entrare nello stato di SuspiciousHitReceived
+    /// Ovvero è stato ricevuto un colpo
+    /// </summary>
+    public override void suspiciousHitReceivedCheck() {
 
+        if( _characterState == CharacterAlertState.Unalert || 
+        _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+        _characterState == CharacterAlertState.CorpseFoundConfirmedAlert ||
+        _characterState == CharacterAlertState.WarnOfSuspiciousAlert
+        ) {
+
+            setAlert(CharacterAlertState.SuspiciousHitReceived, true);
+        }
+    }
 
     protected virtual void startCorpseFoundConfirmedTimer() {
         throw new System.NotImplementedException();
@@ -695,6 +752,10 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         throw new System.NotImplementedException();
     }
 
+    protected virtual void startSuspiciousHitReceivedTimer() {
+        throw new System.NotImplementedException();
+    }
+
     public void stopSuspiciousCorpseFoundTimer() {
         suspiciousCorpseFoundTimerEndStateValue = 0;
     }
@@ -714,38 +775,41 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousAlert
     /// </summary>
-    protected virtual async void suspiciousTimerLoop() {
+    protected virtual void suspiciousTimerLoop() {
         throw new System.NotImplementedException();
 
     }
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato hostilityAlert
     /// </summary>
-    protected virtual async void hostilityTimerLoop() {
+    protected virtual void hostilityTimerLoop() {
         throw new System.NotImplementedException();
 
     }
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato warnOfSouspiciousAlert
     /// </summary>
-    protected virtual async void warnOfSouspiciousTimerLoop() {
+    protected virtual void warnOfSouspiciousTimerLoop() {
         throw new System.NotImplementedException();
     }
 
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousCorpseFoundAlert
     /// </summary>
-    protected virtual async void suspiciousCorpseFoundTimerLoop() {
+    protected virtual void suspiciousCorpseFoundTimerLoop() {
         throw new System.NotImplementedException();
     }
 
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
     /// </summary>
-    protected virtual async void corpseFoundConfirmedTimerLoop() {
+    protected virtual void corpseFoundConfirmedTimerLoop() {
         throw new System.NotImplementedException();
     }
 
+    protected virtual void suspiciousHitReceivedTimerLoopAsync() {
+        throw new System.NotImplementedException();
+    }
 
 
     /// <summary>
@@ -837,7 +901,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public void animateAndSpeedMovingAgent(AgentSpeed agentSpeed = AgentSpeed.Walk) {
 
 
-        if(agentSpeed == AgentSpeed.Walk) {
+        if (agentSpeed == AgentSpeed.Walk) {
             _agent.speed = walkAgentSpeed;
             Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
@@ -850,6 +914,14 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             _characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false); // avvia solo animazione
         }
         
+    }
+
+    /// stoppa agente e animazione dell'agente che dipende dal move character
+    public void stopAgent() {
+        if (_agent.enabled) {
+            _agent.isStopped = true;
+        }
+        _characterMovement.stopCharacter();
     }
 
 #if UNITY_EDITOR

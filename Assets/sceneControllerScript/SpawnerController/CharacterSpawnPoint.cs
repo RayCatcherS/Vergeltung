@@ -17,6 +17,10 @@ public class CharacterSpawnPoint : MonoBehaviour {
     public bool flashlightTaken {
         get { return _flashlightTaken; }
     }
+    [SerializeField] private bool _weaponPuttedAwayOnStart = false;
+    public bool weaponPuttedAwayOnStart {
+        get { return _weaponPuttedAwayOnStart; }
+    }
 
     // getter
     public Role getSpawnCharacterRole() {

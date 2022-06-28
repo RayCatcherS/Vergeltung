@@ -33,7 +33,7 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
         UnityEngine.AI.NavMeshAgent behaviourAgent,
         BaseNPCBehaviourManager baseNPCBehaviour,
         CharacterManager CharacterManager,
-        float areaRadius = 7,
+        float areaRadius = 8.5f,
         int sampleToReach = 4,
         float waitingOnPointTime = 1
     ) {
@@ -71,8 +71,6 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
 
             }
         }
-
-        Debug.Log(_randomNavMeshPositions.Count);
     }
 
 
@@ -159,8 +157,10 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
         if (_selectedPosition < _randomNavMeshPositions.Count - 1) {
 
             _selectedPosition = _selectedPosition + 1;
-        } else {
-            _processTaskFinished = true;
+
+            if(_selectedPosition == _randomNavMeshPositions.Count - 1) {
+                _processTaskFinished = true;
+            }
         }
     }
 }
