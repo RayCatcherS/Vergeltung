@@ -474,6 +474,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     _characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
                 }
             } else {
+                
 
                 if (lastSeenFocusAlarmPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
 
@@ -486,6 +487,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 Vector3 targetDirection = lastSeenFocusAlarmPosition - gameObject.transform.position;
 
                 if (!isAgentReachedDestination(lastSeenFocusAlarmPosition)) {
+                    _agent.updateRotation = true;
+                } else {
                     _characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);
                 }
 

@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 8146846288706968647}
+  interactableMeshEffect: {fileID: 0}
   doorState: {fileID: 6301468589642512124}
   lockPickingEventName: LOCKPICK DOOR
   lockPickingEvent:
@@ -85,6 +86,8 @@ MonoBehaviour:
   closeDoorEvent:
     m_PersistentCalls:
       m_Calls: []
+  internalOpeningSide:
+    value: 0
 --- !u!114 &5696293072930179285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +204,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.295258, y: 2.332629, z: 3.888176}
-  m_Center: {x: 0.046874996, y: 1.1663145, z: 0}
+  m_Size: {x: 0.18937609, y: 2.332629, z: 3.888176}
+  m_Center: {x: -0.00606595, y: 1.1663145, z: 0}
 --- !u!95 &2438273541638212758
 Animator:
   serializedVersion: 4
@@ -235,13 +238,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f76fd1a5e19ac744801226f48525962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorLocked: 1
-  doorClosed: 1
+  isDoorPickLocking:
+    value: 0
+  doorLocked:
+    value: 1
+  doorClosed:
+    value: 1
+  doorLockedByKey:
+    value: 0
   doorOpenedDirection1: 0
   doorOpenedDirection2: 0
   triggerStopDoorDirection1: {fileID: 8932380228619203167}
   triggerStopDoorDirection2: {fileID: 510312898213807607}
   doorTimeOut: 5
+  _doorLockPickTime: 5
 --- !u!65 &8932380228619203167
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -253,8 +263,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38, y: 2.42, z: 3.888176}
-  m_Center: {x: -0.18, y: 1.1663145, z: 0}
+  m_Size: {x: 0.29515243, y: 2.42, z: 3.888176}
+  m_Center: {x: -0.13757622, y: 1.1663146, z: 0}
 --- !u!65 &510312898213807607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -266,8 +276,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38, y: 2.42, z: 3.888176}
-  m_Center: {x: 0.22, y: 1.1663145, z: 0}
+  m_Size: {x: 0.2601454, y: 2.42, z: 3.888176}
+  m_Center: {x: 0.1600727, y: 1.1663146, z: 0}
 --- !u!114 &8146846288706968647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,6 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 8146846288706968647}
+  interactableMeshEffect: {fileID: 0}
   doorState: {fileID: 6301468589642512124}
   lockPickingEventName: LOCKPICK DOOR
   lockPickingEvent:
@@ -597,6 +608,8 @@ MonoBehaviour:
   closeDoorEvent:
     m_PersistentCalls:
       m_Calls: []
+  internalOpeningSide:
+    value: 0
 --- !u!114 &2511765874372644500
 MonoBehaviour:
   m_ObjectHideFlags: 0

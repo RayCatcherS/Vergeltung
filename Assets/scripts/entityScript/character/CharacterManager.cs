@@ -436,23 +436,27 @@ public class CharacterManager : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collision) {
 
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+        if(isPlayer) {
+            if (collision.gameObject.layer == INTERACTABLE_LAYER) {
 
 
-            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+                InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
 
-            // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
-            // evita che collisioni multiple aggiungano la stessa key al dizionario
-            if (!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
-                interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+                // evita che collisioni multiple aggiungano la stessa key al dizionario
+                if (!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                    interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                }
+
+
+                // rebuild lista interactions
+                buildListOfInteraction();
             }
-
-
-            // rebuild lista interactions
-            buildListOfInteraction();
         }
+        
     }
     private void OnTriggerExit(Collider collision) {
 
@@ -464,14 +468,15 @@ public class CharacterManager : MonoBehaviour {
 
             if (isPlayer) {
                 interactableObject.interactable.unFocusInteractableOutline(); // disattiva effetto focus sull'oggetto interagibile
+
+
+                // rimuovi interazione al dizionario delle interazioni
+                interactableObjects.Remove(interactableObject.GetInstanceID());
+
+                // rebuild lista interactions
+                buildListOfInteraction();
+
             }
-
-
-            // rimuovi interazione al dizionario delle interazioni
-            interactableObjects.Remove(interactableObject.GetInstanceID());
-
-            // rebuild lista interactions
-            buildListOfInteraction();
         }
     }
 
