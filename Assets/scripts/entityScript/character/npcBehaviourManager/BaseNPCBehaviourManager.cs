@@ -13,7 +13,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     // const
     private const int INTERACTABLE_LAYER = 3;
-
+    private const int DOOR_LAYER = 10;
 
 
     // values
@@ -220,8 +220,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                             corpseFoundConfirmedAlertBehaviour();
                         }
                         break;
-                    case CharacterAlertState.SuspiciousHitReceived: {
-                            suspiciousHitReceivedBehaviour();
+                    case CharacterAlertState.SuspiciousHitReceivedAlert: {
+                            suspiciousHitReceivedAlertBehaviour();
                         }
                         break;
                     case CharacterAlertState.SoundAlert1: {
@@ -253,7 +253,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
             oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) ||
-            oldAlertState == CharacterAlertState.SuspiciousHitReceived
+            oldAlertState == CharacterAlertState.SuspiciousHitReceivedAlert
 
             &&
             alertState == CharacterAlertState.SuspiciousAlert
@@ -286,7 +286,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             oldAlertState == CharacterAlertState.SuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
             oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousHitReceived
+            oldAlertState == CharacterAlertState.SuspiciousHitReceivedAlert
             )
             &&
             alertState == CharacterAlertState.HostilityAlert
@@ -363,7 +363,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             alertSignAnimator.SetTrigger("hostilityAlert");
         }
 
-        if(alertState == CharacterAlertState.SuspiciousHitReceived) {
+        if(alertState == CharacterAlertState.SuspiciousHitReceivedAlert) {
             stopSuspiciousCorpseFoundTimer();
             stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
@@ -444,7 +444,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         throw new System.NotImplementedException();
     }
 
-    public override void suspiciousHitReceivedBehaviour() {
+    public override void suspiciousHitReceivedAlertBehaviour() {
         throw new System.NotImplementedException();
     }
 
@@ -500,17 +500,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         if (collider.gameObject.layer == INTERACTABLE_LAYER) {
 
 
-            // le porte venongo aperte dagli NPC solo se non sono morti
-            DoorInteractable doorInteractable = collider.gameObject.GetComponent<DoorInteractable>();
-            if (doorInteractable != null) {
-
-                if (!_characterManager.isDead && !_characterManager.isPlayer && isAgentInMovement) {
-                    if (doorInteractable.doorState.isDoorClosed().value) {
-                        doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
-                    }
-                }
-                
-            }
+            openFrontDoor(collider);
         }
     }
 
@@ -518,17 +508,31 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         if (collider.gameObject.layer == INTERACTABLE_LAYER) {
 
 
-            // le porte venongo aperte dagli NPC solo se non sono morti
-            DoorInteractable doorInteractable = collider.gameObject.GetComponent<DoorInteractable>();
-            if (doorInteractable != null) {
+            openFrontDoor(collider);
+        }
+    }
 
-                if (!_characterManager.isDead && !_characterManager.isPlayer && isAgentInMovement) {
-                    if (doorInteractable.doorState.isDoorClosed().value) {
-                        doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
+    void openFrontDoor(Collider collider) {
+        // le porte venongo aperte dagli NPC solo se non sono morti
+        DoorInteractable doorInteractable = collider.gameObject.GetComponent<DoorInteractable>();
+        if (doorInteractable != null) {
+
+            if (!_characterManager.isDead && !_characterManager.isPlayer && isAgentInMovement) {
+                if (doorInteractable.doorState.isDoorClosed().value) {
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(characterFOV.reachableTarget.position, characterFOV.reachableTarget.forward, out hit, 1.2f, ~(DOOR_LAYER), QueryTriggerInteraction.Ignore)) {
+
+                        if (hit.transform.gameObject.layer == DOOR_LAYER) {
+                            Debug.DrawLine(characterFOV.reachableTarget.position, hit.point, Color.black, 0.5f);
+                            doorInteractable.openDoorEvent.Invoke(gameObject.GetComponent<CharacterManager>());
+                        }
+                        
                     }
+                        
                 }
-
             }
+
         }
     }
 
@@ -696,7 +700,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         _characterState == CharacterAlertState.WarnOfSuspiciousAlert
         ) {
 
-            setAlert(CharacterAlertState.SuspiciousHitReceived, true);
+            setAlert(CharacterAlertState.SuspiciousHitReceivedAlert, true);
         }
     }
 

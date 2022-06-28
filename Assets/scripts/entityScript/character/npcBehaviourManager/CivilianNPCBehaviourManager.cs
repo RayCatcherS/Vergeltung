@@ -41,7 +41,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     public override async void corpseFoundConfirmedAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
-    public override async void suspiciousHitReceivedBehaviour() {
+    public override async void suspiciousHitReceivedAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
 
@@ -84,9 +84,13 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     protected override void startSuspiciousHitReceivedTimer() {
         stopAgent();
 
-        mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, areaRadius: 4, sampleToReach: 5, waitingOnPointTime: 0.5f);
+        mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(
+            agent, this, characterManager,
+            areaRadius: 4,
+            sampleToReach: 5,
+            waitingOnPointTime: 0.5f
+        );
         mainBehaviourProcess.initBehaviourProcess();
-
 
         suspiciousHitReceivedTimerLoopAsync();
     }
@@ -109,9 +113,6 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// Timer loop usato per gestire la durata dello stato suspiciousAlert
     /// </summary>
     protected override async void suspiciousTimerLoop() {
-
-
-
 
         while (!mainBehaviourProcess.processTaskFinished) {
             await Task.Yield();
@@ -296,7 +297,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             stopAgent();
         }
 
-        if (characterAlertState == CharacterAlertState.SuspiciousHitReceived) {
+        if (characterAlertState == CharacterAlertState.SuspiciousHitReceivedAlert) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }

@@ -76,6 +76,10 @@ Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCB
 
 ![Image animator](EnemyHostilityAlertStateBehaviour.gif)
 
+
+<p>&nbsp;</p>
+
+
 ### Implementazione CivilianNPCBehaviourManager:
 > Durante lo stato di **HostilityAlert**, viene eseguito in loop il behaviour corrispondente **hostilityAlertBehaviour**.
 > Durante l'**hostilityAlertBehaviour** il character civile chiederà al controller **SceneEntitiesController** tramite un metodo di restituire la prima guardia nemica più vicina che non è impegnata in
@@ -90,6 +94,7 @@ Implementato il **suspiciousAlertBehaviour** nelle specializzazioni CivilianNPCB
 
 <p>&nbsp;</p>
 
+
 ## SuspiciousCorpseFoundAlert state e suspiciousCorpseFoundAlertBehaviour
 Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità a stati come
 **HostilityAlert** e **SuspiciousAlert**.
@@ -103,6 +108,7 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 <p>&nbsp;</p>
 
+
 ## CorpseFoundConfirmedAlert state e corpseFoundConfirmedAlertBehaviour
 Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità nel caso si attivino gli stati
 **HostilityAlert** e **SuspiciousAlert**.
@@ -113,6 +119,10 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 > Durante questo stato il campo visivo è maggiore.
 
 ![Image animator](EnemycorpseFoundConfirmedAlertBehaviour.gif)
+
+
+<p>&nbsp;</p>
+
 
 ### Implementazione CivilianNPCBehaviour:
 Questo behaviour rappresenta lo stato di allarme dell'aver confermato la presenza di un cadavere.
@@ -125,6 +135,7 @@ Questo behaviour rappresenta lo stato di allarme dell'aver confermato la presenz
 
 
 <p>&nbsp;</p>
+
 
 ## WarnOfSuspiciousAlert state e warnOfSouspiciousAlertBehaviour
 Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityAlert** e **SuspiciousAlert**, vuol dire che questo stato viene terminato dando priorità a stati come
@@ -139,7 +150,13 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 ![Image animator](WarnOfSuspiciousAlert.gif)
 
 
+<p>&nbsp;</p>
 
+
+## SuspiciousHitReceivedAlert state e suspiciousHitReceivedAlertBehaviour
+> Questo behaviour viene attivato quando il character nemico riceve del danno e il suo stato è di **Unalert**. Nello stato di **SuspiciousHitReceivedAlert** Verrà simulato uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di unalert.
+
+![Image animator](suspiciousHitReceivedAlert.gif) 
 
 # Miglioramenti IA
 ## Simulazione ricerca del player
@@ -163,6 +180,11 @@ Il character player verrà fissato dagli altri character che non sono in uno sta
 <p>&nbsp;</p>
 
 # Miglioramenti vari:
+- Le porte aperte dagli NPC vengono aperte solo quando gli agent sono in movimento, puntano nella direzione della porta e questa distanza tra NPC e la porta è minore di un certo valore. Le porte aperte dagli NPC non si aprono più quando non serve.
+
+![Image animator](doorFix.gif)
+
+
 - Tutti gli oggetti che offrono delle interazioni(interactableObjects) sono indicati con questo shader programmato tramite lo strumento **Shader Graph** di Unity. In questo modo sarà più intuitivo capire con quali oggetti è possibile interagire.
 
 | ![Image animator](InteractableObj.gif) | ![Image animator](shaderGraph.gif) |

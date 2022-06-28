@@ -91,7 +91,7 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
         }
     }
-    public override async void suspiciousHitReceivedBehaviour() {
+    public override async void suspiciousHitReceivedAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
 
@@ -444,7 +444,7 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
         }
 
 
-        if (characterAlertState == CharacterAlertState.SuspiciousHitReceived) {
+        if (characterAlertState == CharacterAlertState.SuspiciousHitReceivedAlert) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }

@@ -9,7 +9,7 @@ public enum CharacterAlertState {
     WarnOfSuspiciousAlert,
     SuspiciousCorpseFoundAlert,
     CorpseFoundConfirmedAlert,
-    SuspiciousHitReceived,
+    SuspiciousHitReceivedAlert,
     SoundAlert1,
     SoundAlert2
 }
@@ -49,7 +49,7 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// <summary>
     /// comportamento SuspiciousHitReceived da implementare nelle classi figlie
     /// </summary>
-    abstract public void suspiciousHitReceivedBehaviour();
+    abstract public void suspiciousHitReceivedAlertBehaviour();
 
     /// <summary>
     /// Verifica se un certo Character è sospetto e quindi entrare nello stato di suspicious

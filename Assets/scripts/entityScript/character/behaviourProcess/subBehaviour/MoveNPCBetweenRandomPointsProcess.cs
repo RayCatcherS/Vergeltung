@@ -49,12 +49,6 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
     public override void initBehaviourProcess() {
         _randomNavMeshPositions = new List<Vector3>();
 
-        // aggiungi prima posizione == a quello dell'origin
-        /*UnityEngine.AI.NavMeshHit firstHit;
-        if (UnityEngine.AI.NavMesh.SamplePosition(_originPosition, out firstHit, _areaRadius, UnityEngine.AI.NavMesh.AllAreas)) {
-            _randomNavMeshPositions.Add(firstHit.position);
-        }*/
-
 
         while (_randomNavMeshPositions.Count < _sampleToReach) {
             Vector3 randomPos = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y);
