@@ -32,27 +32,13 @@ public class CharacterFOV : MonoBehaviour {
     [SerializeField] private CharacterController characterController;
     [SerializeField] private CapsuleCollider characterCapsuleCollider;
 
+
     [Header("Impostazioni")]
     [SerializeField] private LayerMask targetCharacterMask;
     [SerializeField] [Range(0.1f, 1f)] private float fovCheckFrequency = 0.2f; // frequenza check campi visivi
 
 
-
-    [Header("Primo campo visivo(ravvicinato)")]
-    [SerializeField] private float _defaultFirstFovRadius = 7f;
-    public float defaultFirstFovRadius {
-        get { return _defaultFirstFovRadius; }
-    }
-    private float _usedFirstFovRadius = 0;
-    public float usedFirstFovRadius {
-        get { return _usedFirstFovRadius; }
-    }
-    [Range(0, 360)]
-    [SerializeField] private float _defaultFirstFovAngle = 90;
-    private float _usedFirstFovAngle = 0;
-    public float usedFirstFovAngle {
-        get { return _usedFirstFovAngle; }
-    }
+    [Header("FOV States")]
     [SerializeField] private bool firstFOVCanSeeCharacter = false;
     [SerializeField] private bool secondFOVCanSeeCharacter = false;
 
@@ -60,21 +46,39 @@ public class CharacterFOV : MonoBehaviour {
     [SerializeField] private bool secondFOVCanSeeDeadCharacter = false;
 
 
+    [Header("Primo campo visivo(ravvicinato)")]
+    [SerializeField] private const float _defaultFirstFovRadius = 7f;
+    private float defaultFirstFovRadius {
+        get { return _defaultFirstFovRadius; }
+    }
+    [Range(0, 360)]
+    [SerializeField] private const float _defaultFirstFovAngle = 90;
+    
+
+
     [Header("Secondo campo visivo(lontano)")]
     [SerializeField] private float _defaultSecondFovRadius = 18;
-    public float defaultSecondFovRadius {
+    private float defaultSecondFovRadius {
         get { return _defaultSecondFovRadius; }
-    }
-    private float _usedSecondFovRadius = 0;
-    public float usedSecondFovRadius {
-        get { return _usedSecondFovRadius; }
     }
     [Range(0, 360)]
     [SerializeField] private float _defaultSecondFovAngle = 145;
-    private float _usedSecondFovAngle = 0;
-    public float usedSecondFovAngle {
-        get { return _usedSecondFovAngle; }
-    }
+
+
+
+
+
+    [Header("FOV malus values")]
+    [Range(0, 360)]
+    [SerializeField] private float _firstMalusFovAngle = 60;
+
+    [Range(0, 360)]
+    [SerializeField] private float _secondMalusFovAngle = 90;
+    [SerializeField] private float _FOVMalusDividerAreasValue = 3.5f;
+
+    [Header("FOV bonus values")]
+    [SerializeField] private float _FOVBonusMultiplierFlashLightAreasValue = 1.6f; // valore moltiplicatore fov quando torcia accesa
+    [SerializeField] private float _FOVBonusMultiplierAlertAreaValue = 1.4f; // valore moltiplicatore fov quando in stato di allerta
 
 
     [Header("Area di allerta")]
@@ -90,46 +94,90 @@ public class CharacterFOV : MonoBehaviour {
         get { return _unalertSeenCharacter; }
     }
 
+    private bool _nightMalus = false;
+    private bool _flashLightBonus = false;
+    private bool _alertBonus = false;
+
+    public void setNightMalus(bool value) {
+        _nightMalus = value;
+    }
+
+    public void setFlashLightBonus(bool value) {
+        _flashLightBonus = value;
+    }
+
+    public void setAlertBonus(bool value) {
+        _alertBonus = value;
+    }
+
     public void Start() {
-        setFOVValuesToDefault();
         StartCoroutine(cFOVRoutine());
     }
 
-    public void setFOVValuesToDefault() {
-        _usedFirstFovRadius = _defaultFirstFovRadius;
-        _usedFirstFovAngle = _defaultFirstFovAngle;
+    private float getInfluencedSecondFovRadius() {
+        float value = _defaultSecondFovRadius;
 
-        _usedSecondFovRadius = _defaultSecondFovRadius;
-        _usedSecondFovAngle = _defaultSecondFovAngle;
+        if (_nightMalus) {
+            value = _defaultSecondFovRadius / _FOVMalusDividerAreasValue;
+
+            if (_flashLightBonus) {
+                value = value * _FOVBonusMultiplierFlashLightAreasValue;
+            }
+        } else {
+            if (_alertBonus) {
+                value = value * _FOVBonusMultiplierAlertAreaValue;
+            }
+        }
+
+        
+        return value;
     }
+    private float getInfluencedFirstFovRadius() {
+        float value = _defaultFirstFovRadius;
 
-    public void setFOVValues(
-        float firstFovRadius,
-        float firstFovAngle,
-        float secondFovRadius,
-        float secondFovAngle
-        ) {
-        _usedFirstFovRadius = firstFovRadius;
-        _usedFirstFovAngle = firstFovAngle;
+        if (_nightMalus) {
+            value = _defaultFirstFovRadius / _FOVMalusDividerAreasValue;
 
-        _usedSecondFovRadius = secondFovRadius;
-        _usedSecondFovAngle = secondFovAngle;
+            if (_flashLightBonus) {
+                value = value * _FOVBonusMultiplierFlashLightAreasValue;
+            }
+        }
+        return value; 
+    }
+    private float getInfluencedSecondFovAngle() {
+
+        float value = _defaultSecondFovAngle;
+        if (_nightMalus) {
+            value = _secondMalusFovAngle;
+        }
+
+        return value;
+    }
+    private float getInfluencedFirstFovAngle() {
+
+        float value = _defaultFirstFovAngle;
+        if (_nightMalus) {
+            value = _firstMalusFovAngle;
+        }
+
+        return value;
     }
 
     private IEnumerator cFOVRoutine() {
 
         while(true) {
+
+            if(nPCBehaviour.characterBehaviourStopped) {
+                break;
+            }
             yield return new WaitForSeconds(fovCheckFrequency);
             characterFirstFOVCheck();
             characterSecondFOVCheck();
         }
     }
 
-    public void stopAllCoroutines() {
-        firstFOVCanSeeCharacter = false;
-        secondFOVCanSeeCharacter = false;
-        StopAllCoroutines();
-    }
+
+
 
     /// <summary>
     /// check campo visivo ravvicinato
@@ -137,7 +185,7 @@ public class CharacterFOV : MonoBehaviour {
     private void characterFirstFOVCheck() {
 
         
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedFirstFovRadius, targetCharacterMask);
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, getInfluencedFirstFovRadius(), targetCharacterMask);
         bool characterSeen = false;
         bool deadCharacterVisible = false;
 
@@ -177,7 +225,7 @@ public class CharacterFOV : MonoBehaviour {
     private void characterSecondFOVCheck() {
 
 
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _usedSecondFovRadius, targetCharacterMask);
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, getInfluencedSecondFovRadius(), targetCharacterMask);
         bool characterSeen = false;
         bool deadCharacterVisible = false;
 
@@ -220,14 +268,14 @@ public class CharacterFOV : MonoBehaviour {
 
         Vector3 direction = toPosition - fromPosition;
 
-        if (Vector3.Angle(transform.forward, direction) < (_usedFirstFovAngle / 2)) {
+        if (Vector3.Angle(transform.forward, direction) < (getInfluencedFirstFovAngle() / 2)) {
             //Debug.Log("angle player rilevato");
 
 
 
             disableCharacterCollider();
             RaycastHit hit;
-            if (Physics.Raycast(fromPosition, direction, out hit, _usedFirstFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(fromPosition, direction, out hit, getInfluencedFirstFovRadius(), ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
                 //Debug.Log(hit.collider.gameObject.name);
 
@@ -253,14 +301,14 @@ public class CharacterFOV : MonoBehaviour {
         Vector3 toPosition = raycastPositionTargetToReach;
         Vector3 direction = toPosition - fromPosition;
 
-        if (Vector3.Angle(transform.forward, direction) < (_usedSecondFovAngle / 2)) {
+        if (Vector3.Angle(transform.forward, direction) < (getInfluencedSecondFovAngle() / 2)) {
             //Debug.Log("angle player rilevato");
 
 
 
             disableCharacterCollider();
             RaycastHit hit;
-            if (Physics.Raycast(fromPosition, direction, out hit, _usedSecondFovRadius, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+            if (Physics.Raycast(fromPosition, direction, out hit, getInfluencedSecondFovRadius(), ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
 
 
                 //Debug.Log(hit.collider.gameObject.name);
@@ -295,7 +343,7 @@ public class CharacterFOV : MonoBehaviour {
         Vector3 direction = toPosition - fromPosition;
 
         
-        if (Vector3.Angle(transform.forward, direction) < (_usedSecondFovAngle / 2)) {
+        if (Vector3.Angle(transform.forward, direction) < (getInfluencedSecondFovAngle() / 2)) {
 
 
             // ottieni i transform per la conferma della visualizzazione del character
@@ -324,8 +372,6 @@ public class CharacterFOV : MonoBehaviour {
                 }
                 enableCharacterCollider();
             }
-            
-
 
 
             if (result) {
@@ -343,7 +389,7 @@ public class CharacterFOV : MonoBehaviour {
         Vector3 direction = toPosition - fromPosition;
 
 
-        if (Vector3.Angle(transform.forward, direction) < (_usedFirstFovAngle / 2)) {
+        if (Vector3.Angle(transform.forward, direction) < (getInfluencedFirstFovAngle() / 2)) {
 
 
             // ottieni i transform per la conferma della visualizzazione del character
@@ -575,7 +621,7 @@ public class CharacterFOV : MonoBehaviour {
 
         
         Handles.color = Color.white;
-        Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, _usedFirstFovRadius == 0 ? _defaultFirstFovRadius : _usedFirstFovRadius); //debug radius fov
+        Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, getInfluencedFirstFovRadius()); //debug radius fov
 
 
         // draw dell'angolo del fov range
@@ -588,7 +634,7 @@ public class CharacterFOV : MonoBehaviour {
                 Mathf.Sin((transform.eulerAngles.y) * (Mathf.Deg2Rad)),
                 0,
                 Mathf.Cos((transform.eulerAngles.y) * (Mathf.Deg2Rad))
-            ) * _usedFirstFovRadius,
+            ) * getInfluencedFirstFovRadius(),
             1
         );
 
@@ -598,10 +644,10 @@ public class CharacterFOV : MonoBehaviour {
         Handles.DrawLine(
             gameObject.transform.position,
             gameObject.transform.position + new Vector3(
-                Mathf.Sin((transform.eulerAngles.y + ((_usedFirstFovAngle == 0 ? _defaultFirstFovAngle : _usedFirstFovAngle) / 2)) * (Mathf.Deg2Rad)),
+                Mathf.Sin((transform.eulerAngles.y + (getInfluencedFirstFovAngle() / 2)) * (Mathf.Deg2Rad)),
                 0,
-                Mathf.Cos((transform.eulerAngles.y + ((_usedFirstFovAngle == 0 ? _defaultFirstFovAngle : _usedFirstFovAngle) / 2)) * (Mathf.Deg2Rad))
-            ) * (_usedFirstFovRadius == 0 ? _defaultFirstFovRadius : _usedFirstFovRadius),
+                Mathf.Cos((transform.eulerAngles.y + (getInfluencedFirstFovAngle() / 2)) * (Mathf.Deg2Rad))
+            ) * (getInfluencedFirstFovRadius()),
             5
         );
 
@@ -610,10 +656,10 @@ public class CharacterFOV : MonoBehaviour {
         Handles.DrawLine(
             gameObject.transform.position,
             gameObject.transform.position + new Vector3(
-                Mathf.Sin((transform.eulerAngles.y + (-(_usedFirstFovAngle == 0 ? _defaultFirstFovAngle : _usedFirstFovAngle) / 2)) * (Mathf.Deg2Rad)),
+                Mathf.Sin((transform.eulerAngles.y + (-(getInfluencedFirstFovAngle()) / 2)) * (Mathf.Deg2Rad)),
                 0,
-                Mathf.Cos((transform.eulerAngles.y + (-(_usedFirstFovAngle == 0 ? _defaultFirstFovAngle : _usedFirstFovAngle) / 2)) * (Mathf.Deg2Rad))
-            ) * (_usedFirstFovRadius == 0 ? _defaultFirstFovRadius : _usedFirstFovRadius),
+                Mathf.Cos((transform.eulerAngles.y + (-(getInfluencedFirstFovAngle()) / 2)) * (Mathf.Deg2Rad))
+            ) * (getInfluencedFirstFovRadius()),
             5
         );
     }
@@ -622,7 +668,7 @@ public class CharacterFOV : MonoBehaviour {
 
 
         Handles.color = Color.white;
-        Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, _usedSecondFovRadius == 0 ? _defaultSecondFovRadius : _usedSecondFovRadius); //debug radius fov
+        Handles.DrawWireDisc(gameObject.transform.position, Vector3.up, getInfluencedSecondFovRadius()); //debug radius fov
 
 
         // draw dell'angolo del fov range
@@ -635,7 +681,7 @@ public class CharacterFOV : MonoBehaviour {
                 Mathf.Sin((transform.eulerAngles.y) * (Mathf.Deg2Rad)),
                 0,
                 Mathf.Cos((transform.eulerAngles.y) * (Mathf.Deg2Rad))
-            ) * (_usedSecondFovRadius == 0 ? _defaultSecondFovRadius : _usedSecondFovRadius),
+            ) * (getInfluencedSecondFovRadius()),
             1
         );
 
@@ -645,10 +691,10 @@ public class CharacterFOV : MonoBehaviour {
         Handles.DrawLine(
             gameObject.transform.position,
             gameObject.transform.position + new Vector3(
-                Mathf.Sin((transform.eulerAngles.y + ((_usedSecondFovAngle == 0 ? _defaultSecondFovAngle : _usedSecondFovAngle) / 2)) * (Mathf.Deg2Rad)),
+                Mathf.Sin((transform.eulerAngles.y + (getInfluencedSecondFovAngle() / 2)) * (Mathf.Deg2Rad)),
                 0,
-                Mathf.Cos((transform.eulerAngles.y + ((_usedSecondFovAngle == 0 ? _defaultSecondFovAngle : _usedSecondFovAngle) / 2)) * (Mathf.Deg2Rad))
-            ) * (_usedSecondFovRadius == 0 ? _defaultSecondFovRadius : _usedSecondFovRadius),
+                Mathf.Cos((transform.eulerAngles.y + (getInfluencedSecondFovAngle() / 2)) * (Mathf.Deg2Rad))
+            ) * (getInfluencedSecondFovRadius()),
             5
         );
 
@@ -657,10 +703,10 @@ public class CharacterFOV : MonoBehaviour {
         Handles.DrawLine(
             gameObject.transform.position,
             gameObject.transform.position + new Vector3(
-                Mathf.Sin((transform.eulerAngles.y + (-(_usedSecondFovAngle == 0 ? _defaultSecondFovAngle : _usedSecondFovAngle) / 2)) * (Mathf.Deg2Rad)),
+                Mathf.Sin((transform.eulerAngles.y + (-(getInfluencedSecondFovAngle()) / 2)) * (Mathf.Deg2Rad)),
                 0,
-                Mathf.Cos((transform.eulerAngles.y + (-(_usedSecondFovAngle == 0 ? _defaultSecondFovAngle : _usedSecondFovAngle) / 2)) * (Mathf.Deg2Rad))
-            ) * (_usedSecondFovRadius == 0 ? _defaultSecondFovRadius : _usedSecondFovRadius),
+                Mathf.Cos((transform.eulerAngles.y + (-(getInfluencedSecondFovAngle()) / 2)) * (Mathf.Deg2Rad))
+            ) * (getInfluencedSecondFovRadius()),
             5
         );
     }

@@ -10,8 +10,8 @@ public enum CharacterAlertState {
     SuspiciousCorpseFoundAlert,
     CorpseFoundConfirmedAlert,
     SuspiciousHitReceivedAlert,
-    SoundAlert1,
-    SoundAlert2
+    LowLoudSoundAlert,
+    MediumLoudSoundAlert
 }
 
 public abstract class AbstractNPCBehaviour : MonoBehaviour

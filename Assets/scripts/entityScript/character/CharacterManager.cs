@@ -54,7 +54,7 @@ public class CharacterManager : MonoBehaviour {
         get { return _isBusy; }
         set { _isBusy = value; }
     }
-    
+
     [SerializeField] private bool _isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
     public bool isPlayer {
         get { return _isPlayer; }
@@ -73,7 +73,7 @@ public class CharacterManager : MonoBehaviour {
     public bool isTarget {
         get { return _isTarget; }
     }
-    
+
     // indica se qualcuno si è allarmato trovando il cadavere
     // evita che più persone contemporaneamente si avvicinino al cadavere
     private bool _isBusyDeadAlarmCheck = false;
@@ -96,14 +96,7 @@ public class CharacterManager : MonoBehaviour {
 
     [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
-    [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia 
-    [Range(0, 360)]
-    [SerializeField] private float _firstMalusFovAngle = 60;
-    
-    [Range(0, 360)]
-    [SerializeField] private float _secondMalusFovAngle = 90;
-    [SerializeField] private float dividerFOVMalusValue = 2; // valore divisore fov malus 
-    [SerializeField] private float dividerFOVMalusFlashlightValue = 1.3f; // valore divisore fov malus
+    [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia
 
 
     public void Start() {
@@ -142,9 +135,9 @@ public class CharacterManager : MonoBehaviour {
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
         set {
-            if(value == null) { // null quando no si sta mirando un character
+            if (value == null) { // null quando no si sta mirando un character
 
-                if(_aimedCharacter != null) { // si stava già mirando un character
+                if (_aimedCharacter != null) { // si stava già mirando un character
                     _aimedCharacter._characterOutline.setEnableOutline(false); // disattiva outline del character precedentemente mirato
                     _aimedCharacter = value;
                 }
@@ -159,8 +152,8 @@ public class CharacterManager : MonoBehaviour {
                     _aimedCharacter._characterOutline.setEnableOutline(true);
                 }
             }
-            
-            
+
+
         }
     }
 
@@ -171,7 +164,7 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
     public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController, SceneEntitiesController sceneEntitiesController) {
-        
+
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
         characterInteraction._globalGameState = gameState;
@@ -190,7 +183,7 @@ public class CharacterManager : MonoBehaviour {
         _interactionUIController = controller;
     }
 
-    
+
 
 
     /// <summary>
@@ -201,15 +194,15 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public void buildListOfInteraction() {
         List<Interaction> interactions = new List<Interaction>(); // lista di tutte le Interaction disponibili per il player
-    
+
 
 
         // ottieni dal dizionario degli oggetti interabili tutte le interactions
         foreach (var item in interactableObjects) {
 
             List<Interaction> interactable = item.Value.getInteractions();
-            
-            for(int i = 0; i < interactable.Count; i++) {
+
+            for (int i = 0; i < interactable.Count; i++) {
 
                 interactions.Add(interactable[i]);
             }
@@ -217,7 +210,7 @@ public class CharacterManager : MonoBehaviour {
 
 
         // se il character è giocato dal player
-        if(isPlayer) {
+        if (isPlayer) {
 
             // inizializza lista di interazioni e i bottoni e la partendo dalla lista interactions
             // passa la lista di interactions per inizializzare la lista di interacion che potranno essere effettuate
@@ -245,7 +238,7 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
 
-        if(!isDead) {
+        if (!isDead) {
             characterHealth -= damage;
 
             if (characterHealth <= 0) {
@@ -254,7 +247,7 @@ public class CharacterManager : MonoBehaviour {
             } else {
 
                 // se è un NPC avvia il behaviour check sull'aver ricevuto del danno
-                if(!isPlayer) {
+                if (!isPlayer) {
                     baseNPCBehaviourManager.suspiciousHitReceivedCheck();
                 }
             }
@@ -266,52 +259,42 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public async void applyFOVMalus() {
 
-        if(!isDead) {
-            _characterFOV.setFOVValues(
-            firstFovRadius: _characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
-            firstFovAngle: _firstMalusFovAngle,
-
-            secondFovRadius: _characterFOV.usedSecondFovRadius / dividerFOVMalusValue,
-            secondFovAngle: _secondMalusFovAngle
-        );
+        if (!isDead) {
+            _characterFOV.setNightMalus(true);
+        }
 
 
-            // se il character ha una torcia
-            if (_inventoryManager.isFlashlightTaken) {
-                /// Permette di accendere le torce dopo un tempo t
-                /// ripristinando il fov del character
-                /// Da usare per le guardie più specializzate
-                float endTime = FOVUnmalusFlashlightTimer + Time.time;
-                while (Time.time < endTime) {
-                    await Task.Yield();
-                }
+        // se il character ha una torcia
+        if (_inventoryManager.isFlashlightTaken) {
+            /// Permette di accendere le torce dopo un tempo t
+            /// ripristinando il fov del character
+            /// Da usare per le guardie più specializzate
+            float endTime = FOVUnmalusFlashlightTimer + Time.time;
+            while (Time.time < endTime) {
+                await Task.Yield();
+            }
 
 
 
 
 
-                // flashlight fov
+            // flashlight fov
 
-                if (!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
-                    await _inventoryManager.characterFlashLight.lightOnFlashLight();
-                    _characterFOV.setFOVValues(
-                        firstFovRadius: _characterFOV.defaultFirstFovRadius / dividerFOVMalusFlashlightValue,
-                        firstFovAngle: _firstMalusFovAngle,
-
-                        secondFovRadius: _characterFOV.defaultSecondFovRadius / dividerFOVMalusFlashlightValue,
-                        secondFovAngle: _secondMalusFovAngle
-                    );
-                }
+            if (!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
+                await _inventoryManager.characterFlashLight.lightOnFlashLight();
+                _characterFOV.setFlashLightBonus(true);
             }
         }
-        
     }
+
+
 
     /// <summary>
     /// Ripristina valori default del FOV
     /// </summary>
     public async Task<bool> restoreFOVMalus() {
-        _characterFOV.setFOVValuesToDefault();
+        _characterFOV.setNightMalus(false);
+        _characterFOV.setFlashLightBonus(false);
         await _inventoryManager.characterFlashLight.lightOffFlashLight();
 
         return true;
@@ -352,7 +335,6 @@ public class CharacterManager : MonoBehaviour {
 
         
         // stoppa componenti
-        gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
         gameObject.GetComponent<CharacterFOV>().enabled = false;
         _characterAnimator.StopPlayback();
         _characterAnimator.enabled = false;

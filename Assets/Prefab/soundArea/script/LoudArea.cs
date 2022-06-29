@@ -25,7 +25,7 @@ public class LoudArea : MonoBehaviour
             _audioSource.clip = clip;
         }
 
-
+        _areaRadius = (float)intensity;
     }
 
     public void startLoudArea() {

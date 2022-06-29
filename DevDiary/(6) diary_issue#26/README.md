@@ -27,6 +27,7 @@ L'istanza del componente **BaseNPCBehaviourManager** del character contiene l'im
 > - receiveWarnOfSouspiciousCheck
 > - suspiciousCorpseFoundCheck
 > - corpseFoundConfirmedCheck
+> - suspiciousHitReceivedCheck
 
 Questi metodi di check sono chiamati dall'istanza del componente FOV del character che rappresenta i "sensori dell'IA".
 
@@ -175,6 +176,17 @@ I pallini viola illustrati rappresentano le posizioni generate che i character i
 Il character player verrà fissato dagli altri character che non sono in uno stato di allarme se il character passerà vicino al loro campo visivo ravvicinato.
 
 ![Image animator](characterSeenInUnalert.gif)
+
+
+## NPC più acuti durante stati di allerta
+Gli NPC aumentano il loro secondo campo visivo più esterno(colore giallo) quando sono in questi stati d'allerta e lo stato di NightMalus non è attivo
+- SuspiciousAlert,
+- HostilityAlert,
+- WarnOfSuspiciousAlert,
+- SuspiciousCorpseFoundAlert,
+- CorpseFoundConfirmedAlert,
+- SuspiciousHitReceivedAlert
+- MediumLoudSoundAlert
 
 
 <p>&nbsp;</p>

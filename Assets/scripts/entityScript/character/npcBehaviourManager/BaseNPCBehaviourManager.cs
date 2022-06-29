@@ -71,7 +71,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public bool stopCharacterBehaviour {
         get { return _stopCharacterBehaviour; }
     }
-    [SerializeField] protected bool characterBehaviourStopped = false; // stato che indica se il character si è stoppato
+    [SerializeField] public bool characterBehaviourStopped = false; // stato che indica se il character si è stoppato
 
 
     // queste variabili indicano se uno stato di allerta è stato innescato da loro stessi(tramiteFOV true) o se è stato indotto(false)
@@ -193,40 +193,51 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     switch (_characterState) {
                         case CharacterAlertState.Unalert: {
 
-
+                                _characterFOV.setAlertBonus(false);
                                 unalertBehaviour();
                             }
                             break;
                         case CharacterAlertState.SuspiciousAlert: {
 
+                                _characterFOV.setAlertBonus(true);
                                 suspiciousAlertBehaviour();
                             }
                             break;
                         case CharacterAlertState.HostilityAlert: {
+
+                                _characterFOV.setAlertBonus(true);
                                 hostilityAlertBehaviourAsync();
                             }
                             break;
 
                         case CharacterAlertState.WarnOfSuspiciousAlert: {
+
+                                _characterFOV.setAlertBonus(true);
                                 warnOfSuspiciousAlertBehaviour();
                             }
                             break;
 
                         case CharacterAlertState.SuspiciousCorpseFoundAlert: {
 
-
+                                _characterFOV.setAlertBonus(true);
                                 suspiciousCorpseFoundAlertBehaviour();
                             }
                             break;
                         case CharacterAlertState.CorpseFoundConfirmedAlert: {
+
+                                _characterFOV.setAlertBonus(true);
                                 corpseFoundConfirmedAlertBehaviour();
                             }
                             break;
                         case CharacterAlertState.SuspiciousHitReceivedAlert: {
+
+                                _characterFOV.setAlertBonus(true);
                                 suspiciousHitReceivedAlertBehaviour();
                             }
                             break;
-                        case CharacterAlertState.SoundAlert1: {
+                        case CharacterAlertState.LowLoudSoundAlert: {
+
+                                _characterFOV.setAlertBonus(true);
                                 soundAlert1Behaviour();
                             }
                             break;
