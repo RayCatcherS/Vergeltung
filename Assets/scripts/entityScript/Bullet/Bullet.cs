@@ -26,6 +26,16 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private bool destroyOnImpact = true;
     [SerializeField] private bool isImpact = false;
+
+    [Header("Weapon sounds")]
+    [SerializeField] private AudioClip genericSoundCollision;
+    [SerializeField] private AudioClip characterSoundCollision;
+
+    [Header("Weapon audio loud object")]
+    /// questo oggetto emette suoni e scatenare eventi all'interno della sua area e viene generato quando il proiettile collide
+    [SerializeField] private GameObject loudArea;
+    [SerializeField] private LoudAreaIntensity loudIntensity;
+
     void Start()
     {
         StartCoroutine(startBulletDeadTime(deadTime));
@@ -85,14 +95,29 @@ public class Bullet : MonoBehaviour
     private void characterCollision(CharacterManager character, Vector3 collisionPoint) {
         character.applyCharacterDamage(bulletDamage, Vector3.zero);
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
+
+        // loud area
+        GameObject loudGameObject = Instantiate(loudArea, collisionPoint, Quaternion.identity);
+        loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, characterSoundCollision);
+        loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
     private void wallCollision(Vector3 collisionPoint, Vector3 collisionNormal) {
         Instantiate(collisionWallImpact, collisionPoint, Quaternion.LookRotation(collisionNormal));
+
+        // loud area
+        GameObject loudGameObject = Instantiate(loudArea, collisionPoint, Quaternion.identity);
+        loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, genericSoundCollision);
+        loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
     private void ragdollBoneCollision(Vector3 collisionPoint) {
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
+
+        // loud area
+        GameObject loudGameObject = Instantiate(loudArea, collisionPoint, Quaternion.identity);
+        loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, characterSoundCollision);
+        loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
     private void glassCollision(RaycastHit hit) {

@@ -69,7 +69,10 @@ public class HostilityEnemyProcess : BehaviourProcess {
                     character.Value.characterFOV);
 
                 if (isCharacterToNotifyPossibleToSee) {
-                    character.Value.hostilityCheck(_baseNPCBehaviour.focusAlarmCharacter, _baseNPCBehaviour.lastSeenFocusAlarmPosition);
+
+                    if(!character.Value.characterManager.isDead) {
+                        character.Value.hostilityCheck(_baseNPCBehaviour.focusAlarmCharacter, _baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                    }
                 }
 
             }

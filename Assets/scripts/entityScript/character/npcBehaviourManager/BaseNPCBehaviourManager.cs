@@ -181,53 +181,56 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// </summary>
     private void nPCBehaviour() {
 
-        if (_stopCharacterBehaviour) {
-            characterBehaviourStopped = true;
-            Debug.Log("Stopping character");
+        if(!characterManager.isDead) {
 
-        } else {
+            if (_stopCharacterBehaviour) {
+                characterBehaviourStopped = true;
+                Debug.Log("Stopping character");
 
-            if (!gameObject.GetComponent<CharacterManager>().isDead) {
-                switch (_characterState) {
-                    case CharacterAlertState.Unalert: {
+            } else {
 
-                            
-                            unalertBehaviour();
-                        }
-                        break;
-                    case CharacterAlertState.SuspiciousAlert: {
+                if (!gameObject.GetComponent<CharacterManager>().isDead) {
+                    switch (_characterState) {
+                        case CharacterAlertState.Unalert: {
 
-                            suspiciousAlertBehaviour();
-                        }
-                        break;
-                    case CharacterAlertState.HostilityAlert: {
-                            hostilityAlertBehaviourAsync();
-                        }
-                        break;
 
-                    case CharacterAlertState.WarnOfSuspiciousAlert: {
-                            warnOfSuspiciousAlertBehaviour();
-                        }
-                        break;
+                                unalertBehaviour();
+                            }
+                            break;
+                        case CharacterAlertState.SuspiciousAlert: {
 
-                    case CharacterAlertState.SuspiciousCorpseFoundAlert: {
+                                suspiciousAlertBehaviour();
+                            }
+                            break;
+                        case CharacterAlertState.HostilityAlert: {
+                                hostilityAlertBehaviourAsync();
+                            }
+                            break;
 
-                            
-                            suspiciousCorpseFoundAlertBehaviour();
-                        }
-                        break;
-                    case CharacterAlertState.CorpseFoundConfirmedAlert: {
-                            corpseFoundConfirmedAlertBehaviour();
-                        }
-                        break;
-                    case CharacterAlertState.SuspiciousHitReceivedAlert: {
-                            suspiciousHitReceivedAlertBehaviour();
-                        }
-                        break;
-                    case CharacterAlertState.SoundAlert1: {
-                            soundAlert1Behaviour();
-                        }
-                        break;
+                        case CharacterAlertState.WarnOfSuspiciousAlert: {
+                                warnOfSuspiciousAlertBehaviour();
+                            }
+                            break;
+
+                        case CharacterAlertState.SuspiciousCorpseFoundAlert: {
+
+
+                                suspiciousCorpseFoundAlertBehaviour();
+                            }
+                            break;
+                        case CharacterAlertState.CorpseFoundConfirmedAlert: {
+                                corpseFoundConfirmedAlertBehaviour();
+                            }
+                            break;
+                        case CharacterAlertState.SuspiciousHitReceivedAlert: {
+                                suspiciousHitReceivedAlertBehaviour();
+                            }
+                            break;
+                        case CharacterAlertState.SoundAlert1: {
+                                soundAlert1Behaviour();
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -524,7 +527,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 if (doorInteractable.doorState.isDoorClosed().value) {
 
                     RaycastHit hit;
-                    if (Physics.Raycast(characterFOV.reachableTarget.position, characterFOV.reachableTarget.forward, out hit, 1.2f, ~(DOOR_LAYER), QueryTriggerInteraction.Ignore)) {
+                    // agent.velocity.normalized indica il vettore direzione dell'agent
+                    if (Physics.Raycast(characterFOV.reachableTarget.position, agent.velocity.normalized, out hit, 1.2f, ~(DOOR_LAYER), QueryTriggerInteraction.Ignore)) {
 
                         if (hit.transform.gameObject.layer == DOOR_LAYER) {
                             Debug.DrawLine(characterFOV.reachableTarget.position, hit.point, Color.black, 0.5f);
@@ -912,13 +916,13 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             _agent.speed = walkAgentSpeed;
             Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
-            _characterMovement.moveCharacter(movement, false); // avvia solo animazione
+            _characterMovement.moveCharacter(movement, false, onlyAnimation: true); // avvia solo animazione
             
         } else if(agentSpeed == AgentSpeed.Run) {
             _agent.speed = runAgentSpeed;
             Vector2 movement = new Vector2(_agent.desiredVelocity.x, _agent.desiredVelocity.z);
 
-            _characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false); // avvia solo animazione
+            _characterMovement.moveCharacter(movement, isRun: true, autoRotationOnRun: false, onlyAnimation: true); // avvia solo animazione
         }
         
     }

@@ -50,7 +50,6 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
 
     protected override void startSuspiciousTimer() {
-        stopAgent(); // stop task agent
 
         // start behaviour process
         mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
@@ -60,7 +59,6 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         suspiciousTimerLoop();
     }
     protected override void startHostilityTimer(bool checkedByHimself) {
-        stopAgent(); // stop task agent
 
         // start behaviour process
         mainBehaviourProcess = new HostilityCivilianProcess(_agent, this, _characterFOV, _characterManager, checkedByHimself);
@@ -68,21 +66,18 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         hostilityTimerLoop();
     }
     protected override void startSuspiciousCorpseFoundTimer() {
-        stopAgent(); // stop task agent
         
         mainBehaviourProcess = new GenericSuspiciousCorpseFoundProcess(_agent, this);
 
         suspiciousCorpseFoundTimerLoop();
     }
     protected override void startCorpseFoundConfirmedTimer() {
-        stopAgent();
 
         mainBehaviourProcess = new CorpseFoundConfirmedCivilianProcess(_agent, this, _characterFOV, _characterManager);
 
         corpseFoundConfirmedTimerLoop();
     }
     protected override void startSuspiciousHitReceivedTimer() {
-        stopAgent();
 
         mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(
             agent, this, characterManager,
@@ -94,6 +89,8 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         suspiciousHitReceivedTimerLoopAsync();
     }
+
+
     protected override void resetSuspiciousBehaviour() {
         mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
         simulateSearchingPlayerSubBehaviourProcess

@@ -102,7 +102,6 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
 
     protected override void startSuspiciousTimer() {
-        stopAgent(); // stop task agent
 
         // start behaviour process
         mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
@@ -113,7 +112,6 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
         suspiciousTimerLoop();
     }
     protected override void startHostilityTimer(bool checkedByHimself) {
-        stopAgent(); // stop task agent
 
         // start behaviour process
         mainBehaviourProcess = new HostilityEnemyProcess(_agent, this, _characterFOV);
@@ -123,7 +121,6 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
         hostilityTimerLoop();
     }
     protected override void startWarnOfSouspiciousTimer() {
-        stopAgent();
 
         mainBehaviourProcess = new WarnOfSospiciousEnemyProcess(_agent, this);
         simulateSearchingPlayerSubBehaviourProcess
@@ -133,14 +130,11 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
     }
     protected override void startSuspiciousCorpseFoundTimer() {
 
-        stopAgent(); // stop task agent
-
         mainBehaviourProcess = new GenericSuspiciousCorpseFoundProcess(_agent, this);
 
         suspiciousCorpseFoundTimerLoop();
     }
     protected override void startCorpseFoundConfirmedTimer() {
-        stopAgent();
 
         mainBehaviourProcess = new CorpseFoundConfirmedEnemyProcess(_agent, this, _characterMovement);
         simulateSearchingPlayerSubBehaviourProcess
@@ -149,7 +143,6 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
         corpseFoundConfirmedTimerLoop();
     }
     protected override void startSuspiciousHitReceivedTimer() {
-        stopAgent();
 
         mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, areaRadius: 4, sampleToReach: 5, waitingOnPointTime: 0.5f);
         mainBehaviourProcess.initBehaviourProcess();

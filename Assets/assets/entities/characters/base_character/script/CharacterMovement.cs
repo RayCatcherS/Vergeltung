@@ -104,7 +104,7 @@ public class CharacterMovement : MonoBehaviour {
     /// </summary>
     /// <param name="_2Dmove">Coppia di valori che rappresenta i valori
     /// in input del movimento del character.</param>
-    public void moveCharacter(Vector2 _2Dmove, bool isRun, bool autoRotationOnRun = true) {
+    public void moveCharacter(Vector2 _2Dmove, bool isRun, bool autoRotationOnRun = true, bool onlyAnimation = false) {
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
@@ -119,19 +119,23 @@ public class CharacterMovement : MonoBehaviour {
         // evitando che il movimento del character dipenda dai fotogrammi
         if (_movement.magnitude > 0) {
 
-            if (isRun) {
+
+            if(!onlyAnimation) {
+                if (isRun) {
 
 
-                _movement = _movement * runMovementSpeed * Time.deltaTime;
+                    _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                if(autoRotationOnRun) {
-                    rotateCharacter(_2Dmove, true);
+                    if (autoRotationOnRun) {
+                        rotateCharacter(_2Dmove, true);
+                    }
+                } else {
+
+                    _movement = _movement * movementSpeed * Time.deltaTime;
+
                 }
-            } else {
-
-                _movement = _movement * movementSpeed * Time.deltaTime;
-
             }
+            
             characterManager.isRunning = isRun;
         }
 

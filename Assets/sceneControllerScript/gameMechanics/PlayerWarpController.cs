@@ -67,6 +67,9 @@ public class PlayerWarpController : MonoBehaviour
             gameCamera.GetComponent<CoutoutObject>().targetObject = character.occlusionTargetTransform;
             gameCamera.GetComponent<FollowPlayer>().objectToFollow = character.occlusionTargetTransform;
 
+            // configurazione audio listener
+            character.GetComponent<AudioListener>().enabled = true;
+
 
             // setta primo character controllato come ricercato
             if(firstCharacterPlayerIsWanted) {
