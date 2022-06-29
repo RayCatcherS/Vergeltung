@@ -68,7 +68,7 @@ public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
                     if (isCharacterToNotifyPossibleToSee) {
 
 
-                        closerEnemyCharacterToWarn.receiveWarnOfSouspiciousCheck(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                        closerEnemyCharacterToWarn.warnOfSouspiciousCheck(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
                         isEnemyCharacterToWarnCalled = true;
                         _processTaskFinished = true;
 

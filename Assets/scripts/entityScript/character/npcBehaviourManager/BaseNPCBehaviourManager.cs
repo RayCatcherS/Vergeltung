@@ -229,7 +229,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                                 corpseFoundConfirmedAlertBehaviour();
                             }
                             break;
-                        case CharacterAlertState.SuspiciousHitReceivedAlert: {
+                        case CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious: {
 
                                 _characterFOV.setAlertBonus(true);
                                 suspiciousHitReceivedAlertBehaviour();
@@ -267,7 +267,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
             oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) ||
-            oldAlertState == CharacterAlertState.SuspiciousHitReceivedAlert
+            oldAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious
 
             &&
             alertState == CharacterAlertState.SuspiciousAlert
@@ -300,7 +300,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             oldAlertState == CharacterAlertState.SuspiciousAlert ||
             oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
             oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousHitReceivedAlert
+            oldAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious
             )
             &&
             alertState == CharacterAlertState.HostilityAlert
@@ -377,7 +377,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             alertSignAnimator.SetTrigger("hostilityAlert");
         }
 
-        if(alertState == CharacterAlertState.SuspiciousHitReceivedAlert) {
+        if(alertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
             stopSuspiciousCorpseFoundTimer();
             stopCorpseFoundConfirmedTimer();
             stopWarnOfSouspiciousTimer();
@@ -432,7 +432,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public void stopAllCoroutines() {
         StopAllCoroutines();
     }
-    
+
 
 
     public override async void unalertBehaviour() {
@@ -442,7 +442,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public override void suspiciousAlertBehaviour() {
         throw new System.NotImplementedException();
     }
-    
+
     public override void hostilityAlertBehaviourAsync() {
         throw new System.NotImplementedException();
     }
@@ -637,14 +637,11 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// Metodo per verificare se [this] può entrare nello stato di WarnOfSuspiciousAlert
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
-    public override void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
+    public override void warnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
 
         // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
         // character che è in tutti gli altri stati(compreso WarnOfSuspiciousAlert) non cambiano il loro alert
-        if(_characterState != CharacterAlertState.SuspiciousAlert ||
-            _characterState != CharacterAlertState.HostilityAlert ||
-            _characterState != CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            _characterState != CharacterAlertState.CorpseFoundConfirmedAlert
+        if(_characterState == CharacterAlertState.Unalert
         ) {
 
             lastSeenFocusAlarmPosition = lastSeenCPosition;
@@ -710,7 +707,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// Metodo per verificare se [this] può entrare nello stato di SuspiciousHitReceived
     /// Ovvero è stato ricevuto un colpo
     /// </summary>
-    public override void suspiciousHitReceivedCheck() {
+    public override void instantOnCurrentPositionWarnOfSouspiciousCheck() {
 
         if( _characterState == CharacterAlertState.Unalert || 
         _characterState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
@@ -718,7 +715,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         _characterState == CharacterAlertState.WarnOfSuspiciousAlert
         ) {
 
-            setAlert(CharacterAlertState.SuspiciousHitReceivedAlert, true);
+            setAlert(CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious, true);
         }
     }
 

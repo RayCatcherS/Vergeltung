@@ -9,7 +9,7 @@ public enum CharacterAlertState {
     WarnOfSuspiciousAlert,
     SuspiciousCorpseFoundAlert,
     CorpseFoundConfirmedAlert,
-    SuspiciousHitReceivedAlert,
+    instantOnCurrentPositionWarnOfSouspicious,
     LowLoudSoundAlert,
     MediumLoudSoundAlert
 }
@@ -67,7 +67,7 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// ricevi e verifica il warn di un sospetto
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
-    abstract public void receiveWarnOfSouspiciousCheck(Vector3 lastSeenCPosition);
+    abstract public void warnOfSouspiciousCheck(Vector3 lastSeenCPosition);
 
     /// <summary>
     /// Verifica se entrare nello stato di "suspiciousCorpseFound"
@@ -86,5 +86,5 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// Verifica se entrare nello stato di "suspiciousHitReceived"
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
-    abstract public void suspiciousHitReceivedCheck();
+    abstract public void instantOnCurrentPositionWarnOfSouspiciousCheck();
 }

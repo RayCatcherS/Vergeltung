@@ -178,7 +178,7 @@ Il character player verrà fissato dagli altri character che non sono in uno sta
 ![Image animator](characterSeenInUnalert.gif)
 
 
-## NPC più acuti durante stati di allerta
+## NPC più acuti durante gli stati di allerta
 Gli NPC aumentano il loro secondo campo visivo più esterno(colore giallo) quando sono in questi stati d'allerta e lo stato di NightMalus non è attivo
 - SuspiciousAlert,
 - HostilityAlert,

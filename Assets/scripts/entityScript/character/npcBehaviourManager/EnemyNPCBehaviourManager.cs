@@ -437,7 +437,7 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
         }
 
 
-        if (characterAlertState == CharacterAlertState.SuspiciousHitReceivedAlert) {
+        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }

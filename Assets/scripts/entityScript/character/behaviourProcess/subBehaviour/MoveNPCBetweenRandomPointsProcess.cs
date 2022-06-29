@@ -30,7 +30,7 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
     
 
     public MoveNPCBetweenRandomPointsProcess(
-        UnityEngine.AI.NavMeshAgent behaviourAgent,
+        NavMeshAgent behaviourAgent,
         BaseNPCBehaviourManager baseNPCBehaviour,
         CharacterManager CharacterManager,
         float areaRadius = 8.5f,

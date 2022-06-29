@@ -20,7 +20,10 @@ public class CharacterManager : MonoBehaviour {
         get { return _characterFOV; }
     }
     [SerializeField] private CharacterMovement characterMovement;
-    [SerializeField] private BaseNPCBehaviourManager baseNPCBehaviourManager;
+    [SerializeField] private BaseNPCBehaviourManager _baseNPCBehaviourManager;
+    public BaseNPCBehaviourManager baseNPCBehaviourManager {
+        get { return _baseNPCBehaviourManager; }
+    }
     [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
     [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
     [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
@@ -248,7 +251,7 @@ public class CharacterManager : MonoBehaviour {
 
                 // se è un NPC avvia il behaviour check sull'aver ricevuto del danno
                 if (!isPlayer) {
-                    baseNPCBehaviourManager.suspiciousHitReceivedCheck();
+                    _baseNPCBehaviourManager.instantOnCurrentPositionWarnOfSouspiciousCheck();
                 }
             }
         }

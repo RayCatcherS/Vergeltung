@@ -35,6 +35,28 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     public override async void hostilityAlertBehaviourAsync() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
+
+    public override async void warnOfSuspiciousAlertBehaviour() {
+
+        
+        if (!mainBehaviourProcess.processTaskFinished) {
+
+            await mainBehaviourProcess.runBehaviourAsyncProcess();
+
+            // inizializza punti casuali
+            if (mainBehaviourProcess.processTaskFinished) {
+                simulateSearchingPlayerSubBehaviourProcess.initBehaviourProcess();
+            }
+
+        } else {
+
+            if (!simulateSearchingPlayerSubBehaviourProcess.processTaskFinished) {
+                await simulateSearchingPlayerSubBehaviourProcess.runBehaviourAsyncProcess();
+            }
+
+        }
+    }
+
     public override async void suspiciousCorpseFoundAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
@@ -64,6 +86,14 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         mainBehaviourProcess = new HostilityCivilianProcess(_agent, this, _characterFOV, _characterManager, checkedByHimself);
 
         hostilityTimerLoop();
+    }
+    protected override void startWarnOfSouspiciousTimer() {
+
+        mainBehaviourProcess = new WarnOfSospiciousEnemyProcess(_agent, this);
+        simulateSearchingPlayerSubBehaviourProcess
+            = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager);
+
+        warnOfSouspiciousTimerLoop();
     }
     protected override void startSuspiciousCorpseFoundTimer() {
         
@@ -194,6 +224,52 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousCorpseFoundAlert
     /// </summary>
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato warnOfSouspicious
+    /// </summary>
+    protected override async void warnOfSouspiciousTimerLoop() {
+
+
+        while (!mainBehaviourProcess.processTaskFinished) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (warnOfSouspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+        warnOfSouspiciousTimerEndStateValue = Time.time + warningOfSouspiciousTimerValue;
+        while (!simulateSearchingPlayerSubBehaviourProcess.processTaskFinished) {
+            await Task.Yield();
+            if (characterBehaviourStopped) {
+                break;
+            }
+
+            if (suspiciousTimerEndStateValue == 0) { //indica che il timer loop è stato stoppato
+                break;
+            }
+        }
+
+        while (Time.time < warnOfSouspiciousTimerEndStateValue) {
+            await Task.Yield();
+
+            if (characterBehaviourStopped) {
+                break;
+            }
+        }
+
+        if (!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+
+        if (characterAlertState == CharacterAlertState.WarnOfSuspiciousAlert) {
+            setAlert(CharacterAlertState.Unalert, true);
+        }
+    }
     protected override async void suspiciousCorpseFoundTimerLoop() {
 
 
@@ -294,7 +370,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             stopAgent();
         }
 
-        if (characterAlertState == CharacterAlertState.SuspiciousHitReceivedAlert) {
+        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }
