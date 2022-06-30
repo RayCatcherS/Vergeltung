@@ -31,6 +31,8 @@ Latest build
 - [4 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)
 - [5 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
 
+## Team
+	~~Stefano Romanelli~~
 ## Note tecniche progetto
 ### Piattaforme di riferimento
 - Windows 10
