@@ -32,7 +32,7 @@ Latest build
 - [5 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
 
 ## Team
-Sviluppatore: ``Stefano Romanelli``
+Sviluppatore: [``Stefano Romanelli``](https://github.com/RayCatcherS)
 ## Note tecniche progetto
 ### Piattaforme di riferimento
 - Windows 10
