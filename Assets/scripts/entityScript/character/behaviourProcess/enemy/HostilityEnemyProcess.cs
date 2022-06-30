@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class HostilityEnemyProcess : BehaviourProcess {
 
     CharacterFOV _characterFOV;
+    float distanceFromHostilityCharacter = 3f;
 
     public HostilityEnemyProcess(
         NavMeshAgent behaviourAgent,
@@ -38,19 +39,33 @@ public class HostilityEnemyProcess : BehaviourProcess {
         if (!_baseNPCBehaviour.isAgentReachedDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition)) {
 
             
-            _behaviourAgent.SetDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+            if (_baseNPCBehaviour.isFocusAlarmCharacterVisible) {
+
+                float distance = Vector3.Distance(_baseNPCBehaviour.gameObject.transform.position, _baseNPCBehaviour.focusAlarmCharacter.transform.position);
+                if(distance > distanceFromHostilityCharacter) {
+                    _behaviourAgent.SetDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
 
 
-            _behaviourAgent.isStopped = false;
-            _baseNPCBehaviour.animateAndSpeedMovingAgent();
+                    _behaviourAgent.isStopped = false;
+                    _baseNPCBehaviour.animateAndSpeedMovingAgent();
 
-            _processTaskFinished = false;
+                } else {
+                    _baseNPCBehaviour.stopAgent();
+                }
+            } else {
+                _behaviourAgent.SetDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+
+
+                _behaviourAgent.isStopped = false;
+                _baseNPCBehaviour.animateAndSpeedMovingAgent();
+
+                _processTaskFinished = false;
+            }
+            
         } else {
 
 
             _baseNPCBehaviour.stopAgent();
-            _processTaskFinished = true;
-
             _processTaskFinished = true;
         }
     }
