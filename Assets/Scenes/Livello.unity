@@ -32554,6 +32554,72 @@ MonoBehaviour:
   - {fileID: 780050762}
   - {fileID: 1296489862}
   _loopActivity: 1
+--- !u!1 &1855605713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1855605714}
+  - component: {fileID: 1855605716}
+  - component: {fileID: 1855605715}
+  m_Layer: 0
+  m_Name: EnemySpawnPoint48
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1855605714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855605713}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21.83, y: 0, z: -53.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1908805309}
+  m_RootOrder: 63
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1855605715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855605713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6188f1b7cfec04594aca6f7ac6653730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterActivities: []
+  selectedCharacterActivityPos: 0
+  selectedTaskPos: 0
+--- !u!114 &1855605716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855605713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43119b3a0b84508448cfa32d7cd037e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterSpawnController: {fileID: 1908805308}
+  characterRole: 0
+  characterEquipment: 2
+  startSelectedEquipment: 0
+  _flashlightTaken: 0
+  _weaponPuttedAwayOnStart: 0
 --- !u!1001 &1860945144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33829,6 +33895,7 @@ MonoBehaviour:
   - {fileID: 2071833971}
   - {fileID: 159643084}
   - {fileID: 21437825}
+  - {fileID: 1855605716}
   civilianCharacterSpawnPoints:
   - {fileID: 518456556}
   - {fileID: 1680636017}
@@ -33933,6 +34000,7 @@ Transform:
   - {fileID: 2071833969}
   - {fileID: 159643082}
   - {fileID: 21437823}
+  - {fileID: 1855605714}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -165,10 +165,18 @@ public class WeaponItem : InventoryItem
 
 
                 // loud area
-                if (itemNameID != BASE_MELEE_ID) {
-                    GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                    loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, gunShootSound);
-                    loudGameObject.GetComponent<LoudArea>().startLoudArea();
+                if ((itemNameID != BASE_MELEE_ID)) {
+
+                    if(inventoryManager != null) {
+
+                        if(inventoryManager.characterManager.isPlayer) {
+                            GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                            loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, gunShootSound);
+                            loudGameObject.GetComponent<LoudArea>().startLoudArea();
+                        }
+                        
+                    }
+                    
                 }
 
 
@@ -209,15 +217,21 @@ public class WeaponItem : InventoryItem
                 Vector3 posB = destinationPosition;
                 Vector3 bulletDirection = (posB - posA).normalized;
 
-                
+
 
                 // loud area
-                if(itemNameID != BASE_MELEE_ID) {
-                    GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                    loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, gunShootSound);
-                    loudGameObject.GetComponent<LoudArea>().startLoudArea();
+                if ((itemNameID != BASE_MELEE_ID)) {
+
+                    if (inventoryManager != null) {
+
+                        if (inventoryManager.characterManager.isPlayer) {
+                            GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                            loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, gunShootSound);
+                            loudGameObject.GetComponent<LoudArea>().startLoudArea();
+                        }
+                    }
                 }
-                
+
 
 
                 if (_vibrationOnUseWeapon) {

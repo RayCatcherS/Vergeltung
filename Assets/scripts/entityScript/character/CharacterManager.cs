@@ -310,7 +310,7 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public async Task killCharacterAsync(Vector3 damageVelocity) {
 
-        Debug.Log("Character dead at: " + gameObject.transform.position);
+        
         resetCharacterStates();
 
 
@@ -395,7 +395,7 @@ public class CharacterManager : MonoBehaviour {
             _playerWarpController.unstackDeadCharacterAndControlPreviewCharacter(this);
         }
 
-        
+        Debug.Log("Character dead at: " + gameObject.transform.position);
     }
 
     /// <summary>

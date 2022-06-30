@@ -191,15 +191,17 @@ Gli NPC aumentano il loro secondo campo visivo più esterno(colore giallo) quand
 
 <p>&nbsp;</p>
 
-# Miglioramenti vari:
+# Varie implementazioni migliorate:
 - Le porte aperte dagli NPC vengono aperte solo quando gli agent sono in movimento, puntano nella direzione della porta e questa distanza tra NPC e la porta è minore di un certo valore. Le porte aperte dagli NPC non si aprono più quando non serve.
 
 ![Image animator](doorFix.gif)
 
 
-- Tutti gli oggetti che offrono delle interazioni(interactableObjects) sono indicati con questo shader programmato tramite lo strumento **Shader Graph** di Unity. In questo modo sarà più intuitivo capire con quali oggetti è possibile interagire.
+- Tutti gli oggetti che offrono delle interazioni(interactableObjects) sono indicati con questo shader programmato tramite lo strumento **Shader Graph** di Unity. In questo modo sarà più intuitivo capire con quali oggetti è possibile interagire(Compresi i cadaveri dei characters morti).
 
 | ![Image animator](InteractableObj.gif) | ![Image animator](shaderGraph.gif) |
+
+
 
 - Alcune porte si potranno aprire solo se si possiede una certa chiave
 - Le porte chiuse a chiave possono essere aperte senza scassinarle da un certo lato(configurabile)
@@ -213,7 +215,7 @@ Gli NPC aumentano il loro secondo campo visivo più esterno(colore giallo) quand
 
 ![Image animator](InstantAlert.gif)
 
-- Implementato lo stato di game over, il passaggio alla schermata game over e la possibilità di stoppare i behaviour di tutti i characters in esecuzione.
+- Vari miglioramenti sulla NavMesh e sulla navigazione degli agent sulla mappa.
 
 
 <p>&nbsp;</p>
@@ -230,6 +232,7 @@ Nel menù principale si potranno settare le impostazioni grafiche(risoluzione sc
 ![Image animator](story.png)
 
 ## Schermata di game over
+Implementato lo stato di game over, il passaggio alla schermata game over e la possibilità di stoppare i behaviour di tutti i characters in esecuzione.
 Dalla schermata di game over puoi ricominciare il gioco oppure tornare al menu principale.
 
 ![Image animator](gameOver.png)

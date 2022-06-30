@@ -17,14 +17,16 @@ public class LoudArea : MonoBehaviour
 
 
     [Header("References")]
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSource; // audio sorce suono generato
 
     [Header("Config")]
     [SerializeField] private LayerMask targetCharacterMask;
-    [SerializeField] private float _nearLoudArea = 25;
+    [SerializeField] private float _nearLoudArea = 4; // area in cui viene generato casualmente un punto da raggiungere
+    [SerializeField] private int _numberOfCharactersToCall = 2;
 
+    // variabili non configurabili
     private float _loudAreaRadius = 13;
-    [SerializeField] private LoudAreaIntensity _intensity;
+    private LoudAreaIntensity _intensity;
 
     public void initLoudArea(LoudAreaIntensity intensity, AudioClip clip = null) {
 
@@ -54,6 +56,7 @@ public class LoudArea : MonoBehaviour
 
         if (hitColliders.Length != 0) {
 
+            int cCount = 0;
             foreach (Collider collider in hitColliders) {
 
 
@@ -90,6 +93,11 @@ public class LoudArea : MonoBehaviour
                         }
                     }
                 }
+
+                cCount++;
+                if(cCount == _numberOfCharactersToCall) {
+                    break;
+                }
             }
 
         }
@@ -98,7 +106,8 @@ public class LoudArea : MonoBehaviour
         while(_audioSource.isPlaying) {
             await Task.Yield();
         }
-        
+
+        destroyLoudArea();
     }
 
 
@@ -130,8 +139,6 @@ public class LoudArea : MonoBehaviour
 
             if (NavMesh.SamplePosition(randomPoint, out hit, 4, NavMesh.AllAreas)) {
 
-                
-
                 if (agent.CalculatePath(hit.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete) {
                     nearSourceValue = hit.position;
 
@@ -140,13 +147,10 @@ public class LoudArea : MonoBehaviour
 
                     loudPositionsToReach.Add(nearSourceValue);
 #endif
-
                     
                 }
-
             }
         }
-        
 
         return nearSourceValue;
     }

@@ -181,69 +181,67 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// </summary>
     private void nPCBehaviour() {
 
-        if(!characterManager.isDead) {
+        if(!characterBehaviourStopped) {
 
-            if (_stopCharacterBehaviour) {
-                characterBehaviourStopped = true;
-                Debug.Log("Stopping character");
+            if (!gameObject.GetComponent<CharacterManager>().isDead) {
+                switch (_characterState) {
+                    case CharacterAlertState.Unalert: {
 
-            } else {
+                            _characterFOV.setAlertBonus(false);
+                            unalertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.SuspiciousAlert: {
 
-                if (!gameObject.GetComponent<CharacterManager>().isDead) {
-                    switch (_characterState) {
-                        case CharacterAlertState.Unalert: {
+                            _characterFOV.setAlertBonus(true);
+                            suspiciousAlertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.HostilityAlert: {
 
-                                _characterFOV.setAlertBonus(false);
-                                unalertBehaviour();
-                            }
-                            break;
-                        case CharacterAlertState.SuspiciousAlert: {
+                            _characterFOV.setAlertBonus(true);
+                            hostilityAlertBehaviourAsync();
+                        }
+                        break;
 
-                                _characterFOV.setAlertBonus(true);
-                                suspiciousAlertBehaviour();
-                            }
-                            break;
-                        case CharacterAlertState.HostilityAlert: {
+                    case CharacterAlertState.WarnOfSuspiciousAlert: {
 
-                                _characterFOV.setAlertBonus(true);
-                                hostilityAlertBehaviourAsync();
-                            }
-                            break;
+                            _characterFOV.setAlertBonus(true);
+                            warnOfSuspiciousAlertBehaviour();
+                        }
+                        break;
 
-                        case CharacterAlertState.WarnOfSuspiciousAlert: {
+                    case CharacterAlertState.SuspiciousCorpseFoundAlert: {
 
-                                _characterFOV.setAlertBonus(true);
-                                warnOfSuspiciousAlertBehaviour();
-                            }
-                            break;
+                            _characterFOV.setAlertBonus(true);
+                            suspiciousCorpseFoundAlertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.CorpseFoundConfirmedAlert: {
 
-                        case CharacterAlertState.SuspiciousCorpseFoundAlert: {
+                            _characterFOV.setAlertBonus(true);
+                            corpseFoundConfirmedAlertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious: {
 
-                                _characterFOV.setAlertBonus(true);
-                                suspiciousCorpseFoundAlertBehaviour();
-                            }
-                            break;
-                        case CharacterAlertState.CorpseFoundConfirmedAlert: {
+                            _characterFOV.setAlertBonus(true);
+                            suspiciousHitReceivedAlertBehaviour();
+                        }
+                        break;
+                    case CharacterAlertState.LowLoudSoundAlert: {
 
-                                _characterFOV.setAlertBonus(true);
-                                corpseFoundConfirmedAlertBehaviour();
-                            }
-                            break;
-                        case CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious: {
-
-                                _characterFOV.setAlertBonus(true);
-                                suspiciousHitReceivedAlertBehaviour();
-                            }
-                            break;
-                        case CharacterAlertState.LowLoudSoundAlert: {
-
-                                _characterFOV.setAlertBonus(true);
-                                soundAlert1Behaviour();
-                            }
-                            break;
-                    }
+                            _characterFOV.setAlertBonus(true);
+                            soundAlert1Behaviour();
+                        }
+                        break;
                 }
             }
+        }
+        if (_stopCharacterBehaviour) {
+            characterBehaviourStopped = true;
+            Debug.Log("Stopping character");
+
         }
 
     }
@@ -415,6 +413,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// </summary>
     /// <returns></returns>
     public async Task forceStopCharacterAndAwaitStopProcess() {
+
+        Debug.Log("Force stopping");
         _stopCharacterBehaviour = true;
         while (true) {
             await Task.Yield();

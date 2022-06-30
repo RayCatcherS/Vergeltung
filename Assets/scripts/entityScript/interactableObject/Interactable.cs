@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour, InteractableInterface {
     [SerializeField] private Outline outlineScript;
-    [SerializeField] private MeshRenderer interactableMeshEffect;
+    [SerializeField] private Renderer interactableMeshEffect;
 
     public virtual void Start() {
         initInteractable();
@@ -42,10 +42,23 @@ public class Interactable : MonoBehaviour, InteractableInterface {
     }
 
     public void interactableMeshEffectSetEnebled(bool value) {
-
-        if(interactableMeshEffect != null) {
-
+        
+        if (interactableMeshEffect != null) {
             interactableMeshEffect.gameObject.SetActive(value);
+        }
+    }
+
+    /// <summary>
+    /// attiva l'effetto interactable se ci sono interazioni dispobili
+    /// altrimenti no
+    /// </summary>
+    protected void rebuildInteractableMeshEffect(List<Interaction> interactions) {
+        // set effetto oggetto con interazioni non vuote
+        int interactionCount = interactions.Count;
+        if (interactionCount == 0) {
+            interactableMeshEffectSetEnebled(false);
+        } else {
+            interactableMeshEffectSetEnebled(true);
         }
     }
 }
