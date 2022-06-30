@@ -254,153 +254,154 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     protected void setAlert(CharacterAlertState alertState, bool checkedByHimself) {
 
 
-        CharacterAlertState oldAlertState = _characterState;
-        _characterState = alertState;
+        if (!characterManager.isDead) {
+            CharacterAlertState oldAlertState = _characterState;
+            _characterState = alertState;
 
 
 
-        // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) SuspiciousAlert
-        if (
-            (oldAlertState == CharacterAlertState.Unalert ||
-            oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) ||
-            oldAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious
+            // Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) SuspiciousAlert
+            if (
+                (oldAlertState == CharacterAlertState.Unalert ||
+                oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
+                oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+                oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert) ||
+                oldAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious
 
-            &&
-            alertState == CharacterAlertState.SuspiciousAlert
-        ) {
+                &&
+                alertState == CharacterAlertState.SuspiciousAlert
+            ) {
 
-            stopSuspiciousCorpseFoundTimer();
-            stopCorpseFoundConfirmedTimer();
-            stopWarnOfSouspiciousTimer();
-            startSuspiciousTimer();
+                stopSuspiciousCorpseFoundTimer();
+                stopCorpseFoundConfirmedTimer();
+                stopWarnOfSouspiciousTimer();
+                startSuspiciousTimer();
 
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("suspiciousAlert");
+                // animation sign
+                resetAlertAnimatorTrigger();
+                alertSignAnimator.SetTrigger("suspiciousAlert");
 
+            }
+
+            // (CONFIRM) SuspiciousAlert
+            if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) {
+                stopSuspiciousCorpseFoundTimer();
+                stopCorpseFoundConfirmedTimer();
+                stopWarnOfSouspiciousTimer();
+
+                resetSuspiciousBehaviour();
+            }
+
+            // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) HostilityAlert
+            if (
+                (oldAlertState == CharacterAlertState.Unalert ||
+                oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
+                oldAlertState == CharacterAlertState.SuspiciousAlert ||
+                oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+                oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert ||
+                oldAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious
+                )
+                &&
+                alertState == CharacterAlertState.HostilityAlert
+            ) {
+
+                stopSuspiciousCorpseFoundTimer();
+                stopCorpseFoundConfirmedTimer();
+                stopWarnOfSouspiciousTimer();
+                stopSuspiciousTimer();
+
+
+
+                startHostilityTimer(checkedByHimself);
+
+                // animation sign
+                resetAlertAnimatorTrigger();
+                alertSignAnimator.SetTrigger("hostilityAlert");
+            }
+
+
+            // (CONFIRM) HostilityAlert
+            if (oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
+
+                stopSuspiciousCorpseFoundTimer();
+                stopCorpseFoundConfirmedTimer();
+                stopWarnOfSouspiciousTimer();
+                stopSuspiciousTimer();
+
+                resetHostilityBehaviour();
+            }
+
+
+            // Unalert => (START) WarnOfSouspiciousAlert
+            if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) {
+
+
+
+                startWarnOfSouspiciousTimer();
+
+                // animation sign
+                resetAlertAnimatorTrigger();
+                alertSignAnimator.SetTrigger("suspiciousAlert");
+            }
+
+            // Unalert => (START) SuspiciousCorpseFoundAlert
+            if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
+                stopWarnOfSouspiciousTimer(); // stop stato di warning
+
+
+                startSuspiciousCorpseFoundTimer();
+
+                // animation sign
+                resetAlertAnimatorTrigger();
+                alertSignAnimator.SetTrigger("suspiciousAlert");
+            }
+
+            // Unalert | SuspiciousCorpseFoundAlert | WarnOfSuspiciousAlert => (START) SuspiciousCorpseFoundAlert
+            if (
+                (oldAlertState == CharacterAlertState.Unalert ||
+                oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
+                oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert
+                )
+                &&
+                alertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
+
+                stopWarnOfSouspiciousTimer(); // stop stato di warning
+                stopSuspiciousCorpseFoundTimer();
+
+
+                startCorpseFoundConfirmedTimer();
+
+                // animation sign
+                resetAlertAnimatorTrigger();
+                alertSignAnimator.SetTrigger("hostilityAlert");
+            }
+
+            if (alertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
+                stopSuspiciousCorpseFoundTimer();
+                stopCorpseFoundConfirmedTimer();
+                stopWarnOfSouspiciousTimer();
+
+
+                startSuspiciousHitReceivedTimer();
+
+
+                // animation sign
+                resetAlertAnimatorTrigger();
+                alertSignAnimator.SetTrigger("suspiciousAlert");
+            }
+
+
+
+            if (alertState == CharacterAlertState.Unalert) {
+
+                unalertBehaviourProcess.continueWhereUnalertLeftOff(); // contina da dove aveva lasciato
+                resetAlertAnimatorTrigger();// animation sign
+                alertSignAnimator.SetTrigger("unalertState");
+
+
+                focusAlarmCharacter = null;
+            }
         }
-
-        // (CONFIRM) SuspiciousAlert
-        if (oldAlertState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) {
-            stopSuspiciousCorpseFoundTimer();
-            stopCorpseFoundConfirmedTimer();
-            stopWarnOfSouspiciousTimer();
-
-            resetSuspiciousBehaviour();
-        }
-
-        // Unalert | WarnOfSuspiciousAlert | SuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert => (START) HostilityAlert
-        if (
-            (oldAlertState == CharacterAlertState.Unalert ||
-            oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousAlert ||
-            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            oldAlertState == CharacterAlertState.CorpseFoundConfirmedAlert ||
-            oldAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious
-            )
-            &&
-            alertState == CharacterAlertState.HostilityAlert
-        ) {
-
-            stopSuspiciousCorpseFoundTimer();
-            stopCorpseFoundConfirmedTimer();
-            stopWarnOfSouspiciousTimer();
-            stopSuspiciousTimer();
-
-            
-
-            startHostilityTimer(checkedByHimself);
-
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("hostilityAlert");
-        }
-
-
-        // (CONFIRM) HostilityAlert
-        if (oldAlertState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
-
-            stopSuspiciousCorpseFoundTimer();
-            stopCorpseFoundConfirmedTimer();
-            stopWarnOfSouspiciousTimer();
-            stopSuspiciousTimer();
-
-            resetHostilityBehaviour();
-        }
-
-
-        // Unalert => (START) WarnOfSouspiciousAlert
-        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.WarnOfSuspiciousAlert) {
-
-
-
-            startWarnOfSouspiciousTimer();
-
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("suspiciousAlert");
-        }
-
-        // Unalert => (START) SuspiciousCorpseFoundAlert
-        if (oldAlertState == CharacterAlertState.Unalert && alertState == CharacterAlertState.SuspiciousCorpseFoundAlert) {
-            stopWarnOfSouspiciousTimer(); // stop stato di warning
-
-
-            startSuspiciousCorpseFoundTimer();
-
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("suspiciousAlert");
-        }
-
-        // Unalert | SuspiciousCorpseFoundAlert | WarnOfSuspiciousAlert => (START) SuspiciousCorpseFoundAlert
-        if (
-            (oldAlertState == CharacterAlertState.Unalert ||
-            oldAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||
-            oldAlertState == CharacterAlertState.WarnOfSuspiciousAlert
-            )
-            &&
-            alertState == CharacterAlertState.CorpseFoundConfirmedAlert) {
-
-            stopWarnOfSouspiciousTimer(); // stop stato di warning
-            stopSuspiciousCorpseFoundTimer();
-
-
-            startCorpseFoundConfirmedTimer();
-
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("hostilityAlert");
-        }
-
-        if(alertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
-            stopSuspiciousCorpseFoundTimer();
-            stopCorpseFoundConfirmedTimer();
-            stopWarnOfSouspiciousTimer();
-
-
-            startSuspiciousHitReceivedTimer();
-
-
-            // animation sign
-            resetAlertAnimatorTrigger();
-            alertSignAnimator.SetTrigger("suspiciousAlert");
-        }
-
-
-
-        if (alertState == CharacterAlertState.Unalert) {
-
-            unalertBehaviourProcess.continueWhereUnalertLeftOff(); // contina da dove aveva lasciato
-            resetAlertAnimatorTrigger();// animation sign
-            alertSignAnimator.SetTrigger("unalertState");
-
-
-            focusAlarmCharacter = null;
-        }
-
 
     }
 

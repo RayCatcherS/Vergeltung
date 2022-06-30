@@ -63,7 +63,7 @@ public class LoudArea : MonoBehaviour
                 // ottenimento character manager
                 CharacterManager character = collider.gameObject.GetComponent<CharacterManager>();
 
-                if (!character.isPlayer) {
+                if (!character.isPlayer && !character.isDead) { // solo characters che non sono il player e che non sono morti
 
 
                     // ottenimento ruolo character
@@ -129,15 +129,15 @@ public class LoudArea : MonoBehaviour
         NavMeshPath navMeshPath = new NavMeshPath();
         NavMeshHit hit;
 
-
-        while(nearSourceValue == Vector3.zero) {
+        int attempts = 0;
+        while (nearSourceValue == Vector3.zero) {
 
             Vector3 randomPos = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y);
             Vector3 randomPoint = gameObject.transform.position + randomPos * _nearLoudArea;
 
             await Task.Yield();
 
-            if (NavMesh.SamplePosition(randomPoint, out hit, 4, NavMesh.AllAreas)) {
+            if (NavMesh.SamplePosition(randomPoint, out hit, 5, NavMesh.AllAreas)) {
 
                 if (agent.CalculatePath(hit.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete) {
                     nearSourceValue = hit.position;
@@ -148,7 +148,14 @@ public class LoudArea : MonoBehaviour
                     loudPositionsToReach.Add(nearSourceValue);
 #endif
                     
+                } else {
+                    Debug.Log("attemp fail");
                 }
+            }
+
+            attempts++;
+            if (attempts > 10) {
+                Debug.LogError("Loud area CalculatePath ATTEMPS OUT");
             }
         }
 
