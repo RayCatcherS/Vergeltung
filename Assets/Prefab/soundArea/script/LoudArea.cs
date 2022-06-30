@@ -117,20 +117,26 @@ public class LoudArea : MonoBehaviour
                     NavMeshAgent agent;
 
                     if(enemyCharacters.Count != 0) {
-                        agent = enemyCharacters[0].agent;
 
-                        // genera punto casuale vicino alla fonte della loud area
-                        Vector3 loudTargetSourcePoint = await getNearPositionLoudAreaSource(agent);
-
-                        // seleziona la guardia più vicina
+                        // seleziona la guardia più vicina alla loud zone
                         EnemyNPCBehaviourManager closerEnemyCharacters = SceneEntitiesController.
                         getCloserEnemyCharacterFromPosition(
-                            loudTargetSourcePoint,
+                            gameObject.transform.position,
                             enemyCharacters
                         );
 
 
-                        closerEnemyCharacters.warnOfSouspiciousCheck(loudTargetSourcePoint);
+                        // manda in warn of souspicious il character verso la loudTargetSourcePoint
+                        if (closerEnemyCharacters != null) {
+
+                            agent = closerEnemyCharacters.agent;
+
+                            // genera punto casuale vicino alla fonte della loud area
+                            Vector3 loudTargetSourcePoint = await getNearPositionLoudAreaSource(agent);
+
+                            closerEnemyCharacters.warnOfSouspiciousCheck(loudTargetSourcePoint);
+                        }
+                        
                     }
                 }
                 
