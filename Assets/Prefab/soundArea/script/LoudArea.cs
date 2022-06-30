@@ -149,7 +149,7 @@ public class LoudArea : MonoBehaviour
 #endif
                     
                 } else {
-                    Debug.Log("attemp fail");
+                    // Debug.Log("attemp fail");
                 }
             }
 

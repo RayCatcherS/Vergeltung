@@ -241,18 +241,16 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
 
-        if (!isDead) {
-            characterHealth -= damage;
+        characterHealth -= damage;
 
-            if (characterHealth <= 0) {
-                _isDead = true;
-                killCharacterAsync(damageVelocity);
-            } else {
+        if (characterHealth <= 0) {
+            _isDead = true;
+            killCharacterAsync(damageVelocity);
+        } else {
 
-                // se è un NPC avvia il behaviour check sull'aver ricevuto del danno
-                if (!isPlayer) {
-                    _baseNPCBehaviourManager.instantOnCurrentPositionWarnOfSouspiciousCheck();
-                }
+            // se è un NPC avvia il behaviour check sull'aver ricevuto del danno
+            if (!isPlayer && !isDead) {
+                _baseNPCBehaviourManager.instantOnCurrentPositionWarnOfSouspiciousCheck();
             }
         }
     }
@@ -308,7 +306,7 @@ public class CharacterManager : MonoBehaviour {
     /// Disabilita componenti e abilita ragdoll
     /// </summary>
     /// <param name="damageVelocity"></param>
-    public async Task killCharacterAsync(Vector3 damageVelocity) {
+    public async void killCharacterAsync(Vector3 damageVelocity) {
 
         
         resetCharacterStates();
@@ -318,17 +316,9 @@ public class CharacterManager : MonoBehaviour {
 
         // disabilita componenti
         gameObject.GetComponent<CharacterMovement>().enabled = false;
-        gameObject.GetComponent<CharacterManager>().enabled = false;
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
-        
-
-
-        // setta il character manager come figlio dell'hips della ragdoll del character
-        // questo fa in modo che tutto il character manager e collider si muova insieme alla ragdoll
-        Transform characterParent = gameObject.transform.parent;
-        gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.SetParent(characterParent);
-        gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
+        Debug.Log("Disable character controller");
 
 
 
@@ -394,6 +384,12 @@ public class CharacterManager : MonoBehaviour {
 
             _playerWarpController.unstackDeadCharacterAndControlPreviewCharacter(this);
         }
+
+        // setta il character manager come figlio dell'hips della ragdoll del character
+        // questo fa in modo che tutto il character manager e collider si muova insieme alla ragdoll
+        Transform characterParent = gameObject.transform.parent;
+        gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.SetParent(characterParent);
+        gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
 
         Debug.Log("Character dead at: " + gameObject.transform.position);
     }

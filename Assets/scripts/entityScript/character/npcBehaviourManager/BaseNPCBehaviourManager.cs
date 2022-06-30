@@ -54,7 +54,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     protected CharacterManager _focusAlarmCharacter; // ref del character che ha provocato gli stati di allarme
     public CharacterManager focusAlarmCharacter {
         protected set {
-            
+
             _focusAlarmCharacter = value;
             if (value != null) {
                 isFocusedAlarmCharacter = true;

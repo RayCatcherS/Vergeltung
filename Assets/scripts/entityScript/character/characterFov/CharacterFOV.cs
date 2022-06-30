@@ -166,11 +166,11 @@ public class CharacterFOV : MonoBehaviour {
     private IEnumerator cFOVRoutine() {
 
         while(true) {
-
-            if(nPCBehaviour.characterBehaviourStopped) {
+            yield return new WaitForSeconds(fovCheckFrequency);
+            if (nPCBehaviour.characterBehaviourStopped) {
                 break;
             }
-            yield return new WaitForSeconds(fovCheckFrequency);
+            
             characterFirstFOVCheck();
             characterSecondFOVCheck();
         }
@@ -195,6 +195,7 @@ public class CharacterFOV : MonoBehaviour {
                 if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
 
                     characterSeen = isCharactersVisibleInFirstFOV(
+                        collider.gameObject.GetComponent<CharacterManager>(),
                         collider.gameObject.GetComponent<CharacterFOV>().recognitionTarget.position);
 
 
@@ -261,7 +262,7 @@ public class CharacterFOV : MonoBehaviour {
 
 
 
-    public bool isCharactersVisibleInFirstFOV(Vector3 raycastPositionTargetToReach) {
+    public bool isCharactersVisibleInFirstFOV(CharacterManager characterToSee, Vector3 raycastPositionTargetToReach) {
         bool result = false;
         Vector3 fromPosition = _recognitionTarget.position;
         Vector3 toPosition = raycastPositionTargetToReach;
@@ -284,11 +285,17 @@ public class CharacterFOV : MonoBehaviour {
 
 
 
-                    Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
-                    result = true;
-                    onFirstFOVCanSeeCharacter(seenCharacter);
-                }
+                    
 
+                    // il character hittato ha lo stesso id del characterToSee
+                    if (characterToSee.GetInstanceID() == hit.collider.gameObject.GetComponent<CharacterManager>().GetInstanceID()) {
+
+
+                        Debug.DrawLine(fromPosition, hit.point, Color.red, fovCheckFrequency);
+                        result = true;
+                        onFirstFOVCanSeeCharacter(seenCharacter);
+                    }
+                }
 
             }
             enableCharacterCollider();
@@ -325,9 +332,7 @@ public class CharacterFOV : MonoBehaviour {
                         result = true;
                         onSecondFOVCanSeeCharacter(seenCharacter);
                     }
-
                 }
-
 
             }
             enableCharacterCollider();
@@ -515,9 +520,6 @@ public class CharacterFOV : MonoBehaviour {
             
             nPCBehaviour.corpseFoundConfirmedCheck(seenDeadCharacter, lastPos);
         }
-
-
-
     }
 
 
@@ -614,6 +616,7 @@ public class CharacterFOV : MonoBehaviour {
     private void enableCharacterCollider() {
         characterController.enabled = true;
         characterCapsuleCollider.enabled = true;
+
     }
 
 #if UNITY_EDITOR
