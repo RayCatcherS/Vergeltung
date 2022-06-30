@@ -53,10 +53,13 @@ public class LoudArea : MonoBehaviour
 
     private async void manageCharacterAlarms() {
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, _loudAreaRadius, targetCharacterMask);
+        List<EnemyNPCBehaviourManager> enemyCharacters = new List<EnemyNPCBehaviourManager>();
+        List<CivilianNPCBehaviourManager> civilianCharacters = new List<CivilianNPCBehaviourManager>();
+        List<BaseNPCBehaviourManager> allCharacters = new List<BaseNPCBehaviourManager>();
 
         if (hitColliders.Length != 0) {
 
-            int cCount = 0;
+            
             foreach (Collider collider in hitColliders) {
 
 
@@ -70,35 +73,70 @@ public class LoudArea : MonoBehaviour
                     Role characterRole = collider.gameObject.GetComponent<CharacterRole>().role;
 
                     // ottenimento behaviour
-                    BaseNPCBehaviourManager characterBehaviour = null;
-                    if (characterRole == Role.Civilian) {
-                        characterBehaviour = collider.gameObject.GetComponent<CivilianNPCBehaviourManager>();
-                    } else if (characterRole == Role.EnemyGuard) {
-
+                    
+                    if (characterRole == Role.EnemyGuard) {
+                        EnemyNPCBehaviourManager characterBehaviour = null;
                         characterBehaviour = collider.gameObject.GetComponent<EnemyNPCBehaviourManager>();
-                    }
-                     
+                        if (characterBehaviour != null) {
 
-                    if(characterBehaviour != null) {
-                        if (_intensity == LoudAreaIntensity.low) {
-                            characterBehaviour.instantOnCurrentPositionWarnOfSouspiciousCheck();
+                            enemyCharacters.Add(characterBehaviour);
+                            allCharacters.Add(characterBehaviour);
+                        }
+                        
+                    } else if (characterRole == Role.Civilian) {
+                        CivilianNPCBehaviourManager characterBehaviour = null;
+                        characterBehaviour = collider.gameObject.GetComponent<CivilianNPCBehaviourManager>();
+                        if (characterBehaviour != null) {
 
-                        } else if (_intensity == LoudAreaIntensity.medium || _intensity == LoudAreaIntensity.high) {
-
-                            // get bheaviour agent
-                            NavMeshAgent agent = characterBehaviour.agent;
-
-                            Vector3 loudTargetSourcePoint = await getNearLoudAreaSource(agent);
-                            characterBehaviour.warnOfSouspiciousCheck(loudTargetSourcePoint);
+                            civilianCharacters.Add(characterBehaviour);
+                            allCharacters.Add(characterBehaviour);
                         }
                     }
+
+
+                    
                 }
 
-                cCount++;
-                if(cCount == _numberOfCharactersToCall) {
-                    break;
-                }
+                
             }
+
+            // se l'intensità del rumore è bassa vengono allertati tutti i character che sono nell'area
+            if (_intensity == LoudAreaIntensity.low) {
+
+                foreach(BaseNPCBehaviourManager characters in allCharacters) {
+                    characters.instantOnCurrentPositionWarnOfSouspiciousCheck();
+                }
+
+            } else if (_intensity == LoudAreaIntensity.medium || _intensity == LoudAreaIntensity.high) {
+
+
+                for (int i = 0; i < _numberOfCharactersToCall; i++) {
+                    
+                    // get bheaviour agent
+                    NavMeshAgent agent;
+
+                    if(enemyCharacters.Count != 0) {
+                        agent = enemyCharacters[0].agent;
+
+
+                        Vector3 loudTargetSourcePoint = await getNearPositionLoudAreaSource(agent);
+
+                        EnemyNPCBehaviourManager closerEnemyCharacters = SceneEntitiesController.
+                        getCloserEnemyCharacterFromPosition(
+                            loudTargetSourcePoint,
+                            enemyCharacters
+                        );
+
+
+                        closerEnemyCharacters.warnOfSouspiciousCheck(loudTargetSourcePoint);
+                    }
+                }
+                
+            }
+
+            
+
+             
 
         }
 
@@ -119,7 +157,7 @@ public class LoudArea : MonoBehaviour
     /// </summary>
     /// <param name="agent"> agente che deve raggiungere la loud area</param>
     /// <returns></returns>
-    private async Task<Vector3> getNearLoudAreaSource(NavMeshAgent agent) {
+    private async Task<Vector3> getNearPositionLoudAreaSource(NavMeshAgent agent) {
         Vector3 nearSourceValue = Vector3.zero;
 
 

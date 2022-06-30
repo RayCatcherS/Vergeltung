@@ -22,14 +22,17 @@ public class SceneEntitiesController : MonoBehaviour
         return characterManagers;
     }
 
-    [SerializeField] private List<EnemyNPCBehaviourManager> enemyNpcList = new List<EnemyNPCBehaviourManager>();
+    [SerializeField] private List<EnemyNPCBehaviourManager> _enemyNpcList = new List<EnemyNPCBehaviourManager>();
+    public List<EnemyNPCBehaviourManager> enemyNpcList {
+        get { return _enemyNpcList; }
+    }
     [SerializeField] private List<CivilianNPCBehaviourManager> civilianNpcList = new List<CivilianNPCBehaviourManager>();
 
     [SerializeField] private GameObject player;
 
     public void addNPCEnemyIstance(EnemyNPCBehaviourManager enemyNPCBehaviour) {
         _allNpcList.Add(enemyNPCBehaviour);
-        enemyNpcList.Add(enemyNPCBehaviour);
+        _enemyNpcList.Add(enemyNPCBehaviour);
     }
 
     public void addNPCCivilianIstance(CivilianNPCBehaviourManager enemyNPCBehaviour) {
@@ -60,24 +63,24 @@ public class SceneEntitiesController : MonoBehaviour
     }
 
     /// <summary>
-    /// Ottieni il character più vicino a [fromPosition]
+    /// Ottieni il character nemico più vicino a [fromPosition]
     /// </summary>
     /// <param name="fromPosition">posizione da cui trovare il character nemico più vicino</param>
     /// <returns>
     /// Restituisce una istanza di CharacterManager se esiste un character nemico vicino che non è morto
     /// Restituisce null se non è disponibile alcun character nemico (esempio: sono tutti morti)
     /// </returns>
-    public EnemyNPCBehaviourManager getCloserEnemyCharacterFromPosition(Vector3 fromPosition) {
+    public static EnemyNPCBehaviourManager getCloserEnemyCharacterFromPosition(Vector3 fromPosition, List<EnemyNPCBehaviourManager> enemiesBehv) {
         EnemyNPCBehaviourManager closerEnenemyCharacter = null;
 
         float closerDisance = 0;
         
-        foreach (EnemyNPCBehaviourManager enemy in enemyNpcList) {
+        foreach (EnemyNPCBehaviourManager enemy in enemiesBehv) {
 
 
             // character non dead o che non si stanno stoppando
             if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour && enemy.characterAlertState == CharacterAlertState.Unalert) {
-                closerDisance = Vector3.Distance(fromPosition, enemyNpcList[0].gameObject.transform.position);
+                closerDisance = Vector3.Distance(fromPosition, enemiesBehv[0].gameObject.transform.position);
                 closerEnenemyCharacter = enemy;
                 break;
             }
@@ -85,7 +88,7 @@ public class SceneEntitiesController : MonoBehaviour
         }
        
 
-        foreach (EnemyNPCBehaviourManager enemy in enemyNpcList) {
+        foreach (EnemyNPCBehaviourManager enemy in enemiesBehv) {
 
             // character non dead o che non si stanno stoppando
             if (!enemy.characterManager.isDead && !enemy.stopCharacterBehaviour && enemy.characterAlertState == CharacterAlertState.Unalert) {
@@ -103,6 +106,52 @@ public class SceneEntitiesController : MonoBehaviour
             return null;
         } else {
             return closerEnenemyCharacter;
+        }
+    }
+    /// <summary>
+    /// Ottieni il character più vicino a [fromPosition]
+    /// </summary>
+    /// <param name="fromPosition">posizione da cui trovare il character più vicino</param>
+    /// <returns>
+    /// Restituisce una istanza di CharacterManager se esiste un character vicino che non è morto
+    /// Restituisce null se non è disponibile alcun character (esempio: sono tutti morti)
+    /// </returns>
+    public static BaseNPCBehaviourManager getCloserCharacterFromPosition(Vector3 fromPosition, List<BaseNPCBehaviourManager> enemiesBehv) {
+        BaseNPCBehaviourManager closerCharacter = null;
+
+        float closerDisance = 0;
+
+        foreach (BaseNPCBehaviourManager character in enemiesBehv) {
+
+
+            // character non dead o che non si stanno stoppando
+            if (!character.characterManager.isDead && !character.stopCharacterBehaviour && character.characterAlertState == CharacterAlertState.Unalert) {
+                closerDisance = Vector3.Distance(fromPosition, enemiesBehv[0].gameObject.transform.position);
+                closerCharacter = character;
+                break;
+            }
+
+        }
+
+
+        foreach (BaseNPCBehaviourManager character in enemiesBehv) {
+
+            // character non dead o che non si stanno stoppando
+            if (!character.characterManager.isDead && !character.stopCharacterBehaviour && character.characterAlertState == CharacterAlertState.Unalert) {
+                float tDistance = Vector3.Distance(fromPosition, character.gameObject.transform.position);
+                if (tDistance < closerDisance) {
+                    closerDisance = tDistance;
+                    closerCharacter = character;
+                }
+            }
+
+        }
+
+
+        if (closerCharacter == null) {
+            return null;
+        } else {
+            return closerCharacter;
         }
     }
 }

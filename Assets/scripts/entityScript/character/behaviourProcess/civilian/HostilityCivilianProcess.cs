@@ -101,7 +101,11 @@ public class HostilityCivilianProcess : BehaviourProcess {
         if (_checkedByHimselfHostility) {
             isEnemyCharacterToWarnCalled = false;
             // get the closer character
-            closerEnemyCharacterToWarn = _characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(_characterManager.transform.position);
+            closerEnemyCharacterToWarn =
+                SceneEntitiesController.getCloserEnemyCharacterFromPosition(
+                    _characterManager.transform.position,
+                    _characterManager.sceneEntitiesController.enemyNpcList
+                );
 
         }
     }

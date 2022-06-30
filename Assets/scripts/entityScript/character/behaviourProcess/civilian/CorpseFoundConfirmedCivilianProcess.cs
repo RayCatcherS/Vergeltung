@@ -98,6 +98,11 @@ public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
         // se ha scoperto da solo il character hostile (tramite il suo stesso fov)
         isEnemyCharacterToWarnCalled = false;
         // get the closer character
-        closerEnemyCharacterToWarn = _characterManager.sceneEntitiesController.getCloserEnemyCharacterFromPosition(_characterManager.transform.position);
+        closerEnemyCharacterToWarn =
+            SceneEntitiesController.
+            getCloserEnemyCharacterFromPosition(
+                _characterManager.transform.position,
+                _characterManager.sceneEntitiesController.enemyNpcList
+            );
     }
 }
