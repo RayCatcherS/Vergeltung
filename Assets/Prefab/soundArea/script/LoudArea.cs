@@ -110,6 +110,7 @@ public class LoudArea : MonoBehaviour
             } else if (_intensity == LoudAreaIntensity.medium || _intensity == LoudAreaIntensity.high) {
 
 
+                // per il numero di guardie da chiamare
                 for (int i = 0; i < _numberOfCharactersToCall; i++) {
                     
                     // get bheaviour agent
@@ -118,9 +119,10 @@ public class LoudArea : MonoBehaviour
                     if(enemyCharacters.Count != 0) {
                         agent = enemyCharacters[0].agent;
 
-
+                        // genera punto casuale vicino alla fonte della loud area
                         Vector3 loudTargetSourcePoint = await getNearPositionLoudAreaSource(agent);
 
+                        // seleziona la guardia più vicina
                         EnemyNPCBehaviourManager closerEnemyCharacters = SceneEntitiesController.
                         getCloserEnemyCharacterFromPosition(
                             loudTargetSourcePoint,

@@ -16,7 +16,7 @@ Il modo con cui vengono gestiti gli stati del'IA può essere rappresentato con u
 (ultima posizione in cui è stato rilevato il character)
 
 ## L'idea della progettazione
-L'idea è stata quella di sviluppare i vari subBehaviour come se fossero dei processi di un sistema operativo che **NPCBehaviourManager** può gestire, ogni processo specializza la classe **BehaviourProcess**, reimplementandone il metodo **runBehaviourAsyncProcess**, in modo che l'**NPCBehaviourManager** tratterà le istanze delle classi derivate da **BehaviourProcess** come un'istanza della classe **BehaviourProcess**, questi processi hanno uno stato di inizio e uno stato di fine. In questo modo è stato possibile concatenare in modo articolato i vari subBehaviour. Ad esempio una volta concluso il behaviour process dello stato di sospetto, viene fatto partire il behaviour process della ricerca del character.
+L'idea è stata quella di sviluppare i vari subBehaviour come se fossero dei processi di un sistema operativo che **NPCBehaviourManager** può gestire(Come se fossero dei thread, l'API Unity non è thread-safe). Ogni processo specializza la classe **BehaviourProcess**, reimplementandone il metodo **runBehaviourAsyncProcess**, in modo che l'**NPCBehaviourManager** tratterà le istanze delle classi derivate da **BehaviourProcess** come un'istanza della classe **BehaviourProcess**, questi processi hanno uno stato di inizio e uno stato di fine. In questo modo è stato possibile concatenare in modo articolato i vari subBehaviour. Ad esempio una volta concluso il behaviour process dello stato di sospetto, viene fatto partire il behaviour process della ricerca del character.
 
 > Sia il **character NPC A** istanza di una entità character tale che non sia player
 
