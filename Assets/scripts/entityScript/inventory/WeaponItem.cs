@@ -167,16 +167,12 @@ public class WeaponItem : InventoryItem
                 // loud area
                 if ((itemNameID != BASE_MELEE_ID)) {
 
-                    if(inventoryManager != null) {
+                    if (inventoryManager != null) {
 
-                        if(inventoryManager.characterManager.isPlayer) {
-                            GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                            loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, gunShootSound);
-                            loudGameObject.GetComponent<LoudArea>().startLoudArea();
-                        }
-                        
+                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaIntensity.nothing, gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
-                    
                 }
 
 
@@ -195,7 +191,12 @@ public class WeaponItem : InventoryItem
                 }
 
                 busyWeaponDurationTimeEnd = Time.time + shootFrequency;
-                _ammunition = _ammunition - 1;
+
+                if (inventoryManager != null) {
+                    if (inventoryManager.characterManager.chracterRole == Role.Player) {
+                        _ammunition = _ammunition - 1;
+                    }
+                }
             }
             
         }
@@ -224,11 +225,9 @@ public class WeaponItem : InventoryItem
 
                     if (inventoryManager != null) {
 
-                        if (inventoryManager.characterManager.isPlayer) {
-                            GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                            loudGameObject.GetComponent<LoudArea>().initLoudArea(loudIntensity, gunShootSound);
-                            loudGameObject.GetComponent<LoudArea>().startLoudArea();
-                        }
+                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaIntensity.nothing, gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
                 }
 
@@ -254,7 +253,14 @@ public class WeaponItem : InventoryItem
 
 
                 busyWeaponDurationTimeEnd = Time.time + shootFrequency;
-                _ammunition = _ammunition - 1;
+
+                if (inventoryManager != null) {
+                    if (inventoryManager.characterManager.chracterRole == Role.Player) {
+                        _ammunition = _ammunition - 1;
+                    }
+                }
+                
+                    
             }
         }
         

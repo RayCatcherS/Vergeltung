@@ -153,7 +153,7 @@ public class LoudArea : MonoBehaviour
             await Task.Yield();
         }
 
-        destroyLoudArea();
+        
     }
 
 

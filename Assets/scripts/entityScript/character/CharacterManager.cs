@@ -93,6 +93,10 @@ public class CharacterManager : MonoBehaviour {
         set { _isDeadCharacterMarked = value; }
     }
 
+    public Role chracterRole {
+        get { return gameObject.GetComponent<CharacterRole>().role; }
+    }
+
     Vector3 _deadPosition = new Vector3();
 
 
