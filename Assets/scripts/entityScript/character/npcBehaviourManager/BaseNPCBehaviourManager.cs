@@ -71,10 +71,10 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public bool stopCharacterBehaviour {
         get { return _stopCharacterBehaviour; }
     }
-    [SerializeField] public bool characterBehaviourStopped = false; // stato che indica se il character si è stoppato
+    [SerializeField] public bool characterBehaviourStopped = false; // stato che indica se il character si ï¿½ stoppato
 
 
-    // queste variabili indicano se uno stato di allerta è stato innescato da loro stessi(tramiteFOV true) o se è stato indotto(false)
+    // queste variabili indicano se uno stato di allerta ï¿½ stato innescato da loro stessi(tramiteFOV true) o se ï¿½ stato indotto(false)
     protected bool checkedByHimselfSuspicious = false;
     public bool isFocusAlarmCharacterVisible {
         get {
@@ -115,7 +115,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     }
     [SerializeField] protected Animator alertSignAnimator;
     protected CharacterActivityManager characterActivityManager;
-    protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrà eseguire
+    protected CharacterSpawnPoint spawnPoint; // gli spawn point contengono le activities che l'NPC dovrï¿½ eseguire
     [SerializeField] protected CharacterMovement _characterMovement; // characterMovement collegato
     [SerializeField] protected NavMeshAgent _agent;
     public NavMeshAgent agent {
@@ -418,7 +418,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     /// <summary>
     /// Forza stop coroutine character chiamata asincrona fino a quando il character
-    /// non è disattivo
+    /// non ï¿½ disattivo
     /// </summary>
     /// <returns></returns>
     public async Task forceStopCharacterAndAwaitStopProcess() {
@@ -474,9 +474,9 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// <summary>
     /// Questo subBehaviour fa ruotare il character verso un character
     /// attualmente sotto focus negli stati di Souspicious e Hostility alarm.
-    /// Usando l'ultima rotazione in cui è stato avvistato il character oppure usando la
-    /// posizione attuale del character se questo è sotto focus di [this]
-    /// Inoltre aggiorna l'ultima posizione in cui è stato visto il focus Character
+    /// Usando l'ultima rotazione in cui ï¿½ stato avvistato il character oppure usando la
+    /// posizione attuale del character se questo ï¿½ sotto focus di [this]
+    /// Inoltre aggiorna l'ultima posizione in cui ï¿½ stato visto il focus Character
     /// </summary>
     public void rotateAndAimSuspiciousAndHostility() {
         _agent.updateRotation = false;
@@ -495,13 +495,13 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             } else {
                 
 
-                if (lastSeenFocusAlarmPosition == Vector3.zero) { // solo se il character non è riuscito a prendere la vecchia posizione del character/player
+                if (lastSeenFocusAlarmPosition == Vector3.zero) { // solo se il character non ï¿½ riuscito a prendere la vecchia posizione del character/player
 
                     float lastPosX = focusAlarmCharacter.transform.position.x;
                     float lastPosY = focusAlarmCharacter.transform.position.y;
                     float lastPosZ = focusAlarmCharacter.transform.position.z;
                     Vector3 noZeroPosition = new Vector3(lastPosX, lastPosY, lastPosZ);
-                    lastSeenFocusAlarmPosition = noZeroPosition; // setta ultima posizione in cui è stato visto l'alarm character
+                    lastSeenFocusAlarmPosition = noZeroPosition; // setta ultima posizione in cui ï¿½ stato visto l'alarm character
                 }
                 Vector3 targetDirection = lastSeenFocusAlarmPosition - gameObject.transform.position;
 
@@ -512,7 +512,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 }
 
             }
-        } // se c'è un character focussato durante l'allarme. Il character potrebbe essere più non focussato in quanto non più sospetto
+        } // se c'ï¿½ un character focussato durante l'allarme. Il character potrebbe essere piï¿½ non focussato in quanto non piï¿½ sospetto
 
     }
 
@@ -560,8 +560,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// Metodo per verificare se un certo character è sospetto agli occhi di [this]
-    /// e quindi può entrare nello stato di SuspiciousAlert o meno
+    /// Metodo per verificare se un certo character Ã¨ sospetto agli occhi di [this]
+    /// e quindi puÃ² entrare nello stato di SuspiciousAlert o meno
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     public override void suspiciousCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition, bool himselfCheck = false)  {
@@ -580,7 +580,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 
                 focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
                 lastSeenFocusAlarmPosition = lastSeenCPosition;
-                if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilità nel suspiciousCheck passando direttamente allo stato di HostilityAlert
+                if (seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilitï¿½ nel suspiciousCheck passando direttamente allo stato di HostilityAlert
                     
                     setAlert(CharacterAlertState.HostilityAlert, himselfCheck);
                 } else {
@@ -600,8 +600,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// Metodo per verificare se un certo character è ostile agli occhi di [this]
-    /// e quindi può entrare nello stato di HostilityAlert o meno, tornando ad unalert nel caso contrario
+    /// Metodo per verificare se un certo character Ã¨ ostile agli occhi di [this]
+    /// e quindi puï¿½ entrare nello stato di HostilityAlert o meno, tornando ad unalert nel caso contrario
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     public override void hostilityCheck(CharacterManager seenCharacterManager, Vector3 lastSeenCPosition, bool himselfCheck = false) {
@@ -622,7 +622,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
 
             // aggiungi character al dizionario dei character ostili ricercati
-            // se non è già contenuto nel dizionario dei character ostili ricercati
+            // se non ï¿½ giï¿½ contenuto nel dizionario dei character ostili ricercati
             if (!_wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
                 _wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager);
             }
@@ -639,13 +639,13 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
 
     /// <summary>
-    /// Metodo per verificare se [this] può entrare nello stato di WarnOfSuspiciousAlert
+    /// Metodo per verificare se [this] puÃ² entrare nello stato di WarnOfSuspiciousAlert
     /// </summary>
     /// <param name="lastSeenCPosition"></param>
     public override void warnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
 
-        // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
-        // character che è in tutti gli altri stati(compreso WarnOfSuspiciousAlert) non cambiano il loro alert
+        // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character ï¿½ nello stato Unalert
+        // character che ï¿½ in tutti gli altri stati(compreso WarnOfSuspiciousAlert) non cambiano il loro alert
         if(_characterState == CharacterAlertState.Unalert
         ) {
 
@@ -656,7 +656,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     }
 
     /// <summary>
-    /// Metodo per verificare se [this] può entrare nello stato di SuspiciousCorpseFoundAlert
+    /// Metodo per verificare se [this] puÃ² entrare nello stato di SuspiciousCorpseFoundAlert
     /// </summary>
     /// <param name="seenCharacterManager"></param>
     /// <param name="lastSeenCPosition"></param>
@@ -664,8 +664,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
 
 
-        // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character è nello stato Unalert
-        // character che è in tutti gli altri stati(compreso SuspiciousCorpseFoundAlert) non cambiano il loro alert
+        // avvia lo stato di SuspiciousCorpseFoundAlert solo quando il character ï¿½ nello stato Unalert
+        // character che ï¿½ in tutti gli altri stati(compreso SuspiciousCorpseFoundAlert) non cambiano il loro alert
         if (_characterState != CharacterAlertState.SuspiciousAlert ||
             _characterState != CharacterAlertState.HostilityAlert
         ) {
@@ -679,7 +679,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         }
     }
     /// <summary>
-    /// Metodo per verificare se [this] può entrare nello stato di CorpseFoundConfirmedAlert
+    /// Metodo per verificare se [this] puï¿½ entrare nello stato di CorpseFoundConfirmedAlert
     /// </summary>
     /// <param name="seenDeadCharacter"></param>
     /// <param name="lastSeenCPosition"></param>
@@ -709,8 +709,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         }
     }
     /// <summary>
-    /// Metodo per verificare se [this] può entrare nello stato di SuspiciousHitReceived
-    /// Ovvero è stato ricevuto un colpo
+    /// Metodo per verificare se [this] puÃ² entrare nello stato di SuspiciousHitReceived
+    /// Ovvero ï¿½ stato ricevuto un colpo
     /// </summary>
     public override void instantOnCurrentPositionWarnOfSouspiciousCheck() {
 
@@ -870,8 +870,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// all'interno del dizionario wantedHostileCharacters, il dizionario
     /// dei character o stili
     /// </summary>
-    /// <param name="character">character da verificare se è all'interno del dizionario</param>
-    /// <returns>Torna [true] se il [character] inserito è all'interno del dizionario, altrimenti false </returns>
+    /// <param name="character">character da verificare se ï¿½ all'interno del dizionario</param>
+    /// <returns>Torna [true] se il [character] inserito ï¿½ all'interno del dizionario, altrimenti false </returns>
     protected bool isCharacterWantedCheck(CharacterManager character) {
         bool result = false;
 
@@ -923,7 +923,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     /// <summary>
     /// avvia animazione in base a [agentSpeed] (corsa o camminata lenta)
-    /// gestisce animazione e velocità del character in movimento 
+    /// gestisce animazione e velocitï¿½ del character in movimento 
     /// </summary>
     /// <param name="agentSpeed"></param>
     public void animateAndSpeedMovingAgent(AgentSpeed agentSpeed = AgentSpeed.Walk) {

@@ -52,13 +52,13 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     abstract public void stayOnPositionSuspiciousAlertBehaviour();
 
     /// <summary>
-    /// Verifica se un certo Character è sospetto e quindi entrare nello stato di suspicious
+    /// Verifica se un certo Character Ã¨ sospetto e quindi entrare nello stato di suspicious
     /// </summary>
     /// <param name="characterManager">CharacterManager oggetto della verifica</param>
     abstract public void suspiciousCheck(CharacterManager characterManager, Vector3 lastSeenCPosition, bool himselfCheck = false);
 
     /// <summary>
-    /// Verifica se un certo Character è ostile e quindi entrare nello stato di hostility
+    /// Verifica se un certo Character Ã¨ ostile e quindi entrare nello stato di hostility
     /// </summary>
     /// <param name="characterManager">CharacterManager oggetto della verifica</param>
     abstract public void hostilityCheck(CharacterManager characterManager, Vector3 lastSeenCPosition, bool himselfCheck = false);
