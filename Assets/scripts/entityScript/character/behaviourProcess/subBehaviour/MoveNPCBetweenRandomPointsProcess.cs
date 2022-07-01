@@ -49,15 +49,14 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
     public override void initBehaviourProcess() {
         _randomNavMeshPositions = new List<Vector3>();
 
-
         while (_randomNavMeshPositions.Count < _sampleToReach) {
             Vector3 randomPos = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y);
             Vector3 randomPoint = _characterManager.getCharacterPositionReachebleByAgents() + randomPos * _areaRadius;
 
             NavMeshPath navMeshPath = new NavMeshPath();
-            UnityEngine.AI.NavMeshHit hit;
+            NavMeshHit hit;
 
-            if (UnityEngine.AI.NavMesh.SamplePosition(randomPoint, out hit, _areaRadius, UnityEngine.AI.NavMesh.AllAreas)) {
+            if (NavMesh.SamplePosition(randomPoint, out hit, _areaRadius, UnityEngine.AI.NavMesh.AllAreas)) {
 
                 if (_behaviourAgent.CalculatePath(hit.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete) {
                     _randomNavMeshPositions.Add(hit.position);
@@ -82,13 +81,20 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
 
 
                 // fin quando non è raggiunta la posizione 
-                if (!_baseNPCBehaviour.isAgentReachedDestination(_randomNavMeshPositions[_selectedPosition])) {
+                if (!_baseNPCBehaviour.isAgentReachedDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition)) {
 
                     _behaviourAgent.isStopped = false;
                     _baseNPCBehaviour.animateAndSpeedMovingAgent();
                     _isPointReached = false;
 
-                    updateUnalertAgentTarget();
+
+                    
+
+                    _behaviourAgent.SetDestination(
+                        _baseNPCBehaviour.lastSeenFocusAlarmPosition
+
+                    );
+
 
                 } else {
 
@@ -97,16 +103,26 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
                         // start waiting loop
                         waitingOnANavMeshPointTimerLoop();
                         _isPointReached = true;
+
+
                     } else {
 
+                        
                         // wait waiting loop
                         if (isWaitingOnANavMeshPoint) {
 
                             _baseNPCBehaviour.stopAgent();
                         } else {
-                            setNextPosition();
-                            _isPointReached = false;
-                            agentDestinationSetted = false;
+
+                            if(_selectedPosition == _randomNavMeshPositions.Count - 1) {
+                                Debug.Log("finish");
+                                _processTaskFinished = true;
+                            } else {
+                                setNextPosition();
+                                _isPointReached = false;
+                                agentDestinationSetted = false;
+                            }
+                            
                         }
                     }
                 }
@@ -118,13 +134,15 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
 
     private void updateUnalertAgentTarget() {
 
-        
+        Debug.Log(_selectedPosition);
+
         if (!_baseNPCBehaviour.characterManager.isDead) {
 
+            _baseNPCBehaviour.lastSeenFocusAlarmPosition = _randomNavMeshPositions[_selectedPosition];
             _behaviourAgent.SetDestination(
-                _randomNavMeshPositions[_selectedPosition]
-
+                _baseNPCBehaviour.lastSeenFocusAlarmPosition
             );
+
         }
 
     }
@@ -152,9 +170,6 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
 
             _selectedPosition = _selectedPosition + 1;
 
-            if(_selectedPosition == _randomNavMeshPositions.Count - 1) {
-                _processTaskFinished = true;
-            }
         }
     }
 }

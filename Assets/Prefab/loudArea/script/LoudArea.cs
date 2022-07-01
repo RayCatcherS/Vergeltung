@@ -5,11 +5,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum LoudAreaIntensity {
+public enum LoudAreaType {
     nothing = 0,
     low = 5,
     medium = 45,
-    high = 70
+    high = 70,
+    characterLoudRun = 4
 }
 
 public class LoudArea : MonoBehaviour
@@ -18,6 +19,7 @@ public class LoudArea : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private AudioSource _audioSource; // audio sorce suono generato
+    CharacterManager _characterThatGenerateLA;
 
     [Header("Config")]
     [SerializeField] private LayerMask targetCharacterMask;
@@ -26,9 +28,9 @@ public class LoudArea : MonoBehaviour
 
     // variabili non configurabili
     private float _loudAreaRadius = 13;
-    private LoudAreaIntensity _intensity;
+    private LoudAreaType _intensity;
 
-    public void initLoudArea(LoudAreaIntensity intensity, AudioClip clip = null) {
+    public void initLoudArea(LoudAreaType intensity, AudioClip clip = null, CharacterManager characterThatGenerateLA = null) {
 
 
         if(clip != null) {
@@ -37,6 +39,11 @@ public class LoudArea : MonoBehaviour
 
         _loudAreaRadius = (float)intensity;
         _intensity = intensity;
+
+        if(characterThatGenerateLA != null) {
+            _characterThatGenerateLA = characterThatGenerateLA;
+        }
+        
     }
 
     public void startLoudArea() {
@@ -45,7 +52,7 @@ public class LoudArea : MonoBehaviour
             _audioSource.Play();
         }
 
-        if(_intensity != LoudAreaIntensity.nothing) {
+        if(_intensity != LoudAreaType.nothing) {
 
             manageCharacterAlarms();
         }
@@ -101,13 +108,25 @@ public class LoudArea : MonoBehaviour
             }
 
             // se l'intensità del rumore è bassa vengono allertati tutti i character che sono nell'area
-            if (_intensity == LoudAreaIntensity.low) {
+            if (_intensity == LoudAreaType.low) {
 
                 foreach(BaseNPCBehaviourManager characters in allCharacters) {
                     characters.instantOnCurrentPositionWarnOfSouspiciousCheck();
                 }
 
-            } else if (_intensity == LoudAreaIntensity.medium || _intensity == LoudAreaIntensity.high) {
+
+            } else if(_intensity == LoudAreaType.characterLoudRun) { // loud area generata dalla corsa di un character
+
+                if(_characterThatGenerateLA != null) {
+                    foreach(BaseNPCBehaviourManager characters in allCharacters) {
+                        characters.playerLoudRunSuspiciousCheck(
+                            _characterThatGenerateLA,
+                            gameObject.transform.position
+                        );
+                    }
+                }
+
+            } else if(_intensity == LoudAreaType.medium || _intensity == LoudAreaType.high) {
 
 
                 // per il numero di guardie da chiamare
@@ -136,20 +155,15 @@ public class LoudArea : MonoBehaviour
 
                             closerEnemyCharacters.warnOfSouspiciousCheck(loudTargetSourcePoint);
                         }
-                        
                     }
                 }
-                
             }
-
-            
-
-             
-
         }
+
 
         // distruggi solo quando è terminata la riproduzione del suono
         while(_audioSource.isPlaying) {
+
             await Task.Yield();
         }
 

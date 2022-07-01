@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
     [Header("Weapon audio loud object")]
     /// questo oggetto emette suoni e scatenare eventi all'interno della sua area e viene generato quando il proiettile collide
     [SerializeField] private GameObject loudArea;
-    [SerializeField] private LoudAreaIntensity loudIntensity;
+    [SerializeField] private LoudAreaType loudIntensity;
 
     void Start()
     {

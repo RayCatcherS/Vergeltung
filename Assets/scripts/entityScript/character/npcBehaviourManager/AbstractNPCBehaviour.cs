@@ -10,7 +10,7 @@ public enum CharacterAlertState {
     SuspiciousCorpseFoundAlert,
     CorpseFoundConfirmedAlert,
     instantOnCurrentPositionWarnOfSouspiciousAlert,
-    stayOnPositionSuspiciousAlert,
+    playerLoudRunAlert,
 }
 
 public abstract class AbstractNPCBehaviour : MonoBehaviour
@@ -49,7 +49,9 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// <summary>
     /// comportamento stayOnPositionSuspiciousAlarm da implementare nelle classi figlie
     /// </summary>
-    abstract public void stayOnPositionSuspiciousAlertBehaviour();
+    abstract public void playerLoudRunSuspiciousAlertBehaviour();
+
+
 
     /// <summary>
     /// Verifica se un certo Character è sospetto e quindi entrare nello stato di suspicious
@@ -90,5 +92,5 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// <summary>
     /// Verifica se entrare nello stato di "stayOnPositionSuspiciousAlert"
     /// </summary>
-    abstract public void stayOnPositionSuspiciousCheck();
+    abstract public void playerLoudRunSuspiciousCheck(CharacterManager characterThatStartAlarm, Vector3 lastSeenCPosition);
 }

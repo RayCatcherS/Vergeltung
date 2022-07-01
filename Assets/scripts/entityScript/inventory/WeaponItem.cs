@@ -74,7 +74,7 @@ public class WeaponItem : InventoryItem
     [Header("Weapon audio loud object")]
     /// questo oggetto emette suoni e scatenare eventi all'interno della sua area e viene generato all'utilizzo dell'item
     [SerializeField] private GameObject loudArea;
-    [SerializeField] private LoudAreaIntensity loudIntensity;
+    [SerializeField] private LoudAreaType loudIntensity;
 
     // getters 
 
@@ -170,7 +170,7 @@ public class WeaponItem : InventoryItem
                     if (inventoryManager != null) {
 
                         GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaIntensity.nothing, gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
                         loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
                 }
@@ -226,7 +226,7 @@ public class WeaponItem : InventoryItem
                     if (inventoryManager != null) {
 
                         GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaIntensity.nothing, gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
                         loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
                 }

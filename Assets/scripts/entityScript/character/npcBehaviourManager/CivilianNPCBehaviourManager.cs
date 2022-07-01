@@ -66,12 +66,16 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     public override async void instantOnCurrentPositionWarnOfSouspiciousAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
+    public override async void playerLoudRunSuspiciousAlertBehaviour() {
+        await mainBehaviourProcess.runBehaviourAsyncProcess();
+    }
 
 
 
 
 
     protected override void startSuspiciousTimer() {
+        stopAgent();
 
         // start behaviour process
         mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
@@ -81,6 +85,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         suspiciousTimerLoop();
     }
     protected override void startHostilityTimer(bool checkedByHimself) {
+        stopAgent();
 
         // start behaviour process
         mainBehaviourProcess = new HostilityCivilianProcess(_agent, this, _characterFOV, _characterManager, checkedByHimself);
@@ -88,6 +93,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         hostilityTimerLoop();
     }
     protected override void startWarnOfSouspiciousTimer() {
+        stopAgent();
 
         mainBehaviourProcess = new WarnOfSospiciousEnemyProcess(_agent, this);
         simulateSearchingPlayerSubBehaviourProcess
@@ -96,18 +102,21 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         warnOfSouspiciousTimerLoop();
     }
     protected override void startSuspiciousCorpseFoundTimer() {
-        
+        stopAgent();
+
         mainBehaviourProcess = new GenericSuspiciousCorpseFoundProcess(_agent, this);
 
         suspiciousCorpseFoundTimerLoop();
     }
     protected override void startCorpseFoundConfirmedTimer() {
+        stopAgent();
 
         mainBehaviourProcess = new CorpseFoundConfirmedCivilianProcess(_agent, this, _characterFOV, _characterManager);
 
         corpseFoundConfirmedTimerLoop();
     }
-    protected override void instantOnCurrentPositionWarnOfSouspiciousTimer() {
+    protected override void startInstantOnCurrentPositionWarnOfSouspiciousTimer() {
+        stopAgent();
 
         mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(
             agent, this, characterManager,
@@ -119,6 +128,16 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync();
     }
+    protected override void startStayOnPositionSuspiciousTimer() {
+        stopAgent();
+
+        mainBehaviourProcess = new GenericStayOnPositionSuspiciousProcess(_agent, this);
+        mainBehaviourProcess.initBehaviourProcess();
+
+        stayOnPositionSuspiciousTimerLoopAsync();
+    }
+
+
 
 
     protected override void resetSuspiciousBehaviour() {
@@ -139,7 +158,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato suspiciousAlert
     /// </summary>
-    protected override async void suspiciousTimerLoop() {
+    protected async void suspiciousTimerLoop() {
 
         while (!mainBehaviourProcess.processTaskFinished) {
             await Task.Yield();
@@ -185,7 +204,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato hostilityAlert
     /// </summary>
-    protected override async void hostilityTimerLoop() {
+    protected async void hostilityTimerLoop() {
 
 
         while (!mainBehaviourProcess.processTaskFinished) {
@@ -227,7 +246,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato warnOfSouspicious
     /// </summary>
-    protected override async void warnOfSouspiciousTimerLoop() {
+    protected async void warnOfSouspiciousTimerLoop() {
 
 
         while (!mainBehaviourProcess.processTaskFinished) {
@@ -270,7 +289,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }
-    protected override async void suspiciousCorpseFoundTimerLoop() {
+    protected async void suspiciousCorpseFoundTimerLoop() {
 
 
         while (!mainBehaviourProcess.processTaskFinished) {
@@ -305,7 +324,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato corpseFoundConfirmedAlert
     /// </summary>
-    protected override async void corpseFoundConfirmedTimerLoop() {
+    protected async void corpseFoundConfirmedTimerLoop() {
 
 
         while (!mainBehaviourProcess.processTaskFinished) {
@@ -340,37 +359,78 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
 
     }
+    
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato SuspiciousHitReceived
     /// </summary>
-    protected override async void instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync() {
-        while (!mainBehaviourProcess.processTaskFinished) {
+    protected async void instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync() {
+        while(!mainBehaviourProcess.processTaskFinished) {
 
             await Task.Yield();
 
-            if (characterBehaviourStopped) {
+            if(characterBehaviourStopped) {
                 break;
             }
-            if (instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue == 0) {
+            if(instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue == 0) {
                 break;
             }
         }
 
 
         instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue = Time.time + instantOnCurrentPositionWarnOfSouspiciousTimerValue;
-        while (Time.time < instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue) {
+        while(Time.time < instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue) {
             await Task.Yield();
 
-            if (characterBehaviourStopped) {
+            if(characterBehaviourStopped) {
+                break;
+            }
+
+        }
+
+        if(!characterBehaviourStopped) {
+            stopAgent();
+        }
+
+        if(characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspiciousAlert) {
+            setAlert(CharacterAlertState.Unalert, true);
+        }
+    }
+
+    /// <summary>
+    /// Timer loop usato per gestire la durata dello stato stayOnPositionSuspicious
+    /// </summary>
+    protected async void stayOnPositionSuspiciousTimerLoopAsync() {
+        while(!mainBehaviourProcess.processTaskFinished) {
+
+            await Task.Yield();
+
+            if(characterBehaviourStopped) {
+                break;
+            }
+            if(playerLoudRunSuspiciousTimerEndStateValue == 0) {
                 break;
             }
         }
 
-        if (!characterBehaviourStopped) {
+
+        playerLoudRunSuspiciousTimerEndStateValue = Time.time + playerLoudRunSuspiciousTimerValue;
+        while(Time.time < playerLoudRunSuspiciousTimerEndStateValue) {
+            await Task.Yield();
+
+            if(characterBehaviourStopped) {
+                break;
+            }
+
+            if(playerLoudRunSuspiciousTimerEndStateValue == 0) {
+                break;
+            }
+        }
+
+        if(!characterBehaviourStopped) {
             stopAgent();
         }
 
-        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspiciousAlert) {
+        if(characterAlertState == CharacterAlertState.playerLoudRunAlert) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }

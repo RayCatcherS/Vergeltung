@@ -12,8 +12,11 @@ public enum RotationLerpSpeedValue {
 public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
 
+    [Header("References")]
     public Animator animator; //animator del character
     public CharacterController characterController;
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private CharacterManager characterManager;
 
     private const int ALL_LAYERS = -1;
     private const float NEGATIVE_ROTATION_CLAMP = -1f;
@@ -21,34 +24,37 @@ public class CharacterMovement : MonoBehaviour {
     private const float NEGATIVE_MOVEMENT_CLAMP = -1f;
     private const float POSITIVE_MOVEMENT_CLAMP = 1f;
 
+    [Header("Config")]
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
 
 
     [SerializeField] private Vector3 rotationAimInput;
-    [SerializeField] private Vector3 rotationAimTarget;
-    [SerializeField] private Vector2 characterModelRotation;
-
-
-    [SerializeField] private InventoryManager inventoryManager;
-    [SerializeField] private CharacterManager characterManager;
-
     public Vector3 getRotationAimInput { get { return rotationAimInput; } }
+    [SerializeField] private Vector3 rotationAimTarget;
     public Vector3 getRotationAimTarget { get { return rotationAimTarget; } }
+    [SerializeField] private Vector2 characterModelRotation;
     public Vector3 getCharacterModelRotation { get { return characterModelRotation; } }
+    [SerializeField] private float gravity = 0.15f;
+
+    [Header("LoudArea")]
+    [SerializeField] private GameObject loudAreaAsset;
 
 
-    private Vector3 _movement; // vettore movimento character
-    [SerializeField] private float gravity = 9.8f;
+
+
+
+
+
+    // states
     private bool isGrounded = false;
+    private Vector3 _movement; // vettore movimento character
+    
+    
 
     // ref getters 
     public GameObject characterModel {
         get { return gameObject; }
-    }
-
-    void Awake() {
-
     }
 
     // Start is called before the first frame update
@@ -117,27 +123,31 @@ public class CharacterMovement : MonoBehaviour {
 
         // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
         // evitando che il movimento del character dipenda dai fotogrammi
-        if (_movement.magnitude > 0) {
+        if(!onlyAnimation) {
+            if(_movement.magnitude > 0) {
 
 
-            if(!onlyAnimation) {
-                if (isRun) {
+                if(isRun) {
 
+                    if(characterManager.isPlayer) {
+                        generateLoudArea();
+                    }
+                    
 
                     _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                    if (autoRotationOnRun) {
+                    if(autoRotationOnRun) {
                         rotateCharacter(_2Dmove, true);
                     }
                 } else {
 
                     _movement = _movement * movementSpeed * Time.deltaTime;
-
                 }
+
+                characterManager.isRunning = isRun;
             }
-            
-            characterManager.isRunning = isRun;
         }
+        
 
 
 
@@ -223,7 +233,6 @@ public class CharacterMovement : MonoBehaviour {
         
         }
         
-        
     }
 
 
@@ -236,6 +245,16 @@ public class CharacterMovement : MonoBehaviour {
         } else {
             isGrounded = false;
         }
+    }
+
+
+    /// <summary>
+    /// Genera loud area provocata dalla corsa del character
+    /// </summary>
+    private void generateLoudArea() {
+        GameObject loudGameObject = Instantiate(loudAreaAsset, gameObject.transform.position, Quaternion.identity);
+        loudGameObject.GetComponent<LoudArea>().initLoudArea(LoudAreaType.characterLoudRun, characterThatGenerateLA: characterManager);
+        loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
     /// <summary>
