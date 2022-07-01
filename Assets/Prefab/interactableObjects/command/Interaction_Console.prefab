@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 7908458193692789597}
+  interactableMeshEffect: {fileID: 5888487341037357317}
   genericEventName: SABOTAGE
   genericEvent1:
     m_PersistentCalls:
@@ -285,6 +286,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 123
       objectReference: {fileID: 0}
@@ -314,3 +319,8 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -8659564672515589768, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
+--- !u!23 &5888487341037357317 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
+  m_PrefabInstance: {fileID: 5078241409757615489}
+  m_PrefabAsset: {fileID: 0}

@@ -122,9 +122,6 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 ![Image animator](EnemycorpseFoundConfirmedAlertBehaviour.gif)
 
 
-<p>&nbsp;</p>
-
-
 ### Implementazione CivilianNPCBehaviour:
 Questo behaviour rappresenta lo stato di allarme dell'aver confermato la presenza di un cadavere.
 > Durante lo stato di **CorpseFoundConfirmedAlert** il character civile chiederà al controller **SceneEntitiesController** tramite un metodo di restituire la prima guardia nemica più vicina che non è impegnata in
@@ -158,6 +155,40 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 > Questo behaviour viene attivato quando il character nemico riceve del danno e il suo stato è di **Unalert**. Nello stato di **SuspiciousHitReceivedAlert** Verrà simulato uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di unalert.
 
 ![Image animator](suspiciousHitReceivedAlert.gif) 
+
+
+<p>&nbsp;</p>
+
+
+# LoudArea
+Le **LoudArea** sono state create con l'intento di simulare un allarme provocato da un forte suono. Ad esempio l'utilizzo di un'arma non silenziata.
+Le loud area sono istanze di oggetti della classe **LoudArea**. Permettono di simulare la propagazione di un allarme sui character scaturita da oggetti che provocano dei suoni, ad esempio uno sparo allarmerà i nemici, facendo raggiungere loro una zona vicina alla Loud Area. Oppure alcuni suoni bassi potrebbero far andare le guardie in uno stato di allerta di ricerca e sospetto.
+La LoudArea genererà anche un suono che verrà passato al costruttore durante l'inizializzazione
+
+L'intensità dei suoni può essere:
+- nessuna (Viene generato un suono ma non vi è nessuna propagazione di allarme)
+- bassa (Viene propagato lo stato **instantOnCurrentPositionWarnOfSouspicious**, piccola area di propagazione. Esempio armi silenziate o proiettili che si infrangono sulle superfici )
+- media (Viene propagato lo stato **WarnOfSuspiciousAlert**, ampia area di propagazione. Esempio: armi non silenziate ) 
+
+## Implementazione propagazione allarme character sull'intensità bassa
+Vengono allertati tutti i character(nemici e civili) che sono all'interno della **LoudArea** avviando il **instantOnCurrentPositionWarnOfSouspiciousCheck** cambiando il loro stato di allerta e avviando il Behaviour process **warnOfSuspiciousAlertBehaviour**.
+
+## Implementazione propagazione allarme character sull'intensità media
+Partendo da tutti i character che sono all'interno della **LoudArea** vengono presi i primi due character più vicini all'interno di quest'area e che non sono in alcuno stato di allarme. Vengono calcolate delle posizioni raggiungibili dal sistema di navigazione(agent) sulla navmesh(o comunque generare questi punti fino a quando non sono raggiungibili), le posizione saranno abbastanza vicine all'origine dalla LoudArea, questo simulerà il fatto che le guardie non raggiungeranno con precisione il punto in cui c'è stato il forte rumore che le ha allarmate.
+Dopo aver calcolato questi punti la **LoudArea** richiamerà la funzione **warnOfSouspiciousCheck** delle due guardie chiamate cambiando il loro stato di allerta e avviando il Behaviour process **warnOfSuspiciousAlertBehaviour**.
+
+### Esempio LoudArea(media intensità) generata dagli spari di un'arma non silenziata
+
+![Image animator](loudArea1.gif)
+
+### Esempio LoudArea(bassa intensità) generata dagli impatti dei proiettili
+
+![Image animator](loudArea2.gif)
+
+
+<p>&nbsp;</p>
+
+
 
 # Miglioramenti IA
 ## Simulazione ricerca del player

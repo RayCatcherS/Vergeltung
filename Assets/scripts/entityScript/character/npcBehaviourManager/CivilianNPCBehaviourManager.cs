@@ -63,7 +63,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     public override async void corpseFoundConfirmedAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
-    public override async void suspiciousHitReceivedAlertBehaviour() {
+    public override async void instantOnCurrentPositionWarnOfSouspiciousAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
 
@@ -107,7 +107,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
 
         corpseFoundConfirmedTimerLoop();
     }
-    protected override void startSuspiciousHitReceivedTimer() {
+    protected override void instantOnCurrentPositionWarnOfSouspiciousTimer() {
 
         mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(
             agent, this, characterManager,
@@ -117,7 +117,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
         );
         mainBehaviourProcess.initBehaviourProcess();
 
-        suspiciousHitReceivedTimerLoopAsync();
+        instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync();
     }
 
 
@@ -343,7 +343,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato SuspiciousHitReceived
     /// </summary>
-    protected override async void suspiciousHitReceivedTimerLoopAsync() {
+    protected override async void instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync() {
         while (!mainBehaviourProcess.processTaskFinished) {
 
             await Task.Yield();
@@ -351,14 +351,14 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             if (characterBehaviourStopped) {
                 break;
             }
-            if (suspiciousHitReceivedTimerEndStateValue == 0) {
+            if (instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue == 0) {
                 break;
             }
         }
 
 
-        suspiciousHitReceivedTimerEndStateValue = Time.time + suspiciousHitReceivedTimerValue;
-        while (Time.time < suspiciousHitReceivedTimerEndStateValue) {
+        instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue = Time.time + instantOnCurrentPositionWarnOfSouspiciousTimerValue;
+        while (Time.time < instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue) {
             await Task.Yield();
 
             if (characterBehaviourStopped) {
@@ -370,7 +370,7 @@ public class CivilianNPCBehaviourManager : BaseNPCBehaviourManager {
             stopAgent();
         }
 
-        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
+        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspiciousAlert) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }

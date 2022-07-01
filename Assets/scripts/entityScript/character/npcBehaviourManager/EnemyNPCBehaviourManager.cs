@@ -91,7 +91,7 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
         }
     }
-    public override async void suspiciousHitReceivedAlertBehaviour() {
+    public override async void instantOnCurrentPositionWarnOfSouspiciousAlertBehaviour() {
         await mainBehaviourProcess.runBehaviourAsyncProcess();
     }
 
@@ -142,12 +142,12 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
         corpseFoundConfirmedTimerLoop();
     }
-    protected override void startSuspiciousHitReceivedTimer() {
+    protected override void instantOnCurrentPositionWarnOfSouspiciousTimer() {
 
         mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, areaRadius: 4, sampleToReach: 5, waitingOnPointTime: 0.5f);
         mainBehaviourProcess.initBehaviourProcess();
 
-        suspiciousHitReceivedTimerLoopAsync();
+        instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync();
     }
 
 
@@ -408,7 +408,7 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
     /// <summary>
     /// Timer loop usato per gestire la durata dello stato SuspiciousHitReceived
     /// </summary>
-    protected override async void suspiciousHitReceivedTimerLoopAsync() {
+    protected override async void instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync() {
 
         while (!mainBehaviourProcess.processTaskFinished) {
 
@@ -417,13 +417,13 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
             if (characterBehaviourStopped) {
                 break;
             }
-            if (suspiciousHitReceivedTimerEndStateValue == 0) {
+            if (instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue == 0) {
                 break;
             }
         }
 
-        suspiciousHitReceivedTimerEndStateValue = Time.time + suspiciousHitReceivedTimerValue;
-        while (Time.time < suspiciousHitReceivedTimerEndStateValue) {
+        instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue = Time.time + instantOnCurrentPositionWarnOfSouspiciousTimerValue;
+        while (Time.time < instantOnCurrentPositionWarnOfSouspiciousTimerEndStateValue) {
             await Task.Yield();
 
             if (characterBehaviourStopped) {
@@ -437,7 +437,7 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
         }
 
 
-        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspicious) {
+        if (characterAlertState == CharacterAlertState.instantOnCurrentPositionWarnOfSouspiciousAlert) {
             setAlert(CharacterAlertState.Unalert, true);
         }
     }

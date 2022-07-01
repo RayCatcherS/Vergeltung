@@ -351,7 +351,7 @@ public class CharacterManager : MonoBehaviour {
             if (role == Role.EnemyGuard) {
 
                 gameObject.GetComponent<EnemyNPCBehaviourManager>().stopSuspiciousTimer();
-                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopHostilityCheckTimer();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopHostilityTimer();
                 gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAlertAnimator();
 
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
@@ -366,7 +366,7 @@ public class CharacterManager : MonoBehaviour {
             } else if (role == Role.Civilian) {
 
                 gameObject.GetComponent<CivilianNPCBehaviourManager>().stopSuspiciousTimer();
-                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopHostilityCheckTimer();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopHostilityTimer();
                 gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAlertAnimator();
 
 

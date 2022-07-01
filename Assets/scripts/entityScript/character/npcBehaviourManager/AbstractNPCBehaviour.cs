@@ -9,9 +9,8 @@ public enum CharacterAlertState {
     WarnOfSuspiciousAlert,
     SuspiciousCorpseFoundAlert,
     CorpseFoundConfirmedAlert,
-    instantOnCurrentPositionWarnOfSouspicious,
-    LowLoudSoundAlert,
-    MediumLoudSoundAlert
+    instantOnCurrentPositionWarnOfSouspiciousAlert,
+    stayOnPositionSuspiciousAlert,
 }
 
 public abstract class AbstractNPCBehaviour : MonoBehaviour
@@ -42,14 +41,15 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// comportamento corpseFoundConfirmedAlertBehaviour da implementare nelle classi figlie
     /// </summary>
     abstract public void corpseFoundConfirmedAlertBehaviour();
+
     /// <summary>
-    /// comportamento corpseFoundConfirmedAlertBehaviour da implementare nelle classi figlie
+    /// comportamento instantOnCurrentPositionWarnOfSouspiciousAlertBehaviour da implementare nelle classi figlie
     /// </summary>
-    abstract public void soundAlert1Behaviour();
+    abstract public void instantOnCurrentPositionWarnOfSouspiciousAlertBehaviour();
     /// <summary>
-    /// comportamento SuspiciousHitReceived da implementare nelle classi figlie
+    /// comportamento stayOnPositionSuspiciousAlarm da implementare nelle classi figlie
     /// </summary>
-    abstract public void suspiciousHitReceivedAlertBehaviour();
+    abstract public void stayOnPositionSuspiciousAlertBehaviour();
 
     /// <summary>
     /// Verifica se un certo Character è sospetto e quindi entrare nello stato di suspicious
@@ -80,11 +80,15 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     /// <summary>
     /// Verifica se entrare nello stato di "corpseFoundConfirmed"
     /// </summary>
+    /// <param name="seenDeadCharacter"></param>
     /// <param name="lastSeenCPosition"></param>
     abstract public void corpseFoundConfirmedCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition);
     /// <summary>
-    /// Verifica se entrare nello stato di "suspiciousHitReceived"
+    /// Verifica se entrare nello stato di "instantOnCurrentPositionWarnOfSouspiciousAlert"
     /// </summary>
-    /// <param name="lastSeenCPosition"></param>
     abstract public void instantOnCurrentPositionWarnOfSouspiciousCheck();
+    /// <summary>
+    /// Verifica se entrare nello stato di "stayOnPositionSuspiciousAlert"
+    /// </summary>
+    abstract public void stayOnPositionSuspiciousCheck();
 }
