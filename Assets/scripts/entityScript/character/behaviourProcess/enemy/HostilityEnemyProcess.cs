@@ -35,7 +35,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
         if (_baseNPCBehaviour.isFocusAlarmCharacterVisible) {
-            manageAttackAction();
+            manageWeaponAction();
         }
 
 
@@ -100,11 +100,29 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
 
-    void manageAttackAction() {
+    private void manageWeaponAction() {
         // implementare nell'inventario is selected weapon empty
-            // implementare nell'inventario select first weapon non empty
 
-        _baseNPCBehaviour.characterInventoryManager.useSelectedWeapon();
+        
+
+        if(!_baseNPCBehaviour.characterInventoryManager.isSelectedWeaponEmpty) {
+
+            // fire
+            _baseNPCBehaviour.characterInventoryManager.useSelectedWeapon();
+
+        } else { // l'arma selezionata non ha munzioni disponibili
+
+            if(_baseNPCBehaviour.characterInventoryManager.isAllWeaponEmpty) {
+
+
+            } else {
+
+
+                _baseNPCBehaviour.characterInventoryManager.selectFirstWeaponWithAmmunition(); // selezionare con un po' di ritardo(?)
+            }
+        }
+
+
     }
 
 }

@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 780440991035246364}
+  interactableMeshEffect: {fileID: 0}
   _itemNameID: base_melee
   _getItemEventName: GET BASE MELEE
   getItemEvent:
@@ -149,7 +150,7 @@ MonoBehaviour:
   damageObject: {fileID: 3682149808839142542, guid: 69ad4c478fc2cf84aaf5182e835aca1a, type: 3}
   weaponType: 0
   _magazineCapacity: 28
-  _ammunition: 5
+  _ammunition: 0
   shootFrequency: 0.15
   _automaticWeapon: 0
   _silencedWeapon: 1
@@ -159,6 +160,9 @@ MonoBehaviour:
   weaponUsed: 0
   spawnDamageObjectParticleTransform: {fileID: 0}
   spawnDamageObjectParticle: {fileID: 0}
+  gunShootSound: {fileID: 0}
+  loudArea: {fileID: 0}
+  loudIntensity: 0
 --- !u!114 &780440991035246365
 MonoBehaviour:
   m_ObjectHideFlags: 0

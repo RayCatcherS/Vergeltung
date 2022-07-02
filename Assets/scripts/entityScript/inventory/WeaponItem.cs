@@ -62,7 +62,9 @@ public class WeaponItem : InventoryItem
             return result; 
        }
     }
-    
+    public bool isWeaponAmmunitionEmpty {
+        get { return _ammunition == 0 ? true : false; }
+    }
 
     [Header("Weapon effects")]
     [SerializeField] private Transform spawnDamageObjectParticleTransform;

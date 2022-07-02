@@ -93,6 +93,24 @@ public class InventoryManager : Interactable {
         }
     }
 
+    public bool isSelectedWeaponEmpty {
+        get { return weaponItems[_selectedWeapon].isWeaponAmmunitionEmpty; }
+    }
+    public bool isAllWeaponEmpty {
+        get {
+            bool result = true;
+
+            foreach(WeaponItem weapon in weaponItems) {
+                if(!weapon.isWeaponAmmunitionEmpty) {
+                    Debug.Log("WEAPON NOT EMPTY");
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
+        }
+    }
 
     public void Awake() {
         initDrawPlayerWeaponLineRendered();
@@ -699,5 +717,28 @@ public class InventoryManager : Interactable {
         
 
         return result;
+    }
+
+
+    /// <summary>
+    /// Seleziona la prima arma con munizioni
+    /// </summary>
+    public void selectFirstWeaponWithAmmunition() {
+
+
+        if(!isAllWeaponEmpty) {
+
+
+
+            for(int i = 0; i < weaponItems.Count; i++) {
+
+                if(!weaponItems[i].isWeaponAmmunitionEmpty) {
+
+                    Debug.Log("Select weapon");
+                    selectWeapon(i);
+                }
+            }
+        }
+        
     }
 }
