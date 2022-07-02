@@ -524,6 +524,8 @@ public class CharacterFOV : MonoBehaviour {
 
 
 
+    
+
     /// <summary>
     /// Il metodo controlla se un raggio riesce a raggiunge un altro character
     /// senza incontrare collisioni

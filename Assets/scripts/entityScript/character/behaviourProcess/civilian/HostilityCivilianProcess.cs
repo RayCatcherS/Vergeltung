@@ -11,6 +11,7 @@ public class HostilityCivilianProcess : BehaviourProcess {
     private CharacterManager _characterManager;
 
     public HostilityCivilianProcess(
+        Vector3 lastSeenFocusAlarmPosition,
         NavMeshAgent navMeshAgent,
         BaseNPCBehaviourManager baseNPCBehaviour,
         CharacterFOV characterFOV,
@@ -18,6 +19,8 @@ public class HostilityCivilianProcess : BehaviourProcess {
 
         bool checkedByHimselfHostility
     ) {
+        _lastSeenFocusAlarmPosition = lastSeenFocusAlarmPosition;
+
         _behaviourAgent = navMeshAgent;
         _baseNPCBehaviour = baseNPCBehaviour;
         _characterFOV = characterFOV;
@@ -70,7 +73,7 @@ public class HostilityCivilianProcess : BehaviourProcess {
                     if (isCharacterToNotifyPossibleToSee) {
 
 
-                        closerEnemyCharacterToWarn.warnOfSouspiciousCheck(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                        closerEnemyCharacterToWarn.warnOfSouspiciousCheck(_lastSeenFocusAlarmPosition);
                         isEnemyCharacterToWarnCalled = true;
                         _processTaskFinished = true;
 
@@ -86,7 +89,7 @@ public class HostilityCivilianProcess : BehaviourProcess {
         } else {
             _processTaskFinished = true;
 
-            _baseNPCBehaviour.rotateAndAimSuspiciousAndHostility();
+            _baseNPCBehaviour.rotateAndAimSuspiciousAndHostility(_lastSeenFocusAlarmPosition);
             _baseNPCBehaviour.stopAgent();
 
         }

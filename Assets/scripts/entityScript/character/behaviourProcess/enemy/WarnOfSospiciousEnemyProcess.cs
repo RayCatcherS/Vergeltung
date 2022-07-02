@@ -7,9 +7,12 @@ using UnityEngine.AI;
 public class WarnOfSospiciousEnemyProcess : BehaviourProcess {
 
     public WarnOfSospiciousEnemyProcess(
+        Vector3 lastSeenFocusAlarmPosition,
         NavMeshAgent behaviourAgent,
         BaseNPCBehaviourManager baseNPCBehaviour
     ) {
+        _lastSeenFocusAlarmPosition = lastSeenFocusAlarmPosition;
+
         _baseNPCBehaviour = baseNPCBehaviour;
         _behaviourAgent = behaviourAgent;
 
@@ -22,9 +25,9 @@ public class WarnOfSospiciousEnemyProcess : BehaviourProcess {
 
         _behaviourAgent.updateRotation = true; // ruota il character in base alla direzione da raggiungere
 
-        if (!_baseNPCBehaviour.isAgentReachedDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition)) {
+        if (!_baseNPCBehaviour.isAgentReachedDestination(_lastSeenFocusAlarmPosition)) {
 
-            _behaviourAgent.SetDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+            _behaviourAgent.SetDestination(_lastSeenFocusAlarmPosition);
 
             _behaviourAgent.isStopped = false;
             _baseNPCBehaviour.animateAndSpeedMovingAgent(agentSpeed: AgentSpeed.Run);

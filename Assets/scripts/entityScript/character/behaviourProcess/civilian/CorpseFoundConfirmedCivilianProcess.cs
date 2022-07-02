@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
 
@@ -10,12 +11,16 @@ public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
     private CharacterManager _characterManager;
 
     public CorpseFoundConfirmedCivilianProcess(
-        UnityEngine.AI.NavMeshAgent navMeshAgent,
+        Vector3 lastSeenFocusAlarmPosition,
+
+        NavMeshAgent navMeshAgent,
         BaseNPCBehaviourManager baseNPCBehaviour,
         CharacterFOV characterFOV,
         CharacterManager characterManager
 
     ) {
+        _lastSeenFocusAlarmPosition = lastSeenFocusAlarmPosition;
+
         _behaviourAgent = navMeshAgent;
         _baseNPCBehaviour = baseNPCBehaviour;
         _characterFOV = characterFOV;
@@ -68,7 +73,7 @@ public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
                     if (isCharacterToNotifyPossibleToSee) {
 
 
-                        closerEnemyCharacterToWarn.warnOfSouspiciousCheck(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                        closerEnemyCharacterToWarn.warnOfSouspiciousCheck(_lastSeenFocusAlarmPosition);
                         isEnemyCharacterToWarnCalled = true;
                         _processTaskFinished = true;
 
@@ -84,7 +89,7 @@ public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
         } else {
             _processTaskFinished = true;
 
-            _baseNPCBehaviour.rotateAndAimSuspiciousAndHostility();
+            _baseNPCBehaviour.rotateAndAimSuspiciousAndHostility(_lastSeenFocusAlarmPosition);
             _baseNPCBehaviour.stopAgent();
 
         }

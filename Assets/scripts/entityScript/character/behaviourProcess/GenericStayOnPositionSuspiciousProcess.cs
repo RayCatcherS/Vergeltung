@@ -6,9 +6,12 @@ using UnityEngine.AI;
 
 public class GenericStayOnPositionSuspiciousProcess : BehaviourProcess {
     public GenericStayOnPositionSuspiciousProcess(
+        Vector3 lastSeenFocusAlarmPosition,
         NavMeshAgent navMeshAgent,
         BaseNPCBehaviourManager baseNPCBehaviour
     ) {
+        _lastSeenFocusAlarmPosition = lastSeenFocusAlarmPosition;
+
         _behaviourAgent = navMeshAgent;
         _baseNPCBehaviour = baseNPCBehaviour;
 
@@ -29,10 +32,10 @@ public class GenericStayOnPositionSuspiciousProcess : BehaviourProcess {
                 
                 targetDirection = _baseNPCBehaviour.focusAlarmCharacter.transform.position - _baseNPCBehaviour.gameObject.transform.position;
 
-                _baseNPCBehaviour.lastSeenFocusAlarmPosition = _baseNPCBehaviour.focusAlarmCharacter.transform.position; // update lastSeen
+                _lastSeenFocusAlarmPosition = _baseNPCBehaviour.focusAlarmCharacter.transform.position; // update lastSeen
 
             } else {
-                targetDirection = _baseNPCBehaviour.lastSeenFocusAlarmPosition - _baseNPCBehaviour.gameObject.transform.position;
+                targetDirection = _lastSeenFocusAlarmPosition - _baseNPCBehaviour.gameObject.transform.position;
                 
             }
             _baseNPCBehaviour.characterMovement.rotateCharacter(new Vector2(targetDirection.x, targetDirection.z), false, rotationLerpSpeedValue: RotationLerpSpeedValue.fast);

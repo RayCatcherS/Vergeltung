@@ -10,10 +10,13 @@ public class HostilityEnemyProcess : BehaviourProcess {
     float distanceFromHostilityCharacter = 3f;
 
     public HostilityEnemyProcess(
+        Vector3 lastSeenFocusAlarmPosition,
         NavMeshAgent behaviourAgent,
         BaseNPCBehaviourManager baseNPCBehaviour,
         CharacterFOV characterFOV
     ) {
+        _lastSeenFocusAlarmPosition = lastSeenFocusAlarmPosition;
+
         _behaviourAgent = behaviourAgent;
         _baseNPCBehaviour = baseNPCBehaviour;
         _characterFOV = characterFOV;
@@ -28,7 +31,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
         onHostilityAlert();
 
 
-        _baseNPCBehaviour.rotateAndAimSuspiciousAndHostility();
+        _baseNPCBehaviour.rotateAndAimSuspiciousAndHostility(_lastSeenFocusAlarmPosition);
 
 
         if (_baseNPCBehaviour.isFocusAlarmCharacterVisible) {
@@ -36,14 +39,14 @@ public class HostilityEnemyProcess : BehaviourProcess {
         }
 
 
-        if (!_baseNPCBehaviour.isAgentReachedDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition)) {
+        if (!_baseNPCBehaviour.isAgentReachedDestination(_lastSeenFocusAlarmPosition)) {
 
             
             if (_baseNPCBehaviour.isFocusAlarmCharacterVisible) {
 
                 float distance = Vector3.Distance(_baseNPCBehaviour.gameObject.transform.position, _baseNPCBehaviour.focusAlarmCharacter.transform.position);
                 if(distance > distanceFromHostilityCharacter) {
-                    _behaviourAgent.SetDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                    _behaviourAgent.SetDestination(_lastSeenFocusAlarmPosition);
 
 
                     _behaviourAgent.isStopped = false;
@@ -53,7 +56,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
                     _baseNPCBehaviour.stopAgent();
                 }
             } else {
-                _behaviourAgent.SetDestination(_baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                _behaviourAgent.SetDestination(_lastSeenFocusAlarmPosition);
 
 
                 _behaviourAgent.isStopped = false;
@@ -86,7 +89,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
                 if (isCharacterToNotifyPossibleToSee) {
 
                     if(!character.Value.characterManager.isDead) {
-                        character.Value.hostilityCheck(_baseNPCBehaviour.focusAlarmCharacter, _baseNPCBehaviour.lastSeenFocusAlarmPosition);
+                        character.Value.hostilityCheck(_baseNPCBehaviour.focusAlarmCharacter, _lastSeenFocusAlarmPosition);
                     }
                 }
 

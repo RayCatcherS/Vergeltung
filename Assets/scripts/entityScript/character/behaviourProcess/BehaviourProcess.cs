@@ -5,10 +5,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class BehaviourProcess {
+    public delegate void Delegate();
+
     protected BaseNPCBehaviourManager _baseNPCBehaviour;
     protected NavMeshAgent _behaviourAgent;
+    protected Vector3 _lastSeenFocusAlarmPosition; // ultima posizione d'allarme comunicata
+    protected Delegate onProcessEnd; // evento da eseguire una volta che il processo è completo
 
     protected string processIdName = "";
+
 
     // global states
     protected bool _processTaskFinished = false;
@@ -30,5 +35,11 @@ public class BehaviourProcess {
     /// </summary>
     public virtual void initBehaviourProcess() {
 
+    }
+
+
+    // Cambia a run time la _lastSeenFocusAlarmPosition
+    public virtual void changeCurrentLastSeenFocusAlarmPosition(Vector3 newPos) {
+        _lastSeenFocusAlarmPosition = newPos;
     }
 }

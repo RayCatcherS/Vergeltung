@@ -87,8 +87,10 @@ public abstract class AbstractNPCBehaviour : MonoBehaviour
     abstract public void corpseFoundConfirmedCheck(CharacterManager seenDeadCharacter, Vector3 lastSeenCPosition);
     /// <summary>
     /// Verifica se entrare nello stato di "instantOnCurrentPositionWarnOfSouspiciousAlert"
+    /// 
+    /// La lastSeenCPosition verrà usata come primo punto da raggiungere
     /// </summary>
-    abstract public void instantOnCurrentPositionWarnOfSouspiciousCheck();
+    abstract public void instantOnCurrentPositionWarnOfSouspiciousCheck(Vector3 lastSeenCPosition);
     /// <summary>
     /// Verifica se entrare nello stato di "stayOnPositionSuspiciousAlert"
     /// </summary>

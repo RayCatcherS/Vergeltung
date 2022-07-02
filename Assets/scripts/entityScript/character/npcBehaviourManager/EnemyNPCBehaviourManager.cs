@@ -103,64 +103,72 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
 
 
-    protected override void startSuspiciousTimer() {
+    protected override void startSuspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         stopAgent();
 
         // start behaviour process
-        mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
+        mainBehaviourProcess = new GenericSuspiciousProcess(_lastSeenFocusAlarmPosition, _agent, this);
         simulateSearchingPlayerSubBehaviourProcess 
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager);
 
 
         suspiciousTimerLoop();
     }
-    protected override void startHostilityTimer(bool checkedByHimself) {
+    protected override void startHostilityTimer(Vector3 _lastSeenFocusAlarmPosition, bool checkedByHimself) {
         stopAgent();
 
         // start behaviour process
-        mainBehaviourProcess = new HostilityEnemyProcess(_agent, this, _characterFOV);
+        mainBehaviourProcess = new HostilityEnemyProcess(_lastSeenFocusAlarmPosition, _agent, this, _characterFOV);
         simulateSearchingPlayerSubBehaviourProcess
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager);
 
         hostilityTimerLoop();
     }
-    protected override void startWarnOfSouspiciousTimer() {
+    protected override void startWarnOfSouspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         stopAgent();
 
-        mainBehaviourProcess = new WarnOfSospiciousEnemyProcess(_agent, this);
+        mainBehaviourProcess = new WarnOfSospiciousEnemyProcess(_lastSeenFocusAlarmPosition, _agent, this);
         simulateSearchingPlayerSubBehaviourProcess
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager);
 
         warnOfSouspiciousTimerLoop();
     }
-    protected override void startSuspiciousCorpseFoundTimer() {
+    protected override void startSuspiciousCorpseFoundTimer(Vector3 _lastSeenFocusAlarmPosition) {
         stopAgent();
 
-        mainBehaviourProcess = new GenericSuspiciousCorpseFoundProcess(_agent, this);
+        mainBehaviourProcess = new GenericSuspiciousCorpseFoundProcess(_lastSeenFocusAlarmPosition, _agent, this);
 
         suspiciousCorpseFoundTimerLoop();
     }
-    protected override void startCorpseFoundConfirmedTimer() {
+    protected override void startCorpseFoundConfirmedTimer(Vector3 _lastSeenFocusAlarmPosition) {
         stopAgent();
 
-        mainBehaviourProcess = new CorpseFoundConfirmedEnemyProcess(_agent, this, _characterMovement);
+        mainBehaviourProcess = new CorpseFoundConfirmedEnemyProcess(_lastSeenFocusAlarmPosition, _agent, this, _characterMovement);
         simulateSearchingPlayerSubBehaviourProcess
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager);
 
         corpseFoundConfirmedTimerLoop();
     }
-    protected override void startInstantOnCurrentPositionWarnOfSouspiciousTimer() {
+    protected override void startInstantOnCurrentPositionWarnOfSouspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         stopAgent();
 
-        mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, areaRadius: 4, sampleToReach: 5, waitingOnPointTime: 0.5f);
+        mainBehaviourProcess = new MoveNPCBetweenRandomPointsProcess(
+            agent, this,
+            characterManager,
+            areaRadius: 4,
+            sampleToReach: 5,
+            waitingOnPointTime: 0.5f,
+            lastSeenFocusAlarmPosition: _lastSeenFocusAlarmPosition,
+            lastSeenFocusAlarmPositionIsFirstPoint: true
+        );
         mainBehaviourProcess.initBehaviourProcess();
 
         instantOnCurrentPositionWarnOfSouspiciousTimerLoopAsync();
     }
-    protected override void startStayOnPositionSuspiciousTimer() {
+    protected override void startStayOnPositionSuspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         stopAgent();
 
-        mainBehaviourProcess = new GenericStayOnPositionSuspiciousProcess(_agent, this);
+        mainBehaviourProcess = new GenericStayOnPositionSuspiciousProcess(_lastSeenFocusAlarmPosition, _agent, this);
         mainBehaviourProcess.initBehaviourProcess();
 
         stayOnPositionSuspiciousTimerLoopAsync();
@@ -168,17 +176,17 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
 
 
 
-    protected override void resetSuspiciousBehaviour() {
-        mainBehaviourProcess = new GenericSuspiciousProcess(_agent, this);
+    protected override void resetSuspiciousBehaviour(Vector3 _lastSeenFocusAlarmPosition) {
+        mainBehaviourProcess = new GenericSuspiciousProcess(_lastSeenFocusAlarmPosition, _agent, this);
         simulateSearchingPlayerSubBehaviourProcess
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, 7, 4, 1);
 
         // reset time of loop
         suspiciousTimerEndStateValue = Time.time + suspiciousTimerValue;
     }
-    protected override void resetHostilityBehaviour() {
+    protected override void resetHostilityBehaviour(Vector3 _lastSeenFocusAlarmPosition) {
 
-        mainBehaviourProcess = new HostilityEnemyProcess(_agent, this, _characterFOV);
+        mainBehaviourProcess = new HostilityEnemyProcess(_lastSeenFocusAlarmPosition, _agent, this, _characterFOV);
         simulateSearchingPlayerSubBehaviourProcess
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, 7, 4, 1);
 

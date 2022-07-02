@@ -250,12 +250,6 @@ public class CharacterManager : MonoBehaviour {
         if (characterHealth <= 0) {
             _isDead = true;
             killCharacterAsync(damageVelocity);
-        } else {
-
-            // se è un NPC avvia il behaviour check sull'aver ricevuto del danno
-            if (!isPlayer && !isDead) {
-                _baseNPCBehaviourManager.instantOnCurrentPositionWarnOfSouspiciousCheck();
-            }
         }
     }
 

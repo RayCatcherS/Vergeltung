@@ -71,7 +71,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public bool isFocusedAlarmCharacter {
         get{ return _isFocusedAlarmCharacter; }
     }
-    [SerializeField] public Vector3 lastSeenFocusAlarmPosition; // ultima posizione d'allarma comunicata al character
     protected bool _stopCharacterBehaviour = false; // comando che equivale a stoppare il character behaviour
     
     public bool stopCharacterBehaviour {
@@ -254,7 +253,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         }
 
     }
-
+    
 
     public delegate void Delegate();
     /// <summary>
@@ -262,7 +261,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// di allerta
     /// </summary>
     /// <param name="alertState"></param>
-    protected void setAlert(CharacterAlertState alertState, bool checkedByHimself, Delegate actionToExcuteOnChangeAlert = null) {
+    protected void setAlert(CharacterAlertState alertState, bool checkedByHimself, Delegate actionToExcuteOnChangeAlert = null, Vector3 lastSeenFocusAlarmPosition = new Vector3()) {
 
 
 
@@ -293,7 +292,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 stopInstantOnCurrentPositionWarnOfSouspiciousTimer();
                 stopStayOnPositionSuspiciousTimer();
 
-                startSuspiciousTimer();
+                startSuspiciousTimer(lastSeenFocusAlarmPosition);
 
                 // animation sign
                 resetAlertAnimatorTrigger();
@@ -310,7 +309,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             if (_characterState == CharacterAlertState.SuspiciousAlert && alertState == CharacterAlertState.SuspiciousAlert) {
                 
 
-                resetSuspiciousBehaviour();
+                resetSuspiciousBehaviour(lastSeenFocusAlarmPosition);
 
                 if(actionToExcuteOnChangeAlert != null) {
                     actionToExcuteOnChangeAlert();
@@ -341,7 +340,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 stopStayOnPositionSuspiciousTimer();
 
 
-                startHostilityTimer(checkedByHimself);
+                startHostilityTimer(lastSeenFocusAlarmPosition, checkedByHimself);
 
                 // animation sign
                 resetAlertAnimatorTrigger();
@@ -359,7 +358,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             if (_characterState == CharacterAlertState.HostilityAlert && alertState == CharacterAlertState.HostilityAlert) {
 
 
-                resetHostilityBehaviour();
+                resetHostilityBehaviour(lastSeenFocusAlarmPosition);
 
                 if(actionToExcuteOnChangeAlert != null) {
                     actionToExcuteOnChangeAlert();
@@ -373,7 +372,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
 
 
-                startWarnOfSouspiciousTimer();
+                startWarnOfSouspiciousTimer(lastSeenFocusAlarmPosition);
 
                 // animation sign
                 resetAlertAnimatorTrigger();
@@ -404,7 +403,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 stopInstantOnCurrentPositionWarnOfSouspiciousTimer(); // stop stato di warning
                 stopStayOnPositionSuspiciousTimer();
 
-                startSuspiciousCorpseFoundTimer();
+                startSuspiciousCorpseFoundTimer(lastSeenFocusAlarmPosition);
 
 
                 // animation sign
@@ -432,7 +431,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 stopSuspiciousCorpseFoundTimer();
 
 
-                startCorpseFoundConfirmedTimer();
+                startCorpseFoundConfirmedTimer(lastSeenFocusAlarmPosition);
 
 
                 // animation sign
@@ -463,7 +462,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 stopStayOnPositionSuspiciousTimer();
 
 
-                startInstantOnCurrentPositionWarnOfSouspiciousTimer();
+                startInstantOnCurrentPositionWarnOfSouspiciousTimer(lastSeenFocusAlarmPosition);
 
                 // animation sign
                 resetAlertAnimatorTrigger();
@@ -480,7 +479,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             if((_characterState == CharacterAlertState.Unalert) && alertState == CharacterAlertState.playerLoudRunAlert) {
                 
 
-                startStayOnPositionSuspiciousTimer();
+                startStayOnPositionSuspiciousTimer(lastSeenFocusAlarmPosition);
 
                 resetAlertAnimatorTrigger();
                 alertSignAnimator.SetTrigger("suspiciousAlert");
@@ -583,7 +582,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// posizione attuale del character se questo � sotto focus di [this]
     /// Inoltre aggiorna l'ultima posizione in cui � stato visto il focus Character
     /// </summary>
-    public void rotateAndAimSuspiciousAndHostility() {
+    public void rotateAndAimSuspiciousAndHostility(Vector3 lastSeenFocusAlarmPosition) {
         _agent.updateRotation = false;
 
         if (_isFocusedAlarmCharacter) {
@@ -683,15 +682,17 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 setAlert(CharacterAlertState.HostilityAlert, himselfCheck, 
                     () => {
                         focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-                        lastSeenFocusAlarmPosition = lastSeenCPosition;
-                    });
+                    },
+                    lastSeenFocusAlarmPosition: lastSeenCPosition
+                 );
             } else {
 
                 setAlert(CharacterAlertState.SuspiciousAlert, himselfCheck,
                     () => {
                         focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-                        lastSeenFocusAlarmPosition = lastSeenCPosition;
-                    });
+                    },
+                    lastSeenFocusAlarmPosition: lastSeenCPosition
+                );
             }
 
         }
@@ -720,14 +721,14 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
                 () => {
                     focusAlarmCharacter = seenCharacterManager; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-                    lastSeenFocusAlarmPosition = lastSeenCPosition;
 
                     // aggiungi character al dizionario dei character ostili ricercati
                     // se non è già contenuto nel dizionario dei character ostili ricercati
                     if(!_wantedHostileCharacters.ContainsKey(seenCharacterManager.GetInstanceID())) {
                         _wantedHostileCharacters.Add(seenCharacterManager.GetInstanceID(), seenCharacterManager);
                     }
-                }
+                },
+                lastSeenFocusAlarmPosition: lastSeenCPosition
             );
 
 
@@ -756,11 +757,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public override void warnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
 
         
-        setAlert(CharacterAlertState.WarnOfSuspiciousAlert, false, 
-        
-            () => {
-                lastSeenFocusAlarmPosition = lastSeenCPosition;
-            }
+        setAlert(CharacterAlertState.WarnOfSuspiciousAlert, false,
+            lastSeenFocusAlarmPosition: lastSeenCPosition
         );
 
     }
@@ -779,8 +777,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             
                 () => {
                     seenDeadCharacter.isBusyDeadAlarmCheck = true;
-                    lastSeenFocusAlarmPosition = lastSeenCPosition;
-                }
+                },
+                lastSeenFocusAlarmPosition: lastSeenCPosition
             );
         }
     }
@@ -798,22 +796,22 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
             
                 () => {
                     seenDeadCharacter.isBusyDeadAlarmCheck = true;
-                    lastSeenFocusAlarmPosition = lastSeenCPosition;
 
                     if(gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
                         seenDeadCharacter.isDeadCharacterMarked = true;
                     }
-                }
+                },
+                lastSeenFocusAlarmPosition: lastSeenCPosition
             );
         }
     }
     /// <summary>
     /// Metodo per verificare se [this] può chiamare il cambio di stato su SuspiciousHitReceived
     /// </summary>
-    public override void instantOnCurrentPositionWarnOfSouspiciousCheck() {
+    public override void instantOnCurrentPositionWarnOfSouspiciousCheck(Vector3 lastSeenCPosition) {
 
 
-        setAlert(CharacterAlertState.instantOnCurrentPositionWarnOfSouspiciousAlert, true);
+        setAlert(CharacterAlertState.instantOnCurrentPositionWarnOfSouspiciousAlert, true, lastSeenFocusAlarmPosition: lastSeenCPosition);
     }
 
     /// <summary>
@@ -822,24 +820,27 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public override void playerLoudRunSuspiciousCheck(CharacterManager characterThatStartAlarm, Vector3 lastSeenCPosition) {
 
 
-
-        //TODO if check se character non è visibile dalla prima zona FOV
-
         if(_characterState != CharacterAlertState.Unalert) {
 
             // se è in qualsiasi altro stato di allerta rispetto ad Unalert aggiorna la lastSeenFocusAlarmPosition
-            // in modo da deviare la ricerca o il cammino di alerBehv verso la fonte della Loud Area
+            // del processo attualmente in esecuzione in modo da deviare la ricerca o il cammino di alerBehv verso la fonte della Loud Area
             // generata dalla corsa del character
-            lastSeenFocusAlarmPosition = lastSeenCPosition;
+            mainBehaviourProcess.changeCurrentLastSeenFocusAlarmPosition(lastSeenCPosition);
+
+            if(simulateSearchingPlayerSubBehaviourProcess != null) {
+                simulateSearchingPlayerSubBehaviourProcess.changeCurrentLastSeenFocusAlarmPosition(lastSeenCPosition);
+            }
+            
 
         } else {
 
-            setAlert(CharacterAlertState.playerLoudRunAlert, true,
-
+            // altrimenti se il character è nello stato di unalert avvia lo stato playerLoudRunAlert
+            setAlert(
+                CharacterAlertState.playerLoudRunAlert, true,
                 () => {
                     focusAlarmCharacter = characterThatStartAlarm; // character che ha fatto cambiare lo stato dell'Base NPC Behaviour
-                    lastSeenFocusAlarmPosition = lastSeenCPosition;
-                }
+                },
+                lastSeenFocusAlarmPosition: lastSeenCPosition
             );
         }
 
@@ -847,7 +848,16 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         
     }
 
-    protected virtual void startCorpseFoundConfirmedTimer() {
+
+
+
+
+
+
+
+
+
+    protected virtual void startCorpseFoundConfirmedTimer(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
 
@@ -855,14 +865,14 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// <summary>
     /// Questa funzione avvia il startSuspiciousCorpseFoundTimerLoop
     /// </summary>
-    protected virtual void startSuspiciousCorpseFoundTimer() {
+    protected virtual void startSuspiciousCorpseFoundTimer(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
 
     /// <summary>
     /// Questa funzione avvia il warnOfSouspiciousTimerLoop
     /// </summary>
-    protected virtual void startWarnOfSouspiciousTimer() {
+    protected virtual void startWarnOfSouspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
     
@@ -871,7 +881,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// Questa funzione setta il punto di fine del suspiciousTimerLoop
     /// e avvia il suspiciousTimerLoop
     /// </summary>
-    protected virtual void startSuspiciousTimer() {
+    protected virtual void startSuspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
 
@@ -879,21 +889,21 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// Questa funzione setta il punto di fine del hostilityTimerEndStateValue
     /// e avvia il hostilityTimerLoop
     /// </summary>
-    protected virtual void startHostilityTimer(bool checkedByHimself) {
+    protected virtual void startHostilityTimer(Vector3 _lastSeenFocusAlarmPosition, bool checkedByHimself) {
         throw new System.NotImplementedException();
     }
     /// <summary>
     /// Questa funzione setta il punto di fine del InstantOnCurrentPositionWarnOfSouspiciousEndStateValue
     /// e avvia il hostilityTimerLoop
     /// </summary>
-    protected virtual void startInstantOnCurrentPositionWarnOfSouspiciousTimer() {
+    protected virtual void startInstantOnCurrentPositionWarnOfSouspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
     /// <summary>
     /// Questa funzione setta il punto di fine del InstantOnCurrentPositionWarnOfSouspiciousEndStateValue
     /// e avvia il hostilityTimerLoop
     /// </summary>
-    protected virtual void startStayOnPositionSuspiciousTimer() {
+    protected virtual void startStayOnPositionSuspiciousTimer(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
 
@@ -906,13 +916,13 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// <summary>
     /// Questa funzione resetta il punto di fine del suspiciousTimerEndStateValue usato nel loop suspiciousTimerLoop
     /// </summary>
-    protected virtual void resetSuspiciousBehaviour() {
+    protected virtual void resetSuspiciousBehaviour(Vector3 _lastSeenFocusAlarmPosition) {
         throw new System.NotImplementedException();
     }
     /// <summary>
     /// Questa funzione resetta il punto di fine del hostilityTimerEndStateValue usato nel loop hostilityTimerLoop
     /// </summary>
-    protected virtual void resetHostilityBehaviour() {
+    protected virtual void resetHostilityBehaviour(Vector3 _lastSeenFocusAlarmPosition) {
 
         throw new System.NotImplementedException();
     }

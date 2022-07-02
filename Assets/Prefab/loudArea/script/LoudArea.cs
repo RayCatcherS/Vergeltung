@@ -111,7 +111,7 @@ public class LoudArea : MonoBehaviour
             if (_intensity == LoudAreaType.low) {
 
                 foreach(BaseNPCBehaviourManager characters in allCharacters) {
-                    characters.instantOnCurrentPositionWarnOfSouspiciousCheck();
+                    characters.instantOnCurrentPositionWarnOfSouspiciousCheck(gameObject.transform.position);
                 }
 
 
