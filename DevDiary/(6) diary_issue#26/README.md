@@ -33,7 +33,7 @@ Questi metodi di check sono chiamati dall'istanza del componente FOV del charact
 
 ## lastSeenFocusAlarmPosition
 
-La **lastSeenFocusAlarmPosition** è una variabile Vector3(vettore posizione) e viene aggiornata dai metodi di check e rappresenta l'ultima posizione in cui qualcosa ha innescato un certo stato del character. Questa posizione verrà usata nell'esecuzione dei behaviour:
+La **lastSeenFocusAlarmPosition** è una variabile Vector3(vettore posizione) delle istanze dei **BehaviourProcess** e rappresenta l'ultima posizione in cui qualcosa ha innescato un certo stato del character. Questa posizione verrà aggiornata e usata durante l'esecuzione dei **BehaviourProcess**
 
 > ### Esempio 1:
 > Nel check degli stati **suspiciousCheck e hostilityCheck** la **lastSeenFocusAlarmPosition** rappresenta l'ultima posizione in cui il character è stato rilevato.s
@@ -151,11 +151,16 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 <p>&nbsp;</p>
 
 
-## SuspiciousHitReceivedAlert state e suspiciousHitReceivedAlertBehaviour
-> Questo behaviour viene attivato quando il character nemico riceve del danno e il suo stato è di **Unalert**. Nello stato di **SuspiciousHitReceivedAlert** Verrà simulato uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di unalert.
+## instantOnCurrentPositionWarnOfSouspiciousAlert state e instantOnCurrentPositionWarnOfSouspiciousAlertBehaviour
+> Questo behaviour viene attivato quando una **LoudArea** genera un suono di intensità bassa e il suo stato è di **Unalert**. Nello stato di **instantOnCurrentPositionWarnOfSouspiciousAlert** verrà simulato uno stato di indagine. Alla scadenza del timer del behaviour il character nemico tornerà nello stato di unalert.
 
 ![Image animator](suspiciousHitReceivedAlert.gif) 
 
+
+## playerLoudRunAlert state e playerLoudRunSuspiciousAlertBehaviour
+> Questo behaviour viene attivato quando il player correndo passa vicino ai characters e i characters sono nello stato di Unalert. Questo si insospettirà e restando fermo ruoterà verso il player. Questo permette di avvicinarsi ai characters solo se non si sta correndo ovvero in modo stealth. Quando il player corre emetterà delle Loud Area che faranno scaturire lo stato **playerLoudRunAlert** ai character vicini. Se il character allarmato perde di vista il character fisserà la **lastSeenFocusAlarmPosition**.
+
+![Image animator](playerLoudRunSuspiciousAlertBehaviour.gif) 
 
 <p>&nbsp;</p>
 
@@ -185,6 +190,9 @@ Dopo aver calcolato questi punti la **LoudArea** richiamerà la funzione **warnO
 
 ![Image animator](loudArea2.gif)
 
+La configurazione di questa LoudArea(bassa intensità) farà avviare al character l'**instantOnCurrentPositionWarnOfSouspiciousCheck** di cui la prima posizione raggiunta dal character sarà proprio la zona dove si è generata la LoudArea. Questo permetterà di eseguire la combo illustrata nella gif sotto.
+
+![Image animator](loudArea3.gif)
 
 <p>&nbsp;</p>
 
@@ -219,6 +227,8 @@ Gli NPC aumentano il loro secondo campo visivo più esterno(colore giallo) quand
 - SuspiciousHitReceivedAlert
 - MediumLoudSoundAlert
 
+## Correre vicino agli NPC durante gli stati di allerta
+Se il player correrà vicino agli NPC che sono in stato di allerta farà settare la loro **lastSeenFocusAlarmPosition** del **processBehaviour** in esecuzione in direzione della **LoudArea** generata dal player in corsa
 
 <p>&nbsp;</p>
 
