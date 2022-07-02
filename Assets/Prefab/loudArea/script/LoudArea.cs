@@ -8,8 +8,8 @@ using UnityEngine.AI;
 public enum LoudAreaType {
     nothing = 0,
     low = 5,
-    medium = 45,
-    high = 70,
+    medium = 36,
+    high = 60,
     characterLoudRun = 4
 }
 
@@ -23,7 +23,7 @@ public class LoudArea : MonoBehaviour
 
     [Header("Config")]
     [SerializeField] private LayerMask targetCharacterMask;
-    [SerializeField] private float _nearLoudArea = 4; // area in cui viene generato casualmente un punto da raggiungere
+    [SerializeField] private float _nearLoudAreaRange = 13; // area in cui viene generato casualmente un punto da raggiungere
     [SerializeField] private int _numberOfCharactersToCall = 2;
 
     // variabili non configurabili
@@ -193,7 +193,7 @@ public class LoudArea : MonoBehaviour
         while (nearSourceValue == Vector3.zero) {
 
             Vector3 randomPos = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y);
-            Vector3 randomPoint = gameObject.transform.position + randomPos * _nearLoudArea;
+            Vector3 randomPoint = gameObject.transform.position + randomPos * _nearLoudAreaRange;
 
             await Task.Yield();
 

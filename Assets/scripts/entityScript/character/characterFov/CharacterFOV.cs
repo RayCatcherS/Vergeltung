@@ -114,6 +114,24 @@ public class CharacterFOV : MonoBehaviour {
         StartCoroutine(cFOVRoutine());
     }
 
+    private IEnumerator cFOVRoutine() {
+
+        while(true) {
+            yield return new WaitForSeconds(fovCheckFrequency);
+            if(nPCBehaviour.characterBehaviourStopped) {
+                break;
+            }
+
+            if(!nPCBehaviour.characterManager.isDead) {
+                characterFirstFOVCheck();
+                characterSecondFOVCheck();
+            } else {
+                break;
+            }
+            
+        }
+    }
+
     private float getInfluencedSecondFovRadius() {
         float value = _defaultSecondFovRadius;
 
@@ -161,19 +179,6 @@ public class CharacterFOV : MonoBehaviour {
         }
 
         return value;
-    }
-
-    private IEnumerator cFOVRoutine() {
-
-        while(true) {
-            yield return new WaitForSeconds(fovCheckFrequency);
-            if (nPCBehaviour.characterBehaviourStopped) {
-                break;
-            }
-            
-            characterFirstFOVCheck();
-            characterSecondFOVCheck();
-        }
     }
 
 

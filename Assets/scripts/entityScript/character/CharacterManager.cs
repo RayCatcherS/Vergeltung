@@ -58,6 +58,11 @@ public class CharacterManager : MonoBehaviour {
         set { _isBusy = value; }
     }
 
+    [SerializeField] private bool _isInteractionsDisabled = false; // con questo stato il character è impegnato e non può muoversi
+    public bool isInteractionsDisabled {
+        get { return _isInteractionsDisabled; }
+    }
+
     [SerializeField] private bool _isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
     public bool isPlayer {
         get { return _isPlayer; }
@@ -377,9 +382,8 @@ public class CharacterManager : MonoBehaviour {
         } else { // ucciso character del warp stack
 
             _inventoryManager.weaponLineRenderer.enabled = false;
-            // reset character interactable objects
+            _isInteractionsDisabled = true;
             emptyAllInteractableDictionaryObjects();
-
             _playerWarpController.unstackDeadCharacterAndControlPreviewCharacter(this);
         }
 
@@ -404,7 +408,9 @@ public class CharacterManager : MonoBehaviour {
         }
         interactableObjects = new Dictionary<int, Interactable>();
         buildListOfInteraction();
+
     }
+
 
     public void resetCharacterStates() {
         isRunning = false;
@@ -412,28 +418,59 @@ public class CharacterManager : MonoBehaviour {
         isPickLocking = false;
     }
 
+    private void OnTriggerStay(Collider collision) {
 
+
+        if(isPlayer) {
+
+            if(!_isInteractionsDisabled) {
+                if(collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+
+                    InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+
+
+
+                    // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+                    // evita che collisioni multiple aggiungano la stessa key al dizionario
+                    if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                        interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                    }
+
+
+                    // rebuild lista interactions
+                    buildListOfInteraction();
+                }
+            }
+
+        }
+
+    }
     private void OnTriggerEnter(Collider collision) {
 
 
         if(isPlayer) {
-            if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+            if(!_isInteractionsDisabled) {
+                if(collision.gameObject.layer == INTERACTABLE_LAYER) {
 
 
-                InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+                    InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
 
-                // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
-                // evita che collisioni multiple aggiungano la stessa key al dizionario
-                if (!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
-                    interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                    // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+                    // evita che collisioni multiple aggiungano la stessa key al dizionario
+                    if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                        interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                    }
+
+
+                    // rebuild lista interactions
+                    buildListOfInteraction();
                 }
-
-
-                // rebuild lista interactions
-                buildListOfInteraction();
             }
+            
         }
         
     }

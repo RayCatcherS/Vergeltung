@@ -257,6 +257,7 @@ Se il player correrà vicino agli NPC che sono in stato di allerta farà settare
 ![Image animator](InstantAlert.gif)
 
 - Vari miglioramenti sulla NavMesh e sulla navigazione degli agent sulla mappa.
+- L'UI delle interaction viene rebuildata anche **OnTriggerStay** in modo da tenere aggiornato il dizionario delle interazioni effettuabili in tempo reale anche quando si è all'interno di una area trigger dell'interactable object.
 
 
 <p>&nbsp;</p>

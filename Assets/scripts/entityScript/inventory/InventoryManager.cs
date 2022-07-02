@@ -376,20 +376,22 @@ public class InventoryManager : Interactable {
     /// </summary>
     public void useSelectedWeapon() {
         
+        if(!characterManager.isBusy) {
+            if(_selectedWeapon != -1 && !isGunThroughWall() && !_weaponPuttedAway) {
 
-        if (_selectedWeapon != -1 && !isGunThroughWall() && !_weaponPuttedAway) {
+                Vector3 destinationPosition = drawAimWeaponLineRendered();
 
-            Vector3 destinationPosition = drawAimWeaponLineRendered();
-            
 
-            // builda UI solo se player
-            if (_characterManager.isPlayer) {
-                _weaponItems[_selectedWeapon].useItem(_characterManager, destinationPosition, gamePadVibration);
-                _characterManager.weaponUIController.buildUI(this);
-            } else {
-                _weaponItems[_selectedWeapon].useItem(_characterManager);
+                // builda UI solo se player
+                if(_characterManager.isPlayer) {
+                    _weaponItems[_selectedWeapon].useItem(_characterManager, destinationPosition, gamePadVibration);
+                    _characterManager.weaponUIController.buildUI(this);
+                } else {
+                    _weaponItems[_selectedWeapon].useItem(_characterManager);
+                }
             }
         }
+        
     }
 
     /// <summary>
