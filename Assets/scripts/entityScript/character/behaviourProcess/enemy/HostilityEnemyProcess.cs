@@ -35,7 +35,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
         if (_baseNPCBehaviour.isFocusAlarmCharacterVisible) {
-            _baseNPCBehaviour.characterInventoryManager.useSelectedWeapon();
+            manageAttackAction();
         }
 
 
@@ -95,6 +95,16 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
             }
         }
+    }
+
+
+
+
+    void manageAttackAction() {
+        // implementare nell'inventario is selected weapon empty
+            // implementare nell'inventario select first weapon non empty
+
+        _baseNPCBehaviour.characterInventoryManager.useSelectedWeapon();
     }
 
 }
