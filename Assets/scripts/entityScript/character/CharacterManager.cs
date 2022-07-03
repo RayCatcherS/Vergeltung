@@ -8,8 +8,9 @@ public class CharacterManager : MonoBehaviour {
 
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
-    [Header("References")]
+    
     private CharacterManager _aimedCharacter;
+    [Header("References")]
     [SerializeField] private Animator _characterAnimator;
     [SerializeField] private Outline _characterOutline; // outline character
     public Outline characterOutline {
@@ -25,21 +26,25 @@ public class CharacterManager : MonoBehaviour {
         get { return _baseNPCBehaviourManager; }
     }
     [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
-    [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
-    [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
-    [SerializeField] public AlarmAlertUIController alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
+    private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
+    private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
+    private AlarmAlertUIController _alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
+    public AlarmAlertUIController alarmAlertUIController {
+        get { return _alarmAlertUIController; }
+        set { _alarmAlertUIController = value; }
+    }
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
-    [SerializeField] private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
+    private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
     public GameState globalGameState {
         get { return _globalGameState; }
     }
-    [SerializeField] private SceneEntitiesController _sceneEntitiesController; // scene entities controller 
+    private SceneEntitiesController _sceneEntitiesController; // scene entities controller 
     public SceneEntitiesController sceneEntitiesController {
         get { return _sceneEntitiesController; }
     }
 
-    [SerializeField] private PlayerWarpController _playerWarpController;
+    private PlayerWarpController _playerWarpController;
     public PlayerWarpController playerWarpController {
         get { return _playerWarpController; }
     }
@@ -101,8 +106,6 @@ public class CharacterManager : MonoBehaviour {
     public Role chracterRole {
         get { return gameObject.GetComponent<CharacterRole>().role; }
     }
-
-    Vector3 _deadPosition = new Vector3();
 
 
 
@@ -546,9 +549,9 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public void rebuildUIProhibitedAreaIcon() {
         if (gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck()) {
-            alarmAlertUIController.potentialProhibitedAreaAlarmOn();
+            _alarmAlertUIController.potentialProhibitedAreaAlarmOn();
         } else {
-            alarmAlertUIController.potentialProhibitedAreaAlarmOff();
+            _alarmAlertUIController.potentialProhibitedAreaAlarmOff();
         }
     }
     public void discardCharacterAction() {
@@ -567,13 +570,8 @@ public class CharacterManager : MonoBehaviour {
         if (isDead) {
             
             if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
-                _deadPosition = hit.position;
-
-                pos = _deadPosition;
-            } else {
-
-                // nel caso in cui fallisse restituisce la posizione del character
-                pos = gameObject.transform.position;
+              
+                pos = hit.position;
             }
 
             
@@ -582,10 +580,6 @@ public class CharacterManager : MonoBehaviour {
             if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
 
                 pos = hit.position;
-            } else {
-
-                // nel caso in cui fallisse restituisce la posizione del character
-                pos = gameObject.transform.position;
             }
         }
 

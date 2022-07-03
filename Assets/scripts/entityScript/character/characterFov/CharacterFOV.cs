@@ -450,11 +450,9 @@ public class CharacterFOV : MonoBehaviour {
 
 
     private void onFirstFOVCanSeeCharacter(CharacterManager seenCharacter) {
+        Vector3 lastPosT = seenCharacter.getCharacterPositionReachebleByAgents();
 
-        float lastPosX = seenCharacter.getCharacterPositionReachebleByAgents().x;
-        float lastPosY = seenCharacter.getCharacterPositionReachebleByAgents().y;
-        float lastPosZ = seenCharacter.getCharacterPositionReachebleByAgents().z;
-        Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+        Vector3 lastPos = new Vector3(lastPosT.x, lastPosT.y, lastPosT.z);
 
         // i caracter che entrano nel primo fov verranno fissati se il npcBehaviour è nello stato di unalert
         if(nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
@@ -474,11 +472,9 @@ public class CharacterFOV : MonoBehaviour {
     private void onSecondFOVCanSeeCharacter(CharacterManager seenCharacter) {
 
         if(!firstFOVCanSeeCharacter) {
+            Vector3 lastPosT = seenCharacter.getCharacterPositionReachebleByAgents();
 
-            float lastPosX = seenCharacter.getCharacterPositionReachebleByAgents().x;
-            float lastPosY = seenCharacter.getCharacterPositionReachebleByAgents().y;
-            float lastPosZ = seenCharacter.getCharacterPositionReachebleByAgents().z;
-            Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+            Vector3 lastPos = new Vector3(lastPosT.x, lastPosT.y, lastPosT.z);
 
             
 
@@ -495,10 +491,9 @@ public class CharacterFOV : MonoBehaviour {
 
 
         if(!firstFOVCanSeeDeadCharacter) {
-            float lastPosX = seenDeadCharacter.getCharacterPositionReachebleByAgents().x;
-            float lastPosY = seenDeadCharacter.getCharacterPositionReachebleByAgents().y;
-            float lastPosZ = seenDeadCharacter.getCharacterPositionReachebleByAgents().z;
-            Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+            Vector3 lastPosT = seenDeadCharacter.getCharacterPositionReachebleByAgents();
+
+            Vector3 lastPos = new Vector3(lastPosT.x, lastPosT.y, lastPosT.z);
 
             if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
                 nPCBehaviour.suspiciousCorpseFoundCheck(seenDeadCharacter, lastPos);
@@ -511,11 +506,8 @@ public class CharacterFOV : MonoBehaviour {
     }
     private void onFirstFOVCanSeeDeadCharacter(CharacterManager seenDeadCharacter) {
 
-
-        float lastPosX = seenDeadCharacter.getCharacterPositionReachebleByAgents().x;
-        float lastPosY = seenDeadCharacter.getCharacterPositionReachebleByAgents().y;
-        float lastPosZ = seenDeadCharacter.getCharacterPositionReachebleByAgents().z;
-        Vector3 lastPos = new Vector3(lastPosX, lastPosY, lastPosZ);
+        Vector3 lastPosT = seenDeadCharacter.getCharacterPositionReachebleByAgents();
+        Vector3 lastPos = new Vector3(lastPosT.x, lastPosT.y, lastPosT.z);
 
         if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert ||
             nPCBehaviour.characterAlertState == CharacterAlertState.SuspiciousCorpseFoundAlert ||

@@ -87,7 +87,7 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
 
         while (_randomNavMeshPositions.Count < _sampleToReach) {
             Vector3 randomPos = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y);
-            Vector3 randomPoint = _characterManager.getCharacterPositionReachebleByAgents() + randomPos * _areaRadius;
+            Vector3 randomPoint = _characterManager.gameObject.transform.position + randomPos * _areaRadius;
 
             NavMeshPath navMeshPath = new NavMeshPath();
             NavMeshHit hit;
