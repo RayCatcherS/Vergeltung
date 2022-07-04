@@ -84,7 +84,7 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
                 attemps++;
                 
                 if(attemps > 15) {
-                    Debug.LogError("out of attemps 1, area: " + _areaRadius);
+                    Debug.LogError("out of attemps 1");
                     break;
                 }
             }
