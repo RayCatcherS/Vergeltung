@@ -211,6 +211,9 @@ I pallini viola illustrati rappresentano le posizioni generate che i character i
 
 ![Image animator](MoveNPCBetweenRandomPointsProcess2.gif)
 
+## Cadenza di tiro variabile
+I nemici quando apriranno il fuoco nei confronti di un character ostile lo faranno in modo non continuo. Ci saranno degli intervalli di tempo in cui non verrà aperto il fuoco, seguiti da intervalli di tempo in cui verrà aperto il fuoco, alternando queste due fasi. Questo consente di equilibrare la difficoltà di gioco, il giocatore non sarà costantemente sotto il fuoco nemico.
+
 ## Gli NPC ruotano verso il player quando vicini
 Il character player verrà fissato dagli altri character che non sono in uno stato di allarme se il character passerà vicino al loro campo visivo ravvicinato.
 

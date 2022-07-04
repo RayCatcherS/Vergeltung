@@ -130,13 +130,13 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
     private float offFireEndTime = -1; // tempo di end in cui l'arma non spara
-    private const float offFireMinRange = 0.35f;
-    private const float offFireMaxRange = 0.7f;
+    private const float offFireMinRange = 0.4f;
+    private const float offFireMaxRange = 1.35f;
     private bool offFireTurn = false;
 
     private float onFireEndTime = -1; // tempo di end in cui l'arma spara
-    private const float onFireMinRange = 0.15f;
-    private const float onFireMaxRange = 0.25f;
+    private const float onFireMinRange = 0.05f;
+    private const float onFireMaxRange = 0.4f;
     private bool onFireTurn = false;
 
     private void manageFire() {
