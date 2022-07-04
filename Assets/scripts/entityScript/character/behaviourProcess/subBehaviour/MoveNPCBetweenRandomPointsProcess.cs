@@ -63,21 +63,29 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
     public override void initBehaviourProcess() {
         _randomNavMeshPositions = new List<Vector3>();
 
-
+        int attemps = 0;
         // se la prima posizione è la lastSeenFocusAlarmPosition
         if(_lastSeenFocusAlarmPositionIsFirstPoint) {
             Vector3 firstPos = Vector3.zero;
 
+            
             while(firstPos == Vector3.zero) {
 
                 NavMeshPath navMeshPath = new NavMeshPath();
                 NavMeshHit hit;
-                if(NavMesh.SamplePosition(_lastSeenFocusAlarmPosition, out hit, _areaRadius, NavMesh.AllAreas)) {
+                if(NavMesh.SamplePosition(_lastSeenFocusAlarmPosition, out hit, 10, NavMesh.AllAreas)) {
 
                     if(_behaviourAgent.CalculatePath(hit.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete) {
                         firstPos = hit.position;
                     }
 
+                }
+
+                attemps++;
+                
+                if(attemps > 15) {
+                    Debug.LogError("out of attemps 1, area: " + _areaRadius);
+                    break;
                 }
             }
 
@@ -85,6 +93,7 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
             
         }
 
+        attemps = 0;
         while (_randomNavMeshPositions.Count < _sampleToReach) {
             Vector3 randomPos = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y);
             Vector3 randomPoint = _characterManager.gameObject.transform.position + randomPos * _areaRadius;
@@ -92,12 +101,18 @@ public class MoveNPCBetweenRandomPointsProcess : BehaviourProcess {
             NavMeshPath navMeshPath = new NavMeshPath();
             NavMeshHit hit;
 
-            if (NavMesh.SamplePosition(randomPoint, out hit, _areaRadius, NavMesh.AllAreas)) {
+            if (NavMesh.SamplePosition(randomPoint, out hit, 10, NavMesh.AllAreas)) {
 
                 if (_behaviourAgent.CalculatePath(hit.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete) {
                     _randomNavMeshPositions.Add(hit.position);
                 }
 
+            }
+            attemps++;
+
+            if(attemps > 15) {
+                Debug.LogError("out of attemps 2");
+                break;
             }
         }
     }

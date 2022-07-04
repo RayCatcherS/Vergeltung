@@ -56,6 +56,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
                     _baseNPCBehaviour.stopAgent();
                 }
             } else {
+                resetFireState();
                 _behaviourAgent.SetDestination(_lastSeenFocusAlarmPosition);
 
 
@@ -99,7 +100,9 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
 
-
+    /// <summary>
+    /// Seleziona la prima arma utilizzabile(che ha delle munzioni)
+    /// </summary>
     private void manageWeaponAction() {
         // implementare nell'inventario is selected weapon empty
 
@@ -108,7 +111,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
         if(!_baseNPCBehaviour.characterInventoryManager.isSelectedWeaponEmpty) {
 
             // fire
-            _baseNPCBehaviour.characterInventoryManager.useSelectedWeapon();
+            manageFire();
 
         } else { // l'arma selezionata non ha munzioni disponibili
 
@@ -125,4 +128,75 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
     }
 
+
+    private float offFireEndTime = -1; // tempo di end in cui l'arma non spara
+    private const float offFireMinRange = 0.35f;
+    private const float offFireMaxRange = 0.7f;
+    private bool offFireTurn = false;
+
+    private float onFireEndTime = -1; // tempo di end in cui l'arma spara
+    private const float onFireMinRange = 0.15f;
+    private const float onFireMaxRange = 0.25f;
+    private bool onFireTurn = false;
+
+    private void manageFire() {
+
+        // off fire end time not initialized
+        if(offFireEndTime == -1) {
+            onFireTurn = false;
+
+            setOffFireEnd();
+            offFireTurn = true;
+        }
+
+
+        // off fire ended?
+        if(offFireTurn) {
+            if(offFireEndTime < Time.time) {
+                offFireTurn = false;
+
+                setOnFireEnd();
+                onFireTurn = true;
+            }
+        }
+        
+
+        // on fire ended? => start of fire
+        if(onFireTurn) {
+            if(onFireEndTime < Time.time) {
+                onFireTurn = false;
+
+                setOffFireEnd();
+                offFireTurn = true;
+            }
+        }
+        
+
+
+        if(onFireTurn) {
+            _baseNPCBehaviour.characterInventoryManager.useSelectedWeapon();
+        }
+        
+    }
+
+    void setOffFireEnd() {
+        
+        offFireEndTime = Time.time + Random.Range(offFireMinRange, offFireMaxRange);
+    }
+
+    void setOnFireEnd() {
+        onFireEndTime = Time.time + Random.Range(onFireMinRange, onFireMaxRange);
+    }
+
+    private void resetFireState() {
+        offFireEndTime = -1;
+        onFireEndTime = -1;
+
+        offFireTurn = false;
+        onFireTurn = false;
+    }
+
+    public override void resetProcess() {
+        _processTaskFinished = false;
+    }
 }

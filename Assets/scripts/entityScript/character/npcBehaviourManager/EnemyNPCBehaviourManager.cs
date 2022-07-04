@@ -116,7 +116,6 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
     }
     protected override void startHostilityTimer(Vector3 _lastSeenFocusAlarmPosition, bool checkedByHimself) {
         stopAgent();
-
         // start behaviour process
         mainBehaviourProcess = new HostilityEnemyProcess(_lastSeenFocusAlarmPosition, _agent, this, _characterFOV);
         simulateSearchingPlayerSubBehaviourProcess
@@ -186,7 +185,8 @@ public class EnemyNPCBehaviourManager : BaseNPCBehaviourManager {
     }
     protected override void resetHostilityBehaviour(Vector3 _lastSeenFocusAlarmPosition) {
 
-        mainBehaviourProcess = new HostilityEnemyProcess(_lastSeenFocusAlarmPosition, _agent, this, _characterFOV);
+        mainBehaviourProcess.changeCurrentLastSeenFocusAlarmPosition(_lastSeenFocusAlarmPosition);
+        mainBehaviourProcess.resetProcess();
         simulateSearchingPlayerSubBehaviourProcess
             = new MoveNPCBetweenRandomPointsProcess(agent, this, characterManager, 7, 4, 1);
 

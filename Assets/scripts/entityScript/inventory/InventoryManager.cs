@@ -102,7 +102,6 @@ public class InventoryManager : Interactable {
 
             foreach(WeaponItem weapon in weaponItems) {
                 if(!weapon.isWeaponAmmunitionEmpty) {
-                    Debug.Log("WEAPON NOT EMPTY");
                     result = false;
                     break;
                 }

@@ -42,4 +42,8 @@ public class BehaviourProcess {
     public virtual void changeCurrentLastSeenFocusAlarmPosition(Vector3 newPos) {
         _lastSeenFocusAlarmPosition = newPos;
     }
+
+    public virtual void resetProcess() {
+
+    }
 }
