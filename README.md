@@ -26,10 +26,11 @@ Latest build
 </a>
 
 ## Devlog
-- [2 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
-- [3 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
-- [4 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)
-- [5 Capitolo](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
+- [2 Capitolo(Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
+- [3 Capitolo(LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
+- [4 Capitolo(FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)
+- [5 Capitolo(UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
+- [6 Capitolo(AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)
 
 ## Team
 Sviluppatore: [``Stefano Romanelli``](https://github.com/RayCatcherS)
