@@ -421,34 +421,7 @@ public class CharacterManager : MonoBehaviour {
         isPickLocking = false;
     }
 
-    private void OnTriggerStay(Collider collision) {
-
-
-        if(isPlayer) {
-
-            if(!_isInteractionsDisabled) {
-                if(collision.gameObject.layer == INTERACTABLE_LAYER) {
-
-
-                    InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
-
-
-
-                    // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
-                    // evita che collisioni multiple aggiungano la stessa key al dizionario
-                    if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
-                        interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
-                    }
-
-
-                    // rebuild lista interactions
-                    buildListOfInteraction();
-                }
-            }
-
-        }
-
-    }
+    
     private void OnTriggerEnter(Collider collision) {
 
 
