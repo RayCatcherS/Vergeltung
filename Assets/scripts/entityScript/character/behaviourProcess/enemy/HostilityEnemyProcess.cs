@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class HostilityEnemyProcess : BehaviourProcess {
 
     CharacterFOV _characterFOV;
-    float distanceFromHostilityCharacter = 3f;
+    float distanceFromHostilityCharacter = 4f;
 
     public HostilityEnemyProcess(
         Vector3 lastSeenFocusAlarmPosition,
@@ -61,7 +61,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
                 _behaviourAgent.isStopped = false;
-                _baseNPCBehaviour.animateAndSpeedMovingAgent();
+                _baseNPCBehaviour.animateAndSpeedMovingAgent(AgentSpeed.Run);
 
                 _processTaskFinished = false;
             }
