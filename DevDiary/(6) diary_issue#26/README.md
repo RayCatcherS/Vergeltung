@@ -158,7 +158,7 @@ Questo è un nuovo stato di allerta e ha meno priorità degli stati **HostilityA
 
 
 ## playerLoudRunAlert state e playerLoudRunSuspiciousAlertBehaviour
-> Questo behaviour viene attivato quando il player correndo passa vicino ai characters e i characters sono nello stato di Unalert. Questo si insospettirà e restando fermo ruoterà verso il player. Questo permette di avvicinarsi ai characters solo se non si sta correndo ovvero in modo stealth. Quando il player corre emetterà delle Loud Area che faranno scaturire lo stato **playerLoudRunAlert** ai character vicini. Se il character allarmato perde di vista il character fisserà la **lastSeenFocusAlarmPosition**.
+> Questo behaviour viene attivato quando il player correndo passa vicino ai characters e i characters sono nello stato di Unalert. Questo si insospettirà e restando fermo ruoterà verso il player. Questo permette di avvicinarsi ai characters solo se non si sta correndo ovvero in modo stealth. Quando il player corre emetterà delle Loud Area che faranno scaturire lo stato **playerLoudRunAlert** ai character vicini. Se il character allarmato perde di vista il character fisserà la **lastSeenFocusAlarmPosition**. Questo behaviour verrà attivato solo se non c'è un collider tra il character e la loudArea.
 
 ![Image animator](playerLoudRunSuspiciousAlertBehaviour.gif) 
 
@@ -231,7 +231,7 @@ Gli NPC aumentano il loro secondo campo visivo più esterno(colore giallo) quand
 - MediumLoudSoundAlert
 
 ## Correre vicino agli NPC durante gli stati di allerta
-Se il player correrà vicino agli NPC che sono in stato di allerta farà settare la loro **lastSeenFocusAlarmPosition** del **processBehaviour** in esecuzione in direzione della **LoudArea** generata dal player in corsa
+Se il player correrà vicino agli NPC che sono in stato di allerta farà settare la loro **lastSeenFocusAlarmPosition** del **processBehaviour** in esecuzione in direzione della **LoudArea** generata dal player in corsa, questo farà raggiungere immediatamente la loudArea generata dal player.
 
 <p>&nbsp;</p>
 

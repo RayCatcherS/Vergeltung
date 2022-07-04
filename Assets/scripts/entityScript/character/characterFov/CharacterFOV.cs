@@ -521,29 +521,56 @@ public class CharacterFOV : MonoBehaviour {
 
 
 
-    
+
 
     /// <summary>
-    /// Il metodo controlla se un raggio riesce a raggiunge un altro character
+    /// /// Il metodo controlla se un raggio riesce a raggiunge un altro character
     /// senza incontrare collisioni
+    /// 
+    /// Oppure se si inserisce 
+    /// 
     /// </summary>
+    /// <param name="characterToReach"></param>
+    /// <param name="positionToReach"></param>
     /// <returns></returns>
-    public bool isCharacterReachableBy(CharacterFOV characterToReach) {
+    public bool canCharacterReachableBy(CharacterFOV characterToReach = null, Vector3 positionToReach = new Vector3()) {
         bool res = false;
         RaycastHit hit;
 
         disableCharacterCollider();
-        if (Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ALL_LAYERS, QueryTriggerInteraction.Ignore)) {
+        if(characterToReach != null) {
+            Debug.Log("TRY TO REACH 1");
+            if(Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ~(1 << CHARACTER_LAYERS), QueryTriggerInteraction.Ignore)) {
 
-            if (hit.collider != null) {
-                res = false;
+                if(hit.collider != null) {
+                    res = false;
 
+                } else {
+                    res = true;
+                }
             } else {
                 res = true;
             }
-        } else {
-            res = true;
         }
+
+        if(positionToReach != Vector3.zero) {
+            Debug.Log("TRY TO REACH 2");
+            if(Physics.Linecast(reachableTarget.position, positionToReach, out hit, ~(1 << CHARACTER_LAYERS), QueryTriggerInteraction.Ignore)) {
+
+
+                if(hit.collider != null) {
+                    res = false;
+                    Debug.Log("TRY TO REACH 2.1");
+                } else {
+                    res = true;
+                    Debug.Log("TRY TO REACH 2.2");
+                }
+            } else {
+                res = true;
+                Debug.Log("TRY TO REACH 2.3");
+            }
+        }
+
         enableCharacterCollider();
 
         return res;

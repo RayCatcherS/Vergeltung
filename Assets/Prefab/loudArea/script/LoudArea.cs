@@ -118,11 +118,14 @@ public class LoudArea : MonoBehaviour
             } else if(_intensity == LoudAreaType.characterLoudRun) { // loud area generata dalla corsa di un character
 
                 if(_characterThatGenerateLA != null) {
-                    foreach(BaseNPCBehaviourManager characters in allCharacters) {
-                        characters.playerLoudRunSuspiciousCheck(
-                            _characterThatGenerateLA,
-                            gameObject.transform.position
-                        );
+                    foreach(BaseNPCBehaviourManager character in allCharacters) {
+                        if(character.characterFOV.canCharacterReachableBy(positionToReach: gameObject.transform.position)) {
+                                character.playerLoudRunSuspiciousCheck(
+                                _characterThatGenerateLA,
+                                gameObject.transform.position
+                            );
+                        }
+                        
                     }
                 }
 

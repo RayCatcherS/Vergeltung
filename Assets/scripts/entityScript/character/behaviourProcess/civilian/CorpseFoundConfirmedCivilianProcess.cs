@@ -65,7 +65,7 @@ public class CorpseFoundConfirmedCivilianProcess : BehaviourProcess {
                 if (!isEnemyCharacterToWarnCalled) {
 
 
-                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                    bool isCharacterToNotifyPossibleToSee = _characterFOV.canCharacterReachableBy(
                         closerEnemyCharacterToWarn.characterFOV
                     );
 

@@ -84,7 +84,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
             foreach (var character in characters) {
 
-                bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                bool isCharacterToNotifyPossibleToSee = _characterFOV.canCharacterReachableBy(
                     character.Value.characterFOV);
 
                 if (isCharacterToNotifyPossibleToSee) {

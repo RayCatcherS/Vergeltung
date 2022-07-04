@@ -65,7 +65,7 @@ public class HostilityCivilianProcess : BehaviourProcess {
 
 
 
-                    bool isCharacterToNotifyPossibleToSee = _characterFOV.isCharacterReachableBy(
+                    bool isCharacterToNotifyPossibleToSee = _characterFOV.canCharacterReachableBy(
                         closerEnemyCharacterToWarn.characterFOV
                     );
 
