@@ -73,7 +73,14 @@ public class PlayerInputController : MonoBehaviour
     private void Update() {
 
         if(!_characterManager.isDead) {
-            moveAndRotateInput();
+
+            if(!_characterManager.isBusy) {
+                moveAndRotateInput();
+                
+            } else {
+                
+                _characterMovement.stopCharacter();
+            }
             inventaryInput();
             onDiscardPressed();
         }
@@ -108,7 +115,7 @@ public class PlayerInputController : MonoBehaviour
         // disabilita [isRun] se il magnitude dell'input [vec2Movement]
         // l'analogico movimento si avvicina al centro [vec2Movement.magnitude < 0.75f]
         // oppure se viene usato l'analogico per la rotazione [vec2Rotation.magnitude > 0]
-        if (vec2Movement.magnitude < 0.75f || vec2Rotation.magnitude > 0) {
+        if (vec2Movement.magnitude < 0.9f || vec2Rotation.magnitude > 0) {
 
             isRunPressed = false;
         }
@@ -122,7 +129,7 @@ public class PlayerInputController : MonoBehaviour
 
             characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
-            characterMovement.rotateCharacter(vec2Rotation, isRunPressed, false);
+            characterMovement.rotateCharacter(vec2Rotation, true);
         }
     }
 

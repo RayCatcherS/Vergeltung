@@ -39,7 +39,7 @@ public class InteractionUIController : MonoBehaviour
 
         for (int i = 0; i < interactionList.Count; i++) {
 
-            interactionList[i].getInteractable().unFocusInteractable(); // unfocus dell'oggetto buildato
+            interactionList[i].getInteractable().unFocusInteractableOutline(); // unfocus dell'oggetto buildato
 
             // istanzia bottone interaction
             GameObject newButton = Instantiate(interactionButtonPrefab);

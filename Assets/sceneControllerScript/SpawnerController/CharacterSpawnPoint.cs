@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -16,6 +15,10 @@ public class CharacterSpawnPoint : MonoBehaviour {
     [SerializeField] private bool _flashlightTaken = false;
     public bool flashlightTaken {
         get { return _flashlightTaken; }
+    }
+    [SerializeField] private bool _weaponPuttedAwayOnStart = false;
+    public bool weaponPuttedAwayOnStart {
+        get { return _weaponPuttedAwayOnStart; }
     }
 
     // getter

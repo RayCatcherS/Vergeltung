@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RagdollManager : MonoBehaviour
-{
+public class RagdollManager : MonoBehaviour {
     const int RAGDOLL_BONE_LAYER = 15;
 
     [SerializeField] private List<GameObject> ragdollBones;
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
+    [SerializeField] private Rigidbody _ragdollHips;
+    public Rigidbody ragdollHips {
+        get { return _ragdollHips; }
+    }
+
+    // transform dei target usati dai fov per essere raggiunti tramite linecast
+    // usati per confermare la visualizzazione di un cadavere
+    [SerializeField] private List<Transform> _deadCharacterTargetTransform;
+    public List<Transform> deadCharacterTargetTransform {
+        get { return _deadCharacterTargetTransform; }
+    }
+
 
     void Start()
     {

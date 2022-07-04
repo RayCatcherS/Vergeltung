@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Threading.Tasks;
+using UnityEngine.AI;
+using System;
 
 public class ActivityTask : MonoBehaviour
 {
@@ -48,7 +50,7 @@ public class ActivityTask : MonoBehaviour
     /// <param name="character">CharacterManager che avvia l'interaction e che ne subisce l'influenza</param>
     /// <param name="nPCBehaviour">BaseNPCBehaviour viene usato per monitorare lo stato di allerta durante il task</param>
     /// <returns></returns>
-    public async Task executeTask(CharacterManager character, BaseNPCBehaviour nPCBehaviour) {
+    public async Task executeTask(CharacterManager character, BaseNPCBehaviourManager nPCBehaviour, CharacterMovement characterMovement, Action executeDuringTask = null) {
 
         character.isBusy = true;
         
@@ -58,16 +60,32 @@ public class ActivityTask : MonoBehaviour
         }
 
 
+
+
+        // setta tempo fine timing
         float end = Time.time + taskTiming;
         while (Time.time < end) {
 
-            if(nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
+            if(executeDuringTask != null) {
+                executeDuringTask();
+            }
+
+            
+
+            // interrompi il task se lo stato di allerta non è più [CharacterAlertState.Unalert]
+            if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
                 await Task.Yield();
             } else {
 
                 Debug.Log("Interruzione task, allerta!");
                 break;
             }
+
+            if(nPCBehaviour.stopCharacterBehaviour) {
+                Debug.Log("Interruzione task, stop character beahviour!");
+                break;
+            }
+
             
         }
         
@@ -80,16 +98,23 @@ public class ActivityTask : MonoBehaviour
 
 
     private void initTaskDestination() {
-        RaycastHit raycastHit;
 
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
 
-        if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, 100)) {
-            taskDestination = raycastHit.point;
+            taskDestination = hit.position;
         }
     }
 
     public Vector3 getTaskDestination() {
         return taskDestination;
+    }
+
+    public Vector2 getTaskDirection() {
+       return new Vector2(
+            Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
+            Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
+        );
     }
 
 #if UNITY_EDITOR
@@ -120,7 +145,7 @@ public class ActivityTask : MonoBehaviour
 
             Gizmos.color = Color.blue;
 
-            Gizmos.DrawWireCube(transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+            Gizmos.DrawWireCube(transform.position, new Vector3(1f, 1f, 1f));
 
 
             if(taskDestination != Vector3.zero) {
@@ -128,11 +153,20 @@ public class ActivityTask : MonoBehaviour
                 Gizmos.DrawLine(transform.position, taskDestination);
                 Gizmos.DrawSphere(taskDestination, 0.25f);
             }
+
+
+            // indica la direzione dello spawn
+            Handles.DrawLine(
+                transform.position,
+                transform.position + new Vector3(
+                    Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
+                    0,
+                    Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
+                ),
+                5
+            );
         }
 
-
-
-        
     }
 #endif
 }

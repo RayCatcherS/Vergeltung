@@ -1,58 +1,117 @@
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
     private const int INTERACTABLE_LAYER = 3;
-    private const int CHARACTER_AREA_LAYER = 16;
 
 
     private Dictionary<int, Interactable> interactableObjects = new Dictionary<int, Interactable>(); // dizionario Interactable ottenuti dagli onTrigger degli 
 
+    
+    private CharacterManager _aimedCharacter;
     [Header("References")]
-    [SerializeField] private CharacterManager _aimedCharacter;
     [SerializeField] private Animator _characterAnimator;
     [SerializeField] private Outline _characterOutline; // outline character
     public Outline characterOutline {
         get { return _characterOutline; }
     }
-    [SerializeField] private CharacterFOV characterFOV; // componente fov del character
+    [SerializeField] private CharacterFOV _characterFOV; // componente fov del character
+    public CharacterFOV characterFOV {
+        get { return _characterFOV; }
+    }
     [SerializeField] private CharacterMovement characterMovement;
+    [SerializeField] private BaseNPCBehaviourManager _baseNPCBehaviourManager;
+    public BaseNPCBehaviourManager baseNPCBehaviourManager {
+        get { return _baseNPCBehaviourManager; }
+    }
     [SerializeField] private TimedInteractionSliderManager timedInteractionSliderManager; // manager slider ui dei timer interaction
-    [SerializeField] private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
-    [SerializeField] private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
-    [SerializeField] public AlarmAlertUIController alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
+    private InteractionUIController _interactionUIController; // controller per interagire con l'UI delle interazioni
+    private WeaponUIController _weaponUIController; // ref controller per visualizzare l'UI delle armi
+    private AlarmAlertUIController _alarmAlertUIController; // ref controller per visualizzare stati di allerta UI
+    public AlarmAlertUIController alarmAlertUIController {
+        get { return _alarmAlertUIController; }
+        set { _alarmAlertUIController = value; }
+    }
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
-    [SerializeField] private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
+    private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
     public GameState globalGameState {
         get { return _globalGameState; }
     }
+    private SceneEntitiesController _sceneEntitiesController; // scene entities controller 
+    public SceneEntitiesController sceneEntitiesController {
+        get { return _sceneEntitiesController; }
+    }
+
+    private PlayerWarpController _playerWarpController;
+    public PlayerWarpController playerWarpController {
+        get { return _playerWarpController; }
+    }
+    [SerializeField] private GameObject characterDecalProjectorEffect;
+
     // stati del player
     [Header("Character States")]
-    [SerializeField] public bool isRunning = false;
-    [SerializeField] public bool isBusy = false;
-    [SerializeField] public bool isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
-    [SerializeField] public bool isDead = false;
-    [SerializeField] public bool isPickLocking = false; // stato che rappresenta se il character sta scassinando
+    [SerializeField] private bool _isRunning = false;
+    public bool isRunning {
+        get { return _isRunning; }
+        set { _isRunning = value; }
+    }
+    [SerializeField] private bool _isBusy = false; // con questo stato il character è impegnato e non può muoversi
+    public bool isBusy {
+        get { return _isBusy; }
+        set { _isBusy = value; }
+    }
 
-    [SerializeField] private bool _isTimedInteractionProcessing = false; // con questo stato il character è impegnato e non pu
-    public bool isTimedInteractionProcessing {
-        get { return _isTimedInteractionProcessing; }
+    [SerializeField] private bool _isInteractionsDisabled = false; // con questo stato il character è impegnato e non può muoversi
+    public bool isInteractionsDisabled {
+        get { return _isInteractionsDisabled; }
+    }
+
+    [SerializeField] private bool _isPlayer = false; // tiene conto se il character è attualmente controllato dal giocatore
+    public bool isPlayer {
+        get { return _isPlayer; }
+        set { _isPlayer = value; }
+    }
+    [SerializeField] private bool _isDead = false;
+    public bool isDead {
+        get { return _isDead; }
+    }
+    [SerializeField] private bool _isPickLocking = false; // stato che rappresenta se il character sta scassinando
+    public bool isPickLocking {
+        get { return _isPickLocking; }
+        set { _isPickLocking = value; }
+    }
+    [SerializeField] private bool _isTarget = false; // indica se è un obiettivo del gioco(e quindi va ucciso)
+    public bool isTarget {
+        get { return _isTarget; }
+    }
+
+    // indica se qualcuno si è allarmato trovando il cadavere
+    // evita che più persone contemporaneamente si avvicinino al cadavere
+    private bool _isBusyDeadAlarmCheck = false;
+    public bool isBusyDeadAlarmCheck {
+        get { return _isBusyDeadAlarmCheck; }
+        set { _isBusyDeadAlarmCheck = value; }
+    }
+
+    // indica se un character morto è stato marcato 
+    // un character marcato non può provocare altri stati di allerta nei FOV
+    private bool _isDeadCharacterMarked = false;
+    public bool isDeadCharacterMarked {
+        get { return _isDeadCharacterMarked; }
+        set { _isDeadCharacterMarked = value; }
+    }
+
+    public Role chracterRole {
+        get { return gameObject.GetComponent<CharacterRole>().role; }
     }
 
 
-        [Header("Character Settings")]
+
+    [Header("Character Settings")]
     [SerializeField] private int characterHealth = 100;
-    [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia 
-    [Range(0, 360)]
-    [SerializeField] private float _firstMalusFovAngle = 60;
-    
-    [Range(0, 360)]
-    [SerializeField] private float _secondMalusFovAngle = 90;
-    [SerializeField] private int dividerFOVMalusValue = 2; // valore divisore fov malus 
-    [SerializeField] private float dividerFOVMalusFlashlightValue = 1.3f; // valore divisore fov malus
+    [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia
 
 
     public void Start() {
@@ -85,17 +144,15 @@ public class CharacterManager : MonoBehaviour {
     public Animator characterAnimator {
         get { return _characterAnimator; }
     }
-
     public Transform occlusionTargetTransform {
         get { return _occlusionTargetTransform; }
     }
-
     public CharacterManager aimedCharacter {
         get { return _aimedCharacter; }
         set {
-            if(value == null) { // null quando no si sta mirando un character
+            if (value == null) { // null quando no si sta mirando un character
 
-                if(_aimedCharacter != null) { // si stava già mirando un character
+                if (_aimedCharacter != null) { // si stava già mirando un character
                     _aimedCharacter._characterOutline.setEnableOutline(false); // disattiva outline del character precedentemente mirato
                     _aimedCharacter = value;
                 }
@@ -110,8 +167,8 @@ public class CharacterManager : MonoBehaviour {
                     _aimedCharacter._characterOutline.setEnableOutline(true);
                 }
             }
-            
-            
+
+
         }
     }
 
@@ -121,11 +178,14 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState) {
-        
+    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController, SceneEntitiesController sceneEntitiesController) {
+
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
         characterInteraction._globalGameState = gameState;
+        characterInteraction._playerWarpController = playerWarpController;
+        characterInteraction._sceneEntitiesController = sceneEntitiesController;
+
         return gameObject;
     }
 
@@ -138,7 +198,7 @@ public class CharacterManager : MonoBehaviour {
         _interactionUIController = controller;
     }
 
-    
+
 
 
     /// <summary>
@@ -149,15 +209,15 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public void buildListOfInteraction() {
         List<Interaction> interactions = new List<Interaction>(); // lista di tutte le Interaction disponibili per il player
-    
+
 
 
         // ottieni dal dizionario degli oggetti interabili tutte le interactions
         foreach (var item in interactableObjects) {
 
             List<Interaction> interactable = item.Value.getInteractions();
-            
-            for(int i = 0; i < interactable.Count; i++) {
+
+            for (int i = 0; i < interactable.Count; i++) {
 
                 interactions.Add(interactable[i]);
             }
@@ -165,7 +225,7 @@ public class CharacterManager : MonoBehaviour {
 
 
         // se il character è giocato dal player
-        if(isPlayer) {
+        if (isPlayer) {
 
             // inizializza lista di interazioni e i bottoni e la partendo dalla lista interactions
             // passa la lista di interactions per inizializzare la lista di interacion che potranno essere effettuate
@@ -193,13 +253,11 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
 
-        if(!isDead) {
-            characterHealth -= damage;
+        characterHealth -= damage;
 
-            if (characterHealth <= 0) {
-                isDead = true;
-                killCharacter(damageVelocity);
-            }
+        if (characterHealth <= 0) {
+            _isDead = true;
+            killCharacterAsync(damageVelocity);
         }
     }
 
@@ -208,51 +266,42 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public async void applyFOVMalus() {
 
-
-        if(!isDead) {
-            characterFOV.setFOVValues(
-            firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusValue,
-            firstFovAngle: _firstMalusFovAngle,
-
-            secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusValue,
-            secondFovAngle: _secondMalusFovAngle
-        );
+        if (!isDead) {
+            _characterFOV.setNightMalus(true);
+        }
 
 
-            // se il character ha una torcia
-            if (_inventoryManager.isFlashlightTaken) {
-                /// Permette di accendere le torce dopo un tempo t
-                /// ripristinando il fov del character
-                /// Da usare per le guardie più specializzate
-                float endTime = FOVUnmalusFlashlightTimer + Time.time;
-                while (Time.time < endTime) {
-                    await Task.Yield();
-                }
+        // se il character ha una torcia
+        if (_inventoryManager.isFlashlightTaken) {
+            /// Permette di accendere le torce dopo un tempo t
+            /// ripristinando il fov del character
+            /// Da usare per le guardie più specializzate
+            float endTime = FOVUnmalusFlashlightTimer + Time.time;
+            while (Time.time < endTime) {
+                await Task.Yield();
+            }
 
 
 
-                // flashlight fov
-                characterFOV.setFOVValuesToDefault();
 
+
+            // flashlight fov
+
+            if (!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
                 await _inventoryManager.characterFlashLight.lightOnFlashLight();
-
-                characterFOV.setFOVValues(
-                    firstFovRadius: characterFOV.usedFirstFovRadius / dividerFOVMalusFlashlightValue,
-                    firstFovAngle: _firstMalusFovAngle,
-
-                    secondFovRadius: characterFOV.usedSecondFovRadius / dividerFOVMalusFlashlightValue,
-                    secondFovAngle: _secondMalusFovAngle
-                );
+                _characterFOV.setFlashLightBonus(true);
             }
         }
-        
     }
+
+
 
     /// <summary>
     /// Ripristina valori default del FOV
     /// </summary>
     public async Task<bool> restoreFOVMalus() {
-        characterFOV.setFOVValuesToDefault();
+        _characterFOV.setNightMalus(false);
+        _characterFOV.setFlashLightBonus(false);
         await _inventoryManager.characterFlashLight.lightOffFlashLight();
 
         return true;
@@ -263,34 +312,38 @@ public class CharacterManager : MonoBehaviour {
     /// Disabilita componenti e abilita ragdoll
     /// </summary>
     /// <param name="damageVelocity"></param>
-    public void killCharacter(Vector3 damageVelocity) {
+    public async void killCharacterAsync(Vector3 damageVelocity) {
 
         
-        resetCharacterMovmentState();
+        resetCharacterStates();
+
+
+        characterDecalProjectorEffect.SetActive(false); // disabilita decal projector
 
         // disabilita componenti
         gameObject.GetComponent<CharacterMovement>().enabled = false;
-        gameObject.GetComponent<CharacterManager>().enabled = false;
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
-        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        Debug.Log("Disable character controller");
+
+
+
+        gameObject.GetComponent<CapsuleCollider>().isTrigger = true; // non è possibile avere collisioni fisiche ma il character resta
         gameObject.GetComponent<NavMeshObstacle>().enabled = false;
 
+
         
-
         // stoppa componenti
-        gameObject.GetComponent<CharacterFOV>().stopAllCoroutines();
         gameObject.GetComponent<CharacterFOV>().enabled = false;
+        _characterAnimator.StopPlayback();
+        _characterAnimator.enabled = false;
+        gameObject.GetComponent<RagdollManager>().enableRagdoll();
 
+        // setta inventario come oggetto con cui poter interagire
         _inventoryManager.setInventoryAsInteractable();
 
 
-        _characterAnimator.StopPlayback();
-        _characterAnimator.enabled = false;
-
-
-
-        if(!isPlayer) {
+        if (!isPlayer) {
 
             inventoryManager.characterFlashLight.instantLightOffFlashLight();
 
@@ -299,32 +352,51 @@ public class CharacterManager : MonoBehaviour {
 
             if (role == Role.EnemyGuard) {
 
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopSuspiciousTimer();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopHostilityTimer();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAlertAnimator();
+
                 //Destroy(gameObject.GetComponent<EnemyNPCBehaviour>());
-                gameObject.GetComponent<EnemyNPCBehaviour>().enabled = false;
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAllCoroutines();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopAgent();
+                await gameObject.GetComponent<EnemyNPCBehaviourManager>().forceStopCharacterAndAwaitStopProcess();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().enabled = false;
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAllCoroutines();
+                gameObject.GetComponent<EnemyNPCBehaviourManager>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<EnemyNPCBehaviour>().stopHostilityCheckTimer();
+                
+                
             } else if (role == Role.Civilian) {
 
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopSuspiciousTimer();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopHostilityTimer();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAlertAnimator();
+
+
                 //Destroy(gameObject.GetComponent<CivilianNPCBehaviour>());
-                gameObject.GetComponent<CivilianNPCBehaviour>().enabled = false;
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopAllCoroutines();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopAgent();
+                await gameObject.GetComponent<CivilianNPCBehaviourManager>().forceStopCharacterAndAwaitStopProcess();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().enabled = false;
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAllCoroutines();
+                gameObject.GetComponent<CivilianNPCBehaviourManager>().stopAgent();
                 gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopSuspiciousTimer();
-                gameObject.GetComponent<CivilianNPCBehaviour>().stopHostilityCheckTimer();
+                
+                
             }
-        } else {
+        } else { // ucciso character del warp stack
+
             _inventoryManager.weaponLineRenderer.enabled = false;
-            // reset character interactable objects
+            _isInteractionsDisabled = true;
             emptyAllInteractableDictionaryObjects();
+            _playerWarpController.unstackDeadCharacterAndControlPreviewCharacter(this);
         }
 
-        gameObject.GetComponent<RagdollManager>().enableRagdoll();
+        // setta il character manager come figlio dell'hips della ragdoll del character
+        // questo fa in modo che tutto il character manager e collider si muova insieme alla ragdoll
+        Transform characterParent = gameObject.transform.parent;
+        gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.SetParent(characterParent);
+        gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
+
+        Debug.Log("Character dead at: " + gameObject.transform.position);
     }
 
     /// <summary>
@@ -335,40 +407,49 @@ public class CharacterManager : MonoBehaviour {
     public void emptyAllInteractableDictionaryObjects() {
         // unfocus outline di tutti gli interactable
         foreach(var interactable in interactableObjects) {
-            interactable.Value.unFocusInteractable();
+            interactable.Value.unFocusInteractableOutline();
         }
         interactableObjects = new Dictionary<int, Interactable>();
         buildListOfInteraction();
+
     }
 
-    public void resetCharacterMovmentState() {
+
+    public void resetCharacterStates() {
         isRunning = false;
         isBusy = false;
+        isPickLocking = false;
     }
 
-
+    
     private void OnTriggerEnter(Collider collision) {
 
-        if (collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+        if(isPlayer) {
+
+            if(!_isInteractionsDisabled) {
+                if(collision.gameObject.layer == INTERACTABLE_LAYER) {
 
 
-            InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+                    InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
 
 
 
-            // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
-            // evita che collisioni multiple aggiungano la stessa key al dizionario
-            if (!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
-                interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                    // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+                    // evita che collisioni multiple aggiungano la stessa key al dizionario
+                    if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                        interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                    }
+
+
+                    // rebuild lista interactions
+                    buildListOfInteraction();
+                }
             }
-
-
-            // rebuild lista interactions
-            buildListOfInteraction();
+            
         }
+        
     }
-
-
     private void OnTriggerExit(Collider collision) {
 
 
@@ -378,24 +459,32 @@ public class CharacterManager : MonoBehaviour {
 
 
             if (isPlayer) {
-                interactableObject.interactable.unFocusInteractable(); // disattiva effetto focus sull'oggetto interagibile
+                interactableObject.interactable.unFocusInteractableOutline(); // disattiva effetto focus sull'oggetto interagibile
+
+
+                // rimuovi interazione al dizionario delle interazioni
+                interactableObjects.Remove(interactableObject.GetInstanceID());
+
+                // rebuild lista interactions
+                buildListOfInteraction();
+
             }
-
-
-            // rimuovi interazione al dizionario delle interazioni
-            interactableObjects.Remove(interactableObject.GetInstanceID());
-
-            // rebuild lista interactions
-            buildListOfInteraction();
         }
     }
+
+
 
     /// <summary>
     /// Esecuzione task a tempo
     /// ritorna [true] se il task è stato completato correttamente
     /// altrimenti [false]
     /// </summary>
-    public async Task<bool> startTimedInteraction(float timeToWait, string interactionTitle) {
+    /// <param name="timeToWait">Tempo durata del task (Sospensione controllo)</param>
+    /// <param name="interactionTitle">Titolo dell'interazione da avviare</param>
+    /// <param name="triggerToInterrupt">Istanza tipo booleano che contiene l'informazione booleana di stop dell'interazione</param>
+    /// <param name="valueTointerrupt">Se il triggerToInterrupt è uguale al valueTointerrupt l'interaction si interrompe</param>
+    /// <returns></returns>
+    public async Task<bool> startTimedInteraction(float timeToWait, string interactionTitle, Boolean triggerToInterrupt = null, bool valueTointerrupt = false) {
 
         bool result = true;
         float startTime = Time.time;
@@ -403,18 +492,25 @@ public class CharacterManager : MonoBehaviour {
 
         timedInteractionSliderManager.enableAndInitializeTimerSlider(minValue: 0, maxValue: endTime - startTime, sliderTitle: interactionTitle);
 
-        _isTimedInteractionProcessing = true;
+        _isBusy = true;
         while (Time.time < endTime) {
 
             timedInteractionSliderManager.setSliderValue(Time.time - startTime);
 
-            if(!isTimedInteractionProcessing) {
+            if(!_isBusy) {
                 result = false; // interaction fallita
                 break;
             }
+
+            if(triggerToInterrupt != null) {
+                if(triggerToInterrupt.value == valueTointerrupt) {
+                    result = false; // interaction interrotta
+                    break;
+                }
+            }
             await Task.Yield();
         }
-        _isTimedInteractionProcessing = false;
+        _isBusy = false;
         timedInteractionSliderManager.disableTimeSlider();
 
 
@@ -426,13 +522,50 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     public void rebuildUIProhibitedAreaIcon() {
         if (gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck()) {
-            alarmAlertUIController.potentialProhibitedAreaAlarmOn();
+            _alarmAlertUIController.potentialProhibitedAreaAlarmOn();
         } else {
-            alarmAlertUIController.potentialProhibitedAreaAlarmOff();
+            _alarmAlertUIController.potentialProhibitedAreaAlarmOff();
         }
     }
-
     public void discardCharacterAction() {
-        _isTimedInteractionProcessing = false;
+        _isBusy = false;
     }
+
+    /// <summary>
+    /// Partendo dal character restituisce la posizione più raggiungibile per un agent(sulla navmesh)
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 getCharacterPositionReachebleByAgents() {
+        Vector3 pos = new Vector3();
+        NavMeshHit hit;
+
+
+        if (isDead) {
+            
+            if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
+              
+                pos = hit.position;
+            }
+
+            
+        } else {
+
+            if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
+
+                pos = hit.position;
+            }
+        }
+
+        return pos;
+    }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos() {
+        if (isDead) {
+            Gizmos.color = Color.grey;
+            Gizmos.DrawLine(transform.position, getCharacterPositionReachebleByAgents());
+            Gizmos.DrawSphere(getCharacterPositionReachebleByAgents(), 0.25f);
+        }
+    }
+#endif
 }

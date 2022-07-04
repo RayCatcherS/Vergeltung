@@ -52,6 +52,7 @@ public class CharacterActivityManager : MonoBehaviour
     /// Scegli un nuovo character activity casuale e parti dal primo task
     /// </summary>
     public void randomCharacterActivity() {
+
         if(characterActivities.Count > 0) {
             randomizeSelectedActivity();
             selectedTaskPos = 0;
@@ -64,6 +65,7 @@ public class CharacterActivityManager : MonoBehaviour
     /// seleziona una activity in modo casuale
     /// </summary>
     private void randomizeSelectedActivity() {
+        
         int randomizeActivity = Random.Range(0, characterActivities.Count);
         selectedCharacterActivityPos = randomizeActivity;
     }

@@ -4,11 +4,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+public enum RotationLerpSpeedValue {
+    slow = 1,
+    normal = 3,
+    fast = 10,
+}
 public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
 
+    [Header("References")]
     public Animator animator; //animator del character
     public CharacterController characterController;
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private CharacterManager characterManager;
 
     private const int ALL_LAYERS = -1;
     private const float NEGATIVE_ROTATION_CLAMP = -1f;
@@ -16,43 +24,43 @@ public class CharacterMovement : MonoBehaviour {
     private const float NEGATIVE_MOVEMENT_CLAMP = -1f;
     private const float POSITIVE_MOVEMENT_CLAMP = 1f;
 
+    [Header("Config")]
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float runMovementSpeed = 10f;
 
 
     [SerializeField] private Vector3 rotationAimInput;
-    [SerializeField] private Vector3 rotationAimTarget;
-    [SerializeField] private Vector2 characterModelRotation;
-
-
-    [SerializeField] private InventoryManager inventoryManager;
-    [SerializeField] private CharacterManager characterManager;
-
-
-
     public Vector3 getRotationAimInput { get { return rotationAimInput; } }
+    [SerializeField] private Vector3 rotationAimTarget;
     public Vector3 getRotationAimTarget { get { return rotationAimTarget; } }
+    [SerializeField] private Vector2 characterModelRotation;
     public Vector3 getCharacterModelRotation { get { return characterModelRotation; } }
+    [SerializeField] private float gravity = 0.15f;
+
+    [Header("LoudArea")]
+    [SerializeField] private GameObject loudAreaAsset;
 
 
-    private Vector3 _movement; // vettore movimento character
-    [SerializeField] private float gravity = 9.8f;
+
+
+
+
+
+    // states
     private bool isGrounded = false;
+    private Vector3 _movement; // vettore movimento character
+    
+    
 
     // ref getters 
     public GameObject characterModel {
         get { return gameObject; }
     }
 
-    void Awake() {
-
-    }
-
     // Start is called before the first frame update
     void Start() {
         initCharacterMovement();
     }
-
 
     /// <summary>
     /// avvia transizione Bleend tree animation in base
@@ -102,59 +110,66 @@ public class CharacterMovement : MonoBehaviour {
     /// </summary>
     /// <param name="_2Dmove">Coppia di valori che rappresenta i valori
     /// in input del movimento del character.</param>
-    public void moveCharacter(Vector2 _2Dmove, bool isRun) {
+    public void moveCharacter(Vector2 _2Dmove, bool isRun, bool autoRotationOnRun = true, bool onlyAnimation = false) {
         
         Vector3 _movementAnimationVelocity; // velocity input analogico
 
-        if(!characterManager.isTimedInteractionProcessing) {
-            _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
+        
+        _movementAnimationVelocity = _movement = new Vector3(_2Dmove.x, 0f, _2Dmove.y);
 
 
 
 
 
-            // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
-            // evitando che il movimento del character dipenda dai fotogrammi
-            if (_movement.magnitude > 0) {
+        // setta traslazione utilizzando il deltaTime(differisce dalla frequenza dei fotogrammi)
+        // evitando che il movimento del character dipenda dai fotogrammi
+        if(!onlyAnimation) {
+            if(_movement.magnitude > 0) {
 
-                if (isRun) {
 
+                if(isRun) {
+
+                    if(characterManager.isPlayer) {
+                        generateLoudArea();
+                    }
+                    
 
                     _movement = _movement * runMovementSpeed * Time.deltaTime;
 
-                    rotateCharacter(_2Dmove, isRun, true);
+                    if(autoRotationOnRun) {
+                        rotateCharacter(_2Dmove, true);
+                    }
                 } else {
 
                     _movement = _movement * movementSpeed * Time.deltaTime;
-
                 }
+
                 characterManager.isRunning = isRun;
             }
+        }
+        
 
 
 
 
-            // setta valori animazione partendo dal _movementAnimationVelocity
-            float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
-            float velocityZ;
-            if (isRun) {
+        // setta valori animazione partendo dal _movementAnimationVelocity
+        float velocityX = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.right);
+        float velocityZ;
+        if (isRun) {
 
 
-                animator.SetBool("isRunning", isRun);
-                animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
-            } else {
-
-                animator.SetBool("isRunning", isRun);
-                velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
-                animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
-            }
-
-
-            animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
+            animator.SetBool("isRunning", isRun);
+            animator.SetFloat("VelocityZ", 2, 0.05f, Time.deltaTime);
         } else {
 
-            stopCharacter();
+            animator.SetBool("isRunning", isRun);
+            velocityZ = Vector3.Dot(_movementAnimationVelocity, characterModel.transform.forward);
+            animator.SetFloat("VelocityZ", velocityZ, 0.05f, Time.deltaTime);
         }
+
+
+        animator.SetFloat("VelocityX", velocityX, 0.05f, Time.deltaTime);
+        
         
     }
 
@@ -165,34 +180,38 @@ public class CharacterMovement : MonoBehaviour {
     /// <param name="_2Drotate">Coppia di valori che rappresenta i valori
     /// in input della rotazione dell'aim del character. I valori(x, y)</param>
     /// vengono inoltre calcolati i range delle direzioni dell'aim per ruotare l'intero character
-    public void rotateCharacter(Vector2 _2Drotate, bool _isRun, bool _istantRotation) {
+    public void rotateCharacter(Vector2 _2Drotate, bool _istantRotation, RotationLerpSpeedValue rotationLerpSpeedValue = RotationLerpSpeedValue.normal) {
         Vector3 rotationAimTargetInput; // vettore rotazione target
 
-        if (!characterManager.isTimedInteractionProcessing) {
-            // clamp dei valori passati 
-            rotationAimTargetInput = new Vector3(
-            _2Drotate.x,
-            _2Drotate.y,
-            0f);
 
-            rotationAimInput = rotationAimTargetInput;
+        // clamp dei valori passati 
+        rotationAimTargetInput = new Vector3(
+        _2Drotate.normalized.x,
+        _2Drotate.normalized.y,
+        0f);
 
-
+        rotationAimInput = rotationAimTargetInput;
 
 
-            if (rotationAimTargetInput.magnitude > 0) {
 
 
-                if (!_istantRotation) {
+        if (rotationAimTargetInput.magnitude > 0) {
 
 
-                    characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
-                } else {
+            if (!_istantRotation) {
 
-                    characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
-                }
+                // lerp rotation
+                Quaternion fromRotation = gameObject.transform.rotation;
+                Quaternion toRotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
 
+
+                float speedValue = (float)rotationLerpSpeedValue;
+                characterModel.transform.rotation = Quaternion.Lerp(fromRotation, toRotation, Time.deltaTime * speedValue);
+            } else {
+
+                characterModel.transform.rotation = Quaternion.Euler(0, 360 - (Mathf.Atan2(_2Drotate.x, _2Drotate.y) * Mathf.Rad2Deg * -1), 0);
             }
+
         }
     }
 
@@ -209,11 +228,10 @@ public class CharacterMovement : MonoBehaviour {
             } else {
                 characterController.Move(_movement); // muovi player
             }
-
             groundCheck();
-        }
-
         
+        
+        }
         
     }
 
@@ -229,11 +247,21 @@ public class CharacterMovement : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Genera loud area provocata dalla corsa del character
+    /// </summary>
+    private void generateLoudArea() {
+        GameObject loudGameObject = Instantiate(loudAreaAsset, gameObject.transform.position, Quaternion.identity);
+        loudGameObject.GetComponent<LoudArea>().initLoudArea(LoudAreaType.characterLoudRun, characterThatGenerateLA: characterManager);
+        loudGameObject.GetComponent<LoudArea>().startLoudArea();
+    }
+
     /// <summary>
     /// Stoppa il character resettando il vettore _movement
     /// Stoppa animazione character
     /// </summary>
-    private void stopCharacter() {
+    public void stopCharacter() {
         characterManager.isRunning = false;
         animator.SetBool("isRunning", false);
         animator.SetFloat("VelocityX", 0, 0f, Time.deltaTime);

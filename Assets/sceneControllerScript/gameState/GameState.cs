@@ -1,6 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// Game state di gioco, utilizzato per accedere a stati e metodi globali che hanno ripercussioni sull'intero gioco
@@ -10,7 +16,16 @@ public class GameState : MonoBehaviour
 
     [Header("Ref")]
     [SerializeField] private PlayerWarpController playerWarpController;
+    private PlayerInputAction playerActions;
+
+    [Header("UI Ref")]
     [SerializeField] private AlarmAlertUIController alarmAlertUIController;
+
+    [Header("UI screen ref")]
+    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private MenuScreen gameOverUIScreen;
+    [SerializeField] private MenuScreen LoadingUIScreen;
+    [SerializeField] private Slider loadingSlider;
 
     [Header("Power settings and states")]
     [SerializeField] private int powerOffTimer = 15;
@@ -18,12 +33,33 @@ public class GameState : MonoBehaviour
     [SerializeField] private ElectricGateController[] electricGateControllers;
     [SerializeField] private bool powerOn = true;
 
+
+    [Header("Game state songs")]
+    [SerializeField] private AudioSource gameOverAudioSource;
+    
+
     [Header("Game global value state")]
     Dictionary<int, CharacterManager> globalWantedHostileCharacters = new Dictionary<int, CharacterManager>();
+
+
+    private void OnEnable() {
+        playerActions.Player.Enable();
+    }
+    private void OnDisable() {
+        playerActions.Player.Disable();
+    }
+
+    void Awake() {
+        playerActions = new PlayerInputAction();
+
+    }
 
     private void Start() {
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
         electricGateControllers = FindObjectsOfType(typeof(ElectricGateController)) as ElectricGateController[];
+
+        gameOverUIScreen.gameObject.SetActive(false);
+        LoadingUIScreen.gameObject.SetActive(false);
     }
 
     // getter
@@ -77,12 +113,6 @@ public class GameState : MonoBehaviour
             lightSources[i].turnOnLigth();
         }
 
-
-        // chiudi tutti i cancelli
-        for (int i = 0; i < electricGateControllers.Length; i++) {
-            electricGateControllers[i].closeGate();
-        }
-
         // rimuovi FOV malus a tutti i character della scena
         for (int i = 0; i < characterManagers.Count; i++) {
 
@@ -111,7 +141,7 @@ public class GameState : MonoBehaviour
 
 
         // get all game characters
-        List<BaseNPCBehaviour> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
+        List<BaseNPCBehaviourManager> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
         foreach(var character in allCharactersBehaviour) {
 
 
@@ -126,7 +156,11 @@ public class GameState : MonoBehaviour
             }
         }
 
-        updateWantedUICharacter();
+        // se lo stack di characters controllati è vuoto
+        if(!playerWarpController.iswarpedCharacterManagerStackEmpty) {
+            updateWantedUICharacter();
+        }
+        
 
     }
 
@@ -145,5 +179,58 @@ public class GameState : MonoBehaviour
             alarmAlertUIController.potentialWantedAlarmOff();
         }
         
+    }
+
+
+
+
+    
+    /// <summary>
+    /// Setta il gioco in stato di gameover
+    /// Avvia l'UI di game over
+    /// </summary>
+    public async Task initGameOverGameState() {
+        // start canzone fine partita
+        gameOverAudioSource.Play();
+
+        // switch input 
+        playerActions = new PlayerInputAction();
+        playerActions.Player.Disable();
+        playerActions.MainMenu.Enable();
+
+        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterBehaviourInSceneAsync(); // attendi e disattiva behaviour di tutti i character 
+
+        // game over UI
+
+        // setta comando action event system
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+
+        LoadingUIScreen.gameObject.SetActive(false);
+        gameOverUIScreen.gameObject.SetActive(true);
+        eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
+    }
+
+    public void initLoadingScreen(int sceneToLoad) {
+
+        gameOverUIScreen.gameObject.SetActive(false);
+        LoadingUIScreen.gameObject.SetActive(true);
+
+
+        StartCoroutine(LoadSceneAsynchronously(sceneToLoad));
+
+    }
+
+    IEnumerator LoadSceneAsynchronously(int selectedScene) {
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(selectedScene);
+
+        //TODO Loading screen active
+
+        while (!operation.isDone) {
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            loadingSlider.value = progress;
+
+            yield return null;
+        }
     }
 }

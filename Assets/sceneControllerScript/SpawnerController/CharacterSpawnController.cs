@@ -33,7 +33,7 @@ public class CharacterSpawnController : MonoBehaviour {
     [Header("Spawn character civili")]
     public List<CharacterSpawnPoint> civilianCharacterSpawnPoints = new List<CharacterSpawnPoint>();
 
-    [Header("Assets character equipment")]
+    [Header("Prefab character equipment")]
     [SerializeField] private List<GameObject> noWeaponEquipment = new List<GameObject>();
     [SerializeField] private List<GameObject> baseArmyWeaponEquipment = new List<GameObject>();
     [SerializeField] private List<GameObject> mediumArmyWeaponEquipment = new List<GameObject>();
@@ -155,24 +155,26 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, enemyCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-                EnemyNPCBehaviour.initEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
+                EnemyNPCBehaviourManager.initEnemyNPComponent(newCharacter, enemyCharacterSpawnPoints[i]); // aggiungi componente EnemyNPCBehaviour all'npc(comportamento npc)
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
                 GameState gameState = gameObject.GetComponent<GameState>();
-                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
+                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState, playerWarpController, sceneEntitiesController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // associa npc istanziato al componente sceneEntities
-                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-                sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviour>());
+                sceneEntitiesController.addNPCEnemyIstance(newCharacter.GetComponent<EnemyNPCBehaviourManager>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(
+                initializeInventory(
                     enemyCharacterSpawnPoints[i].getCharacterEquipment(),
                     newCharacter.GetComponent<CharacterManager>().inventoryManager,
                     enemyCharacterSpawnPoints[i].getStartSelectedEquipment(),
-                    enemyCharacterSpawnPoints[i].flashlightTaken
+                    enemyCharacterSpawnPoints[i].flashlightTaken,
+                    enemyCharacterSpawnPoints[i].weaponPuttedAwayOnStart
                 );
             }
             
@@ -189,54 +191,60 @@ public class CharacterSpawnController : MonoBehaviour {
 
                 
                 CharacterRole.addToGOCharacterRoleComponent(newCharacter, civilianCharacterSpawnPoints[i].getSpawnCharacterRole()); // aggiungi componente ruolo character npc
-                CivilianNPCBehaviour.initCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
+                CivilianNPCBehaviourManager.initCivilianNPCComponent(newCharacter, civilianCharacterSpawnPoints[i]); // aggiungi componente CivilianNPCBehaviour all'npc(comportamento npc)
 
 
                 InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
                 GameState gameState = gameObject.GetComponent<GameState>();
-                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+                PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
+                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+                CharacterManager.initCharacterManagerComponent(newCharacter, interactionUIController, gameState, playerWarpController, sceneEntitiesController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
                 // aggiungi npc istanziato al componente sceneEntities
-                SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
-                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviour>());
+                sceneEntitiesController.addNPCCivilianIstance(newCharacter.GetComponent<CivilianNPCBehaviourManager>());
 
                 // inizializza equipaggiamento
-                initializeEquipment(
+                initializeInventory(
                     civilianCharacterSpawnPoints[i].getCharacterEquipment(),
                     newCharacter.GetComponent<CharacterManager>().inventoryManager,
                     civilianCharacterSpawnPoints[i].getStartSelectedEquipment(),
-                    civilianCharacterSpawnPoints[i].flashlightTaken
+                    civilianCharacterSpawnPoints[i].flashlightTaken,
+                    civilianCharacterSpawnPoints[i].weaponPuttedAwayOnStart
                 );
             }
             
         }
     }
 
-    private void initializeEquipment(Equipment equip, InventoryManager inventoryM, int selectedWeapon, bool flashLightTaken) {
+    private void initializeInventory(Equipment equip, InventoryManager inventoryM, int selectedWeapon, bool flashLightTaken, bool weaponPuttedAway) {
         
         if(equip == Equipment.noWeaponEquipment) {
             for(int i = 0; i < noWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(noWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(noWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
             
         } else if (equip == Equipment.baseArmyWeaponEquipment) {
             for (int i = 0; i < baseArmyWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(baseArmyWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(baseArmyWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
 
         } else if (equip == Equipment.mediumArmyWeaponEquipment) {
             for (int i = 0; i < mediumArmyWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(mediumArmyWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(mediumArmyWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
 
         } else if (equip == Equipment.advancedArmyWeaponEquipment) {
             for (int i = 0; i < advancedArmyWeaponEquipment.Count; i++) {
-                GameObject weapon = Instantiate(advancedArmyWeaponEquipment[i]);
-                inventoryM.addWeapon(weapon.GetComponent<WeaponItem>());
+                GameObject weaponGO = Instantiate(advancedArmyWeaponEquipment[i]);
+                WeaponItem weapon = weaponGO.GetComponent<WeaponItem>();
+                inventoryM.addWeapon(weapon);
             }
 
         }
@@ -244,6 +252,12 @@ public class CharacterSpawnController : MonoBehaviour {
         inventoryM.isFlashlightTaken = flashLightTaken;
 
         inventoryM.selectWeapon(selectedWeapon);
+
+        if(weaponPuttedAway) {
+            inventoryM.putAwayWeapon();
+        } else {
+            inventoryM.extractWeapon();
+        }
     }
 
     void spawnPlayer() {
@@ -258,24 +272,25 @@ public class CharacterSpawnController : MonoBehaviour {
 
             InteractionUIController interactionUIController = gameObject.GetComponent<InteractionUIController>();
             GameState gameState = gameObject.GetComponent<GameState>();
-            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController, gameState); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
+            PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
+            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
+            CharacterManager.initCharacterManagerComponent(newPlayer, interactionUIController, gameState, playerWarpController, sceneEntitiesController); // aggiungi componente CharacterInteraction all'npc(consente di gestire le interazioni dell'npc)
 
 
             // associa npc istanziato al componente sceneEntities
-            SceneEntitiesController sceneEntitiesController = gameObject.GetComponent<SceneEntitiesController>();
             sceneEntitiesController.setPlayerEntity(newPlayer.GetComponent<CharacterManager>());
 
 
             // aggiungi player al player warp controller
-            PlayerWarpController playerWarpController = gameObject.GetComponent<PlayerWarpController>();
             playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
 
             // inizializza equipaggiamento
-            initializeEquipment(
+            initializeInventory(
                 playerSpawnPoint.getCharacterEquipment(),
                 newPlayer.GetComponent<CharacterManager>().inventoryManager,
                 playerSpawnPoint.getStartSelectedEquipment(),
-                playerSpawnPoint.flashlightTaken
+                playerSpawnPoint.flashlightTaken,
+                playerSpawnPoint.weaponPuttedAwayOnStart
             );
         }
     }

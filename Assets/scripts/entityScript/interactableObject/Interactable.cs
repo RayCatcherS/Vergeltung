@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour, InteractableInterface {
-    [SerializeField] Outline outlineScript;
+    [SerializeField] private Outline outlineScript;
+    [SerializeField] private Renderer interactableMeshEffect;
 
     public virtual void Start() {
         initInteractable();
@@ -32,11 +33,32 @@ public class Interactable : MonoBehaviour, InteractableInterface {
         return null;
     }
 
-    public void focusInteractable() {
+    public void focusInteractableOutline() {
         outlineScript.changeOutlineColor(GameConstant.outlineInteractableColor);
         outlineScript.setEnableOutline(true);
     }
-    public void unFocusInteractable() {
+    public void unFocusInteractableOutline() {
         outlineScript.setEnableOutline(false);
+    }
+
+    public void interactableMeshEffectSetEnebled(bool value) {
+        
+        if (interactableMeshEffect != null) {
+            interactableMeshEffect.gameObject.SetActive(value);
+        }
+    }
+
+    /// <summary>
+    /// attiva l'effetto interactable se ci sono interazioni dispobili
+    /// altrimenti no
+    /// </summary>
+    protected void rebuildInteractableMeshEffect(List<Interaction> interactions) {
+        // set effetto oggetto con interazioni non vuote
+        int interactionCount = interactions.Count;
+        if (interactionCount == 0) {
+            interactableMeshEffectSetEnebled(false);
+        } else {
+            interactableMeshEffectSetEnebled(true);
+        }
     }
 }

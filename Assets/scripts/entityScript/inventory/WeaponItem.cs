@@ -62,16 +62,24 @@ public class WeaponItem : InventoryItem
             return result; 
        }
     }
-    
+    public bool isWeaponAmmunitionEmpty {
+        get { return _ammunition == 0 ? true : false; }
+    }
 
     [Header("Weapon effects")]
     [SerializeField] private Transform spawnDamageObjectParticleTransform;
-    [SerializeField] private GameObject spawnDamageObjectParticle;
+    [SerializeField] private GameObject spawnDamageObjectParticle; 
 
-    
+    [Header("Weapon sounds")]
+    [SerializeField] private AudioClip gunShootSound;
+
+    [Header("Weapon audio loud object")]
+    /// questo oggetto emette suoni e scatenare eventi all'interno della sua area e viene generato all'utilizzo dell'item
+    [SerializeField] private GameObject loudArea;
+    [SerializeField] private LoudAreaType loudIntensity;
 
     // getters 
-    
+
     public WeaponType getWeaponType {
         get { return weaponType; }
     }
@@ -149,29 +157,50 @@ public class WeaponItem : InventoryItem
     /// Questo metodo spawna sul luogo un damageObject
     /// </summary>
     /// <param name="p"></param>
-    public override void useItem(CharacterManager p) {
+    public override void useItem(CharacterManager p = null) {
         if (_ammunition > 0) {
-            Vector3 posA = _shootingTransform.position;
-            Vector3 posB = _shootingTransform.forward;
+
+            if (Time.time > busyWeaponDurationTimeEnd) {
+
+                Vector3 posA = _shootingTransform.position;
+                Vector3 posB = _shootingTransform.forward;
 
 
-            GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+                // loud area
+                if ((itemNameID != BASE_MELEE_ID)) {
 
-            if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
-
-                damageGO.GetComponent<Bullet>().setupBullet(posB);
-
-                if (spawnDamageObjectParticle != null) {
-
-                    GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
                     if (inventoryManager != null) {
-                        particleGO.transform.parent = inventoryManager.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+
+                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
+                    }
+                }
+
+
+
+                // damage object
+                GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
+                if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+
+                    damageGO.GetComponent<Bullet>().setupBullet(posB);
+
+                    if (spawnDamageObjectParticle != null) {
+
+                        GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+                        
+                    }
+                }
+
+                busyWeaponDurationTimeEnd = Time.time + shootFrequency;
+
+                if (inventoryManager != null) {
+                    if (inventoryManager.characterManager.chracterRole == Role.Player) {
+                        _ammunition = _ammunition - 1;
                     }
                 }
             }
-
-            busyWeaponDurationTimeEnd = Time.time + shootFrequency;
-            _ammunition = _ammunition - 1;
+            
         }
             
     }
@@ -191,7 +220,20 @@ public class WeaponItem : InventoryItem
                 Vector3 posB = destinationPosition;
                 Vector3 bulletDirection = (posB - posA).normalized;
 
-                GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
+
+
+                // loud area
+                if ((itemNameID != BASE_MELEE_ID)) {
+
+                    if (inventoryManager != null) {
+
+                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
+                    }
+                }
+
+
 
                 if (_vibrationOnUseWeapon) {
                     gamePadVibrationController.sendImpulse(
@@ -200,8 +242,9 @@ public class WeaponItem : InventoryItem
                 }
 
 
+                // damage object
+                GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
                 if (weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
-
                     damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
 
                     if (spawnDamageObjectParticle != null) {
@@ -212,7 +255,14 @@ public class WeaponItem : InventoryItem
 
 
                 busyWeaponDurationTimeEnd = Time.time + shootFrequency;
-                _ammunition = _ammunition - 1;
+
+                if (inventoryManager != null) {
+                    if (inventoryManager.characterManager.chracterRole == Role.Player) {
+                        _ammunition = _ammunition - 1;
+                    }
+                }
+                
+                    
             }
         }
         
