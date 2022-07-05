@@ -122,6 +122,7 @@ public class HostilityEnemyProcess : BehaviourProcess {
 
 
                 _baseNPCBehaviour.characterInventoryManager.selectFirstWeaponWithAmmunition(); // selezionare con un po' di ritardo(?)
+                _baseNPCBehaviour.characterInventoryManager.extractWeapon();
             }
         }
 

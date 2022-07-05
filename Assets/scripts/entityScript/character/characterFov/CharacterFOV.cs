@@ -539,7 +539,6 @@ public class CharacterFOV : MonoBehaviour {
 
         disableCharacterCollider();
         if(characterToReach != null) {
-            Debug.Log("TRY TO REACH 1");
             if(Physics.Linecast(reachableTarget.position, characterToReach.reachableTarget.position, out hit, ~(1 << CHARACTER_LAYERS), QueryTriggerInteraction.Ignore)) {
 
                 if(hit.collider != null) {
@@ -554,20 +553,16 @@ public class CharacterFOV : MonoBehaviour {
         }
 
         if(positionToReach != Vector3.zero) {
-            Debug.Log("TRY TO REACH 2");
             if(Physics.Linecast(reachableTarget.position, positionToReach, out hit, ~(1 << CHARACTER_LAYERS), QueryTriggerInteraction.Ignore)) {
 
 
                 if(hit.collider != null) {
                     res = false;
-                    Debug.Log("TRY TO REACH 2.1");
                 } else {
                     res = true;
-                    Debug.Log("TRY TO REACH 2.2");
                 }
             } else {
                 res = true;
-                Debug.Log("TRY TO REACH 2.3");
             }
         }
 

@@ -270,7 +270,8 @@ public class InventoryManager : Interactable {
     /// Imposta anche il rig del melee in base a _weaponPuttedAway
     /// </summary>
     private void configSelectedWeapon() {
-        
+        Debug.Log("CONFIG");
+        Debug.Log(_weaponItems[_selectedWeapon].getWeaponType);
         characterMovement.updateAnimatorStateByInventoryWeaponType(_weaponItems[_selectedWeapon].getWeaponType, this); // configura animazione in base all'arma selezionata
         _characterManager.aimedCharacter = null; // rimuovi character mirato
 
