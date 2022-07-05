@@ -56,6 +56,11 @@ public class InventoryManager : Interactable {
     public CharacterFlashLight characterFlashLight {
         get { return _characterFlashLight; }
     }
+    [Header("Inventory Ammunitions")]
+    [SerializeField] private Dictionary<WeaponType, Ammunition> _inventoryAmmunitions = new Dictionary<WeaponType, Ammunition>();
+    public Dictionary<WeaponType, Ammunition> inventoryAmmunitions {
+        get { return _inventoryAmmunitions; }
+    }
 
     [Header("Inventory state")]
     [SerializeField] private bool _weaponPuttedAway = true;
@@ -174,9 +179,9 @@ public class InventoryManager : Interactable {
         weaponItem.interactableMeshEffectSetEnebled(false);
         weaponItem.unFocusInteractableOutline();
 
-        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
 
         //cerca se la weapon è già presente
+        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
         if (weaponInInventary == -1) {
             // aggiungi istanza alla lista weapon dell'inventory manager
             _weaponItems.Add(weaponItem);
@@ -202,10 +207,17 @@ public class InventoryManager : Interactable {
             // disattiva collider trigger interactable
             weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
         } else {
-
-            _weaponItems[weaponInInventary].addAmmunition(weaponItem.ammunition);
+            
             Destroy(weaponItem.gameObject);
         }
+
+        if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {
+            _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity 
+                = _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + weaponItem.ammunition.ammunitionQuantity;
+        } else {
+            _inventoryAmmunitions.Add(weaponItem.ammunition.ammunitionType, weaponItem.ammunition);
+        }
+        
 
 
         // builda UI solo se player
@@ -437,7 +449,7 @@ public class InventoryManager : Interactable {
             if(_weaponItems[i].itemNameID != BASE_MELEE_ID) {
 
 
-                if(_weaponItems[i].ammunition != 0) {
+                if(_weaponItems[i].ammunition.ammunitionQuantity != 0) {
                     UnityEventCharacter eventWeapon = new UnityEventCharacter();
                     eventWeapon.AddListener(_weaponItems[i].getItem);
 
