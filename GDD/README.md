@@ -41,7 +41,11 @@ Link Progetto
 ### 6. [Musica e Suoni](#6) 
 
 ### 7. [Dettagli Tecnici](#7)
-  2. [Capitolo diario di sviluppo 2](#7.1) 
+  2. [Capitolo diario di sviluppo 2 (Inventario e shooting)](#7.2) 
+  3. [Capitolo diario di sviluppo 3 (Level Design)](#7.3) 
+  4. [Capitolo diario di sviluppo 4 (FOV e Stati di allerta)](#7.4) 
+  5. [Capitolo diario di sviluppo 5 (UI allerta)](#7.5)
+  6. [Capitolo diario di sviluppo 6 (AI NPC)](#7.6)
 
 ### 8. [Mercato](#8)
 
@@ -99,8 +103,11 @@ Cosa ho ufficialmente sviluppato:
 # <span id = "6">6. Musica e Suoni</span>
 
 # <span id = "7">7. Dettagli Tecnici</span>
-  ## <span id = "7.2">7.2 Capitolo 2 diario di sviluppo</span>
-
+  ### <span id = "7.2">7.2 [2 Capitolo (Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)</span>
+  ### <span id = "7.3">7.3 [3 Capitolo (LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)</span>
+  ### <span id = "7.4">7.4 [4 Capitolo (FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)</span>
+  ### <span id = "7.5">7.5 [5 Capitolo (UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)</span>
+  ### <span id = "7.5">7.5 [6 Capitolo (AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)</span>
 
 # <span id = "8">8. Mercato</span>
 
