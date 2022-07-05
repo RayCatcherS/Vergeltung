@@ -8,7 +8,7 @@
 
 # Label possibili stati di allerta
 
-Delle label si attivano con una animazione in alto a destra quando il giocatore commette delle azioni che scatenerebbero degli stati dall'allerta se le guardie nemiche percepissero l'azione.
+Delle label si attivano con un'animazione in alto a destra quando il giocatore commette delle azioni che scatenerebbero degli stati dall'allerta se le guardie nemiche percepissero l'azione.
 Le label appaiono singolarmente in base all'azione illegale commessa.
 
 ![Image animator](potentialAlertState.png)
