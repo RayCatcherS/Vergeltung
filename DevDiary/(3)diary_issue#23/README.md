@@ -61,7 +61,7 @@ Sono state implementate delle meccaniche per sabotare i task degli NPC riutilizz
 
 ## Interaction Console (level design)
 Progettate le interaction console. Le interaction console sono dei gameObject che permettono di esporre delle interaction ai character o NPC della mappa(interactable objects) e di associare degli eventi alle singole interaction create. In questo esempio l'evento dell'apertura di un cancello.
-Gli eventi supportati sono a singolo stato o a doppio stato, questi possono essere ripetibili o meno.
+Gli eventi supportati sono a singolo stato o a doppio stato, questi possono essere ripetibili o meno. Permettono quindi di essere utilizzare per fare level design concatenando gli altri prefab.
 
 ![Image animator](interactionConsole.png)
 
