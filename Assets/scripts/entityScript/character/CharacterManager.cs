@@ -253,7 +253,13 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public void applyCharacterDamage(int damage, Vector3 damageVelocity) {
 
-        characterHealth -= damage;
+        float _damage = damage;
+
+        if(isPlayer) {
+            _damage = damage / 3;
+        }
+        
+        characterHealth -= (int)_damage;
 
         if (characterHealth <= 0) {
             _isDead = true;
