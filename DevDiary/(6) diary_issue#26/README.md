@@ -27,7 +27,7 @@ L'istanza del componente **BaseNPCBehaviourManager** del character contiene l'im
 > - receiveWarnOfSouspiciousCheck
 > - suspiciousCorpseFoundCheck
 > - corpseFoundConfirmedCheck
-> - suspiciousHitReceivedCheck
+> - instantOnCurrentPositionWarnOfSouspiciousChek
 
 Questi metodi di check sono chiamati dall'istanza del componente FOV del character che rappresenta i "sensori dell'IA".
 
