@@ -7,6 +7,23 @@ public enum WeaponType{
     pistol,
     rifle,
 }
+
+[System.Serializable]
+class Ammunition {
+    [SerializeField] private WeaponType _ammunitionType;
+    [SerializeField] private int _ammunitionQuantity = 0;
+    public int ammunitionQuantity {
+        get { return _ammunitionQuantity; }
+        set { _ammunitionQuantity = value; }
+    }
+
+    public Ammunition(WeaponType ammunitionType, int ammunitionQuantity) {
+        _ammunitionType = ammunitionType;
+        _ammunitionQuantity = ammunitionQuantity;
+    }
+}
+
+
 public class WeaponItem : InventoryItem
 {
 
@@ -27,13 +44,12 @@ public class WeaponItem : InventoryItem
     [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
     [SerializeField] private WeaponType weaponType;
     [SerializeField] private int _magazineCapacity = 28;
-    [SerializeField] private int _ammunition = 5;
+    [SerializeField] private Ammunition _ammunition;
 
     
     [SerializeField] private float shootFrequency = 0.15f;
     private float busyWeaponDurationTimeEnd = 0f;
     [SerializeField] private bool _automaticWeapon = false;
-    [SerializeField] private bool _silencedWeapon = false;
 
     [Header("Weapon gamepad vibration config")]
     [SerializeField] private bool _vibrationOnUseWeapon = false;
@@ -63,7 +79,7 @@ public class WeaponItem : InventoryItem
        }
     }
     public bool isWeaponAmmunitionEmpty {
-        get { return _ammunition == 0 ? true : false; }
+        get { return _ammunition.ammunitionQuantity == 0 ? true : false; }
     }
 
     [Header("Weapon effects")]
@@ -95,7 +111,7 @@ public class WeaponItem : InventoryItem
         get { return _automaticWeapon; }
     }
     public int ammunition {
-        get { return _ammunition; }
+        get { return _ammunition.ammunitionQuantity; }
     }
     public int magazineCapacity {
         get { return _magazineCapacity; }
@@ -158,7 +174,7 @@ public class WeaponItem : InventoryItem
     /// </summary>
     /// <param name="p"></param>
     public override void useItem(CharacterManager p = null) {
-        if (_ammunition > 0) {
+        if (_ammunition.ammunitionQuantity > 0) {
 
             if (Time.time > busyWeaponDurationTimeEnd) {
 
@@ -196,7 +212,7 @@ public class WeaponItem : InventoryItem
 
                 if (inventoryManager != null) {
                     if (inventoryManager.characterManager.chracterRole == Role.Player) {
-                        _ammunition = _ammunition - 1;
+                        _ammunition.ammunitionQuantity = _ammunition.ammunitionQuantity - 1;
                     }
                 }
             }
@@ -214,7 +230,7 @@ public class WeaponItem : InventoryItem
     /// <param name="destinationPosition">Destinazione che il damageObject deve raggiungere</param>
     public void useItem(CharacterManager p, Vector3 destinationPosition, GamePadVibrationController gamePadVibrationController) {
 
-        if(_ammunition > 0) {
+        if(_ammunition.ammunitionQuantity > 0) {
             if (Time.time > busyWeaponDurationTimeEnd) {
                 Vector3 posA = _shootingTransform.position;
                 Vector3 posB = destinationPosition;
@@ -258,7 +274,7 @@ public class WeaponItem : InventoryItem
 
                 if (inventoryManager != null) {
                     if (inventoryManager.characterManager.chracterRole == Role.Player) {
-                        _ammunition = _ammunition - 1;
+                        _ammunition.ammunitionQuantity = _ammunition.ammunitionQuantity - 1;
                     }
                 }
                 
@@ -273,10 +289,10 @@ public class WeaponItem : InventoryItem
     /// Aggiungi munizioni alla Weapon fino alla sua capacità massima
     /// </summary>
     public void addAmmunition(int ammo) {
-        _ammunition = _ammunition + ammo;
+        _ammunition.ammunitionQuantity = _ammunition.ammunitionQuantity + ammo;
 
-        if(_ammunition > _magazineCapacity) {
-            _ammunition = _magazineCapacity;
+        if(_ammunition.ammunitionQuantity > _magazineCapacity) {
+            _ammunition.ammunitionQuantity = _magazineCapacity;
         }
     }
 }
