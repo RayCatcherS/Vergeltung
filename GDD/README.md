@@ -84,6 +84,7 @@ Progetti passati:
 
 # <span id = "2">2. Personaggi</span>
 Il protagonista è l'ultimo detentore dei segreti sulle antiche tecnologie, segreti che se entrassero nelle mani dei nemici renderebbe loro invinvibili.
+  I nemici e i cacciatori sono pericolosi militari dal grilletto facile.
 
 # <span id = "3">3. Storia</span>
 Il protagonista è un giovane detentore che dopo aver subito l'abuso e l'omicidio dell'intera famiglia, riesce a sopravvivere fuggendo. Le forze nemiche attribuiranno una taglia
@@ -103,6 +104,7 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   L'abilità del controllo mentale è la meccanica che consente di poter controllare characters i cui loro ruoli permettono l'accesso a zone altrimenti vietate. I civili controllati però non potranno farsi scoprire dalle guardie nemiche nell'utilizzare armi, perchè il loro ruolo non sarebbe compatibile con l'utilizzo delle armi. L'abilità del controllo richiederà delle munizioni speciali riscattabili disattivando i monoliti energetici. Il controllo di uno specifico ruolo avrà un costo in munizioni specifico(nemici: 2, civili: 1).
   La meccanica per il controllo mentale permetterà di accedere all'inventario del character controllato ad esempio delle armi.
   Questo permetterà di usare i characters controllati come vite a disposizione. Se il protagonista fa muorire un character controllato torna a controllare quello precedente e così via fino al personaggio principale.
+  Tutti i characters controllati potranno entrare nello stato di "ricercato".
   Il resto delle meccaniche sono spiegate all'interno dei devlogs:
   
   - [Capitolo diario di sviluppo 2 (Inventario e shooting)](#7.2) 
