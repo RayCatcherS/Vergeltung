@@ -103,12 +103,13 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   L'abilità del controllo mentale è la meccanica che consente di poter controllare characters i cui loro ruoli permettono l'accesso a zone altrimenti vietate. I civili controllati però non potranno farsi scoprire dalle guardie nemiche nell'utilizzare armi, perchè il loro ruolo non sarebbe compatibile con l'utilizzo delle armi. L'abilità del controllo richiederà delle munizioni speciali riscattabili disattivando i monoliti energetici. Il controllo di uno specifico ruolo avrà un costo in munizioni specifico(nemici: 2, civili: 1).
   La meccanica per il controllo mentale permetterà di accedere all'inventario del character controllato ad esempio delle armi.
   Questo permetterà di usare i characters controllati come vite a disposizione. Se il protagonista fa muorire un character controllato torna a controllare quello precedente e così via fino al personaggio principale.
-  Il resto delle meccaniche sono spiegate all'interno dei devlogs
-  2. [Capitolo diario di sviluppo 2 (Inventario e shooting)](#7.2) 
-  3. [Capitolo diario di sviluppo 3 (Level Design)](#7.3) 
-  4. [Capitolo diario di sviluppo 4 (FOV e Stati di allerta)](#7.4) 
-  5. [Capitolo diario di sviluppo 5 (UI allerta)](#7.5)
-  6. [Capitolo diario di sviluppo 6 (AI NPC)](#7.6)
+  Il resto delle meccaniche sono spiegate all'interno dei devlogs:
+  
+  - [Capitolo diario di sviluppo 2 (Inventario e shooting)](#7.2) 
+  - [Capitolo diario di sviluppo 3 (Level Design)](#7.3) 
+  - [Capitolo diario di sviluppo 4 (FOV e Stati di allerta)](#7.4) 
+  - [Capitolo diario di sviluppo 5 (UI allerta)](#7.5)
+  - [Capitolo diario di sviluppo 6 (AI NPC)](#7.6)
   
  
   ## <span id = "4.5">4.5 Progressione e sfida</span>
