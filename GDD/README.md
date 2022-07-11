@@ -116,7 +116,10 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
  
   ## <span id = "4.5">4.5 Progressione e sfida</span>
   La progressione sarà data dal riuscire a raggiungere zone prima non accessibili, muovendosi in modo furtivo senza destare sospetti, rubando munizioni per il controllo mentale infiltrandosi nelle basi e utilizzandole sui characters per improvvisare una strategia per portare a termine gli obiettivi.
+  
+  
   ## <span id = "4.6">4.6 Sconfitta</span>
+  Se il protagonista principale muore il gioco va in gameover
 
 
 # <span id = "5">5. Art Style</span>
