@@ -82,6 +82,11 @@ public class CharacterMovement : MonoBehaviour {
                         animator.SetTrigger("MeleeLocomotion");
                     }
                     break;
+                case WeaponType.controlWeapon: {
+
+                    animator.SetTrigger("MeleeLocomotion");
+                }
+                break;
                 case WeaponType.pistol: {
                         animator.SetTrigger("PistolLocomotion");
                     }

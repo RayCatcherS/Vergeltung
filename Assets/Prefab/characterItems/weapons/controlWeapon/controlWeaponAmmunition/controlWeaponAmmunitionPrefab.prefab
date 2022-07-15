@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7050449291225667330}
   - component: {fileID: 7050449291225667331}
   - component: {fileID: 7050449291225667332}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: shootParticleMonolith (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4822,7 +4822,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7050449291516809065}
   - component: {fileID: 3902081620281693118}
-  m_Layer: 0
+  - component: {fileID: 8175561460199915610}
+  - component: {fileID: 65419831160513606}
+  - component: {fileID: 3652580183820539718}
+  m_Layer: 3
   m_Name: controlWeaponAmmunitionPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4838,7 +4841,7 @@ Transform:
   m_GameObject: {fileID: 7050449291516809066}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -25.21639, y: 0.68, z: -53.429478}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7373099833272151843}
@@ -4862,6 +4865,76 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8175561460199915610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 257563c1fc79e3448a5f47d16318a2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineScript: {fileID: 0}
+  interactableMeshEffect: {fileID: 0}
+  _itemNameID: CONTROL WEAPON
+  _prohibitedItem: 0
+  _getItemEventName: GET
+  getItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _inventoryManager: {fileID: 0}
+  _shootingTransform: {fileID: 0}
+  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
+  _rightHandTransformRef: {fileID: 0}
+  _leftHandTransformRef: {fileID: 0}
+  _extractedWeaponPreview: {fileID: 21300000, guid: 5317dc680822b3c4d8babea6f2ed7241, type: 3}
+  _puttedAwayWeaponPreview: {fileID: 21300000, guid: 731842c5a7277ba47944739c3d18aa26, type: 3}
+  damageObject: {fileID: 3682149808839142542, guid: 69ad4c478fc2cf84aaf5182e835aca1a, type: 3}
+  weaponType: 3
+  _magazineCapacity: 28
+  _ammunition:
+    _ammunitionType: 3
+    _ammunitionQuantity: 1
+  shootFrequency: 0.15
+  _automaticWeapon: 0
+  _vibrationOnUseWeapon: 1
+  _impulseTime: 0.15
+  _impulseForce: 0.6
+  weaponUsed: 0
+  spawnDamageObjectParticleTransform: {fileID: 0}
+  spawnDamageObjectParticle: {fileID: 0}
+  gunShootSound: {fileID: 0}
+  loudArea: {fileID: 0}
+  loudIntensity: 0
+--- !u!114 &65419831160513606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08f12b8bdb522c48822d8225d7ebc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactable: {fileID: 8175561460199915610}
+--- !u!135 &3652580183820539718
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6.69
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7050449291538647240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4872,6 +4945,18 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4920,6 +5005,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_Name
       value: controlWeaponAmmunition
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}

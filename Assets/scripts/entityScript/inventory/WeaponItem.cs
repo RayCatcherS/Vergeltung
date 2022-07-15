@@ -6,6 +6,7 @@ public enum WeaponType{
     melee,
     pistol,
     rifle,
+    controlWeapon
 }
 
 [System.Serializable]
@@ -191,20 +192,16 @@ public class WeaponItem : InventoryItem
                     // loud area
                     if((itemNameID != BASE_MELEE_ID)) {
 
-                        if(inventoryManager != null) {
+                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
 
-                            GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                        /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                            gunShootSound);*/
 
-                            /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                                inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
-                                gunShootSound);*/
-
-                            loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                                loudIntensity,
-                                gunShootSound);
-
-                            loudGameObject.GetComponent<LoudArea>().startLoudArea();
-                        }
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            loudIntensity,
+                            gunShootSound);
+                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
 
 
@@ -237,19 +234,16 @@ public class WeaponItem : InventoryItem
                 // loud area
                 if((itemNameID != BASE_MELEE_ID)) {
 
-                    if(inventoryManager != null) {
+                    GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
 
-                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                    /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                        inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                        gunShootSound);*/
+                    loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            loudIntensity,
+                            gunShootSound);
 
-                        /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                            inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
-                            gunShootSound);*/
-                        loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                                loudIntensity,
-                                gunShootSound);
-
-                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
-                    }
+                    loudGameObject.GetComponent<LoudArea>().startLoudArea();
                 }
             }
 
@@ -292,19 +286,16 @@ public class WeaponItem : InventoryItem
                     // loud area
                     if((itemNameID != BASE_MELEE_ID)) {
 
-                        if(inventoryManager != null) {
+                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                        /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                            gunShootSound);*/
 
-                            GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                            /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                                inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
-                                gunShootSound);*/
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            loudIntensity,
+                            gunShootSound);
 
-                            loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                                loudIntensity,
-                                gunShootSound);
-
-                            loudGameObject.GetComponent<LoudArea>().startLoudArea();
-                        }
+                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
 
 
@@ -350,19 +341,16 @@ public class WeaponItem : InventoryItem
                 // loud area
                 if((itemNameID != BASE_MELEE_ID)) {
 
-                    if(inventoryManager != null) {
+                    GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
 
-                        GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
+                    /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                        inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                        gunShootSound);*/
+                    loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                        loudIntensity,
+                        gunShootSound);
 
-                        /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                            inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
-                            gunShootSound);*/
-                        loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                            loudIntensity,
-                            gunShootSound);
-
-                        loudGameObject.GetComponent<LoudArea>().startLoudArea();
-                    }
+                    loudGameObject.GetComponent<LoudArea>().startLoudArea();
                 }
 
                 // damage object

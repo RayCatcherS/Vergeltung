@@ -349,7 +349,7 @@ public class InventoryManager : Interactable {
         rigBuilder.Build();
 
         // imposta rig
-        if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
+        if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee || _weaponItems[_selectedWeapon].getWeaponType == WeaponType.controlWeapon) {
             if (weaponPuttedAway) {
                 _rightHandRig.weight = 0;
                 _leftHandRig.weight = 0;
@@ -757,11 +757,7 @@ public class InventoryManager : Interactable {
 
             if (!weaponPuttedAway) {
 
-                if(weaponItems[selectedWeapon].itemNameID == BASE_MELEE_ID) {
-                    result = false;
-                } else {
-                    result = true;
-                }
+                result = weaponItems[selectedWeapon].prohibitedItem;
                 
             } else {
                 result = false;
