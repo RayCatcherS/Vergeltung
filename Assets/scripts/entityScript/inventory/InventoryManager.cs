@@ -144,22 +144,29 @@ public class InventoryManager : Interactable {
             if(weaponItems[selectedWeapon].itemNameID != BASE_MELEE_ID) {
 
 
-                _aimTargetImage.setAimTargetEnabled(true);
+                if(!isGunThroughWall()) {
+                    _aimTargetImage.setAimTargetEnabled(true);
 
-                if(_weaponPuttedAway) {
-                    _aimTargetImage.aimLowOpacity();
+                    if(_weaponPuttedAway) {
+                        _aimTargetImage.aimLowOpacity();
 
+                    } else {
+
+                        if(aimInfo.isAimedCharacter) {
+                            _aimTargetImage.aimHighOpacity();
+                        } else {
+                            _aimTargetImage.aimMediumOpacity();
+                        }
+
+                    }
+
+                    _aimTargetImage.updateUIWorldPosition(aimInfo.aimedHitPosition);
                 } else {
 
-                    if(aimInfo.isAimedCharacter) {
-                        _aimTargetImage.aimHighOpacity();
-                    } else {
-                        _aimTargetImage.aimMediumOpacity();
-                    }
-                    
+                    _aimTargetImage.setAimTargetEnabled(false);
                 }
 
-                _aimTargetImage.updateUIWorldPosition(aimInfo.aimedHitPosition);
+                
                 
             } else {
 

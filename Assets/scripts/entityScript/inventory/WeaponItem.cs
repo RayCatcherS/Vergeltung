@@ -385,7 +385,5 @@ public class WeaponItem : InventoryItem
             }
         }
         
-        
-        
     }
 }
