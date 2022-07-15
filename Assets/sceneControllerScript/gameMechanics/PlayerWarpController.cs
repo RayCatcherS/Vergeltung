@@ -56,6 +56,7 @@ public class PlayerWarpController : MonoBehaviour
             character.interactionUIController = gameObject.GetComponent<InteractionUIController>();
             character.weaponUIController = gameObject.GetComponent<WeaponUIController>();
             character.alarmAlertUIController = gameObject.GetComponent<AlarmAlertUIController>();
+            character.inventoryManager.aimTargetImage = gameObject.GetComponent<AimUIManager>();
 
 
             // configurazione comandi

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
+using UnityEngine.UI;
 using UnityEngine.Animations.Rigging;
 
 public class InventoryManager : Interactable {
@@ -79,6 +79,11 @@ public class InventoryManager : Interactable {
     [SerializeField] public Gradient extractedweaponLineRendererGradient;
     [SerializeField] public Gradient puttedAwayweaponLineRendererGradient;
 
+    [Header("Aim UI target")]
+    private AimUIManager _aimTargetImage;
+    public AimUIManager aimTargetImage {
+        set { _aimTargetImage = value; }
+    }
 
     // getter - setter
     public int selectedWeapon {
@@ -123,9 +128,52 @@ public class InventoryManager : Interactable {
     }
 
     public void Update() {
-        drawAimWeaponLineRendered();
+
+        AimInformation aimInfo = getAimInformation();
+
+
+        // update aimed character
+        if(_characterManager.isPlayer) {
+            characterManager.aimedCharacter = aimInfo.aimedCharacter;
+        }
+
+
+        if(_characterManager.isPlayer) {
+
+
+            if(weaponItems[selectedWeapon].itemNameID != BASE_MELEE_ID) {
+
+
+                _aimTargetImage.setAimTargetEnabled(true);
+
+                if(_weaponPuttedAway) {
+                    _aimTargetImage.aimLowOpacity();
+
+                } else {
+
+                    if(aimInfo.isAimedCharacter) {
+                        _aimTargetImage.aimHighOpacity();
+                    } else {
+                        _aimTargetImage.aimMediumOpacity();
+                    }
+                    
+                }
+
+                _aimTargetImage.updateUIWorldPosition(aimInfo.aimedHitPosition);
+                
+            } else {
+
+                _aimTargetImage.setAimTargetEnabled(false);
+            }
+            
+
+
+            drawAimWeaponLineRendered(aimInfo.aimedHitPosition);
+        }
+        
+
     }
-    
+
     /// <summary>
     /// Ottieni tipo di arma attualemente selezionata
     /// </summary>
@@ -408,7 +456,7 @@ public class InventoryManager : Interactable {
         if(!characterManager.isBusy) {
             if(_selectedWeapon != -1 && !isGunThroughWall() && !_weaponPuttedAway) {
 
-                Vector3 destinationPosition = drawAimWeaponLineRendered();
+                Vector3 destinationPosition = getAimInformation().aimedHitPosition;
 
 
                 // builda UI solo se player
@@ -491,89 +539,76 @@ public class InventoryManager : Interactable {
             
     }
 
-    ////// <summary>
+    /// <summary>
     /// Disegna tramite il componente line rendere una 
     /// retta che parte dall'arma al punto mirato dal character
-    /// 
-    /// </summary>
-    /// <returns>Restituisce la posizione puntata</returns>
-    public Vector3 drawAimWeaponLineRendered() {
+    public void drawAimWeaponLineRendered(Vector3 hitPosition) {
 
-        Vector3 aimedPosition = Vector3.zero;
-
-        if (isSelectedWeapon && _characterManager.isPlayer && !isGunThroughWall()) {
+        if (isSelectedWeapon && !isGunThroughWall()) {
             _weaponLineRenderer.enabled = true;
 
 
             _weaponLineRenderer.SetPosition(0, _weaponItems[_selectedWeapon].shootingTransform.position);
-
-            
-            RaycastHit hit;
-            Ray ray = new Ray(_weaponItems[_selectedWeapon].shootingTransform.position, new Vector3(
-                Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                0,
-                Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
-            ));
+            _weaponLineRenderer.SetPosition(1, hitPosition);
 
 
-            if (Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) { // se il raycast hitta
+        } else {
+            _weaponLineRenderer.enabled = false;
+        }
+    }
 
 
-               
-                // setta il character mirato nel character manager come character aimato
-                if(hit.transform.gameObject.layer == CHARACTER_LAYERS ) {
+    /// <summary>
+    /// Ottieni informazioni sulla mira del character
+    /// </summary>
+    /// <returns>Restituisce un oggetto con tutte le info sulla mira del character</returns>
+    AimInformation getAimInformation() {
+        AimInformation aimedPosition;
 
-                    if(!hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
-                        _characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
 
-                        Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
-                        _weaponLineRenderer.SetPosition(1, hit.point);
-                    }
+        RaycastHit hit;
+        Ray ray = new Ray(_weaponItems[_selectedWeapon].shootingTransform.position, new Vector3(
+            Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
+            0,
+            Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
+        ));
+
+
+        if(Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) { // se il raycast hitta
+
+
+
+            // setta il character mirato nel character manager come character aimato
+            if(hit.transform.gameObject.layer == CHARACTER_LAYERS) {
+
+                if(!hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+                    aimedPosition = new AimInformation(hit.point, hit.transform.gameObject.GetComponent<CharacterManager>());
+
 
                 } else {
-                    _characterManager.aimedCharacter = null;
-
-                    Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
-                    _weaponLineRenderer.SetPosition(1, hit.point);
+                    aimedPosition = new AimInformation(Vector3.zero, null);
                 }
-                aimedPosition = hit.point;
+
+            } else {
+                aimedPosition = new AimInformation(hit.point, null);
+            }
 
 
 
-            } else { // se il ray cast non hitta
 
-                _characterManager.aimedCharacter = null;
-
-
-                Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
-                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                    0,
-                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
-                ) * RAY_DISTANCE);
+        } else { // se il ray cast non hitta
 
 
-                _weaponLineRenderer.SetPosition(1, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
-                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                    0,
-                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
-                ) * RAY_DISTANCE);
-
-
-                aimedPosition = _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
+            Vector3 noHitPos;
+            noHitPos = _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
                 ) * RAY_DISTANCE;
-            }
 
-
-            
-
-            
-        } else {
-            _weaponLineRenderer.enabled = false;
+            aimedPosition = new AimInformation(noHitPos, null);
         }
-
         return aimedPosition;
     }
 
@@ -745,11 +780,33 @@ public class InventoryManager : Interactable {
 
                 if(!weaponItems[i].isWeaponAmmunitionEmpty) {
 
-                    Debug.Log("Select weapon");
+
                     selectWeapon(i);
                 }
             }
         }
         
+    }
+}
+public class AimInformation {
+    private Vector3 _aimedHitPosition = Vector3.zero;
+    public Vector3 aimedHitPosition {
+        get { return _aimedHitPosition; }
+    }
+
+    public bool isAimedCharacter {
+        get { return (_aimedCharacter != null); }
+    }
+    private CharacterManager _aimedCharacter;
+    public CharacterManager aimedCharacter {
+        get { return _aimedCharacter; }
+    }
+
+
+
+
+    public AimInformation(Vector3 hitPos, CharacterManager aimedC) {
+        _aimedHitPosition = hitPos;
+        _aimedCharacter = aimedC;
     }
 }

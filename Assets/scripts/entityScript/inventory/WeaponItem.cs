@@ -194,7 +194,15 @@ public class WeaponItem : InventoryItem
                         if(inventoryManager != null) {
 
                             GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                            loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
+
+                            /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                                inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                                gunShootSound);*/
+
+                            loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                                loudIntensity,
+                                gunShootSound);
+
                             loudGameObject.GetComponent<LoudArea>().startLoudArea();
                         }
                     }
@@ -232,7 +240,14 @@ public class WeaponItem : InventoryItem
                     if(inventoryManager != null) {
 
                         GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
+
+                        /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                            gunShootSound);*/
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                                loudIntensity,
+                                gunShootSound);
+
                         loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
                 }
@@ -280,7 +295,14 @@ public class WeaponItem : InventoryItem
                         if(inventoryManager != null) {
 
                             GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                            loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
+                            /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                                inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                                gunShootSound);*/
+
+                            loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                                loudIntensity,
+                                gunShootSound);
+
                             loudGameObject.GetComponent<LoudArea>().startLoudArea();
                         }
                     }
@@ -300,8 +322,16 @@ public class WeaponItem : InventoryItem
                         damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
 
                         if(spawnDamageObjectParticle != null) {
-                            GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
-                            particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                            GameObject particleGO = Instantiate(
+                                spawnDamageObjectParticle,
+                                spawnDamageObjectParticleTransform.position,
+                                spawnDamageObjectParticleTransform.rotation
+                            );
+
+
+                            particleGO.transform.parent
+                                = p.gameObject.GetComponent<CharacterMovement>()
+                                .characterModel.gameObject.transform;
                         }
                     }
 
@@ -323,7 +353,14 @@ public class WeaponItem : InventoryItem
                     if(inventoryManager != null) {
 
                         GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
-                        loudGameObject.GetComponent<LoudArea>().initLoudArea(inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing, gunShootSound);
+
+                        /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
+                            gunShootSound);*/
+                        loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                            loudIntensity,
+                            gunShootSound);
+
                         loudGameObject.GetComponent<LoudArea>().startLoudArea();
                     }
                 }
@@ -334,8 +371,13 @@ public class WeaponItem : InventoryItem
                     damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
 
                     if(spawnDamageObjectParticle != null) {
-                        GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
-                        particleGO.transform.parent = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                        GameObject particleGO = Instantiate(
+                            spawnDamageObjectParticle,
+                            spawnDamageObjectParticleTransform.position,
+                            spawnDamageObjectParticleTransform.rotation);
+
+                        particleGO.transform.parent 
+                            = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
                     }
                 }
 
@@ -346,15 +388,4 @@ public class WeaponItem : InventoryItem
         
         
     }
-    
-    /*/// <summary>
-    /// Aggiungi munizioni alla Weapon fino alla sua capacità massima
-    /// </summary>
-    public void addAmmunition(int ammo) {
-        _ammunition.ammunitionQuantity = _ammunition.ammunitionQuantity + ammo;
-
-        if(_ammunition.ammunitionQuantity > _magazineCapacity) {
-            _ammunition.ammunitionQuantity = _magazineCapacity;
-        }
-    }*/
 }
