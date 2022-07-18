@@ -144,7 +144,10 @@ public class InventoryManager : Interactable {
 
         // update aimed character
         if(_characterManager.isPlayer) {
-            characterManager.aimedCharacter = aimInfo.aimedCharacter;
+
+            if(!isGunThroughWall()) {
+                characterManager.aimedCharacter = aimInfo.aimedCharacter;
+            }
         }
 
 
