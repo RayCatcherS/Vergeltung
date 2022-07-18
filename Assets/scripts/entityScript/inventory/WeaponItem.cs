@@ -47,7 +47,6 @@ public class WeaponItem : InventoryItem
     [Header("Weapon configuration")]
     [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
     [SerializeField] private WeaponType weaponType;
-    [SerializeField] private int _magazineCapacity = 28;
     [SerializeField] private Ammunition _ammunition;
     public Ammunition ammunition {
         get { return _ammunition; }
@@ -116,9 +115,6 @@ public class WeaponItem : InventoryItem
 
     public bool automaticWeapon {
         get { return _automaticWeapon; }
-    }
-    public int magazineCapacity {
-        get { return _magazineCapacity; }
     }
 
     // ref getters 

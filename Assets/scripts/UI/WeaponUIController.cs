@@ -70,7 +70,10 @@ public class WeaponUIController : MonoBehaviour {
 
         ammunition.text = inventoryManager.inventoryAmmunitions[inventoryManager.weaponItems[inventoryManager.selectedWeapon].getWeaponType].ammunitionQuantity.ToString();
 
-            
-        magazineCapacity.text = "/" + inventoryManager.weaponItems[inventoryManager.selectedWeapon].magazineCapacity.ToString();
+
+        WeaponItem selectedWeapon = inventoryManager.weaponItems[inventoryManager.selectedWeapon];
+        WeaponType weaponType = selectedWeapon.getWeaponType;
+
+        magazineCapacity.text = "/" + inventoryManager.maxInventoryAmmunitions[weaponType].ammunitionQuantity.ToString();
     }
 }

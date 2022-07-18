@@ -56,10 +56,20 @@ public class InventoryManager : Interactable {
     public CharacterFlashLight characterFlashLight {
         get { return _characterFlashLight; }
     }
-    [Header("Inventory Ammunitions")]
+    [Header("Inventory Ammunitions and config")]
     [SerializeField] private Dictionary<WeaponType, Ammunition> _inventoryAmmunitions = new Dictionary<WeaponType, Ammunition>();
     public Dictionary<WeaponType, Ammunition> inventoryAmmunitions {
         get { return _inventoryAmmunitions; }
+    }
+    [SerializeField]
+    private Dictionary<WeaponType, Ammunition> _maxInventoryAmmunitions = new Dictionary<WeaponType, Ammunition>() {
+        { WeaponType.melee, new Ammunition(WeaponType.melee, 1) },
+        { WeaponType.pistol, new Ammunition(WeaponType.pistol, 12) },
+        { WeaponType.rifle, new Ammunition(WeaponType.rifle, 28) },
+        { WeaponType.controlWeapon, new Ammunition(WeaponType.controlWeapon, 14) },
+    };
+    public Dictionary<WeaponType, Ammunition> maxInventoryAmmunitions {
+        get { return _maxInventoryAmmunitions; }
     }
 
     [Header("Inventory state")]
@@ -266,6 +276,7 @@ public class InventoryManager : Interactable {
             Destroy(weaponItem.gameObject);
         }
 
+        // aggiungi al dizionario dell'inventario le munizioni
         if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {
             _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity 
                 = _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + weaponItem.ammunition.ammunitionQuantity;
@@ -273,6 +284,11 @@ public class InventoryManager : Interactable {
             _inventoryAmmunitions.Add(weaponItem.ammunition.ammunitionType, weaponItem.ammunition);
         }
         
+
+        // max ammunition reached
+        if(_inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity > _maxInventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity) {
+            _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity = _maxInventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity;
+        }
 
 
         // builda UI solo se player
