@@ -20,6 +20,10 @@ public class PlayerWarpController : MonoBehaviour
         }
     }
     [SerializeField] private CharacterManager firstPlayerCharacter; // primo character usato dal player, se muore si fallisce
+    [SerializeField] private CharacterManager _currentPlayedCharacter; // character attualmente usato 
+    public CharacterManager currentPlayedCharacter {
+        get { return _currentPlayedCharacter; }
+    }
 
     [Header("Settings")]
     [SerializeField] private bool firstCharacterPlayerIsWanted = true;
@@ -60,9 +64,9 @@ public class PlayerWarpController : MonoBehaviour
 
 
             // configurazione comandi
-            gameObject.GetComponent<PlayerInputController>().characterMovement = character.GetComponent<CharacterMovement>();
-            gameObject.GetComponent<PlayerInputController>().inventoryManager = character.GetComponent<CharacterManager>().inventoryManager;
-            gameObject.GetComponent<PlayerInputController>().characterManager = character.GetComponent<CharacterManager>();
+            gameObject.GetComponent<GameInputManager>().characterMovement = character.GetComponent<CharacterMovement>();
+            gameObject.GetComponent<GameInputManager>().inventoryManager = character.GetComponent<CharacterManager>().inventoryManager;
+            gameObject.GetComponent<GameInputManager>().characterManager = character.GetComponent<CharacterManager>();
 
             // configurazione camera
             gameCamera.GetComponent<CoutoutObject>().targetObject = character.occlusionTargetTransform;
@@ -83,6 +87,8 @@ public class PlayerWarpController : MonoBehaviour
             // avvia coroutines character player
             StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
         }
+
+        _currentPlayedCharacter = character.GetComponent<CharacterManager>();
 
         // Rebuild UI
         gameState.updateWantedUICharacter();

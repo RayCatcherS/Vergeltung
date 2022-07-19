@@ -8,11 +8,21 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum GlobalGameState {
+    play,
+    gameover,
+    pause
+}
+
 /// <summary>
 /// Game state di gioco, utilizzato per accedere a stati e metodi globali che hanno ripercussioni sull'intero gioco
 /// </summary>
 public class GameState : MonoBehaviour
 {
+    private GlobalGameState _gameState = GlobalGameState.play;
+    public GlobalGameState gameState {
+        get { return _gameState; }
+    }
 
     [Header("Ref")]
     [SerializeField] private PlayerWarpController playerWarpController;
@@ -23,8 +33,9 @@ public class GameState : MonoBehaviour
 
     [Header("UI screen ref")]
     [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private MenuScreen pauseUIScreen;
     [SerializeField] private MenuScreen gameOverUIScreen;
-    [SerializeField] private MenuScreen LoadingUIScreen;
+    [SerializeField] private MenuScreen loadingUIScreen;
     [SerializeField] private Slider loadingSlider;
 
     [Header("Power settings and states")]
@@ -59,7 +70,7 @@ public class GameState : MonoBehaviour
         electricGateControllers = FindObjectsOfType(typeof(ElectricGateController)) as ElectricGateController[];
 
         gameOverUIScreen.gameObject.SetActive(false);
-        LoadingUIScreen.gameObject.SetActive(false);
+        loadingUIScreen.gameObject.SetActive(false);
     }
 
     // getter
@@ -184,36 +195,81 @@ public class GameState : MonoBehaviour
 
 
 
+
+
+
     
     /// <summary>
     /// Setta il gioco in stato di gameover
     /// Avvia l'UI di game over
     /// </summary>
-    public async Task initGameOverGameState() {
+    public async void initGameOverGameState() {
         // start canzone fine partita
         gameOverAudioSource.Play();
 
-        // switch input 
-        playerActions = new PlayerInputAction();
-        playerActions.Player.Disable();
-        playerActions.MainMenu.Enable();
-
         await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterBehaviourInSceneAsync(); // attendi e disattiva behaviour di tutti i character 
 
-        // game over UI
+        
 
         // setta comando action event system
         eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
 
-        LoadingUIScreen.gameObject.SetActive(false);
+
+        // game over UI
+        loadingUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(true);
         eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
+
+        // game state 
+        _gameState = GlobalGameState.gameover;
     }
+
+    public void initPauseGameState() {
+        // game time
+        Time.timeScale = 0;
+
+
+        // setta comando action event system
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+
+        // pause UI
+        loadingUIScreen.gameObject.SetActive(false);
+        gameOverUIScreen.gameObject.SetActive(false);
+        pauseUIScreen.gameObject.SetActive(true);
+        eventSystem.SetSelectedGameObject(pauseUIScreen.firtButton.gameObject);
+
+
+        // game state 
+        _gameState = GlobalGameState.pause;
+    }
+
+    public void resumeGameState() {
+        // game time
+        Time.timeScale = 1;
+
+
+        // setta comando action event system
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.UI.Action);
+
+        // pause UI
+        loadingUIScreen.gameObject.SetActive(false);
+        gameOverUIScreen.gameObject.SetActive(false);
+        pauseUIScreen.gameObject.SetActive(false);
+
+
+        // rebuild UI interacion(selezionando il primo elemento (se c'è))
+        playerWarpController.currentPlayedCharacter.buildListOfInteraction();
+
+        // game state 
+        _gameState = GlobalGameState.play;
+    }
+
 
     public void initLoadingScreen(int sceneToLoad) {
 
+        pauseUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
-        LoadingUIScreen.gameObject.SetActive(true);
+        loadingUIScreen.gameObject.SetActive(true);
 
 
         StartCoroutine(LoadSceneAsynchronously(sceneToLoad));

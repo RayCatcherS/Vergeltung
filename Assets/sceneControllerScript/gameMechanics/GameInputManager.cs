@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputController : MonoBehaviour
+public class GameInputManager : MonoBehaviour
 {
     private const float INVENTARY_WAIT_TIME = 0.2f;
 
+    [Header("Ref")]
     [SerializeField] private CharacterMovement _characterMovement;
     [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private CharacterManager _characterManager;
+    [SerializeField] private GameState _gameState;
     PlayerInputAction playerActions;
 
     private Vector2 vec2Movement; // vettore input movimento joypad(left analog stick)
     private Vector2 vec2Rotation; // vettore input rotazione joypad(right analog stick)
 
-    [SerializeField] float rotationInputStickDeadZone = 0.135f;
-    [SerializeField] float movementInputStickDeadZone = 0.135f;
+    [SerializeField] float rotationInputStickDeadZone = 0.7f;
+    [SerializeField] float movementInputStickDeadZone = 0.45f;
 
     private float inputIsRun = 0;
     private bool isRunPressed = false;
@@ -34,6 +36,10 @@ public class PlayerInputController : MonoBehaviour
 
     // discard input
     private float inputIsDiscardActionPressed;
+
+    // pause input
+    private float inputIsPausePressed;
+    private bool isPausePressed = false;
 
     // getters and setters ref
     public CharacterMovement characterMovement {
@@ -71,19 +77,26 @@ public class PlayerInputController : MonoBehaviour
 
     // input movimento più reattivi nell'Update
     private void Update() {
+        
+        if(_gameState.gameState != GlobalGameState.gameover && _gameState.gameState != GlobalGameState.pause) {
+            print(_gameState.gameState);
 
-        if(!_characterManager.isDead) {
+            if(!_characterManager.isDead) {
 
-            if(!_characterManager.isBusy) {
-                moveAndRotateInput();
-                
-            } else {
-                
-                _characterMovement.stopCharacter();
+                if(!_characterManager.isBusy) {
+                    moveAndRotateInput();
+
+                } else {
+
+                    _characterMovement.stopCharacter();
+                }
+                inventaryInput();
+                onDiscardPressed();
             }
-            inventaryInput();
-            onDiscardPressed();
+
+            
         }
+        pauseInput();
     }
 
     /// <summary>
@@ -216,9 +229,32 @@ public class PlayerInputController : MonoBehaviour
         inputIsDiscardActionPressed = playerActions.Player.DiscardAction.ReadValue<float>();
 
         if (inputIsDiscardActionPressed == 1) {
-
             characterManager.discardCharacterAction();
         }
+    }
+
+    private void pauseInput() {
+        inputIsPausePressed = playerActions.Player.Pause.ReadValue<float>();
+
+
+
+        if(inputIsPausePressed == 1) {
+
+            if(!isPausePressed) {
+                if(_gameState.gameState != GlobalGameState.pause) {
+
+                    gameObject.GetComponent<GameState>().initPauseGameState();
+                } else {
+                    gameObject.GetComponent<GameState>().resumeGameState();
+                }
+
+                isPausePressed = true;
+            }
+
+        } else {
+            isPausePressed = false;
+        }
+
     }
     /*void OnGUI() {
         GUI.TextArea(new Rect(0, 0, 200, 100), "Direzioni vettori: \n" + "input rotazione \n" + characterMovement.getRotationAimInput.ToString() + "\n" +
