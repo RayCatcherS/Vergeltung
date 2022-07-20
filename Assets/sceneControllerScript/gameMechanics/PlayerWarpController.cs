@@ -194,9 +194,11 @@ public class PlayerWarpController : MonoBehaviour
             if (warpedCharacterManagerStack[i].GetInstanceID() == character.GetInstanceID()) {
                 warpedCharacterManagerStack.RemoveAt(i);
             }
+
+            
         }
 
-        
+
         if (warpedCharacterManagerStack.Count > 0) {
 
             // warp del character precedente

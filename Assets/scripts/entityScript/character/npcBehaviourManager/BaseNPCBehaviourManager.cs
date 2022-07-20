@@ -708,7 +708,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
 
         
-        if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
+        if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking || seenCharacterManager.isWeaponCharacterFiring) {
 
 
             

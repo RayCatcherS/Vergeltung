@@ -197,7 +197,7 @@ public class CharacterFOV : MonoBehaviour {
         if (hitColliders.Length != 0) {
 
             foreach(Collider collider in hitColliders) {
-                if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+                if (collider.gameObject.GetComponent<CharacterManager>().isStackControlled) {
 
                     characterSeen = isCharactersVisibleInFirstFOV(
                         collider.gameObject.GetComponent<CharacterManager>(),
@@ -238,7 +238,7 @@ public class CharacterFOV : MonoBehaviour {
         if (hitColliders.Length != 0) {
             
             foreach (Collider collider in hitColliders) {
-                if (collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+                if (collider.gameObject.GetComponent<CharacterManager>().isStackControlled) {
 
                     characterSeen = isCharactersVisibleInSecondFOV(
                         collider.gameObject.GetComponent<CharacterManager>(),
@@ -587,7 +587,7 @@ public class CharacterFOV : MonoBehaviour {
 
             foreach (Collider collider in hitColliders) {
 
-                if (!collider.gameObject.GetComponent<CharacterManager>().isPlayer) {
+                if (!collider.gameObject.GetComponent<CharacterManager>().isStackControlled) {
 
                     if (collider.gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
 
@@ -741,7 +741,7 @@ public class CharacterFOV : MonoBehaviour {
     }
 
     void OnDrawGizmos() {
-        if(!gameObject.GetComponent<CharacterManager>().isPlayer) {
+        if(!gameObject.GetComponent<CharacterManager>().isStackControlled) {
 
             // debugga campi visivi solo se i character rilevano altri character player
             if(firstFOVCanSeeCharacter || secondFOVCanSeeCharacter) {
@@ -753,7 +753,7 @@ public class CharacterFOV : MonoBehaviour {
     }
 
     void OnDrawGizmosSelected() {
-        if (!gameObject.GetComponent<CharacterManager>().isPlayer) {
+        if (!gameObject.GetComponent<CharacterManager>().isStackControlled) {
 
             drawfirstFOVEditor();
             drawSecondFOVEditor();
