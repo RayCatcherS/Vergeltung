@@ -76,6 +76,11 @@ public class CharacterManager : MonoBehaviour {
         get { return _isPlayer; }
         set { _isPlayer = value; }
     }
+    [SerializeField] private bool _isStackControlled = false;
+    public bool isStackControlled {
+        get { return _isStackControlled; }
+        set { _isStackControlled = value; }
+    }
     [SerializeField] private bool _isDead = false;
     public bool isDead {
         get { return _isDead; }
@@ -359,7 +364,7 @@ public class CharacterManager : MonoBehaviour {
         _inventoryManager.setInventoryAsInteractable();
 
 
-        if (!isPlayer) {
+        if (!_isStackControlled) {
 
             inventoryManager.characterFlashLight.instantLightOffFlashLight();
 

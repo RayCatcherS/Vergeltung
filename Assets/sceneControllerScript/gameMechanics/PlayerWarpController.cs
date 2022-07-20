@@ -46,8 +46,8 @@ public class PlayerWarpController : MonoBehaviour
             controlAmmoT = _currentPlayedCharacter.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon];
         }
         _currentPlayedCharacter = character.GetComponent<CharacterManager>();
+        character.isStackControlled = true;
 
-        
 
         // controllo primo character (è il primo character usato dal player)
         if(warpedCharacterManagerStack.Count == 0) {
@@ -174,11 +174,17 @@ public class PlayerWarpController : MonoBehaviour
     /// <param name="character"></param>
     public void unstackDeadCharacterAndControlPreviewCharacter(CharacterManager character) {
         
+
+
         if(character.GetInstanceID() == firstPlayerCharacter.GetInstanceID()) {
 
             // game over
             Debug.Log("player dead");
             gameState.initGameOverGameState();
+
+            for(int i = 1; i < warpedCharacterManagerStack.Count; i++) {
+                warpedCharacterManagerStack[i].killCharacterAsync(Vector3.zero);
+            }
         }
 
 
@@ -192,7 +198,6 @@ public class PlayerWarpController : MonoBehaviour
 
         
         if (warpedCharacterManagerStack.Count > 0) {
-            print("unstack");
 
             // warp del character precedente
             warpPlayerToCharacterAsync(warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1]);
