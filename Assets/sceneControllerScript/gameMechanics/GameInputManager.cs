@@ -79,7 +79,7 @@ public class GameInputManager : MonoBehaviour
     private void Update() {
         
         if(_gameState.gameState != GlobalGameState.gameover && _gameState.gameState != GlobalGameState.pause) {
-            print(_gameState.gameState);
+
 
             if(!_characterManager.isDead) {
 

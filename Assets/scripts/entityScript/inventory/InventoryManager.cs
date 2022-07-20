@@ -88,6 +88,7 @@ public class InventoryManager : Interactable {
     [SerializeField] private Material weaponLineRendererMaterial;
     [SerializeField] public Gradient extractedweaponLineRendererGradient;
     [SerializeField] public Gradient puttedAwayweaponLineRendererGradient;
+    [SerializeField] public Gradient controlWeaponLineRendererGradient;
 
     [Header("Aim UI target")]
     private AimUIManager _aimTargetImage;
@@ -747,12 +748,15 @@ public class InventoryManager : Interactable {
         } else {
 
 
-            if (_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
+            if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
                 _weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
-                
+
+            } else if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.controlWeapon) {
+                _weaponLineRenderer.colorGradient = controlWeaponLineRendererGradient;
+
             } else {
                 _weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
-                
+
             }
             _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata
         }

@@ -213,6 +213,15 @@ public class WeaponItem : InventoryItem
                             GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
 
                         }
+                    } else if(weaponType == WeaponType.controlWeapon) {
+
+                        damageGO.GetComponent<ControlBullet>().setupBullet(posB, inventoryManager);
+
+                        if(spawnDamageObjectParticle != null) {
+
+                            GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+
+                        }
                     }
 
                     busyWeaponDurationTimeEnd = Time.time + shootFrequency;
@@ -220,7 +229,11 @@ public class WeaponItem : InventoryItem
 
                     if(inventoryManager.characterManager.chracterRole == Role.Player) {
 
-                        inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity = inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity - 1;
+                        if(weaponType != WeaponType.controlWeapon) {
+                            inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity 
+                                = inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity - 1;
+                        }
+                        
                     }
                 }
 
@@ -248,6 +261,15 @@ public class WeaponItem : InventoryItem
             if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
 
                 damageGO.GetComponent<Bullet>().setupBullet(posB);
+
+                if(spawnDamageObjectParticle != null) {
+
+                    GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
+
+                }
+            } else if(weaponType == WeaponType.controlWeapon) {
+
+                damageGO.GetComponent<ControlBullet>().setupBullet(posB, inventoryManager);
 
                 if(spawnDamageObjectParticle != null) {
 
@@ -312,13 +334,22 @@ public class WeaponItem : InventoryItem
                             GameObject particleGO = Instantiate(
                                 spawnDamageObjectParticle,
                                 spawnDamageObjectParticleTransform.position,
-                                spawnDamageObjectParticleTransform.rotation
-                            );
-
+                                spawnDamageObjectParticleTransform.rotation);
 
                             particleGO.transform.parent
-                                = p.gameObject.GetComponent<CharacterMovement>()
-                                .characterModel.gameObject.transform;
+                                = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                        }
+                    } else if(weaponType == WeaponType.controlWeapon) {
+                        damageGO.GetComponent<ControlBullet>().setupBullet(bulletDirection, inventoryManager);
+
+                        if(spawnDamageObjectParticle != null) {
+                            GameObject particleGO = Instantiate(
+                                spawnDamageObjectParticle,
+                                spawnDamageObjectParticleTransform.position,
+                                spawnDamageObjectParticleTransform.rotation);
+
+                            particleGO.transform.parent
+                                = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
                         }
                     }
 
@@ -326,7 +357,12 @@ public class WeaponItem : InventoryItem
                     busyWeaponDurationTimeEnd = Time.time + shootFrequency;
 
                     if(inventoryManager.characterManager.chracterRole == Role.Player) {
-                        inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity = inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity - 1;
+
+                        if(weaponType != WeaponType.controlWeapon) {
+                            inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity
+                                = inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity - 1;
+                        }
+
                     }
 
 
@@ -339,9 +375,6 @@ public class WeaponItem : InventoryItem
 
                     GameObject loudGameObject = Instantiate(loudArea, posA, shootingTransform.rotation);
 
-                    /*loudGameObject.GetComponent<LoudArea>().initLoudArea(
-                        inventoryManager.characterManager.isPlayer ? loudIntensity : LoudAreaType.nothing,
-                        gunShootSound);*/
                     loudGameObject.GetComponent<LoudArea>().initLoudArea(
                         loudIntensity,
                         gunShootSound);
@@ -361,6 +394,18 @@ public class WeaponItem : InventoryItem
                             spawnDamageObjectParticleTransform.rotation);
 
                         particleGO.transform.parent 
+                            = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
+                    }
+                } else if(weaponType == WeaponType.controlWeapon) {
+                    damageGO.GetComponent<ControlBullet>().setupBullet(bulletDirection, inventoryManager);
+
+                    if(spawnDamageObjectParticle != null) {
+                        GameObject particleGO = Instantiate(
+                            spawnDamageObjectParticle,
+                            spawnDamageObjectParticleTransform.position,
+                            spawnDamageObjectParticleTransform.rotation);
+
+                        particleGO.transform.parent
                             = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
                     }
                 }
