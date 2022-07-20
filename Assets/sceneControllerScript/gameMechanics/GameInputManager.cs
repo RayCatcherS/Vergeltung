@@ -140,9 +140,12 @@ public class GameInputManager : MonoBehaviour
 
         } else { // altrimenti movimento default
 
-            characterMovement.moveCharacter(vec2Movement, isRunPressed);
+            if(characterMovement != null) {
+                characterMovement.moveCharacter(vec2Movement, isRunPressed);
 
-            characterMovement.rotateCharacter(vec2Rotation, true);
+                characterMovement.rotateCharacter(vec2Rotation, true);
+            }
+            
         }
     }
 

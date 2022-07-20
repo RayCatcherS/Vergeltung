@@ -264,11 +264,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     protected void setAlert(CharacterAlertState alertState, bool checkedByHimself, Delegate actionToExcuteOnChangeAlert = null, Vector3 lastSeenFocusAlarmPosition = new Vector3()) {
 
 
-
         if (!characterManager.isDead) {
-
-
-
 
 
             //  Unalert | WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert | CorpseFoundConfirmedAlert |
@@ -518,7 +514,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
     /// <summary>
     /// Forza stop coroutine character chiamata asincrona fino a quando il character
-    /// non � disattivo
+    /// non è disattivo
     /// </summary>
     /// <returns></returns>
     public async Task forceStopCharacterAndAwaitStopProcess() {

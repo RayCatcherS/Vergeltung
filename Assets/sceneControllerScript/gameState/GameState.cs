@@ -150,6 +150,7 @@ public class GameState : MonoBehaviour
             }
         }
 
+        
 
         // get all game characters
         List<BaseNPCBehaviourManager> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
@@ -167,11 +168,13 @@ public class GameState : MonoBehaviour
             }
         }
 
+        
         // se lo stack di characters controllati è vuoto
         if(!playerWarpController.iswarpedCharacterManagerStackEmpty) {
+
+            
             updateWantedUICharacter();
         }
-        
 
     }
 
@@ -181,10 +184,11 @@ public class GameState : MonoBehaviour
     /// Verifica se il character attualmente in utilizzo è ricercato o meno
     /// </summary>
     public void updateWantedUICharacter() {
-        CharacterManager characterManager = playerWarpController.getUsingCharacter();
+        CharacterManager characterManager = playerWarpController.currentPlayedCharacter;
 
 
         if (globalWantedHostileCharacters.ContainsKey(characterManager.GetInstanceID())) {
+
             alarmAlertUIController.potentialWantedAlarmOn();
         } else {
             alarmAlertUIController.potentialWantedAlarmOff();

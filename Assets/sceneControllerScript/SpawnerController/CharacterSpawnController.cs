@@ -282,7 +282,7 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
             // aggiungi player al player warp controller
-            playerWarpController.warpPlayerToCharacter(newPlayer.GetComponent<CharacterManager>());
+            playerWarpController.warpPlayerToCharacterAsync(newPlayer.GetComponent<CharacterManager>());
 
             // inizializza equipaggiamento
             initializeInventory(

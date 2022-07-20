@@ -20,7 +20,10 @@ public class CharacterManager : MonoBehaviour {
     public CharacterFOV characterFOV {
         get { return _characterFOV; }
     }
-    [SerializeField] private CharacterMovement characterMovement;
+    [SerializeField] private CharacterMovement _characterMovement;
+    public CharacterMovement characterMovement {
+        get { return _characterMovement; }
+    }
     [SerializeField] private BaseNPCBehaviourManager _baseNPCBehaviourManager;
     public BaseNPCBehaviourManager baseNPCBehaviourManager {
         get { return _baseNPCBehaviourManager; }
@@ -137,8 +140,15 @@ public class CharacterManager : MonoBehaviour {
     }
     public bool isWeaponCharacterFiring {
         get {
+            WeaponType usedWeaponType = inventoryManager.weaponItems[inventoryManager.selectedWeapon].getWeaponType;
 
-            return inventoryManager.weaponItems[inventoryManager.selectedWeapon].isWeaponFiring;
+            if(usedWeaponType != WeaponType.controlWeapon) {
+
+                return inventoryManager.weaponItems[inventoryManager.selectedWeapon].isWeaponFiring;
+            } else {
+                return false;
+            }
+             
         }
     }
     public Animator characterAnimator {

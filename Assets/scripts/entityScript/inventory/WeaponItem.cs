@@ -227,7 +227,7 @@ public class WeaponItem : InventoryItem
                     busyWeaponDurationTimeEnd = Time.time + shootFrequency;
 
 
-                    if(inventoryManager.characterManager.chracterRole == Role.Player) {
+                    if(inventoryManager.characterManager.isPlayer) {
 
                         if(weaponType != WeaponType.controlWeapon) {
                             inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity 
@@ -356,7 +356,7 @@ public class WeaponItem : InventoryItem
 
                     busyWeaponDurationTimeEnd = Time.time + shootFrequency;
 
-                    if(inventoryManager.characterManager.chracterRole == Role.Player) {
+                    if(inventoryManager.characterManager.isPlayer) {
 
                         if(weaponType != WeaponType.controlWeapon) {
                             inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity

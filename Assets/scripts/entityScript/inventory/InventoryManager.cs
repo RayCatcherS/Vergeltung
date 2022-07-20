@@ -133,7 +133,7 @@ public class InventoryManager : Interactable {
     }
 
     public void Awake() {
-        initDrawPlayerWeaponLineRendered();
+        initDrawPlayerWeaponLineRenderer();
 
         gamePadVibration = GameObject.Find("GameController").GetComponent<GamePadVibrationController>();
     }
@@ -189,7 +189,7 @@ public class InventoryManager : Interactable {
             
 
 
-            drawAimWeaponLineRendered(aimInfo.aimedHitPosition);
+            drawAimWeaponLineRenderer(aimInfo.aimedHitPosition);
         }
         
 
@@ -489,7 +489,11 @@ public class InventoryManager : Interactable {
                 // builda UI solo se player
                 if(_characterManager.isPlayer) {
                     _weaponItems[_selectedWeapon].useItem(_characterManager, destinationPosition, gamePadVibration);
+
+
                     _characterManager.weaponUIController.buildUI(this);
+
+
                 } else {
                     _weaponItems[_selectedWeapon].useItem(_characterManager);
                 }
@@ -546,7 +550,7 @@ public class InventoryManager : Interactable {
     }
 
 
-    private void initDrawPlayerWeaponLineRendered() {
+    private void initDrawPlayerWeaponLineRenderer() {
         LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
         if (lineRenderer == null) {
             gameObject.AddComponent<LineRenderer>();
@@ -569,7 +573,7 @@ public class InventoryManager : Interactable {
     /// <summary>
     /// Disegna tramite il componente line rendere una 
     /// retta che parte dall'arma al punto mirato dal character
-    public void drawAimWeaponLineRendered(Vector3 hitPosition) {
+    public void drawAimWeaponLineRenderer(Vector3 hitPosition) {
 
         if (isSelectedWeapon && !isGunThroughWall()) {
             _weaponLineRenderer.enabled = true;
@@ -584,6 +588,9 @@ public class InventoryManager : Interactable {
         }
     }
 
+    public void setActiveLineRenderer(bool value) {
+        gameObject.GetComponent<LineRenderer>().enabled = value;
+    }
 
     /// <summary>
     /// Ottieni informazioni sulla mira del character
