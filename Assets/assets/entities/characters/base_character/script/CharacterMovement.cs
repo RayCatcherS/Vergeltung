@@ -226,14 +226,19 @@ public class CharacterMovement : MonoBehaviour {
         // caso in cui il character è slegato dal nav mesh agent (sei un player)
         if (characterManager.isPlayer) {
 
-            characterController.SimpleMove(Vector3.zero); // utile per rilevare le collisioni
-            if (!isGrounded) {
-                
-                characterController.Move(_movement + (- gameObject.transform.up * gravity)); // muovi e applica gravità 
-            } else {
-                characterController.Move(_movement); // muovi player
+            if(characterManager.globalGameState.gameState != GlobalGameState.pause && characterManager.globalGameState.gameState != GlobalGameState.gameover) {
+                Debug.Log("MOVE");
+
+                characterController.SimpleMove(Vector3.zero); // utile per rilevare le collisioni
+                if(!isGrounded) {
+
+                    characterController.Move(_movement + (-gameObject.transform.up * gravity)); // muovi e applica gravità 
+                } else {
+                    characterController.Move(_movement); // muovi player
+                }
+                groundCheck();
             }
-            groundCheck();
+            
         
         
         }
