@@ -107,7 +107,7 @@ public class CableComponent : MonoBehaviour
 		// Foreach point
 		for (int pointIdx = 0; pointIdx <= segments; pointIdx++) {
 			// Initial position
-			Vector3 initialPosition = transform.localPosition + (cableDirection * (initialSegmentLength * pointIdx));
+			Vector3 initialPosition = transform.position + (cableDirection * (initialSegmentLength * pointIdx));
 			points[pointIdx] = new CableParticle(initialPosition);
 		}
 

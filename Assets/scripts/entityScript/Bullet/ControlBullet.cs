@@ -60,7 +60,9 @@ public class ControlBullet : Bullet {
 
 
             // controllo character
-            characterToControl.playerWarpController.warpPlayerToCharacterAsync(characterToControl);
+            characterToControl.playerWarpController.addCharacterToWarpStack(characterToControl);
+            characterToControl.playerWarpController.warpToCharacter(characterToControl);
+
         }
 
 

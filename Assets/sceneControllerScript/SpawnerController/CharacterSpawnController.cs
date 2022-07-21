@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public enum Equipment {
@@ -55,7 +56,7 @@ public class CharacterSpawnController : MonoBehaviour {
     void Start()
     {
         spawnCharacters();
-        spawnPlayer();
+        spawnPlayerAsync();
     }
 
 
@@ -260,7 +261,7 @@ public class CharacterSpawnController : MonoBehaviour {
         }
     }
 
-    void spawnPlayer() {
+    async Task spawnPlayerAsync() {
 
         if (playerSpawnPoint.gameObject.activeSelf == true) {
             // istanzia nella scena
@@ -282,7 +283,9 @@ public class CharacterSpawnController : MonoBehaviour {
 
 
             // aggiungi player al player warp controller
-            playerWarpController.warpPlayerToCharacterAsync(newPlayer.GetComponent<CharacterManager>());
+            playerWarpController.addCharacterToWarpStack(newPlayer.GetComponent<CharacterManager>());
+            playerWarpController.warpToCharacter(newPlayer.GetComponent<CharacterManager>(), isPlayer: true);
+
 
             // inizializza equipaggiamento
             initializeInventory(

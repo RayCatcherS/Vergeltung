@@ -34,27 +34,32 @@ public class PlayerWarpController : MonoBehaviour
     /// <summary>
     /// warp to a new character player and push to stack the new warped character
     /// </summary>
-    public async Task warpPlayerToCharacterAsync(CharacterManager character) {
+    public void addCharacterToWarpStack(CharacterManager character) {
 
+        // aggiungi ref del character allo stack
+        warpedCharacterManagerStack.Add(character);
+
+        
+    }
+
+
+    public async Task warpToCharacter(CharacterManager character, bool isPlayer = false) {
         Ammunition controlAmmoT = new Ammunition(WeaponType.controlWeapon, 0);
 
-        if(warpedCharacterManagerStack.Count != 0) {
-            //disabilita character precedente
-            disablePreviewControlledCharacter(_currentPlayedCharacter);
 
+
+        if(warpedCharacterManagerStack.Count > 1) {
+            //disabilita character precedente
+            disableControlledCharacter(_currentPlayedCharacter);
             // salva munizioni controllo
             controlAmmoT = _currentPlayedCharacter.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon];
         }
-        _currentPlayedCharacter = character.GetComponent<CharacterManager>();
-        character.isStackControlled = true;
+
+
 
 
         // controllo primo character (è il primo character usato dal player)
-        if(warpedCharacterManagerStack.Count == 0) {
-            
-
-            // aggiungi ref del character allo stack
-            warpedCharacterManagerStack.Add(character);
+        if(isPlayer) {
 
             // aggiungi primo character giocato dal player
             firstPlayerCharacter = character;
@@ -99,9 +104,9 @@ public class PlayerWarpController : MonoBehaviour
 
                 wanted.Add(character.GetInstanceID(), character);
                 gameState.updateGlobalWantedHostileCharacters(wanted);
-                
+
             }
-            
+
 
             // avvia coroutines character player
             StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
@@ -120,10 +125,7 @@ public class PlayerWarpController : MonoBehaviour
             if(character.baseNPCBehaviourManager != null) {
                 await character.baseNPCBehaviourManager.forceStopCharacterAndAwaitStopProcess();
             }
-            
 
-            // aggiungi ref del character allo stack
-            warpedCharacterManagerStack.Add(character);
 
             // configura character
             character.resetCharacterStates();
@@ -157,7 +159,9 @@ public class PlayerWarpController : MonoBehaviour
             // configurazione audio listener
             character.GetComponent<AudioListener>().enabled = true;
         }
-        
+
+        _currentPlayedCharacter = character.GetComponent<CharacterManager>();
+        character.isStackControlled = true;
 
         character.weaponUIController.buildUI(character.inventoryManager);
 
@@ -166,7 +170,6 @@ public class PlayerWarpController : MonoBehaviour
         // Rebuild UI
         gameState.updateWantedUICharacter();
     }
-
 
     /// <summary>
     /// Unstack del character morto 
@@ -185,6 +188,7 @@ public class PlayerWarpController : MonoBehaviour
             for(int i = 1; i < warpedCharacterManagerStack.Count; i++) {
                 warpedCharacterManagerStack[i].killCharacterAsync(Vector3.zero);
             }
+
         }
 
 
@@ -202,11 +206,11 @@ public class PlayerWarpController : MonoBehaviour
         if (warpedCharacterManagerStack.Count > 0) {
 
             // warp del character precedente
-            warpPlayerToCharacterAsync(warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1]);
+            warpToCharacter(warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1]);
         }
     }
 
-    private void disablePreviewControlledCharacter(CharacterManager previewCharacter) {
+    private void disableControlledCharacter(CharacterManager previewCharacter) {
 
 
         // configurazione audio listener

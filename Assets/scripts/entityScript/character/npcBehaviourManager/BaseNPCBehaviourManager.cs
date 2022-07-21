@@ -711,8 +711,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking || seenCharacterManager.isWeaponCharacterFiring) {
 
 
-            
-
             setAlert(CharacterAlertState.HostilityAlert, himselfCheck,
 
                 () => {
@@ -727,8 +725,6 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 lastSeenFocusAlarmPosition: lastSeenCPosition
             );
 
-
-            
 
         } else {
 
