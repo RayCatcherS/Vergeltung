@@ -150,7 +150,7 @@ public class GameState : MonoBehaviour
             }
         }
 
-        
+       
 
         // get all game characters
         List<BaseNPCBehaviourManager> allCharactersBehaviour = gameObject.GetComponent<SceneEntitiesController>().allNpcList;
@@ -167,15 +167,15 @@ public class GameState : MonoBehaviour
                 }
             }
         }
-
         
+
         // se lo stack di characters controllati è vuoto
         if(!playerWarpController.iswarpedCharacterManagerStackEmpty) {
 
             
             updateWantedUICharacter();
         }
-
+        
     }
 
 

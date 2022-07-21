@@ -56,11 +56,11 @@ public class PlayerWarpController : MonoBehaviour
         }
 
 
-
+        _currentPlayedCharacter = character.GetComponent<CharacterManager>();
 
         // controllo primo character (è il primo character usato dal player)
         if(isPlayer) {
-
+            
             // aggiungi primo character giocato dal player
             firstPlayerCharacter = character;
 
@@ -84,7 +84,7 @@ public class PlayerWarpController : MonoBehaviour
             character.alarmAlertUIController = gameObject.GetComponent<AlarmAlertUIController>();
             character.inventoryManager.aimTargetImage = gameObject.GetComponent<AimUIManager>();
 
-
+            
             // configurazione comandi
             gameObject.GetComponent<GameInputManager>().characterMovement = character.GetComponent<CharacterMovement>();
             gameObject.GetComponent<GameInputManager>().inventoryManager = character.GetComponent<CharacterManager>().inventoryManager;
@@ -96,16 +96,18 @@ public class PlayerWarpController : MonoBehaviour
 
             // configurazione audio listener
             character.GetComponent<AudioListener>().enabled = true;
-
+            
 
             // setta primo character controllato come ricercato
             if(firstCharacterPlayerIsWanted) {
+
                 Dictionary<int, CharacterManager> wanted = new Dictionary<int, CharacterManager>();
 
                 wanted.Add(character.GetInstanceID(), character);
                 gameState.updateGlobalWantedHostileCharacters(wanted);
 
             }
+            
 
 
             // avvia coroutines character player
@@ -160,7 +162,7 @@ public class PlayerWarpController : MonoBehaviour
             character.GetComponent<AudioListener>().enabled = true;
         }
 
-        _currentPlayedCharacter = character.GetComponent<CharacterManager>();
+        
         character.isStackControlled = true;
 
         character.weaponUIController.buildUI(character.inventoryManager);
