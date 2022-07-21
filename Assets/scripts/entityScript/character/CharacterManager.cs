@@ -592,7 +592,7 @@ public class CharacterManager : MonoBehaviour {
 
         //draw info character
 
-        string debugInfo = "AreaId: " + areaID.ToString();
+        string debugInfo = "AreaID: " + areaID.ToString() + "\n" + "CharacterID: " + characterID.ToString();
         Handles.color = Color.red;
         Handles.Label(
             characterFOV.recognitionTarget.position,
@@ -603,6 +603,10 @@ public class CharacterManager : MonoBehaviour {
 
     int areaID {
         get { return gameObject.GetComponent<CharacterAreaManager>().belongingAreaId; }
+    }
+
+    int characterID {
+        get { return this.GetInstanceID(); }
     }
 #endif
 }

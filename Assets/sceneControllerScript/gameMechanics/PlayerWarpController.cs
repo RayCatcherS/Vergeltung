@@ -47,10 +47,15 @@ public class PlayerWarpController : MonoBehaviour
         Ammunition controlAmmoT = new Ammunition(WeaponType.controlWeapon, 0);
 
 
-
-        if(warpedCharacterManagerStack.Count > 1) {
+        if(!isPlayer) {
             //disabilita character precedente
             disableControlledCharacter(_currentPlayedCharacter);
+        }
+
+
+        if(warpedCharacterManagerStack.Count > 1) {
+            
+
             // salva munizioni controllo
             controlAmmoT = _currentPlayedCharacter.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon];
         }
@@ -99,7 +104,7 @@ public class PlayerWarpController : MonoBehaviour
 
 
             // avvia coroutines character 
-            StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
+            character.GetComponent<CharacterAreaManager>().startAreaCheckMemberShipCoroutine();
 
             // setta primo character controllato come ricercato
             if(firstCharacterPlayerIsWanted) {
@@ -160,7 +165,7 @@ public class PlayerWarpController : MonoBehaviour
             character.GetComponent<AudioListener>().enabled = true;
 
             // avvia coroutines character 
-            StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
+            character.GetComponent<CharacterAreaManager>().startAreaCheckMemberShipCoroutine();
         }
 
         
@@ -204,6 +209,7 @@ public class PlayerWarpController : MonoBehaviour
             
         }
 
+        
 
         if (warpedCharacterManagerStack.Count > 0) {
 

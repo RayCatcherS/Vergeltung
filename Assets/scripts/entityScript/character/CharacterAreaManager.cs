@@ -34,6 +34,12 @@ public class CharacterAreaManager : MonoBehaviour
         _stoppedCoroutine = true;
     }
 
+    public void startAreaCheckMemberShipCoroutine() {
+        _stoppedCoroutine = false;
+
+        StartCoroutine(belongAreaCoroutine());
+    }
+
     /// <summary>
     /// Ottieni trigger collider
     /// </summary>
@@ -102,9 +108,10 @@ public class CharacterAreaManager : MonoBehaviour
     }
 
 
-    public IEnumerator belongAreaCoroutine() {
+    private IEnumerator belongAreaCoroutine() {
 
         while(!_stoppedCoroutine) {
+
             yield return new WaitForSeconds(belongAreaIconCheckFrequency);
 
             // verifica area appartenenza
