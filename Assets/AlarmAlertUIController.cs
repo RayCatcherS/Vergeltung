@@ -11,7 +11,7 @@ public class AlarmAlertUIController : MonoBehaviour
     [SerializeField] private Animator wantedAnimator;
     [SerializeField] private Animator visiblyArmedAnimator;
     [SerializeField] private Animator prohibitedAreaAnimator;
-    [SerializeField] private Animator lockPickingAnimator;
+    [SerializeField] private Animator SuspiciousGenericActionAnimator;
 
 
     public void potentialWantedAlarmOn() {
@@ -90,26 +90,26 @@ public class AlarmAlertUIController : MonoBehaviour
         
     }
 
-    public void potentialLockPickingAlarmOn() {
-        lockPickingAnimator.gameObject.SetActive(true);
+    public void potentialSuspiciousGenericActionAlarmOn() {
+        SuspiciousGenericActionAnimator.gameObject.SetActive(true);
 
 
-        lockPickingAnimator.ResetTrigger(ALARM_ON_TRIGGER);
-        lockPickingAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
-        lockPickingAnimator.ResetTrigger(ALARM_EXIT);
+        SuspiciousGenericActionAnimator.ResetTrigger(ALARM_ON_TRIGGER);
+        SuspiciousGenericActionAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
+        SuspiciousGenericActionAnimator.ResetTrigger(ALARM_EXIT);
         
-        lockPickingAnimator.SetTrigger(ALARM_ON_TRIGGER);
+        SuspiciousGenericActionAnimator.SetTrigger(ALARM_ON_TRIGGER);
     }
-    public void potentialLockPickingAlarmOff() {
+    public void potentialSuspiciousGenericActionAlarmOff() {
 
-        if (lockPickingAnimator.gameObject.activeSelf) {
+        if (SuspiciousGenericActionAnimator.gameObject.activeSelf) {
 
-            lockPickingAnimator.ResetTrigger(ALARM_ON_TRIGGER);
-            lockPickingAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
-            lockPickingAnimator.ResetTrigger(ALARM_EXIT);
+            SuspiciousGenericActionAnimator.ResetTrigger(ALARM_ON_TRIGGER);
+            SuspiciousGenericActionAnimator.ResetTrigger(ALARM_OFF_TRIGGER);
+            SuspiciousGenericActionAnimator.ResetTrigger(ALARM_EXIT);
 
-            lockPickingAnimator.SetTrigger(ALARM_OFF_TRIGGER);
-            lockPickingAnimator.SetTrigger(ALARM_EXIT);
+            SuspiciousGenericActionAnimator.SetTrigger(ALARM_OFF_TRIGGER);
+            SuspiciousGenericActionAnimator.SetTrigger(ALARM_EXIT);
         }
     }
 }

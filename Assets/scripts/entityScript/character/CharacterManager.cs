@@ -86,10 +86,10 @@ public class CharacterManager : MonoBehaviour {
     public bool isDead {
         get { return _isDead; }
     }
-    [SerializeField] private bool _isPickLocking = false; // stato che rappresenta se il character sta scassinando
-    public bool isPickLocking {
-        get { return _isPickLocking; }
-        set { _isPickLocking = value; }
+    [SerializeField] private bool _isSuspiciousGenericAction = false; // stato che rappresenta se il character sta compiendo una generica azione sospetta
+    public bool isSuspiciousGenericAction {
+        get { return _isSuspiciousGenericAction; }
+        set { _isSuspiciousGenericAction = value; }
     }
     [SerializeField] private bool _isTarget = false; // indica se è un obiettivo del gioco(e quindi va ucciso)
     public bool isTarget {
@@ -243,7 +243,7 @@ public class CharacterManager : MonoBehaviour {
         // se il character è giocato dal player
         if (isPlayer) {
 
-            // inizializza lista di interazioni e i bottoni e la partendo dalla lista interactions
+            // inizializza lista di interazioni e i bottoni partendo dalla lista interactions
             // passa la lista di interactions per inizializzare la lista di interacion che potranno essere effettuate
             _interactionUIController.buildUIinteractionList(interactions, this);
         }
@@ -440,10 +440,42 @@ public class CharacterManager : MonoBehaviour {
     public void resetCharacterStates() {
         isRunning = false;
         isBusy = false;
-        isPickLocking = false;
+        isSuspiciousGenericAction = false;
     }
 
-    
+    /// <summary>
+    /// Forza detection dei trigger, caso in cui non si vuole aspettare di entrare/uscire da una trigger collision
+    /// </summary>
+    public void detectTrigger() {
+
+        if(isPlayer) {
+            CapsuleCollider characterCapsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+            foreach(Collider collision in Physics.OverlapSphere(characterCapsuleCollider.transform.position, characterCapsuleCollider.radius)) {
+
+                if(!_isInteractionsDisabled) {
+                    if(collision.gameObject.layer == INTERACTABLE_LAYER) {
+
+
+                        InteractableObject interactableObject = collision.gameObject.GetComponent<InteractableObject>();
+
+
+
+                        // aggiungi interactable al dizionario dell'interactable solo se non è mai stata inserita
+                        // evita che collisioni multiple aggiungano la stessa key al dizionario
+                        if(!interactableObjects.ContainsKey(interactableObject.GetInstanceID())) {
+                            interactableObjects.Add(interactableObject.GetInstanceID(), interactableObject.interactable);
+                        }
+
+
+                        // rebuild lista interactions
+                        buildListOfInteraction();
+                    }
+                }
+            }
+        }
+        
+    }
+
     private void OnTriggerEnter(Collider collision) {
 
 

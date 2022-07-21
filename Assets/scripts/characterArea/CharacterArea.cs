@@ -12,11 +12,20 @@ public class CharacterArea : MonoBehaviour
 
 #if UNITY_EDITOR
     void OnDrawGizmos() {
-        Handles.color = Color.red;
-        Handles.Label(
-            gameObject.transform.position,
-            getAreaId().ToString()
-        );
+
+        SceneView sceneView = SceneView.lastActiveSceneView;
+
+        // calcola distanza tra la camera e lo spawn point
+        float scenViewCameraDistance = Vector3.Distance(sceneView.camera.transform.position, transform.position);
+
+        if(scenViewCameraDistance < 60f) {
+            Handles.color = Color.red;
+            Handles.Label(
+                gameObject.transform.position,
+                getAreaId().ToString()
+            );
+        }
+        
     }
 #endif
 }

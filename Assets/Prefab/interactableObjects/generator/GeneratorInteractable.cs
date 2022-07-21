@@ -7,7 +7,7 @@ using UnityEngine;
 public class GeneratorInteractable : Interactable {
 
     [Header("References")]
-    [SerializeField] private GameState gameState; // game state per accedere ai metodi dello stato di gioco
+    [SerializeField] private ScenePowerController scenePowerController; // game state per accedere ai metodi dello stato di gioco
 
     
     [Header("State")]
@@ -33,7 +33,7 @@ public class GeneratorInteractable : Interactable {
     private async void switchOffGenerator(CharacterManager characterWhoIsInteracting) {
 
         isSabotage = true;
-        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia potenziale stato alert
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia potenziale stato alert
 
         // avvia task sul character che ha avviato il task
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
@@ -41,11 +41,11 @@ public class GeneratorInteractable : Interactable {
         isSabotage = false;
         if (playerTaskResultDone) {
             generatorState = GeneratorState.GeneratorOff;
-            gameState.turnOffPower();
+            scenePowerController.turnOffPower();
             interactableMeshEffectSetEnebled(false);
         }
 
-        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
     }
@@ -58,7 +58,7 @@ public class GeneratorInteractable : Interactable {
 
         List<Interaction> eventRes = new List<Interaction>();
 
-        if(generatorState == GeneratorState.GeneratorOn && gameState.getPowerOn() && !isSabotage) {
+        if(generatorState == GeneratorState.GeneratorOn && scenePowerController.getPowerOn() && !isSabotage) {
             eventRes.Add(new Interaction(sabotageGenerator, sabotageGeneratorEventName, this));
         }
 

@@ -667,7 +667,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
-        bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
+        bool isCharacterLockpicking = seenCharacterManager.isSuspiciousGenericAction;
 
 
         if(isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
@@ -705,7 +705,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
 
         bool isCharacterInProhibitedAreaCheck = seenCharacterManager.gameObject.GetComponent<CharacterAreaManager>().isCharacterInProhibitedAreaCheck();
         bool isUsedItemProhibitedCheck = seenCharacterManager.gameObject.GetComponent<CharacterManager>().inventoryManager.isUsedItemProhibitedCheck();
-        bool isCharacterLockpicking = seenCharacterManager.isPickLocking;
+        bool isCharacterLockpicking = seenCharacterManager.isSuspiciousGenericAction;
 
         
         if (isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking || seenCharacterManager.isWeaponCharacterFiring) {

@@ -52,12 +52,12 @@ public class DoorInteractable : Interactable {
 
         
 
-        characterWhoIsInteracting.isPickLocking = true; // permette al player di diventare sospetto/ostile
-        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOn(); // avvia potenziale stato alert 
+        characterWhoIsInteracting.isSuspiciousGenericAction = true; // permette al player di diventare sospetto/ostile
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia potenziale stato alert 
 
         // avvia task sul character che ha avviato il task
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(doorState.doorLockPickTime, "Lock-Picking", doorState.isDoorClosed(), false);
-        characterWhoIsInteracting.isPickLocking = false;
+        characterWhoIsInteracting.isSuspiciousGenericAction = false;
 
         if (playerTaskResultDone) { // sblocca la porta se il task è stato portato a termine
             doorState.setDoorLocked(false);
@@ -65,7 +65,7 @@ public class DoorInteractable : Interactable {
 
 
 
-        characterWhoIsInteracting.alarmAlertUIController.potentialLockPickingAlarmOff();
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
         doorState.isDoorPickLocking.value = false; // disattiva stato della porta in "PickLocking"
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
     }

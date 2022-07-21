@@ -115,6 +115,8 @@ public class PlayerWarpController : MonoBehaviour
                 gameState.updateGlobalWantedHostileCharacters(wanted);
 
             }
+
+            
         } else {
             // controlla character
 
@@ -171,8 +173,10 @@ public class PlayerWarpController : MonoBehaviour
         
         character.isStackControlled = true;
         character.weaponUIController.buildUI(character.inventoryManager);
-        character.buildListOfInteraction(); // rebuild UI
+        character.buildListOfInteraction(); // rebuild list of interactions
 
+        // forza interactable obj detection
+        character.detectTrigger();
 
         // Rebuild UI
         gameState.updateWantedUICharacter();
@@ -240,5 +244,8 @@ public class PlayerWarpController : MonoBehaviour
 
         // stoppa coroutines
         previewCharacter.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
+
+
+        previewCharacter.emptyAllInteractableDictionaryObjects();
     }
 }
