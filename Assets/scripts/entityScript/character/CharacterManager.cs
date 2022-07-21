@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 public class CharacterManager : MonoBehaviour {
@@ -587,6 +588,21 @@ public class CharacterManager : MonoBehaviour {
             Gizmos.DrawLine(transform.position, getCharacterPositionReachebleByAgents());
             Gizmos.DrawSphere(getCharacterPositionReachebleByAgents(), 0.25f);
         }
+
+
+        //draw info character
+
+        string debugInfo = "AreaId: " + areaID.ToString();
+        Handles.color = Color.red;
+        Handles.Label(
+            characterFOV.recognitionTarget.position,
+            debugInfo
+        );
+        
+    }
+
+    int areaID {
+        get { return gameObject.GetComponent<CharacterAreaManager>().belongingAreaId; }
     }
 #endif
 }

@@ -14,11 +14,24 @@ public class CharacterAreaManager : MonoBehaviour
     [Header("Configuration")]
     [SerializeField] private LayerMask targetLayerMask;
     private float _collideRadius = 0.3f;
-    [SerializeField] private int belongingAreaId = -1; // area appartenenza character -1 significa area non assegnata
+    [SerializeField] private int _belongingAreaId = -1; // area appartenenza character -1 significa area non assegnata
+    [SerializeField] public int belongingAreaId {
+        get { return _belongingAreaId; }
+    }
     [SerializeField] private float belongAreaIconCheckFrequency = 0.5f;
+
+
+
+    // 
+    private bool _stoppedCoroutine = false;
+
     void Start()
     {
-        belongingAreaId = getIdArea(); // assegna area appartenenza
+        _belongingAreaId = getIdArea(); // assegna area appartenenza
+    }
+
+    public void stopAreaCheckMemberShipCoroutine() {
+        _stoppedCoroutine = true;
     }
 
     /// <summary>
@@ -31,7 +44,7 @@ public class CharacterAreaManager : MonoBehaviour
 
         if (hitColliders.Length != 0) {
 
-            result = hitColliders[0].gameObject.GetComponent<CharacterArea>().GetInstanceID();
+            result = hitColliders[0].gameObject.GetComponent<CharacterArea>().getAreaId();
         }
 
         return result;
@@ -51,7 +64,7 @@ public class CharacterAreaManager : MonoBehaviour
 
         } else {
 
-            if(triggerArea == belongingAreaId) {
+            if(triggerArea == _belongingAreaId) {
                 result = true;
             } else {
                 result = false;
@@ -91,7 +104,7 @@ public class CharacterAreaManager : MonoBehaviour
 
     public IEnumerator belongAreaCoroutine() {
 
-        while(true) {
+        while(!_stoppedCoroutine) {
             yield return new WaitForSeconds(belongAreaIconCheckFrequency);
 
             // verifica area appartenenza

@@ -227,7 +227,6 @@ public class CharacterMovement : MonoBehaviour {
         if (characterManager.isPlayer) {
 
             if(characterManager.globalGameState.gameState != GlobalGameState.pause && characterManager.globalGameState.gameState != GlobalGameState.gameover) {
-                Debug.Log("MOVE");
 
                 characterController.SimpleMove(Vector3.zero); // utile per rilevare le collisioni
                 if(!isGrounded) {

@@ -96,7 +96,10 @@ public class PlayerWarpController : MonoBehaviour
 
             // configurazione audio listener
             character.GetComponent<AudioListener>().enabled = true;
-            
+
+
+            // avvia coroutines character 
+            StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
 
             // setta primo character controllato come ricercato
             if(firstCharacterPlayerIsWanted) {
@@ -107,11 +110,6 @@ public class PlayerWarpController : MonoBehaviour
                 gameState.updateGlobalWantedHostileCharacters(wanted);
 
             }
-            
-
-
-            // avvia coroutines character player
-            StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
         } else {
             // controlla character
 
@@ -160,13 +158,15 @@ public class PlayerWarpController : MonoBehaviour
 
             // configurazione audio listener
             character.GetComponent<AudioListener>().enabled = true;
+
+            // avvia coroutines character 
+            StartCoroutine(character.GetComponent<CharacterAreaManager>().belongAreaCoroutine());
         }
 
         
         character.isStackControlled = true;
-
         character.weaponUIController.buildUI(character.inventoryManager);
-
+        character.buildListOfInteraction(); // rebuild UI
 
 
         // Rebuild UI
@@ -231,5 +231,8 @@ public class PlayerWarpController : MonoBehaviour
         previewCharacter.characterMovement.stopCharacter();
 
         previewCharacter.aimedCharacter = null;
+
+        // stoppa coroutines
+        previewCharacter.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
     }
 }
