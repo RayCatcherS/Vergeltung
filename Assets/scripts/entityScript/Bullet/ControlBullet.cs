@@ -50,18 +50,23 @@ public class ControlBullet : Bullet {
         int _sourceCharacterControlAmmunitions 
             = _sourceInventoryCharacter.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity;
 
-        // le munizioni sono 
+        // le munizioni sono abbastanza per il ruolo del character che si vuole controllare
         if(_sourceCharacterControlAmmunitions >= controlRoleCost[characterToControl.chracterRole]) {
 
-            // rimuovi munizioni controllo
-            _sourceInventoryCharacter.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity
-                = _sourceInventoryCharacter.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity - controlRoleCost[characterToControl.chracterRole];
+            // controlla se il character non è già controllato
+            if(!characterToControl.isStackControlled) {
 
 
+                // rimuovi munizioni controllo
+                _sourceInventoryCharacter.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity
+                    = _sourceInventoryCharacter.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity
+                    - controlRoleCost[characterToControl.chracterRole];
 
-            // controllo character
-            characterToControl.playerWarpController.addCharacterToWarpStack(characterToControl);
-            characterToControl.playerWarpController.warpToCharacter(characterToControl);
+
+                // controllo character
+                characterToControl.playerWarpController.addCharacterToWarpStack(characterToControl);
+                characterToControl.playerWarpController.warpToCharacter(characterToControl);
+            }
 
         }
 

@@ -670,7 +670,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         bool isCharacterLockpicking = seenCharacterManager.isSuspiciousGenericAction;
 
 
-        if(isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking) {
+        if(isCharacterInProhibitedAreaCheck || isUsedItemProhibitedCheck || isCharacterWantedCheck(seenCharacterManager) || isCharacterLockpicking || seenCharacterManager.isWeaponCharacterFiring) {
 
             
             if(seenCharacterManager.isRunning || seenCharacterManager.isWeaponCharacterFiring) { // azioni che confermano istantaneamente l'ostilit� nel suspiciousCheck passando direttamente allo stato di HostilityAlert

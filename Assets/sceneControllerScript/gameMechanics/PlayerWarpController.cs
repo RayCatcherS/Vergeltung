@@ -172,8 +172,12 @@ public class PlayerWarpController : MonoBehaviour
 
         
         character.isStackControlled = true;
+
+        // rebuild dell'interfaccia weapons
         character.weaponUIController.buildUI(character.inventoryManager);
-        character.buildListOfInteraction(); // rebuild list of interactions
+
+        // rebuild list of interactions
+        character.buildListOfInteraction(); 
 
         // forza interactable obj detection
         character.detectTrigger();
