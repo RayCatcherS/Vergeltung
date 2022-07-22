@@ -622,14 +622,26 @@ public class CharacterManager : MonoBehaviour {
         }
 
 
-        //draw info character
 
-        string debugInfo = "AreaID: " + areaID.ToString() + "\n" + "CharacterID: " + characterID.ToString();
-        Handles.color = Color.red;
-        Handles.Label(
-            characterFOV.recognitionTarget.position,
-            debugInfo
-        );
+
+
+
+
+
+        // calcola distanza tra la camera e lo spawn point
+        SceneView sceneView = SceneView.lastActiveSceneView;
+        float scenViewCameraDistance = Vector3.Distance(sceneView.camera.transform.position, transform.position);
+
+        //draw character info
+        if(scenViewCameraDistance < 50f) {
+            string debugInfo = "AreaID: " + areaID.ToString() + "\n" + "CharacterID: " + characterID.ToString();
+            Handles.color = Color.red;
+            Handles.Label(
+                characterFOV.recognitionTarget.position,
+                debugInfo
+            );
+        }
+            
         
     }
 
