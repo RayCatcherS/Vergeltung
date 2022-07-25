@@ -56,7 +56,7 @@ public class PlayerWarpController : MonoBehaviour
         if(warpedCharacterManagerStack.Count > 1) {
             
 
-            // salva munizioni controllo
+            // istanza munizioni controllo
             controlAmmoT = _currentPlayedCharacter.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon];
         }
 
@@ -122,8 +122,11 @@ public class PlayerWarpController : MonoBehaviour
 
 
             // passa munizioni control weapon al character che si vuole controllare
-            character.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon]
+            if(warpedCharacterManagerStack.Count > 1) {
+                character.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon]
                 = controlAmmoT;
+            }
+
 
 
             gameObject.GetComponent<GameInputManager>().characterMovement = null;
@@ -168,9 +171,18 @@ public class PlayerWarpController : MonoBehaviour
 
             // avvia coroutines character 
             character.GetComponent<CharacterAreaManager>().startAreaCheckMemberShipCoroutine();
+
+            
+            
         }
 
-        
+        // setta icona character controllo (solo characters non player)
+        if(character.GetInstanceID() != firstPlayerCharacter.GetInstanceID()) {
+            // setta icona character controllo
+            character.gameObject.GetComponent<ControlIconManager>().setAsStackedControlled();
+        }
+
+
         character.isStackControlled = true;
 
         // rebuild dell'interfaccia weapons
@@ -191,8 +203,10 @@ public class PlayerWarpController : MonoBehaviour
     /// </summary>
     /// <param name="character"></param>
     public void unstackDeadCharacterAndControlPreviewCharacter(CharacterManager character) {
-        
 
+        Ammunition controlAmmoT = new Ammunition(WeaponType.controlWeapon, 0);
+        // salva munizioni controllo
+        controlAmmoT = character.inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon];
 
         if(character.GetInstanceID() == firstPlayerCharacter.GetInstanceID()) {
 
@@ -221,9 +235,19 @@ public class PlayerWarpController : MonoBehaviour
 
         if (warpedCharacterManagerStack.Count > 0) {
 
+            print("QTA AMMO: " + controlAmmoT.ammunitionQuantity);
+
+
+            print("QTA AMMO 2: " + warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1]
+                .inventoryManager.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity);
+            
+
             // warp del character precedente
             warpToCharacter(warpedCharacterManagerStack[warpedCharacterManagerStack.Count - 1]);
         }
+
+        // setta icona character controllo
+        character.gameObject.GetComponent<ControlIconManager>().setAsUnstackedNotControlled();
     }
 
     private void disableControlledCharacter(CharacterManager previewCharacter) {
@@ -249,7 +273,14 @@ public class PlayerWarpController : MonoBehaviour
         // stoppa coroutines
         previewCharacter.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
 
-
+        // clear interactions e rebuild UI
         previewCharacter.emptyAllInteractableDictionaryObjects();
+
+
+        // setta icona character controllo (solo characters non player)
+        if(previewCharacter.GetInstanceID() != firstPlayerCharacter.GetInstanceID()) {
+            // setta icona character controllo
+            previewCharacter.gameObject.GetComponent<ControlIconManager>().setAsStackedNotControlled();
+        }
     }
 }
