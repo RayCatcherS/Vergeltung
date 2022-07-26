@@ -58,7 +58,7 @@ Vergeltung è un gioco di genere `Stealth` con elementi `Top-Down Shooting` ambi
 I nazisti hanno addestrato i **"cacciatori"**, forze armate specializzate nel cercare e sterminare i detentori di queste antiche tecnologie, rubandone tutte le tecnologie.
 I dententori sono famiglie che tramandano la conoscenza di queste tecnologie nella segretezza più totale. Il protagonista è un giovane detentore che dopo aver subito l'abuso e l'omicidio dell'intera famiglia da parte dei **cacciatori**, riesce a sopravvivere fuggendo. Le forze nemiche attribuiranno una taglia
 sulla testa del protagonista il quale durante la fuga deciderà di vendicarsi, eliminando gli assassini.
-Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno dei quartieri cardine della fazione nemica dove gli assassini cacciatori della sua famiglia presidiano la zona.
+Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno dei quartieri cardine della fazione nemica dove i **cacciatori**, assassini della sua famiglia presidiano la zona.
 Il protagonista dovrà fuggire se verrà scoperto cercando di salvare la pelle in ogni modo possible(fuggendo dalle finestre oppure confondendo i nemici).
 Il protagonista dovrà riuscire ad appropiarsi degli strumenti nemici, piegando l'ambiente circostante contro gli stessi nemici, infiltrandosi tra i
 vari edifici(civili e non) senza farsi scoprire,  raggiungendo le zone strategiche, mentre eserciti di nemici marciano per le strade.
