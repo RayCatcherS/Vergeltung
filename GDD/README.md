@@ -63,7 +63,7 @@ Il protagonista dovrà fuggire se verrà scoperto cercando di salvare la pelle i
 Il protagonista dovrà riuscire ad appropiarsi degli strumenti nemici, piegando l'ambiente circostante contro gli stessi nemici, infiltrandosi tra i
 vari edifici(civili e non) senza farsi scoprire,  raggiungendo le zone strategiche, mentre eserciti di nemici marciano per le strade.
 Le zone strategiche saranno di vari livelli di difficoltà e saranno particolarmente militarizzate. Il protagonista scoprirà che queste zone strategiche,
-sorvegliano l'accesso a dei monoliti realizzati con una tecnologia sconosciuta. Questi monoliti consentiranno di prendere fisicamente il controllo degli altri esseri umani. Il protagonista userà questa tecnologia per usare i civili e i soldati(anche in modo amorale) per costruire ed improvvisare la propria vendetta, sabotando ed utilizzando armi e dispositivi della fazione nemica.
+sorvegliano l'accesso a dei monoliti realizzati con le antiche tecnologie dei detentori. Disattivare questi monoliti consentirà al protagonista di usarne il potere e di prendere fisicamente il controllo degli altri esseri umani. Il protagonista userà questa tecnologia per controllare civili e soldati(anche in modo amorale) per costruire ed improvvisare la propria vendetta, sabotando ed utilizzando armi e dispositivi della fazione nemica.
 
 
 Il giocatore conquistando le varie zone strategiche e accedendo ai monoliti, potrà creare una catena di controllo partendo dal protagonista,
