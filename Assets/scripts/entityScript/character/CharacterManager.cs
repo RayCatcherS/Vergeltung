@@ -37,6 +37,11 @@ public class CharacterManager : MonoBehaviour {
         get { return _alarmAlertUIController; }
         set { _alarmAlertUIController = value; }
     }
+    private HealthBarUIController _healthBarController;
+    public HealthBarUIController healthBarController {
+        get { return _healthBarController; }
+        set { _healthBarController = value; }
+    }
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
     private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
@@ -119,12 +124,13 @@ public class CharacterManager : MonoBehaviour {
 
 
     [Header("Character Settings")]
-    [SerializeField] private int characterHealth = 100;
+    [SerializeField] private const int characterMaxHealth = 100;
+    [SerializeField] private int characterHealth;
     [SerializeField] private int FOVUnmalusFlashlightTimer = 4; // tempo necessario al character per ripristinare FOV tramite la torcia
 
 
     public void Start() {
-
+        characterHealth = characterMaxHealth;
     }
 
 
@@ -271,11 +277,17 @@ public class CharacterManager : MonoBehaviour {
 
         float _damage = damage;
 
-        if(isPlayer) {
+        if(_isStackControlled) {
             _damage = damage / 3;
+            
         }
         
         characterHealth -= (int)_damage;
+
+        if(_isPlayer) {
+            buildUIHealthBar();
+
+        }
 
         if (characterHealth <= 0) {
             _isDead = true;
@@ -334,7 +346,7 @@ public class CharacterManager : MonoBehaviour {
     /// Disabilita componenti e abilita ragdoll
     /// </summary>
     /// <param name="damageVelocity"></param>
-    public async void killCharacterAsync(Vector3 damageVelocity) {
+    public async Task killCharacterAsync(Vector3 damageVelocity) {
 
         
         resetCharacterStates();
@@ -346,7 +358,6 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<CharacterMovement>().enabled = false;
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
-        Debug.Log("Disable character controller");
 
 
 
@@ -418,7 +429,7 @@ public class CharacterManager : MonoBehaviour {
         gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.SetParent(characterParent);
         gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
 
-        Debug.Log("Character dead at: " + gameObject.transform.position);
+        //Debug.Log("Character dead at: " + gameObject.transform.position);
     }
 
     /// <summary>
@@ -581,6 +592,13 @@ public class CharacterManager : MonoBehaviour {
             _alarmAlertUIController.potentialProhibitedAreaAlarmOff();
         }
     }
+    
+    public void buildUIHealthBar() {
+        if(_healthBarController != null) {
+            _healthBarController.setValue(characterHealth, characterMaxHealth);
+        }
+    }
+
     public void discardCharacterAction() {
         _isBusy = false;
     }

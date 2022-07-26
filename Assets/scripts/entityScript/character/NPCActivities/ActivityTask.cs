@@ -77,12 +77,12 @@ public class ActivityTask : MonoBehaviour
                 await Task.Yield();
             } else {
 
-                Debug.Log("Interruzione task, allerta!");
+                //Debug.Log("Interruzione task, allerta!");
                 break;
             }
 
             if(nPCBehaviour.stopCharacterBehaviour) {
-                Debug.Log("Interruzione task, stop character beahviour!");
+                //Debug.Log("Interruzione task, stop character beahviour!");
                 break;
             }
 
