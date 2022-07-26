@@ -100,7 +100,7 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   
   
   ## <span id = "4.3">4.3 Meccaniche di gioco</span>
-  L'abilità del controllo mentale è la meccanica che consente di poter controllare characters i cui loro ruoli permettono l'accesso a zone altrimenti vietate. I civili controllati però non potranno farsi scoprire dalle guardie nemiche nell'utilizzare armi, perchè il loro ruolo non sarebbe compatibile con l'utilizzo delle armi. L'abilità del controllo richiederà delle munizioni speciali riscattabili disattivando i monoliti energetici. Il controllo di uno specifico ruolo avrà un costo in munizioni specifico(nemici: 2, civili: 1).
+  L'abilità del controllo mentale è la meccanica che consente di poter controllare characters i cui loro ruoli permettono l'accesso a zone altrimenti vietate. I civili controllati però non potranno farsi scoprire dalle guardie nemiche nell'utilizzare armi perchè il loro ruolo non sarebbe compatibile con l'utilizzo di armi. L'abilità del controllo richiederà delle munizioni speciali riscattabili disattivando i monoliti energetici. Il controllo di uno specifico ruolo avrà un costo in munizioni specifico(nemici: 2, civili: 1).
   La meccanica per il controllo mentale permetterà di accedere all'inventario del character controllato ad esempio delle armi.
   Questo permetterà di usare i characters controllati come vite a disposizione. Se il protagonista fa muorire un character controllato torna a controllare quello precedente e così via fino al personaggio principale.
   Tutti i characters controllati potranno entrare nello stato di "ricercato".
