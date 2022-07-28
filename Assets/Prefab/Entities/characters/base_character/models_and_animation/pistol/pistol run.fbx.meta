@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 2141447b89546d547ab756f60df7dab9
+guid: 0ac85ceb1c6ae704b9ba1536e5b669c6
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: RifleAimRun
+    second: pisto_run_forward
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -17,7 +17,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 1
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: RifleAimRun
+      name: pisto_run_forward
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 43
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -59,7 +59,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.31784958
+        functionName: fastStep
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.76917374
+        functionName: fastStep
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -76,7 +90,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -385,18 +399,18 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: uomoLowPolyMixamo(Clone)
+    - name: uomo_low_poly(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Cube
-      parentName: uomoLowPolyMixamo(Clone)
+      parentName: uomo_low_poly(Clone)
       position: {x: 0.00000023841858, y: -0.00000014901157, z: 0.000014454126}
       rotation: {x: -0.7071068, y: 0.0000000012084299, z: -5.729339e-10, w: 0.7071067}
       scale: {x: 100, y: 100, z: 100}
     - name: mixamorig:Hips
-      parentName: uomoLowPolyMixamo(Clone)
+      parentName: uomo_low_poly(Clone)
       position: {x: 0.000013840174, y: 1.6385152, z: 0.0027562634}
       rotation: {x: 0.000051193656, y: 0.70710844, z: -0.00005087249, w: 0.70710516}
       scale: {x: 1, y: 1, z: 1}
@@ -612,7 +626,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: f5d436a6adadcd74b8afb4f6ad62488b, type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
