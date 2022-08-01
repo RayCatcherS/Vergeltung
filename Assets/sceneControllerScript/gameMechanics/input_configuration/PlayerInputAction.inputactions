@@ -69,9 +69,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PutAwayExtractWeapon",
+                    "name": "PutAwayWeapon",
                     "type": "Button",
                     "id": "293a1bf6-3879-4892-8ac4-5320e0ea32c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ExtractWeapon",
+                    "type": "Button",
+                    "id": "6d5b8fb8-233e-4d44-9b34-adae2e66c644",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -399,22 +408,22 @@
                 {
                     "name": "",
                     "id": "1dbb6f2f-65f7-4916-b0c9-c339edfccb86",
-                    "path": "<XInputController>/rightShoulder",
+                    "path": "<XInputController>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "PutAwayExtractWeapon",
+                    "action": "PutAwayWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "c38bb96a-297e-44ee-9d42-8707283d040a",
-                    "path": "<DualShockGamepad>/rightShoulder",
+                    "path": "<DualShockGamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "PutAwayExtractWeapon",
+                    "action": "PutAwayWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -459,6 +468,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "064c88b6-4bfc-49b1-b91a-dc2e4f4e1a8c",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "ExtractWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16a11f4e-a718-4e5b-83e0-5eda16c50ea0",
+                    "path": "<DualShockGamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "ExtractWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

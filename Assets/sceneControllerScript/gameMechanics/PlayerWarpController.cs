@@ -12,6 +12,7 @@ public class PlayerWarpController : MonoBehaviour
     [Header("Ref")]
     [SerializeField] private Camera gameCamera;
     [SerializeField] private GameState gameState;
+    [SerializeField] private WarpUIController warpUIController;
 
     [Header("Warp state")]
     [SerializeField] private List<CharacterManager> warpedCharacterManagerStack = new List<CharacterManager>();
@@ -49,7 +50,7 @@ public class PlayerWarpController : MonoBehaviour
 
     public async Task warpToCharacter(CharacterManager character, bool isPlayer = false) {
         Ammunition controlAmmoT = new Ammunition(WeaponType.controlWeapon, 0);
-
+        
 
         if(!isPlayer) {
             //disabilita character precedente
@@ -127,6 +128,7 @@ public class PlayerWarpController : MonoBehaviour
         character.alarmAlertUIController = gameObject.GetComponent<AlarmAlertUIController>();
         character.inventoryManager.aimTargetImage = gameObject.GetComponent<AimUIManager>();
         character.healthBarController = gameObject.GetComponent<HealthBarUIController>();
+        character.damageAnimation = gameObject.GetComponent<DamageScreenEffect>();
         character.buildUIHealthBar(); // rebuild UI health character
 
 
@@ -144,6 +146,7 @@ public class PlayerWarpController : MonoBehaviour
             // setta icona character controllo
             character.gameObject.GetComponent<ControlIconManager>().setAsStackedControlled();
         }
+        
 
         // configurazione audio listener
         character.GetComponent<AudioListener>().enabled = true;
@@ -151,24 +154,31 @@ public class PlayerWarpController : MonoBehaviour
         // avvia coroutines character 
         character.GetComponent<CharacterAreaManager>().startAreaCheckMemberShipCoroutine();
 
-
+        
         character.isStackControlled = true;
-
-        // rebuild dell'interfaccia weapons
-        character.weaponUIController.buildUI(character.inventoryManager);
-
-        // rebuild list of interactions
-        character.buildListOfInteraction(); 
-
-        // forza interactable obj detection
-        character.detectTrigger();
-
+        
         // Rebuild UI
         gameState.updateWantedUICharacter();
+
+        warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentPlayedCharacter);
+
+        // rebuild list of interactions
+        character.buildListOfInteraction();
+        
+        // forza interactable obj detection
+        character.detectTrigger();
 
         // sound effect
         warpCharacterSource.clip = warpCharacterClip;
         warpCharacterSource.Play();
+
+        
+        // rebuild dell'interfaccia weapons
+        character.weaponUIController.buildUI(character.inventoryManager);
+        print("WARP 1");
+        
+
+        
     }
 
     /// <summary>

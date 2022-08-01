@@ -42,6 +42,11 @@ public class CharacterManager : MonoBehaviour {
         get { return _healthBarController; }
         set { _healthBarController = value; }
     }
+    private DamageScreenEffect _damageAnimation;
+    public DamageScreenEffect damageAnimation {
+        get { return _damageAnimation; }
+        set { _damageAnimation = value; }
+    }
     [SerializeField] private InventoryManager _inventoryManager; // manager dell'intentario del character
     [SerializeField] private Transform _occlusionTargetTransform; // occlusion target che permette di capire quando il character è occluso tra la camera è un oggetto
     private GameState _globalGameState; // game state di gioco, utilizzare per accedere a metodi globali che hanno ripercussioni sul gioco
@@ -286,7 +291,7 @@ public class CharacterManager : MonoBehaviour {
 
         if(_isPlayer) {
             buildUIHealthBar();
-
+            playDamageEffect();
         }
 
         if (characterHealth <= 0) {
@@ -597,6 +602,13 @@ public class CharacterManager : MonoBehaviour {
         if(_healthBarController != null) {
             _healthBarController.setValue(characterHealth, characterMaxHealth);
         }
+    }
+
+    private void playDamageEffect() {
+        if(damageAnimation != null) {
+            damageAnimation.playDamageEffect();
+        }
+        
     }
 
     public void discardCharacterAction() {

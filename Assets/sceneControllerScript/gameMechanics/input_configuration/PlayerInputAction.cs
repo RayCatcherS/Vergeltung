@@ -91,9 +91,18 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PutAwayExtractWeapon"",
+                    ""name"": ""PutAwayWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""293a1bf6-3879-4892-8ac4-5320e0ea32c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExtractWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d5b8fb8-233e-4d44-9b34-adae2e66c644"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -421,22 +430,22 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1dbb6f2f-65f7-4916-b0c9-c339edfccb86"",
-                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""path"": ""<XInputController>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""PutAwayExtractWeapon"",
+                    ""action"": ""PutAwayWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""c38bb96a-297e-44ee-9d42-8707283d040a"",
-                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""PutAwayExtractWeapon"",
+                    ""action"": ""PutAwayWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -481,6 +490,28 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""064c88b6-4bfc-49b1-b91a-dc2e4f4e1a8c"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""ExtractWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16a11f4e-a718-4e5b-83e0-5eda16c50ea0"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""ExtractWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -866,7 +897,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_InventaryNextWeapon = m_Player.FindAction("InventaryNextWeapon", throwIfNotFound: true);
         m_Player_InventaryPreviousWeapon = m_Player.FindAction("InventaryPreviousWeapon", throwIfNotFound: true);
         m_Player_InventaryUseWeaponItem = m_Player.FindAction("InventaryUseWeaponItem", throwIfNotFound: true);
-        m_Player_PutAwayExtractWeapon = m_Player.FindAction("PutAwayExtractWeapon", throwIfNotFound: true);
+        m_Player_PutAwayWeapon = m_Player.FindAction("PutAwayWeapon", throwIfNotFound: true);
+        m_Player_ExtractWeapon = m_Player.FindAction("ExtractWeapon", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -944,7 +976,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_InventaryNextWeapon;
     private readonly InputAction m_Player_InventaryPreviousWeapon;
     private readonly InputAction m_Player_InventaryUseWeaponItem;
-    private readonly InputAction m_Player_PutAwayExtractWeapon;
+    private readonly InputAction m_Player_PutAwayWeapon;
+    private readonly InputAction m_Player_ExtractWeapon;
     private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
@@ -957,7 +990,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @InventaryNextWeapon => m_Wrapper.m_Player_InventaryNextWeapon;
         public InputAction @InventaryPreviousWeapon => m_Wrapper.m_Player_InventaryPreviousWeapon;
         public InputAction @InventaryUseWeaponItem => m_Wrapper.m_Player_InventaryUseWeaponItem;
-        public InputAction @PutAwayExtractWeapon => m_Wrapper.m_Player_PutAwayExtractWeapon;
+        public InputAction @PutAwayWeapon => m_Wrapper.m_Player_PutAwayWeapon;
+        public InputAction @ExtractWeapon => m_Wrapper.m_Player_ExtractWeapon;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -989,9 +1023,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @InventaryUseWeaponItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
-                @PutAwayExtractWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayExtractWeapon;
+                @PutAwayWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayWeapon;
+                @PutAwayWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayWeapon;
+                @PutAwayWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayWeapon;
+                @ExtractWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExtractWeapon;
+                @ExtractWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExtractWeapon;
+                @ExtractWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExtractWeapon;
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
@@ -1020,9 +1057,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @InventaryUseWeaponItem.started += instance.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.performed += instance.OnInventaryUseWeaponItem;
                 @InventaryUseWeaponItem.canceled += instance.OnInventaryUseWeaponItem;
-                @PutAwayExtractWeapon.started += instance.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.performed += instance.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.canceled += instance.OnPutAwayExtractWeapon;
+                @PutAwayWeapon.started += instance.OnPutAwayWeapon;
+                @PutAwayWeapon.performed += instance.OnPutAwayWeapon;
+                @PutAwayWeapon.canceled += instance.OnPutAwayWeapon;
+                @ExtractWeapon.started += instance.OnExtractWeapon;
+                @ExtractWeapon.performed += instance.OnExtractWeapon;
+                @ExtractWeapon.canceled += instance.OnExtractWeapon;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -1146,7 +1186,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnInventaryNextWeapon(InputAction.CallbackContext context);
         void OnInventaryPreviousWeapon(InputAction.CallbackContext context);
         void OnInventaryUseWeaponItem(InputAction.CallbackContext context);
-        void OnPutAwayExtractWeapon(InputAction.CallbackContext context);
+        void OnPutAwayWeapon(InputAction.CallbackContext context);
+        void OnExtractWeapon(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions

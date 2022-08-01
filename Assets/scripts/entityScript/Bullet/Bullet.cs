@@ -66,6 +66,7 @@ public class Bullet : MonoBehaviour {
 
                 if (hit.transform.gameObject.layer == CHARACTER_LAYER) {
 
+
                     characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
                 } else if (hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
 

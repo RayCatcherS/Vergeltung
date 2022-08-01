@@ -26,8 +26,6 @@ public class ControlBullet : Bullet {
         // manage character control
         manageCharacterControl(character);
 
-        // rebuild UI
-        _sourceInventoryCharacter.characterManager.weaponUIController.buildUI(_sourceInventoryCharacter);
     }
 
     protected override void wallCollision(Vector3 collisionPoint, Vector3 collisionNormal) {

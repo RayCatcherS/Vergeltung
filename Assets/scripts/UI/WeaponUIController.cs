@@ -40,7 +40,7 @@ public class WeaponUIController : MonoBehaviour {
             disableAmmoUI();
         }
 
-
+        
         // setta Sprite arma selezionata
         if(inventoryManager.weaponPuttedAway) {
             selectedWeaponPreview.sprite = inventoryManager.weaponItems[inventoryManager.selectedWeapon].puttedAwayWeaponPreview;
@@ -48,7 +48,7 @@ public class WeaponUIController : MonoBehaviour {
             selectedWeaponPreview.sprite = inventoryManager.weaponItems[inventoryManager.selectedWeapon].extractedWeaponPreview;
         }
 
-
+        
         // setta sprite arma precedente a quella selezionata
         if(inventoryManager.selectedWeapon > 0) {
             previousWeaponPreview.enabled = true;
@@ -56,7 +56,7 @@ public class WeaponUIController : MonoBehaviour {
         } else {
             previousWeaponPreview.enabled = false;
         }
-
+        
         // setta sprite arma successiva a quella selezionata
         if (inventoryManager.selectedWeapon < inventoryManager.weaponItems.Count - 1) {
             nextWeaponPreview.enabled = true;
@@ -65,15 +65,16 @@ public class WeaponUIController : MonoBehaviour {
             nextWeaponPreview.enabled = false;
         }
 
-
+        
         // setta UI munizioni
-
         ammunition.text = inventoryManager.inventoryAmmunitions[inventoryManager.weaponItems[inventoryManager.selectedWeapon].getWeaponType].ammunitionQuantity.ToString();
 
 
         WeaponItem selectedWeapon = inventoryManager.weaponItems[inventoryManager.selectedWeapon];
         WeaponType weaponType = selectedWeapon.getWeaponType;
-
+        
         magazineCapacity.text = "/" + inventoryManager.maxInventoryAmmunitions[weaponType].ammunitionQuantity.ToString();
+
+        
     }
 }

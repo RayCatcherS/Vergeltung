@@ -28,11 +28,13 @@ public class GameInputManager : MonoBehaviour
     private float inputIsNextWeaponPressed;
     private float inputIsPreviousWeaponPressed;
     private float inputIsUseWeaponItemPressed;
-    private float inputIsPutAwayExtractWeapon;
+    private float inputIsPutAwayWeapon;
+    private float inputIsExtractedWeapon;
 
     private bool isNextWeaponPressed = false;
     private bool isPreviousWeaponPressed = false;
-    private bool isPutAwayExtractWeapon = false;
+    private bool isPutAwayWeapon = false;
+    private bool isExtractedWeapon = false;
 
     // discard input
     private float inputIsDiscardActionPressed;
@@ -157,7 +159,8 @@ public class GameInputManager : MonoBehaviour
         inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
         inputIsPreviousWeaponPressed = playerActions.Player.InventaryPreviousWeapon.ReadValue<float>();
         inputIsUseWeaponItemPressed = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
-        inputIsPutAwayExtractWeapon = playerActions.Player.PutAwayExtractWeapon.ReadValue<float>();
+        inputIsPutAwayWeapon = playerActions.Player.PutAwayWeapon.ReadValue<float>();
+        inputIsExtractedWeapon = playerActions.Player.ExtractWeapon.ReadValue<float>();
 
 
         // next weapon input
@@ -185,15 +188,26 @@ public class GameInputManager : MonoBehaviour
             isPreviousWeaponPressed = false;
         }
 
-        // putAwayExtractWeapon input
-        if (inputIsPutAwayExtractWeapon == 1) {
-            if (!isPutAwayExtractWeapon) {
-                _inventoryManager.switchPutAwayExtractWeapon();
+        // putAwayWeapon input
+        if (inputIsPutAwayWeapon == 1) {
+            if (!isPutAwayWeapon) {
+                _inventoryManager.putAwayWeapon();
 
-                isPutAwayExtractWeapon = true;
+                isPutAwayWeapon = true;
             }
         } else {
-            isPutAwayExtractWeapon = false;
+            isPutAwayWeapon = false;
+        }
+
+        // extractWeapon input
+        if(inputIsExtractedWeapon == 1) {
+            if(!isExtractedWeapon) {
+                _inventoryManager.extractWeapon();
+
+                isExtractedWeapon = true;
+            }
+        } else {
+            isExtractedWeapon = false;
         }
 
 

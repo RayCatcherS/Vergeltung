@@ -661,7 +661,8 @@ public class InventoryManager : Interactable {
             if (hit.collider != null) {
                 res = true;
 
-                //Debug.Log("gun Throug hWall");
+                Debug.Log(hit.collider.gameObject.name);
+                Debug.Log("gun Through Wall");
             } else {
                 res = false;
             }
@@ -697,28 +698,39 @@ public class InventoryManager : Interactable {
     /// Riponi l'arma selezionata
     /// </summary>
     public void putAwayWeapon() {
-        _weaponPuttedAway = true;
-        configPutAwayExtractWeapon();
 
-        // aggiorna ui solo se sei il player
-        if (_characterManager.isPlayer) {
-            prohibitedWeaponAlarmUICheck();
+        if(!_weaponPuttedAway) {
+
+
+            _weaponPuttedAway = true;
+            configPutAwayExtractWeapon();
+
+            // aggiorna ui solo se sei il player
+            if(_characterManager.isPlayer) {
+                prohibitedWeaponAlarmUICheck();
+            }
+            configSelectedWeapon();
         }
-        configSelectedWeapon();
+        
     }
 
     /// <summary>
     /// estrai l'arma selezionata
     /// </summary>
     public void extractWeapon() {
-        _weaponPuttedAway = false;
-        configPutAwayExtractWeapon();
 
-        // aggiorna ui solo se sei il player
-        if (_characterManager.isPlayer) {
-            prohibitedWeaponAlarmUICheck();
+        if(_weaponPuttedAway) {
+
+            _weaponPuttedAway = false;
+            configPutAwayExtractWeapon();
+
+            // aggiorna ui solo se sei il player
+            if(_characterManager.isPlayer) {
+                prohibitedWeaponAlarmUICheck();
+            }
+            configSelectedWeapon();
         }
-        configSelectedWeapon();
+        
     }
 
     /// <summary>
@@ -732,17 +744,7 @@ public class InventoryManager : Interactable {
         }
     }
 
-    /// <summary>
-    /// richiama putAwayWeapon o extractWeapon in base
-    /// allo stato di _weaponPuttedAway
-    /// </summary>
-    public void switchPutAwayExtractWeapon() {
-        if(_weaponPuttedAway) {
-            extractWeapon();
-        } else {
-            putAwayWeapon();
-        }
-    }
+    
 
     /// <summary>
     /// Builda laser puntatore e arma scoperta o meno
