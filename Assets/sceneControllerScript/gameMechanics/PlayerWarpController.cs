@@ -175,7 +175,6 @@ public class PlayerWarpController : MonoBehaviour
         
         // rebuild dell'interfaccia weapons
         character.weaponUIController.buildUI(character.inventoryManager);
-        print("WARP 1");
         
 
         
