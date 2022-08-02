@@ -661,8 +661,6 @@ public class InventoryManager : Interactable {
             if (hit.collider != null) {
                 res = true;
 
-                Debug.Log(hit.collider.gameObject.name);
-                Debug.Log("gun Through Wall");
             } else {
                 res = false;
             }
