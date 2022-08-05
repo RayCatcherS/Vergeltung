@@ -3,17 +3,18 @@ using System.Collections;
 
 public class FollowPlayer : MonoBehaviour {
 
+    // se attivo permette di seguire più velocemente il target in modalità SwitchCharacterMode
+    public bool cameraSwitchCharacterModeEnable = false;
+
     [SerializeField]
     private Transform _objectToFollow;
 
     [SerializeField]
-    private float speed = 2.0f;
+    private float speed = 3.5f;
 
 
     [SerializeField] private float zOffset = 10.0f;
     [SerializeField] private float yOffset = 10.0f;
-
-
     // getters
     public Transform objectToFollow {
 
@@ -25,7 +26,7 @@ public class FollowPlayer : MonoBehaviour {
     }
 
     void Update() {
-        float interpolation = speed * Time.deltaTime;
+        float interpolation = !cameraSwitchCharacterModeEnable ? speed * Time.deltaTime : (speed * 10) * Time.deltaTime;
 
         Vector3 position = this.transform.position;
         position.z = Mathf.Lerp(this.transform.position.z, _objectToFollow.transform.position.z + zOffset, interpolation);

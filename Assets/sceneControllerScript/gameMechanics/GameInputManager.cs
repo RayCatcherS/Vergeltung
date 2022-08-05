@@ -43,6 +43,18 @@ public class GameInputManager : MonoBehaviour
     private float inputIsPausePressed;
     private bool isPausePressed = false;
 
+    // switchCharacterMode
+    private float inputIsSwitchCharacterModePressed;
+    private bool isSwitchCharacterModePressed = false;
+
+    private float inputIsPreviousCharacterPressed;
+    private bool isPreviousCharacterPressed = false;
+
+    private float inputIsNextCharacterPressed;
+    private bool isNextCharacterPressed = false;
+
+
+
     // getters and setters ref
     public CharacterMovement characterMovement {
         get { return _characterMovement; }
@@ -65,9 +77,11 @@ public class GameInputManager : MonoBehaviour
 
     private void OnEnable() {
         playerActions.Player.Enable();
+        playerActions.SwitchCharacterMode.Enable();
     }
     private void OnDisable() {
         playerActions.Player.Disable();
+        playerActions.SwitchCharacterMode.Disable();
     }
 
     void Awake() {
@@ -77,28 +91,37 @@ public class GameInputManager : MonoBehaviour
 
     
 
-    // input movimento più reattivi nell'Update
+
     private void Update() {
-        
-        if(_gameState.gameState != GlobalGameState.gameover && _gameState.gameState != GlobalGameState.pause) {
 
 
-            if(!_characterManager.isDead) {
+        if(_gameState.gameState != GlobalGameState.switchCharacterMode) {
+            if(_gameState.gameState != GlobalGameState.gameover && _gameState.gameState != GlobalGameState.pause) {
 
-                if(!_characterManager.isBusy) {
-                    moveAndRotateInput();
 
-                } else {
+                if(!_characterManager.isDead) {
 
-                    _characterMovement.stopCharacter();
+                    if(!_characterManager.isBusy) {
+                        moveAndRotateInput();
+
+                    } else {
+
+                        _characterMovement.stopCharacter();
+                    }
+                    inventaryInput();
+                    onDiscardPressed();
                 }
-                inventaryInput();
-                onDiscardPressed();
+
+
             }
 
+            startSwitchCharacterModeInput();
+            pauseInput();
+        } else if(_gameState.gameState == GlobalGameState.switchCharacterMode) {
             
+            switchCharacterModeInput();
         }
-        pauseInput();
+        
     }
 
     /// <summary>
@@ -156,9 +179,9 @@ public class GameInputManager : MonoBehaviour
     /// </summary>
     private void inventaryInput() {
 
-        inputIsNextWeaponPressed = playerActions.Player.InventaryNextWeapon.ReadValue<float>();
-        inputIsPreviousWeaponPressed = playerActions.Player.InventaryPreviousWeapon.ReadValue<float>();
-        inputIsUseWeaponItemPressed = playerActions.Player.InventaryUseWeaponItem.ReadValue<float>();
+        inputIsNextWeaponPressed = playerActions.Player.InventoryNextWeapon.ReadValue<float>();
+        inputIsPreviousWeaponPressed = playerActions.Player.InventoryPreviousWeapon.ReadValue<float>();
+        inputIsUseWeaponItemPressed = playerActions.Player.InventoryUseWeaponItem.ReadValue<float>();
         inputIsPutAwayWeapon = playerActions.Player.PutAwayWeapon.ReadValue<float>();
         inputIsExtractedWeapon = playerActions.Player.ExtractWeapon.ReadValue<float>();
 
@@ -258,10 +281,12 @@ public class GameInputManager : MonoBehaviour
         if(inputIsPausePressed == 1) {
 
             if(!isPausePressed) {
-                if(_gameState.gameState != GlobalGameState.pause) {
+                if(_gameState.gameState == GlobalGameState.play) {
 
                     gameObject.GetComponent<GameState>().initPauseGameState();
-                } else {
+
+                } else if(_gameState.gameState == GlobalGameState.pause) {
+
                     gameObject.GetComponent<GameState>().resumeGameState();
                 }
 
@@ -272,6 +297,57 @@ public class GameInputManager : MonoBehaviour
             isPausePressed = false;
         }
 
+    }
+
+    private void startSwitchCharacterModeInput() {
+        inputIsSwitchCharacterModePressed = playerActions.Player.SwitchCharacterMode.ReadValue<float>();
+        if(inputIsSwitchCharacterModePressed == 1) {
+
+            if(!isSwitchCharacterModePressed) {
+                gameObject.GetComponent<PlayerWarpController>().startSwitchCharacterMode();
+
+                isSwitchCharacterModePressed = true;
+            }
+
+        } else {
+            isSwitchCharacterModePressed = false;
+        }
+    }
+
+    private void switchCharacterModeInput() {
+        
+        inputIsPreviousCharacterPressed = playerActions.SwitchCharacterMode.PreviousCharacter.ReadValue<float>();
+        inputIsNextCharacterPressed = playerActions.SwitchCharacterMode.NextCharacter.ReadValue<float>();
+
+
+        // character precedente
+        if(inputIsPreviousCharacterPressed == 1) {
+
+            if(!isPreviousCharacterPressed) {
+                
+                // action 
+                gameObject.GetComponent<PlayerWarpController>().previousSwitchCharacter();
+
+                isPreviousCharacterPressed = true;
+            }
+        } else {
+            isPreviousCharacterPressed = false;
+        }
+
+
+        // character successivo
+        if(inputIsNextCharacterPressed == 1) {
+
+            if(!isNextCharacterPressed) {
+
+                // action
+                gameObject.GetComponent<PlayerWarpController>().nextSwitchCharacter();
+
+                isNextCharacterPressed = true;
+            }
+        } else {
+            isNextCharacterPressed = false;
+        }
     }
     /*void OnGUI() {
         GUI.TextArea(new Rect(0, 0, 200, 100), "Direzioni vettori: \n" + "input rotazione \n" + characterMovement.getRotationAimInput.ToString() + "\n" +

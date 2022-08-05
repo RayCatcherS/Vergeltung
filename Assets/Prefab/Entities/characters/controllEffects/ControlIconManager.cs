@@ -10,6 +10,11 @@ public class ControlIconManager : MonoBehaviour {
 
 
     [SerializeField] private Animator iconAnimator;
+    public Transform characterControlIconTransfom {
+        get {
+            return iconAnimator.gameObject.transform;
+        }
+    }
 
     public void setAsUnstackedNotControlled() {
         iconAnimator.SetTrigger(NOT_CONTROLLED);
@@ -21,5 +26,9 @@ public class ControlIconManager : MonoBehaviour {
 
     public void setAsStackedControlled() {
         iconAnimator.SetTrigger(STACKED_CONTROLLED);
+    }
+
+    public void setAnimatorMultiplierSpeed(int m) {
+        iconAnimator.speed = iconAnimator.speed * m;
     }
 }

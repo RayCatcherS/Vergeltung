@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "InventaryNextWeapon",
+                    "name": "InventoryNextWeapon",
                     "type": "Button",
                     "id": "3acacdaa-7154-4605-a87d-d488fc921e75",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "InventaryPreviousWeapon",
+                    "name": "InventoryPreviousWeapon",
                     "type": "Button",
                     "id": "8ea119c8-2d7e-4e86-aafb-906319194511",
                     "expectedControlType": "Button",
@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "InventaryUseWeaponItem",
+                    "name": "InventoryUseWeaponItem",
                     "type": "Button",
                     "id": "0cfc43b8-a725-4d5f-906f-d9e7032fb676",
                     "expectedControlType": "Button",
@@ -90,6 +90,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "bcea35d9-ab76-416e-bdaf-ff61a86cb241",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchCharacterMode",
+                    "type": "Button",
+                    "id": "4b24af32-458d-4c3d-b094-786e229cfef4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -346,7 +355,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "InventaryNextWeapon",
+                    "action": "InventoryNextWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -357,7 +366,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "InventaryNextWeapon",
+                    "action": "InventoryNextWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -368,7 +377,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "InventaryPreviousWeapon",
+                    "action": "InventoryPreviousWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -379,7 +388,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "InventaryPreviousWeapon",
+                    "action": "InventoryPreviousWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -390,7 +399,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "InventaryUseWeaponItem",
+                    "action": "InventoryUseWeaponItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -401,7 +410,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Control Scheme",
-                    "action": "InventaryUseWeaponItem",
+                    "action": "InventoryUseWeaponItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -490,6 +499,28 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme",
                     "action": "ExtractWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f279345-533f-41a1-8d34-115e0e4b8ad0",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "SwitchCharacterMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28314b0a-bdd5-4c20-bf21-ae563fd3acb0",
+                    "path": "<DualShockGamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCharacterMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -848,6 +879,138 @@
                     "action": "MenuNavigation",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "SwitchCharacterMode",
+            "id": "80b7c048-6623-4062-95e2-1ad0a2b802d1",
+            "actions": [
+                {
+                    "name": "PreviousCharacter",
+                    "type": "Button",
+                    "id": "7008f4f3-9496-4553-8b52-d590d301b121",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NextCharacter",
+                    "type": "Button",
+                    "id": "cc81f663-1103-4e80-bd2d-408f572458e2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DiscardAction",
+                    "type": "Button",
+                    "id": "185e47d9-ad02-4906-a8a4-0c7fb8a2004c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Action",
+                    "type": "PassThrough",
+                    "id": "3e805766-ea23-4117-96ac-488c63d46a37",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8e207514-6bc5-4a13-a896-52cf08047bce",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "PreviousCharacter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c40e39d-c578-4ced-b8ab-a0b20944c1b5",
+                    "path": "<DualShockGamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "PreviousCharacter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "746b958a-2412-4b1c-95d3-da8df57af9ea",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "NextCharacter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed743ee2-b6cc-4f76-b906-087ceaf584e8",
+                    "path": "<DualShockGamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "NextCharacter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2bc8acd0-4d6d-4bd0-98c4-716ee1ecab48",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bdde9fb2-cb2f-4d60-aaa0-fadc94a20b59",
+                    "path": "<DualShockGamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86822ffe-e5b9-4750-9337-0843e8d01c5d",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "DiscardAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a24c056c-4a44-434d-bfe4-0b1b3df56c8c",
+                    "path": "<DualShockGamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "DiscardAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

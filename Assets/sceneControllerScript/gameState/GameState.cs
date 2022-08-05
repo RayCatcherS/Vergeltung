@@ -11,7 +11,8 @@ using UnityEngine.UI;
 public enum GlobalGameState {
     play,
     gameover,
-    pause
+    pause,
+    switchCharacterMode
 }
 
 /// <summary>
@@ -226,5 +227,13 @@ public class GameState : MonoBehaviour {
 
             yield return null;
         }
+    }
+
+    public void initSwitchCharacterMode() {
+        _gameState = GlobalGameState.switchCharacterMode;
+
+
+        // Cambio UI
+
     }
 }
