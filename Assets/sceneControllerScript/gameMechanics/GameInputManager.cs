@@ -53,6 +53,9 @@ public class GameInputManager : MonoBehaviour
     private float inputIsNextCharacterPressed;
     private bool isNextCharacterPressed = false;
 
+    private float inputIsCharacterConfirmedInSCM;
+    private bool isCharacterConfirmedInSCM = false;
+
 
 
     // getters and setters ref
@@ -319,6 +322,8 @@ public class GameInputManager : MonoBehaviour
         inputIsPreviousCharacterPressed = playerActions.SwitchCharacterMode.PreviousCharacter.ReadValue<float>();
         inputIsNextCharacterPressed = playerActions.SwitchCharacterMode.NextCharacter.ReadValue<float>();
 
+        inputIsCharacterConfirmedInSCM = playerActions.SwitchCharacterMode.Action.ReadValue<float>();
+
 
         // character precedente
         if(inputIsPreviousCharacterPressed == 1) {
@@ -347,6 +352,21 @@ public class GameInputManager : MonoBehaviour
             }
         } else {
             isNextCharacterPressed = false;
+        }
+
+
+        // conferma character to warp
+        if(inputIsCharacterConfirmedInSCM == 1) {
+
+            if(!isCharacterConfirmedInSCM) {
+
+                // action
+                gameObject.GetComponent<PlayerWarpController>().confirmSelectedSwitchCharacterAsync();
+
+                isCharacterConfirmedInSCM = true;
+            }
+        } else {
+            isCharacterConfirmedInSCM = false;
         }
     }
     /*void OnGUI() {

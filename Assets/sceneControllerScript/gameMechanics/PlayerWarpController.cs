@@ -290,62 +290,88 @@ public class PlayerWarpController : MonoBehaviour
 
         if(gameState.gameState == GlobalGameState.play) {
 
+            if(!currentPlayedCharacter.isBusy) {
 
-            if(warpedCharacterManagerStack.Count > 1) {
+                if(warpedCharacterManagerStack.Count > 1) {
 
-                // cambio game state
-                gameState.initSwitchCharacterMode();
+                    foreach(CharacterManager character in warpedCharacterManagerStack) {
+                        character.emptyAllInteractableDictionaryObjects();
+                    }
 
-                // draw della catena di controllo
-                _ = drawControlCharacterChain();
+                    // cambio game state
+                    gameState.initSwitchCharacterMode();
 
-                Time.timeScale = 0.1f;
+                    // draw della catena di controllo (task)
+                    _ = drawControlCharacterChain();
 
-                // disabilita controllo sul character attualmente controllato
-                disableControlledCharacter(_currentPlayedCharacter);
+                    // ruota l'interfaccia UI del character verso la camera (task)
+                    _ = setCurrentCharacterUIOrientationTowardsTheCamera();
 
-                // seleziona character per la switch mode
-                selectSwitchCharacter(_currentPlayedCharacter);
 
-                // start effetto post processing
-                switchCharacterModeEffect.SetTrigger("start");
-                switchCharacterModeEffect.speed = switchCharacterModeEffect.speed * TIME_MULTIPLIER_SC_MODE;
+                    // disabilita controllo sul character attualmente controllato
+                    disableControlledCharacter(_currentPlayedCharacter);
 
-                // rebuild UI
-                warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
+                    // seleziona character per la switch mode
+                    selectSwitchCharacter(_currentPlayedCharacter);
+
+                    // start effetto post processing
+                    switchCharacterModeEffect.SetTrigger("start");
+                    switchCharacterModeEffect.speed = switchCharacterModeEffect.speed * TIME_MULTIPLIER_SC_MODE;
+
+                    // rebuild UI
+                    warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
+                }
             }
-
 
         }
         
     }
 
 
-    public void endSwitchCharacterMode() {
+    private void endSwitchCharacterMode() {
         Time.timeScale = STANDART_TIME_MULTIPLIER;
 
         for(int i = 0; i < warpedCharacterManagerStack.Count; i++) {
-            _currentSwitchCharacterMode.gameObject.GetComponent<ControlIconManager>().setAnimatorMultiplierSpeed(STANDART_TIME_MULTIPLIER);
-            _currentSwitchCharacterMode.gameObject.GetComponent<ControlIconManager>().setAsStackedNotControlled();
+
+            // reimposta parametri animator icona controllo character
+            warpedCharacterManagerStack[i].gameObject.GetComponent<ControlIconManager>().setAnimatorMultiplierSpeed(STANDART_TIME_MULTIPLIER);
+
+            if(warpedCharacterManagerStack[i].GetInstanceID() != firstPlayerCharacter.GetInstanceID()) {
+
+                warpedCharacterManagerStack[i].gameObject.GetComponent<ControlIconManager>().setAsStackedNotControlled();
+            }
+
+
+            // disabilita UI character 
+            warpedCharacterManagerStack[i].gameObject.GetComponent<WarpUIManager>().setActiveWarpUI(false);
         }
 
 
         // start effetto post processing
         switchCharacterModeEffect.SetTrigger("end");
         switchCharacterModeEffect.speed = switchCharacterModeEffect.speed * STANDART_TIME_MULTIPLIER;
+
+        // camera
+        gameCamera.GetComponent<FollowPlayer>().cameraSwitchCharacterModeEnable = false;
+
+        gameState.resumeGameState();
     }
 
     public void nextSwitchCharacter() {
         
-
+        // setta posizione character successivo
         int nextCharacterPos = getCharacterPositionInStack(_currentSwitchCharacterMode);
         nextCharacterPos++;
-
         if(nextCharacterPos > warpedCharacterManagerStack.Count - 1) {
 
             nextCharacterPos = 0;
         }
 
+        // disattiva UI character precedente
+        _currentSwitchCharacterMode.gameObject.GetComponent<WarpUIManager>().setActiveWarpUI(false);
+
+
+        // seleziona character successivo
         selectSwitchCharacter(warpedCharacterManagerStack[nextCharacterPos]);
 
         // rebuild UI
@@ -355,6 +381,7 @@ public class PlayerWarpController : MonoBehaviour
     public void previousSwitchCharacter() {
 
 
+        // setta posizione del character precedente
         int previousCharacterPos = getCharacterPositionInStack(_currentSwitchCharacterMode);
         previousCharacterPos--;
 
@@ -362,6 +389,10 @@ public class PlayerWarpController : MonoBehaviour
             previousCharacterPos = warpedCharacterManagerStack.Count - 1;
         }
 
+        // disattiva UI character precedente
+        _currentSwitchCharacterMode.gameObject.GetComponent<WarpUIManager>().setActiveWarpUI(false);
+
+        // seleziona character successivo
         selectSwitchCharacter(warpedCharacterManagerStack[previousCharacterPos]);
 
         // rebuild UI
@@ -398,13 +429,28 @@ public class PlayerWarpController : MonoBehaviour
         gameCamera.GetComponent<CoutoutObject>().targetObject = _currentSwitchCharacterMode.occlusionTargetTransform;
         gameCamera.GetComponent<FollowPlayer>().objectToFollow = _currentSwitchCharacterMode.occlusionTargetTransform;
         gameCamera.GetComponent<FollowPlayer>().cameraSwitchCharacterModeEnable = true;
+
+        // abilita UI character 
+        _currentSwitchCharacterMode.gameObject.GetComponent<WarpUIManager>().setActiveWarpUI(true);
     }
 
+    public async Task confirmSelectedSwitchCharacterAsync() {
 
+        if(gameState.gameState == GlobalGameState.switchCharacterMode) {
+            endSwitchCharacterMode();
 
+            gameState.resumeGameState();
+            await warpToCharacter(_currentSwitchCharacterMode);
+        }
+    }
 
+    /// <summary>
+    /// Disegna la catena del controllo(Line Rendere)
+    /// </summary>
+    /// <returns></returns>
     private async Task drawControlCharacterChain() {
-        
+
+        controlCharacterChainLR.enabled = true;
 
         while(gameState.gameState == GlobalGameState.switchCharacterMode) {
             await Task.Yield();
@@ -412,8 +458,12 @@ public class PlayerWarpController : MonoBehaviour
 
             if(warpedCharacterManagerStack.Count > 1) {
 
-
-                controlCharacterChainLR.positionCount = warpedCharacterManagerStack.Count + 1;
+                if(warpedCharacterManagerStack.Count > 2) {
+                    controlCharacterChainLR.positionCount = warpedCharacterManagerStack.Count + 1;
+                } else if(warpedCharacterManagerStack.Count > 1) {
+                    controlCharacterChainLR.positionCount = warpedCharacterManagerStack.Count;
+                }
+                    
                 for(int i = 0; i < warpedCharacterManagerStack.Count; i++) {
 
                     Vector3 warpIconPosT = warpedCharacterManagerStack[i].gameObject.GetComponent<ControlIconManager>().characterControlIconTransfom.position;
@@ -429,6 +479,20 @@ public class PlayerWarpController : MonoBehaviour
                 }
                 
             }
+        }
+
+        controlCharacterChainLR.enabled = false;
+    }
+
+    /// <summary>
+    /// ruota l'UI del character attualmente selezionato in direzione della camera
+    /// </summary>
+    /// <returns></returns>
+    private async Task setCurrentCharacterUIOrientationTowardsTheCamera() {
+        while(gameState.gameState == GlobalGameState.switchCharacterMode) {
+            await Task.Yield();
+
+            _currentSwitchCharacterMode.gameObject.GetComponent<WarpUIManager>().setOrientationTowardsTheCamera();
         }
     }
 

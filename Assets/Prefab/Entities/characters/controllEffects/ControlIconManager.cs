@@ -17,14 +17,26 @@ public class ControlIconManager : MonoBehaviour {
     }
 
     public void setAsUnstackedNotControlled() {
+        iconAnimator.ResetTrigger(STACKED_CONTROLLED);
+        iconAnimator.ResetTrigger(STACKED_NOT_CONTROLLED);
+        iconAnimator.ResetTrigger(NOT_CONTROLLED);
+
         iconAnimator.SetTrigger(NOT_CONTROLLED);
     }
 
     public void setAsStackedNotControlled() {
+        iconAnimator.ResetTrigger(STACKED_CONTROLLED);
+        iconAnimator.ResetTrigger(STACKED_NOT_CONTROLLED);
+        iconAnimator.ResetTrigger(NOT_CONTROLLED);
+
         iconAnimator.SetTrigger(STACKED_NOT_CONTROLLED);
     }
 
     public void setAsStackedControlled() {
+        iconAnimator.ResetTrigger(STACKED_CONTROLLED);
+        iconAnimator.ResetTrigger(STACKED_NOT_CONTROLLED);
+        iconAnimator.ResetTrigger(NOT_CONTROLLED);
+
         iconAnimator.SetTrigger(STACKED_CONTROLLED);
     }
 

@@ -232,8 +232,6 @@ public class GameState : MonoBehaviour {
     public void initSwitchCharacterMode() {
         _gameState = GlobalGameState.switchCharacterMode;
 
-
-        // Cambio UI
-
+        Time.timeScale = 0.1f;
     }
 }
