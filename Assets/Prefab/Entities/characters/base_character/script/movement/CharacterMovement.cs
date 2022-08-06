@@ -11,6 +11,7 @@ public enum RotationLerpSpeedValue {
 }
 public class CharacterMovement : MonoBehaviour {
     private const int DOOR_LAYER = 10;
+    private const int CHARACTER_LAYER = 7;
 
     [Header("References")]
     public Animator animator; //animator del character
@@ -277,7 +278,30 @@ public class CharacterMovement : MonoBehaviour {
         animator.SetFloat("VelocityZ", 0, 0f, Time.deltaTime);
         _movement = Vector3.zero;
     }
+
+    void OnCollisionEnter(Collision collision) {
+        
+    }
+
+
+    void OnControllerColliderHit(ControllerColliderHit hit) {
+
+
+        // We dont want to push objects below us
+        if(hit.moveDirection.y < -0.3) {
+            return;
+        }
+
+
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        
+
+        if(hit.gameObject.layer == CHARACTER_LAYER) {
+            hit.gameObject.transform.Translate(pushDir * Time.deltaTime, Space.World);
+
+            //hit.gameObject.GetComponent<CharacterMovement>().moveCharacter(_movement * 3, false, onlyAnimation: true);
+        }
+    }
+
 }
-
-
-
