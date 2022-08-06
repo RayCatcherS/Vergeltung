@@ -8,8 +8,8 @@ public class GeneratorInteractable : Interactable {
 
     [Header("References")]
     [SerializeField] private ScenePowerController scenePowerController; // game state per accedere ai metodi dello stato di gioco
+    [SerializeField] private AudioSource audioSource;
 
-    
     [Header("State")]
     [SerializeField] string sabotageGeneratorEventName = "SABOTAGE GENERATOR";
     [SerializeField] UnityEventCharacter sabotageGenerator = new UnityEventCharacter();
@@ -18,6 +18,10 @@ public class GeneratorInteractable : Interactable {
 
     [Header("generator config")]
     [SerializeField] private float sabotageTime = 2f; // tempo per sabotare il generatore
+
+    [Header("Asset Refs")]
+    [SerializeField] private AudioClip interactAudioClip;
+
 
 
     public override void Start() {
@@ -34,6 +38,9 @@ public class GeneratorInteractable : Interactable {
 
         isSabotage = true;
         characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia potenziale stato alert
+
+        // sound 
+        playSounds();
 
         // avvia task sul character che ha avviato il task
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
@@ -63,6 +70,11 @@ public class GeneratorInteractable : Interactable {
         }
 
         return eventRes;
+    }
+
+    private void playSounds() {
+        audioSource.clip = interactAudioClip;
+        audioSource.Play();
     }
 }
 

@@ -50,7 +50,6 @@ public class PlayerWarpController : MonoBehaviour
 
         // aggiungi ref del character allo stack
         warpedCharacterManagerStack.Add(character);
-
         
     }
 
@@ -290,36 +289,40 @@ public class PlayerWarpController : MonoBehaviour
 
         if(gameState.gameState == GlobalGameState.play) {
 
-            if(!currentPlayedCharacter.isBusy) {
 
-                if(warpedCharacterManagerStack.Count > 1) {
+            if(gameState.gameState != GlobalGameState.gameover) {
 
-                    foreach(CharacterManager character in warpedCharacterManagerStack) {
-                        character.emptyAllInteractableDictionaryObjects();
+                if(!currentPlayedCharacter.isBusy) {
+
+                    if(warpedCharacterManagerStack.Count > 1) {
+
+                        foreach(CharacterManager character in warpedCharacterManagerStack) {
+                            character.emptyAllInteractableDictionaryObjects();
+                        }
+
+                        // cambio game state
+                        gameState.initSwitchCharacterMode();
+
+                        // draw della catena di controllo (task)
+                        _ = drawControlCharacterChain();
+
+                        // ruota l'interfaccia UI del character verso la camera (task)
+                        _ = setCurrentCharacterUIOrientationTowardsTheCamera();
+
+
+                        // disabilita controllo sul character attualmente controllato
+                        disableControlledCharacter(_currentPlayedCharacter);
+
+                        // seleziona character per la switch mode
+                        selectSwitchCharacter(_currentPlayedCharacter);
+
+                        // start effetto post processing
+                        switchCharacterModeEffect.SetTrigger("start");
+                        switchCharacterModeEffect.speed = switchCharacterModeEffect.speed * TIME_MULTIPLIER_SC_MODE;
+
+                        // rebuild UI
+                        warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
                     }
-
-                    // cambio game state
-                    gameState.initSwitchCharacterMode();
-
-                    // draw della catena di controllo (task)
-                    _ = drawControlCharacterChain();
-
-                    // ruota l'interfaccia UI del character verso la camera (task)
-                    _ = setCurrentCharacterUIOrientationTowardsTheCamera();
-
-
-                    // disabilita controllo sul character attualmente controllato
-                    disableControlledCharacter(_currentPlayedCharacter);
-
-                    // seleziona character per la switch mode
-                    selectSwitchCharacter(_currentPlayedCharacter);
-
-                    // start effetto post processing
-                    switchCharacterModeEffect.SetTrigger("start");
-                    switchCharacterModeEffect.speed = switchCharacterModeEffect.speed * TIME_MULTIPLIER_SC_MODE;
-
-                    // rebuild UI
-                    warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
                 }
             }
 
