@@ -29,6 +29,6 @@ public class ControlIconManager : MonoBehaviour {
     }
 
     public void setAnimatorMultiplierSpeed(int m) {
-        iconAnimator.speed = iconAnimator.speed * m;
+        iconAnimator.speed = 1 * m;
     }
 }

@@ -927,7 +927,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DiscardAction"",
+                    ""name"": ""RemoveCharacterFromStack"",
                     ""type"": ""Button"",
                     ""id"": ""185e47d9-ad02-4906-a8a4-0c7fb8a2004c"",
                     ""expectedControlType"": ""Button"",
@@ -1019,7 +1019,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""DiscardAction"",
+                    ""action"": ""RemoveCharacterFromStack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1030,7 +1030,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""DiscardAction"",
+                    ""action"": ""RemoveCharacterFromStack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1078,7 +1078,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_SwitchCharacterMode = asset.FindActionMap("SwitchCharacterMode", throwIfNotFound: true);
         m_SwitchCharacterMode_PreviousCharacter = m_SwitchCharacterMode.FindAction("PreviousCharacter", throwIfNotFound: true);
         m_SwitchCharacterMode_NextCharacter = m_SwitchCharacterMode.FindAction("NextCharacter", throwIfNotFound: true);
-        m_SwitchCharacterMode_DiscardAction = m_SwitchCharacterMode.FindAction("DiscardAction", throwIfNotFound: true);
+        m_SwitchCharacterMode_RemoveCharacterFromStack = m_SwitchCharacterMode.FindAction("RemoveCharacterFromStack", throwIfNotFound: true);
         m_SwitchCharacterMode_Action = m_SwitchCharacterMode.FindAction("Action", throwIfNotFound: true);
     }
 
@@ -1352,7 +1352,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private ISwitchCharacterModeActions m_SwitchCharacterModeActionsCallbackInterface;
     private readonly InputAction m_SwitchCharacterMode_PreviousCharacter;
     private readonly InputAction m_SwitchCharacterMode_NextCharacter;
-    private readonly InputAction m_SwitchCharacterMode_DiscardAction;
+    private readonly InputAction m_SwitchCharacterMode_RemoveCharacterFromStack;
     private readonly InputAction m_SwitchCharacterMode_Action;
     public struct SwitchCharacterModeActions
     {
@@ -1360,7 +1360,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public SwitchCharacterModeActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @PreviousCharacter => m_Wrapper.m_SwitchCharacterMode_PreviousCharacter;
         public InputAction @NextCharacter => m_Wrapper.m_SwitchCharacterMode_NextCharacter;
-        public InputAction @DiscardAction => m_Wrapper.m_SwitchCharacterMode_DiscardAction;
+        public InputAction @RemoveCharacterFromStack => m_Wrapper.m_SwitchCharacterMode_RemoveCharacterFromStack;
         public InputAction @Action => m_Wrapper.m_SwitchCharacterMode_Action;
         public InputActionMap Get() { return m_Wrapper.m_SwitchCharacterMode; }
         public void Enable() { Get().Enable(); }
@@ -1377,9 +1377,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @NextCharacter.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnNextCharacter;
                 @NextCharacter.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnNextCharacter;
                 @NextCharacter.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnNextCharacter;
-                @DiscardAction.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnDiscardAction;
-                @DiscardAction.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnDiscardAction;
-                @DiscardAction.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnDiscardAction;
+                @RemoveCharacterFromStack.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnRemoveCharacterFromStack;
                 @Action.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnAction;
                 @Action.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnAction;
                 @Action.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnAction;
@@ -1393,9 +1393,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @NextCharacter.started += instance.OnNextCharacter;
                 @NextCharacter.performed += instance.OnNextCharacter;
                 @NextCharacter.canceled += instance.OnNextCharacter;
-                @DiscardAction.started += instance.OnDiscardAction;
-                @DiscardAction.performed += instance.OnDiscardAction;
-                @DiscardAction.canceled += instance.OnDiscardAction;
+                @RemoveCharacterFromStack.started += instance.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.performed += instance.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.canceled += instance.OnRemoveCharacterFromStack;
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
@@ -1442,7 +1442,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     {
         void OnPreviousCharacter(InputAction.CallbackContext context);
         void OnNextCharacter(InputAction.CallbackContext context);
-        void OnDiscardAction(InputAction.CallbackContext context);
+        void OnRemoveCharacterFromStack(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
     }
 }

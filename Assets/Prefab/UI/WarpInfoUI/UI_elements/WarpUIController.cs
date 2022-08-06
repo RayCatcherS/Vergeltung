@@ -42,11 +42,6 @@ public class WarpUIController : MonoBehaviour {
             } else {
                 cElement.GetComponent<WarpCharacterElement>().initWarpCharacterElement(false, false);
             }
-
-            
-            
-
-            
             
 
             characterElements.Add(cElement);

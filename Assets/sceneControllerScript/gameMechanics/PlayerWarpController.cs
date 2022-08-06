@@ -311,9 +311,11 @@ public class PlayerWarpController : MonoBehaviour
                 switchCharacterModeEffect.SetTrigger("start");
                 switchCharacterModeEffect.speed = switchCharacterModeEffect.speed * TIME_MULTIPLIER_SC_MODE;
 
-
+                // rebuild UI
+                warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
             }
-            
+
+
         }
         
     }
@@ -345,6 +347,9 @@ public class PlayerWarpController : MonoBehaviour
         }
 
         selectSwitchCharacter(warpedCharacterManagerStack[nextCharacterPos]);
+
+        // rebuild UI
+        warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
     }
 
     public void previousSwitchCharacter() {
@@ -358,6 +363,9 @@ public class PlayerWarpController : MonoBehaviour
         }
 
         selectSwitchCharacter(warpedCharacterManagerStack[previousCharacterPos]);
+
+        // rebuild UI
+        warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
     }
 
     private void selectSwitchCharacter(CharacterManager characterManager) {
@@ -366,7 +374,7 @@ public class PlayerWarpController : MonoBehaviour
             _currentSwitchCharacterMode.GetComponent<AudioListener>().enabled = false;
 
 
-            if(characterManager.GetInstanceID() != firstPlayerCharacter.GetInstanceID()) {
+            if(_currentSwitchCharacterMode.GetInstanceID() != firstPlayerCharacter.GetInstanceID()) {
                 _currentSwitchCharacterMode.gameObject.GetComponent<ControlIconManager>().setAnimatorMultiplierSpeed(TIME_MULTIPLIER_SC_MODE);
                 _currentSwitchCharacterMode.gameObject.GetComponent<ControlIconManager>().setAsStackedNotControlled();
             }
