@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour {
     private const int CHARACTER_LAYER = 7;
     private const int RAGDOLLBONE_LAYER = 15;
     private const int SHATTERABLEGLASS_LAYER = 17;
+    private const int MACHINERY_LAYER = 18;
 
 
     [Header("Bullet configuration")]
@@ -64,16 +65,20 @@ public class Bullet : MonoBehaviour {
                     Destroy(gameObject);
 
 
-                if (hit.transform.gameObject.layer == CHARACTER_LAYER) {
+                if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
 
 
                     characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
-                } else if (hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
+                } else if(hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
 
                     ragdollBoneCollision(hit.point);
-                } else if (hit.transform.gameObject.layer == SHATTERABLEGLASS_LAYER) {
+                } else if(hit.transform.gameObject.layer == SHATTERABLEGLASS_LAYER) {
 
                     glassCollision(hit);
+                    wallCollision(hit.point, hit.normal);
+                } else if(hit.transform.gameObject.layer == MACHINERY_LAYER) {
+
+                    machineryCollision(hit);
                     wallCollision(hit.point, hit.normal);
                 } else {
 
@@ -125,4 +130,13 @@ public class Bullet : MonoBehaviour {
 
     }
 
+
+    protected virtual void machineryCollision(RaycastHit hit) {
+
+
+        if(hit.transform.gameObject.GetComponent<Machinery>() != null) {
+            hit.transform.gameObject.GetComponent<Machinery>().applyMachineryLoad();
+        }
+        
+    }
 }

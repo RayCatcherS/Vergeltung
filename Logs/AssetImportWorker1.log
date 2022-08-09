@@ -15,7 +15,7 @@ C:/Users/roman/Documents/GitHub/Vergeltung
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-58472
+56253
 Successfully changed project path to: C:/Users/roman/Documents/GitHub/Vergeltung
 C:/Users/roman/Documents/GitHub/Vergeltung
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,7 +47,7 @@ C:/Users/roman/Documents/GitHub/Vergeltung
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Refreshing native plugins compatible for Editor in 87.49 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 77.70 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.2.16f1 (559fc0ec6670)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/Resources/UnitySubsystems
@@ -63,283 +63,124 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56984
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56220
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.2.16f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
-Registered in 0.008418 seconds.
+Registered in 0.010071 seconds.
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 81.57 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 81.90 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.658 seconds
+- Completed reload, in  0.806 seconds
 Domain Reload Profiling:
-	ReloadAssembly (658ms)
-		BeginReloadAssembly (73ms)
+	ReloadAssembly (807ms)
+		BeginReloadAssembly (75ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (1ms)
-		EndReloadAssembly (479ms)
-			LoadAssemblies (71ms)
+		EndReloadAssembly (605ms)
+			LoadAssemblies (74ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (108ms)
+			SetupTypeCache (182ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (38ms)
-			SetupLoadedEditorAssemblies (286ms)
+			RebuildScriptCaches (35ms)
+			SetupLoadedEditorAssemblies (311ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (32ms)
+				InitializePlatformSupportModulesInManaged (33ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (82ms)
 				BeforeProcessingInitializeOnLoad (1ms)
-				ProcessInitializeOnLoadAttributes (129ms)
-				ProcessInitializeOnLoadMethodAttributes (41ms)
+				ProcessInitializeOnLoadAttributes (152ms)
+				ProcessInitializeOnLoadMethodAttributes (42ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.004822 seconds.
+Registered in 0.004879 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 72.20 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 105.30 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
+Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
+  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
+  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
+  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
+  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
+  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
+  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
+UnityEditor.Tools:set_lockedLayers (int)
+UnityEditor.Tools:OnEnable ()
+UnityEngine.ScriptableObject:CreateInstance (System.Type)
+UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
+UnityEditor.Tools:get_get ()
+UnityEditor.Tools:get_visibleLayers ()
+UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
+
 Mono: successfully reloaded assembly
-- Completed reload, in  1.693 seconds
+- Completed reload, in  2.072 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1693ms)
-		BeginReloadAssembly (98ms)
+	ReloadAssembly (2072ms)
+		BeginReloadAssembly (120ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
+			DisableScriptedObjects (6ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (18ms)
-		EndReloadAssembly (1494ms)
-			LoadAssemblies (69ms)
+			CreateAndSetChildDomain (24ms)
+		EndReloadAssembly (1837ms)
+			LoadAssemblies (108ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (204ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (58ms)
-			SetupLoadedEditorAssemblies (1120ms)
+			SetupTypeCache (327ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (105ms)
+			SetupLoadedEditorAssemblies (1207ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (25ms)
+				InitializePlatformSupportModulesInManaged (37ms)
 				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (72ms)
-				BeforeProcessingInitializeOnLoad (88ms)
-				ProcessInitializeOnLoadAttributes (854ms)
-				ProcessInitializeOnLoadMethodAttributes (73ms)
+				RefreshPlugins (105ms)
+				BeforeProcessingInitializeOnLoad (106ms)
+				ProcessInitializeOnLoadAttributes (879ms)
+				ProcessInitializeOnLoadMethodAttributes (72ms)
 				AfterProcessingInitializeOnLoad (8ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (4ms)
+			AwakeInstancesAfterBackupRestoration (9ms)
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
-Refreshing native plugins compatible for Editor in 0.96 ms, found 4 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Refreshing native plugins compatible for Editor in 0.87 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4239 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 34 unused Assets / (0.6 MB). Loaded Objects now: 4758.
-Memory consumption went from 215.8 MB to 215.1 MB.
-Total: 4.018000 ms (FindLiveObjects: 0.357600 ms CreateObjectMapping: 0.266300 ms MarkObjects: 3.074900 ms  DeleteObjects: 0.318100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Refreshing native plugins compatible for Editor in 4.63 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 26 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4758.
-Memory consumption went from 121.3 MB to 120.7 MB.
-Total: 3.767200 ms (FindLiveObjects: 0.347300 ms CreateObjectMapping: 0.269400 ms MarkObjects: 2.835800 ms  DeleteObjects: 0.314100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004719 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.90 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.270 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1270ms)
-		BeginReloadAssembly (124ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (37ms)
-		EndReloadAssembly (1059ms)
-			LoadAssemblies (80ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (233ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (72ms)
-			SetupLoadedEditorAssemblies (592ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (72ms)
-				ProcessInitializeOnLoadAttributes (417ms)
-				ProcessInitializeOnLoadMethodAttributes (65ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (23ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.55 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 50 unused Assets / (0.6 MB). Loaded Objects now: 4738.
-Memory consumption went from 216.5 MB to 215.9 MB.
-Total: 3.678300 ms (FindLiveObjects: 0.299400 ms CreateObjectMapping: 0.191200 ms MarkObjects: 2.871600 ms  DeleteObjects: 0.315400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004629 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.91 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.215 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1216ms)
-		BeginReloadAssembly (123ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1005ms)
-			LoadAssemblies (79ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (203ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (43ms)
-			SetupLoadedEditorAssemblies (603ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (72ms)
-				ProcessInitializeOnLoadAttributes (417ms)
-				ProcessInitializeOnLoadMethodAttributes (75ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (31ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.03 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4742.
-Memory consumption went from 210.9 MB to 210.2 MB.
-Total: 3.757400 ms (FindLiveObjects: 0.319100 ms CreateObjectMapping: 0.221900 ms MarkObjects: 2.879500 ms  DeleteObjects: 0.335900 ms)
+Unloading 4240 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 34 unused Assets / (0.6 MB). Loaded Objects now: 4759.
+Memory consumption went from 216.3 MB to 215.7 MB.
+Total: 3.832300 ms (FindLiveObjects: 0.364300 ms CreateObjectMapping: 0.260100 ms MarkObjects: 2.892600 ms  DeleteObjects: 0.314700 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -354,98 +195,27 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 372183.648794 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: '29316f641c89a8837bb466030bc8fdf5') in 0.123954 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004630 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.12 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.256 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1257ms)
-		BeginReloadAssembly (131ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (44ms)
-		EndReloadAssembly (1039ms)
-			LoadAssemblies (80ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (216ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (57ms)
-			SetupLoadedEditorAssemblies (589ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (33ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (81ms)
-				ProcessInitializeOnLoadAttributes (400ms)
-				ProcessInitializeOnLoadMethodAttributes (65ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (25ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.48 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4746.
-Memory consumption went from 210.9 MB to 210.2 MB.
-Total: 3.890900 ms (FindLiveObjects: 0.316600 ms CreateObjectMapping: 0.203100 ms MarkObjects: 3.039500 ms  DeleteObjects: 0.331000 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  Time since last request: 603986.053288 seconds.
+  path: Assets/Textures/Spark_Glow.png
+  artifactKey: Guid(aed341d2b2cb0984cad084a6756108f4) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
+Start importing Assets/Textures/Spark_Glow.png using Guid(aed341d2b2cb0984cad084a6756108f4) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
+ -> (artifact id: 'a7110e24a7f62b6084d2c920eea174c7') in 0.291386 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 177.901439 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: '97693b335eb4d6145dcf2fc68760886e') in 0.109802 seconds 
+  Time since last request: 177.296179 seconds.
+  path: Assets/assets/UI/iconAlarm/suspiciousGenericActionAlarm.psd
+  artifactKey: Guid(a45bcaf2ff2c9f54a98756b9937d929b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/assets/UI/iconAlarm/suspiciousGenericActionAlarm.psd using Guid(a45bcaf2ff2c9f54a98756b9937d929b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd0549031f925adf55e3df3dc30e5ebbc') in 0.152437 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004483 seconds.
+Registered in 0.005288 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.95 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 1.32 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
 This could be due to missing scripts or compile error.
@@ -460,570 +230,40 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 (Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.228 seconds
+- Completed reload, in  1.266 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1229ms)
-		BeginReloadAssembly (136ms)
+	ReloadAssembly (1267ms)
+		BeginReloadAssembly (145ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
+			DisableScriptedObjects (5ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (47ms)
-		EndReloadAssembly (1005ms)
-			LoadAssemblies (79ms)
+			CreateAndSetChildDomain (53ms)
+		EndReloadAssembly (1035ms)
+			LoadAssemblies (81ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (204ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (49ms)
-			SetupLoadedEditorAssemblies (589ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (74ms)
-				ProcessInitializeOnLoadAttributes (408ms)
-				ProcessInitializeOnLoadMethodAttributes (69ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (30ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.59 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.7 MB). Loaded Objects now: 4750.
-Memory consumption went from 210.9 MB to 210.3 MB.
-Total: 3.933100 ms (FindLiveObjects: 0.309600 ms CreateObjectMapping: 0.220600 ms MarkObjects: 3.070300 ms  DeleteObjects: 0.331600 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005733 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.91 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.283 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1284ms)
-		BeginReloadAssembly (137ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1048ms)
-			LoadAssemblies (91ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (231ms)
+			SetupTypeCache (210ms)
 			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (61ms)
-			SetupLoadedEditorAssemblies (580ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (74ms)
-				ProcessInitializeOnLoadAttributes (402ms)
-				ProcessInitializeOnLoadMethodAttributes (66ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (29ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.87 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4754.
-Memory consumption went from 210.9 MB to 210.3 MB.
-Total: 3.966800 ms (FindLiveObjects: 0.309000 ms CreateObjectMapping: 0.181000 ms MarkObjects: 3.124400 ms  DeleteObjects: 0.351500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006150 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.96 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.234 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1235ms)
-		BeginReloadAssembly (125ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1022ms)
-			LoadAssemblies (84ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (206ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (43ms)
-			SetupLoadedEditorAssemblies (613ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (30ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (73ms)
-				ProcessInitializeOnLoadAttributes (420ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (34ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.61 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4758.
-Memory consumption went from 210.9 MB to 210.3 MB.
-Total: 4.047900 ms (FindLiveObjects: 0.359400 ms CreateObjectMapping: 0.262500 ms MarkObjects: 3.010400 ms  DeleteObjects: 0.414700 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004941 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.93 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.218 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1219ms)
-		BeginReloadAssembly (121ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (34ms)
-		EndReloadAssembly (1009ms)
-			LoadAssemblies (83ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (212ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (56ms)
-			SetupLoadedEditorAssemblies (569ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (72ms)
-				ProcessInitializeOnLoadAttributes (396ms)
-				ProcessInitializeOnLoadMethodAttributes (62ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (30ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.71 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4762.
-Memory consumption went from 210.9 MB to 210.3 MB.
-Total: 4.466700 ms (FindLiveObjects: 0.407000 ms CreateObjectMapping: 0.280900 ms MarkObjects: 3.375900 ms  DeleteObjects: 0.401900 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005962 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.92 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.432 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1434ms)
-		BeginReloadAssembly (128ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1214ms)
-			LoadAssemblies (80ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (230ms)
-			ReleaseScriptCaches (1ms)
 			RebuildScriptCaches (46ms)
-			SetupLoadedEditorAssemblies (759ms)
+			SetupLoadedEditorAssemblies (617ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (75ms)
-				ProcessInitializeOnLoadAttributes (557ms)
-				ProcessInitializeOnLoadMethodAttributes (86ms)
-				AfterProcessingInitializeOnLoad (10ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (45ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.73 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4766.
-Memory consumption went from 210.9 MB to 210.3 MB.
-Total: 3.849000 ms (FindLiveObjects: 0.319600 ms CreateObjectMapping: 0.209300 ms MarkObjects: 2.978700 ms  DeleteObjects: 0.340400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 92.872383 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: '542fd6ef78513aa2482c7e67a660c44a') in 0.222898 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005723 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.90 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.214 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1214ms)
-		BeginReloadAssembly (132ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (7ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (45ms)
-		EndReloadAssembly (995ms)
-			LoadAssemblies (74ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (207ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (40ms)
-			SetupLoadedEditorAssemblies (588ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (28ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (71ms)
-				ProcessInitializeOnLoadAttributes (416ms)
-				ProcessInitializeOnLoadMethodAttributes (62ms)
-				AfterProcessingInitializeOnLoad (9ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (40ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.88 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4770.
-Memory consumption went from 211.0 MB to 210.3 MB.
-Total: 4.153900 ms (FindLiveObjects: 0.502300 ms CreateObjectMapping: 0.268900 ms MarkObjects: 3.016000 ms  DeleteObjects: 0.366100 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004642 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.27 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.229 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1230ms)
-		BeginReloadAssembly (124ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (36ms)
-		EndReloadAssembly (1017ms)
-			LoadAssemblies (75ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (217ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (48ms)
-			SetupLoadedEditorAssemblies (603ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (30ms)
+				InitializePlatformSupportModulesInManaged (31ms)
 				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (79ms)
-				ProcessInitializeOnLoadAttributes (423ms)
-				ProcessInitializeOnLoadMethodAttributes (62ms)
-				AfterProcessingInitializeOnLoad (7ms)
+				BeforeProcessingInitializeOnLoad (78ms)
+				ProcessInitializeOnLoadAttributes (415ms)
+				ProcessInitializeOnLoadMethodAttributes (83ms)
+				AfterProcessingInitializeOnLoad (8ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (28ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.48 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 2.83 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4774.
-Memory consumption went from 211.0 MB to 210.3 MB.
-Total: 3.670000 ms (FindLiveObjects: 0.320000 ms CreateObjectMapping: 0.209200 ms MarkObjects: 2.795000 ms  DeleteObjects: 0.345100 ms)
+Unloading 4065 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 50 unused Assets / (0.6 MB). Loaded Objects now: 4745.
+Memory consumption went from 216.1 MB to 215.5 MB.
+Total: 3.797800 ms (FindLiveObjects: 0.311800 ms CreateObjectMapping: 0.191600 ms MarkObjects: 2.956500 ms  DeleteObjects: 0.337000 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1038,271 +278,82 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 152.799311 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: 'a0d593cb3e9ab438ef29a7f963aa97ac') in 0.114997 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004818 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.92 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.196 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1197ms)
-		BeginReloadAssembly (129ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (44ms)
-		EndReloadAssembly (980ms)
-			LoadAssemblies (74ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (203ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (44ms)
-			SetupLoadedEditorAssemblies (581ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (28ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (74ms)
-				ProcessInitializeOnLoadAttributes (407ms)
-				ProcessInitializeOnLoadMethodAttributes (63ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (32ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.86 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4778.
-Memory consumption went from 211.0 MB to 210.3 MB.
-Total: 4.189000 ms (FindLiveObjects: 0.381700 ms CreateObjectMapping: 0.494500 ms MarkObjects: 2.929800 ms  DeleteObjects: 0.381800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005287 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.99 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.231 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1232ms)
-		BeginReloadAssembly (125ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1021ms)
-			LoadAssemblies (86ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (215ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (55ms)
-			SetupLoadedEditorAssemblies (576ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (28ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (73ms)
-				ProcessInitializeOnLoadAttributes (400ms)
-				ProcessInitializeOnLoadMethodAttributes (66ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (35ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.72 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4782.
-Memory consumption went from 211.0 MB to 210.3 MB.
-Total: 3.712800 ms (FindLiveObjects: 0.349900 ms CreateObjectMapping: 0.238600 ms MarkObjects: 2.776200 ms  DeleteObjects: 0.347200 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  Time since last request: 1467.597859 seconds.
+  path: Assets/assets/images/logos/LogoStudio_small.png
+  artifactKey: Guid(4c51c9548c6479b42ac517d555d06e34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/assets/images/logos/LogoStudio_small.png using Guid(4c51c9548c6479b42ac517d555d06e34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25462642ed966870a5632d268e8835d5') in 0.147217 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 36.041682 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: 'f307b51be50f03258927562127baeda5') in 0.101278 seconds 
+  Time since last request: 468.428692 seconds.
+  path: Assets/Prefab/particles/spark/spark.mat
+  artifactKey: Guid(2fb23b11894f74e459c111a657eb94a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefab/particles/spark/spark.mat using Guid(2fb23b11894f74e459c111a657eb94a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Attempting to get Camera relative temporary RenderTexture (width || height <= 0) via a CommandBuffer  in a Sriptable Render Pipeline.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rendering.ScriptableRenderContext:ExecuteCommandBuffer_Internal (UnityEngine.Rendering.CommandBuffer)
+UnityEngine.Rendering.ScriptableRenderContext:ExecuteCommandBuffer (UnityEngine.Rendering.CommandBuffer)
+UnityEngine.Rendering.Universal.Internal.CopyColorPass:Execute (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.RenderingData&) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/Passes/CopyColorPass.cs:111)
+UnityEngine.Rendering.Universal.ScriptableRenderer:ExecuteRenderPass (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.ScriptableRenderPass,UnityEngine.Rendering.Universal.RenderingData&) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRenderer.cs:981)
+UnityEngine.Rendering.Universal.ScriptableRenderer:ExecuteBlock (int,UnityEngine.Rendering.Universal.ScriptableRenderer/RenderBlocks&,UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.RenderingData&,bool) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRenderer.cs:940)
+UnityEngine.Rendering.Universal.ScriptableRenderer:Execute (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.RenderingData&) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRenderer.cs:736)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:RenderSingleCamera (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.CameraData,bool) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:415)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:RenderSingleCamera (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Camera) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:324)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:Render (UnityEngine.Rendering.ScriptableRenderContext,System.Collections.Generic.List`1<UnityEngine.Camera>) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:279)
+UnityEngine.Rendering.RenderPipeline:InternalRender (UnityEngine.Rendering.ScriptableRenderContext,System.Collections.Generic.List`1<UnityEngine.Camera>)
+UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal (UnityEngine.Rendering.RenderPipelineAsset,intptr,System.Collections.Generic.List`1<UnityEngine.Camera/RenderRequest>,Unity.Collections.LowLevel.Unsafe.AtomicSafetyHandle)
+UnityEditor.PreviewRenderUtility:Render (bool,bool)
+UnityEditor.MaterialEditor:DoRenderPreview (UnityEditor.PreviewRenderUtility,bool)
+UnityEditor.MaterialEditor:RenderStaticPreview (string,UnityEngine.Object[],int,int)
+UnityEditor.AssetPreviewUpdater:CreatePreview (UnityEngine.Object,UnityEngine.Object[],string,int,int)
+UnityEditor.AssetPreviewUpdater:CreatePreviewForAsset (UnityEngine.Object,UnityEngine.Object[],string)
+
+[ line 0]
+
+Trying to get RenderBuffer with invalid antiAliasing (must be at least 1)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rendering.ScriptableRenderContext:Submit_Internal ()
+UnityEngine.Rendering.ScriptableRenderContext:Submit ()
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:RenderSingleCamera (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.CameraData,bool) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:431)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:RenderSingleCamera (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Camera) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:324)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:Render (UnityEngine.Rendering.ScriptableRenderContext,System.Collections.Generic.List`1<UnityEngine.Camera>) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:279)
+UnityEngine.Rendering.RenderPipeline:InternalRender (UnityEngine.Rendering.ScriptableRenderContext,System.Collections.Generic.List`1<UnityEngine.Camera>)
+UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal (UnityEngine.Rendering.RenderPipelineAsset,intptr,System.Collections.Generic.List`1<UnityEngine.Camera/RenderRequest>,Unity.Collections.LowLevel.Unsafe.AtomicSafetyHandle)
+UnityEditor.PreviewRenderUtility:Render (bool,bool)
+UnityEditor.MaterialEditor:DoRenderPreview (UnityEditor.PreviewRenderUtility,bool)
+UnityEditor.MaterialEditor:RenderStaticPreview (string,UnityEngine.Object[],int,int)
+UnityEditor.AssetPreviewUpdater:CreatePreview (UnityEngine.Object,UnityEngine.Object[],string,int,int)
+UnityEditor.AssetPreviewUpdater:CreatePreviewForAsset (UnityEngine.Object,UnityEngine.Object[],string)
+
+[C:\buildslave\unity\build\Runtime\Graphics\RenderBufferManager.cpp line 180]
+
+Trying to get RenderBuffer with invalid antiAliasing (must be at least 1)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rendering.ScriptableRenderContext:Submit_Internal ()
+UnityEngine.Rendering.ScriptableRenderContext:Submit ()
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:RenderSingleCamera (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Rendering.Universal.CameraData,bool) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:431)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:RenderSingleCamera (UnityEngine.Rendering.ScriptableRenderContext,UnityEngine.Camera) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:324)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:Render (UnityEngine.Rendering.ScriptableRenderContext,System.Collections.Generic.List`1<UnityEngine.Camera>) (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRenderPipeline.cs:279)
+UnityEngine.Rendering.RenderPipeline:InternalRender (UnityEngine.Rendering.ScriptableRenderContext,System.Collections.Generic.List`1<UnityEngine.Camera>)
+UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal (UnityEngine.Rendering.RenderPipelineAsset,intptr,System.Collections.Generic.List`1<UnityEngine.Camera/RenderRequest>,Unity.Collections.LowLevel.Unsafe.AtomicSafetyHandle)
+UnityEditor.PreviewRenderUtility:Render (bool,bool)
+UnityEditor.MaterialEditor:DoRenderPreview (UnityEditor.PreviewRenderUtility,bool)
+UnityEditor.MaterialEditor:RenderStaticPreview (string,UnityEngine.Object[],int,int)
+UnityEditor.AssetPreviewUpdater:CreatePreview (UnityEngine.Object,UnityEngine.Object[],string,int,int)
+UnityEditor.AssetPreviewUpdater:CreatePreviewForAsset (UnityEngine.Object,UnityEngine.Object[],string)
+
+[C:\buildslave\unity\build\Runtime\Graphics\RenderBufferManager.cpp line 180]
+
+ -> (artifact id: '1d5606aaabac8940a8a8e261e80423d3') in 0.599622 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004609 seconds.
+Registered in 0.004659 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.91 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 1.39 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
 Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
 This could be due to missing scripts or compile error.
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
@@ -1316,406 +367,40 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 (Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.211 seconds
+- Completed reload, in  1.291 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1212ms)
-		BeginReloadAssembly (130ms)
+	ReloadAssembly (1292ms)
+		BeginReloadAssembly (135ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (44ms)
-		EndReloadAssembly (997ms)
-			LoadAssemblies (72ms)
+			CreateAndSetChildDomain (42ms)
+		EndReloadAssembly (1073ms)
+			LoadAssemblies (77ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (207ms)
+			SetupTypeCache (223ms)
 			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (40ms)
-			SetupLoadedEditorAssemblies (583ms)
+			RebuildScriptCaches (42ms)
+			SetupLoadedEditorAssemblies (629ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (30ms)
+				InitializePlatformSupportModulesInManaged (37ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (71ms)
-				ProcessInitializeOnLoadAttributes (406ms)
-				ProcessInitializeOnLoadMethodAttributes (66ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (45ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.93 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4786.
-Memory consumption went from 211.0 MB to 210.4 MB.
-Total: 4.469900 ms (FindLiveObjects: 0.387400 ms CreateObjectMapping: 0.238300 ms MarkObjects: 3.408000 ms  DeleteObjects: 0.434000 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006141 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.98 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.196 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1196ms)
-		BeginReloadAssembly (122ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (34ms)
-		EndReloadAssembly (990ms)
-			LoadAssemblies (80ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (193ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (51ms)
-			SetupLoadedEditorAssemblies (583ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (30ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (74ms)
-				ProcessInitializeOnLoadAttributes (409ms)
-				ProcessInitializeOnLoadMethodAttributes (61ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (38ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.47 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4790.
-Memory consumption went from 211.0 MB to 210.4 MB.
-Total: 3.872200 ms (FindLiveObjects: 0.321500 ms CreateObjectMapping: 0.416300 ms MarkObjects: 2.791800 ms  DeleteObjects: 0.341800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004619 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.95 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.215 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1216ms)
-		BeginReloadAssembly (122ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1008ms)
-			LoadAssemblies (74ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (203ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (44ms)
-			SetupLoadedEditorAssemblies (602ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (73ms)
-				ProcessInitializeOnLoadAttributes (412ms)
-				ProcessInitializeOnLoadMethodAttributes (79ms)
+				BeforeProcessingInitializeOnLoad (80ms)
+				ProcessInitializeOnLoadAttributes (428ms)
+				ProcessInitializeOnLoadMethodAttributes (75ms)
 				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (41ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.73 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4794.
-Memory consumption went from 211.0 MB to 210.4 MB.
-Total: 4.841600 ms (FindLiveObjects: 0.500300 ms CreateObjectMapping: 0.305300 ms MarkObjects: 3.626100 ms  DeleteObjects: 0.408800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006024 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.90 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.254 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1255ms)
-		BeginReloadAssembly (125ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1038ms)
-			LoadAssemblies (82ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (225ms)
-			ReleaseScriptCaches (3ms)
-			RebuildScriptCaches (61ms)
-			SetupLoadedEditorAssemblies (579ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (28ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (73ms)
-				ProcessInitializeOnLoadAttributes (406ms)
-				ProcessInitializeOnLoadMethodAttributes (63ms)
-				AfterProcessingInitializeOnLoad (8ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (36ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.64 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 4.57 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4798.
-Memory consumption went from 211.0 MB to 210.4 MB.
-Total: 3.759600 ms (FindLiveObjects: 0.337400 ms CreateObjectMapping: 0.223300 ms MarkObjects: 2.826500 ms  DeleteObjects: 0.371700 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005733 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.02 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.210 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1211ms)
-		BeginReloadAssembly (125ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (36ms)
-		EndReloadAssembly (999ms)
-			LoadAssemblies (76ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (206ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (44ms)
-			SetupLoadedEditorAssemblies (595ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (30ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (74ms)
-				ProcessInitializeOnLoadAttributes (419ms)
-				ProcessInitializeOnLoadMethodAttributes (63ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (34ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.15 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4802.
-Memory consumption went from 211.1 MB to 210.4 MB.
-Total: 3.884700 ms (FindLiveObjects: 0.332600 ms CreateObjectMapping: 0.368800 ms MarkObjects: 2.812100 ms  DeleteObjects: 0.370000 ms)
+Unloading 4072 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 27 unused Assets / (0.6 MB). Loaded Objects now: 4913.
+Memory consumption went from 219.5 MB to 218.9 MB.
+Total: 5.112600 ms (FindLiveObjects: 0.349300 ms CreateObjectMapping: 0.215900 ms MarkObjects: 4.019700 ms  DeleteObjects: 0.526400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1730,99 +415,22 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 125.629534 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: '34f58719b425d4b9e99cf4b08e7eb7c0') in 0.119868 seconds 
+  Time since last request: 193.323745 seconds.
+  path: Assets/Prefab/interactableObjects/monlith_machinery/Machinery.cs
+  artifactKey: Guid(8bc38c9a5a3dd4d439618953b7b3572c) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
+Start importing Assets/Prefab/interactableObjects/monlith_machinery/Machinery.cs using Guid(8bc38c9a5a3dd4d439618953b7b3572c) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
+ -> (artifact id: '860617588a8535720a7b0fc7e4f3461f') in 0.148308 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004617 seconds.
+Registered in 0.006251 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.88 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 1.15 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
 Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
 This could be due to missing scripts or compile error.
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
@@ -1835,58 +443,41 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 
 (Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
 
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
 Mono: successfully reloaded assembly
-- Completed reload, in  1.324 seconds
+- Completed reload, in  1.497 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1325ms)
-		BeginReloadAssembly (129ms)
+	ReloadAssembly (1498ms)
+		BeginReloadAssembly (171ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (7ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (44ms)
-		EndReloadAssembly (1104ms)
-			LoadAssemblies (79ms)
+			CreateAndSetChildDomain (48ms)
+		EndReloadAssembly (1231ms)
+			LoadAssemblies (114ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (232ms)
+			SetupTypeCache (247ms)
 			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (54ms)
-			SetupLoadedEditorAssemblies (643ms)
+			RebuildScriptCaches (52ms)
+			SetupLoadedEditorAssemblies (732ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (28ms)
-				SetLoadedEditorAssemblies (0ms)
+				InitializePlatformSupportModulesInManaged (48ms)
+				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (73ms)
-				ProcessInitializeOnLoadAttributes (454ms)
-				ProcessInitializeOnLoadMethodAttributes (78ms)
-				AfterProcessingInitializeOnLoad (10ms)
+				BeforeProcessingInitializeOnLoad (79ms)
+				ProcessInitializeOnLoadAttributes (501ms)
+				ProcessInitializeOnLoadMethodAttributes (91ms)
+				AfterProcessingInitializeOnLoad (9ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (45ms)
+			AwakeInstancesAfterBackupRestoration (41ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.51 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 3.86 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4806.
-Memory consumption went from 211.1 MB to 210.4 MB.
-Total: 4.342000 ms (FindLiveObjects: 0.481600 ms CreateObjectMapping: 0.445100 ms MarkObjects: 2.974500 ms  DeleteObjects: 0.439700 ms)
+Unloading 4072 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4917.
+Memory consumption went from 219.4 MB to 218.8 MB.
+Total: 4.715800 ms (FindLiveObjects: 0.388400 ms CreateObjectMapping: 0.265500 ms MarkObjects: 3.678300 ms  DeleteObjects: 0.381900 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -1902,13 +493,13 @@ AssetImportParameters requested are different than current active one (requested
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.005991 seconds.
+Registered in 0.004653 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.84 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 1.24 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
   at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
@@ -1940,197 +531,40 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 (Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.223 seconds
+- Completed reload, in  1.397 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1224ms)
-		BeginReloadAssembly (130ms)
+	ReloadAssembly (1398ms)
+		BeginReloadAssembly (121ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (6ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (37ms)
-		EndReloadAssembly (1009ms)
-			LoadAssemblies (81ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (203ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (42ms)
-			SetupLoadedEditorAssemblies (598ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (30ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (77ms)
-				ProcessInitializeOnLoadAttributes (417ms)
-				ProcessInitializeOnLoadMethodAttributes (65ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (39ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.55 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4810.
-Memory consumption went from 211.1 MB to 210.4 MB.
-Total: 3.740300 ms (FindLiveObjects: 0.319200 ms CreateObjectMapping: 0.208100 ms MarkObjects: 2.864400 ms  DeleteObjects: 0.347700 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004579 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.95 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.247 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1248ms)
-		BeginReloadAssembly (122ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (5ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (34ms)
-		EndReloadAssembly (1040ms)
-			LoadAssemblies (77ms)
+		EndReloadAssembly (1189ms)
+			LoadAssemblies (86ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (208ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (44ms)
-			SetupLoadedEditorAssemblies (612ms)
+			SetupTypeCache (222ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (67ms)
+			SetupLoadedEditorAssemblies (682ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (39ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (81ms)
-				ProcessInitializeOnLoadAttributes (417ms)
-				ProcessInitializeOnLoadMethodAttributes (64ms)
-				AfterProcessingInitializeOnLoad (7ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (39ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.45 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4814.
-Memory consumption went from 211.1 MB to 210.5 MB.
-Total: 4.095400 ms (FindLiveObjects: 0.315300 ms CreateObjectMapping: 0.205500 ms MarkObjects: 3.052100 ms  DeleteObjects: 0.521500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004651 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.92 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.257 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1259ms)
-		BeginReloadAssembly (130ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (7ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1041ms)
-			LoadAssemblies (80ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (205ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (45ms)
-			SetupLoadedEditorAssemblies (611ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
+				InitializePlatformSupportModulesInManaged (28ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (75ms)
-				ProcessInitializeOnLoadAttributes (420ms)
-				ProcessInitializeOnLoadMethodAttributes (77ms)
-				AfterProcessingInitializeOnLoad (8ms)
+				BeforeProcessingInitializeOnLoad (91ms)
+				ProcessInitializeOnLoadAttributes (468ms)
+				ProcessInitializeOnLoadMethodAttributes (84ms)
+				AfterProcessingInitializeOnLoad (10ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (47ms)
+			AwakeInstancesAfterBackupRestoration (49ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.87 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 2.72 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4818.
-Memory consumption went from 211.1 MB to 210.5 MB.
-Total: 5.280800 ms (FindLiveObjects: 0.621700 ms CreateObjectMapping: 0.365800 ms MarkObjects: 3.719600 ms  DeleteObjects: 0.571600 ms)
+Unloading 4072 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4921.
+Memory consumption went from 219.4 MB to 218.8 MB.
+Total: 4.957700 ms (FindLiveObjects: 0.432200 ms CreateObjectMapping: 0.342200 ms MarkObjects: 3.682000 ms  DeleteObjects: 0.500200 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -2144,9 +578,16 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
+Received Import Request.
+  Time since last request: 44.707665 seconds.
+  path: Assets/Prefab/interactableObjects/monlith_machinery/Machinery.cs
+  artifactKey: Guid(8bc38c9a5a3dd4d439618953b7b3572c) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
+Start importing Assets/Prefab/interactableObjects/monlith_machinery/Machinery.cs using Guid(8bc38c9a5a3dd4d439618953b7b3572c) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
+ -> (artifact id: '6d3a63469bd5d9b9800fc1f3ad014799') in 0.116531 seconds 
+========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.006327 seconds.
+Registered in 0.004592 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
@@ -2170,40 +611,15 @@ UnityEngine.Debug:LogError (object)
 UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
 UnityEditor.Tools:set_lockedLayers (int)
 UnityEditor.Tools:OnEnable ()
+UnityEngine.ScriptableObject:CreateInstance (System.Type)
+UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
+UnityEditor.Tools:get_get ()
+UnityEditor.Tools:get_visibleLayers ()
+UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs:121)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
 
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
+(Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
 
 Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
 This could be due to missing scripts or compile error.
@@ -2218,40 +634,40 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 (Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.273 seconds
+- Completed reload, in  1.190 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1273ms)
-		BeginReloadAssembly (129ms)
+	ReloadAssembly (1191ms)
+		BeginReloadAssembly (131ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (6ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (38ms)
-		EndReloadAssembly (1056ms)
-			LoadAssemblies (82ms)
+			CreateAndSetChildDomain (46ms)
+		EndReloadAssembly (977ms)
+			LoadAssemblies (73ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (217ms)
+			SetupTypeCache (197ms)
 			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (64ms)
-			SetupLoadedEditorAssemblies (594ms)
+			RebuildScriptCaches (42ms)
+			SetupLoadedEditorAssemblies (563ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (31ms)
+				InitializePlatformSupportModulesInManaged (27ms)
 				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (77ms)
-				ProcessInitializeOnLoadAttributes (412ms)
-				ProcessInitializeOnLoadMethodAttributes (64ms)
-				AfterProcessingInitializeOnLoad (8ms)
+				BeforeProcessingInitializeOnLoad (70ms)
+				ProcessInitializeOnLoadAttributes (395ms)
+				ProcessInitializeOnLoadMethodAttributes (62ms)
+				AfterProcessingInitializeOnLoad (7ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (42ms)
+			AwakeInstancesAfterBackupRestoration (33ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.59 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 5.19 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4822.
-Memory consumption went from 211.1 MB to 210.5 MB.
-Total: 3.991200 ms (FindLiveObjects: 0.327800 ms CreateObjectMapping: 0.217200 ms MarkObjects: 3.094400 ms  DeleteObjects: 0.350900 ms)
+Unloading 4072 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4925.
+Memory consumption went from 219.5 MB to 218.8 MB.
+Total: 5.014300 ms (FindLiveObjects: 0.628000 ms CreateObjectMapping: 0.397600 ms MarkObjects: 3.595500 ms  DeleteObjects: 0.391800 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -2265,22 +681,15 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
-Received Import Request.
-  Time since last request: 190.978665 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: 'a7176d201e6ee5896a2de276d6c19cb3') in 0.109026 seconds 
-========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004686 seconds.
+Registered in 0.005040 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.91 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 0.95 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
   at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
@@ -2308,274 +717,6 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
 
 (Filename: Library/PackageCache/com.unity.animation.rigging@1.1.1/Editor/Utils/BoneRendererUtils.cs Line: 121)
 
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.256 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1256ms)
-		BeginReloadAssembly (133ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (44ms)
-		EndReloadAssembly (1036ms)
-			LoadAssemblies (79ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (205ms)
-			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (43ms)
-			SetupLoadedEditorAssemblies (607ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (29ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (73ms)
-				ProcessInitializeOnLoadAttributes (419ms)
-				ProcessInitializeOnLoadMethodAttributes (75ms)
-				AfterProcessingInitializeOnLoad (9ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (52ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.79 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4826.
-Memory consumption went from 211.2 MB to 210.5 MB.
-Total: 4.964100 ms (FindLiveObjects: 0.423700 ms CreateObjectMapping: 0.321600 ms MarkObjects: 3.789900 ms  DeleteObjects: 0.427400 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004621 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.94 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.254 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1254ms)
-		BeginReloadAssembly (121ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (35ms)
-		EndReloadAssembly (1046ms)
-			LoadAssemblies (76ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (200ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (43ms)
-			SetupLoadedEditorAssemblies (627ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (31ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (80ms)
-				ProcessInitializeOnLoadAttributes (433ms)
-				ProcessInitializeOnLoadMethodAttributes (73ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (43ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.59 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4830.
-Memory consumption went from 211.2 MB to 210.5 MB.
-Total: 4.149600 ms (FindLiveObjects: 0.344800 ms CreateObjectMapping: 0.228200 ms MarkObjects: 3.202000 ms  DeleteObjects: 0.373800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 155.344845 seconds.
-  path: Assets/Scenes/Livello.unity
-  artifactKey: Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Scenes/Livello.unity using Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: '25d6c1f42d020f8f938fc25c2cab0379') in 0.125693 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004397 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 2.05 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
-This could be due to missing scripts or compile error.
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
-UnityEngine.Debug:LogError (object,UnityEngine.Object)
-UnityEngine.Rendering.Universal.ScriptableRendererData:ValidateRendererFeatures () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:181)
-UnityEngine.Rendering.Universal.ScriptableRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs:76)
-UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/UniversalRendererData.cs:242)
-
-(Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.252 seconds
-Domain Reload Profiling:
-	ReloadAssembly (1252ms)
-		BeginReloadAssembly (133ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (47ms)
-		EndReloadAssembly (1035ms)
-			LoadAssemblies (81ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (204ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (42ms)
-			SetupLoadedEditorAssemblies (620ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (31ms)
-				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (2ms)
-				BeforeProcessingInitializeOnLoad (90ms)
-				ProcessInitializeOnLoadAttributes (422ms)
-				ProcessInitializeOnLoadMethodAttributes (67ms)
-				AfterProcessingInitializeOnLoad (8ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (38ms)
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.57 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4834.
-Memory consumption went from 211.2 MB to 210.5 MB.
-Total: 4.244900 ms (FindLiveObjects: 0.354900 ms CreateObjectMapping: 0.258800 ms MarkObjects: 3.202500 ms  DeleteObjects: 0.427500 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005976 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 0.98 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
 Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
 This could be due to missing scripts or compile error.
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
@@ -2591,38 +732,38 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 Mono: successfully reloaded assembly
 - Completed reload, in  1.224 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1225ms)
-		BeginReloadAssembly (126ms)
+	ReloadAssembly (1224ms)
+		BeginReloadAssembly (127ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (5ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (36ms)
-		EndReloadAssembly (1012ms)
-			LoadAssemblies (77ms)
+		EndReloadAssembly (1010ms)
+			LoadAssemblies (79ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (217ms)
-			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (42ms)
-			SetupLoadedEditorAssemblies (592ms)
+			SetupTypeCache (202ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (45ms)
+			SetupLoadedEditorAssemblies (587ms)
 				LogAssemblyErrors (0ms)
 				InitializePlatformSupportModulesInManaged (28ms)
-				SetLoadedEditorAssemblies (0ms)
+				SetLoadedEditorAssemblies (1ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (74ms)
-				ProcessInitializeOnLoadAttributes (416ms)
-				ProcessInitializeOnLoadMethodAttributes (65ms)
-				AfterProcessingInitializeOnLoad (8ms)
+				BeforeProcessingInitializeOnLoad (75ms)
+				ProcessInitializeOnLoadAttributes (411ms)
+				ProcessInitializeOnLoadMethodAttributes (63ms)
+				AfterProcessingInitializeOnLoad (7ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (42ms)
+			AwakeInstancesAfterBackupRestoration (32ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.73 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 3.01 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4838.
-Memory consumption went from 211.2 MB to 210.5 MB.
-Total: 5.306800 ms (FindLiveObjects: 0.462300 ms CreateObjectMapping: 0.323100 ms MarkObjects: 3.963500 ms  DeleteObjects: 0.556000 ms)
+Unloading 4072 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4929.
+Memory consumption went from 219.5 MB to 218.8 MB.
+Total: 3.605100 ms (FindLiveObjects: 0.335700 ms CreateObjectMapping: 0.197000 ms MarkObjects: 2.728100 ms  DeleteObjects: 0.343600 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -2636,22 +777,15 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
-Received Import Request.
-  Time since last request: 25.936642 seconds.
-  path: Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs
-  artifactKey: Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5)
-Start importing Assets/Prefab/Entities/characters/base_character/script/movement/CharacterMovement.cs using Guid(2f9e99846fde5034590d314b71551057) Importer(2089858483,934ff659095e30574adcf32a4c2f97b5) Generated GUIDs only implemented for interfaces!
- -> (artifact id: 'd90f61bd26ed188f5acefa48bce664dd') in 0.172765 seconds 
-========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004976 seconds.
+Registered in 0.005084 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for OSXStandalone target not found
-Refreshing native plugins compatible for Editor in 1.25 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 0.93 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Ultra_PipelineAsset_ForwardRenderer is missing RendererFeatures
 This could be due to missing scripts or compile error.
@@ -2665,58 +799,41 @@ UnityEngine.Rendering.Universal.UniversalRendererData:OnValidate () (at Library/
 
 (Filename: Library/PackageCache/com.unity.render-pipelines.universal@12.1.6/Runtime/ScriptableRendererData.cs Line: 181)
 
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path C:\Users\roman\Documents\GitHub\Vergeltung\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <feaaa6313e32495d9f259b175aa6b597>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <ed149e892fca4713a3001773d054b5ca>:0 
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
 Mono: successfully reloaded assembly
-- Completed reload, in  1.249 seconds
+- Completed reload, in  1.189 seconds
 Domain Reload Profiling:
-	ReloadAssembly (1250ms)
-		BeginReloadAssembly (134ms)
+	ReloadAssembly (1189ms)
+		BeginReloadAssembly (120ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (6ms)
+			DisableScriptedObjects (5ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (48ms)
-		EndReloadAssembly (1031ms)
-			LoadAssemblies (79ms)
+			CreateAndSetChildDomain (34ms)
+		EndReloadAssembly (986ms)
+			LoadAssemblies (73ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (203ms)
+			SetupTypeCache (195ms)
 			ReleaseScriptCaches (1ms)
-			RebuildScriptCaches (50ms)
-			SetupLoadedEditorAssemblies (585ms)
+			RebuildScriptCaches (44ms)
+			SetupLoadedEditorAssemblies (572ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (38ms)
-				SetLoadedEditorAssemblies (1ms)
+				InitializePlatformSupportModulesInManaged (28ms)
+				SetLoadedEditorAssemblies (0ms)
 				RefreshPlugins (1ms)
-				BeforeProcessingInitializeOnLoad (76ms)
-				ProcessInitializeOnLoadAttributes (396ms)
-				ProcessInitializeOnLoadMethodAttributes (66ms)
+				BeforeProcessingInitializeOnLoad (74ms)
+				ProcessInitializeOnLoadAttributes (397ms)
+				ProcessInitializeOnLoadMethodAttributes (64ms)
 				AfterProcessingInitializeOnLoad (7ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (46ms)
+			AwakeInstancesAfterBackupRestoration (34ms)
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.47 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 2.52 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 4064 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4842.
-Memory consumption went from 211.2 MB to 210.6 MB.
-Total: 3.715200 ms (FindLiveObjects: 0.331300 ms CreateObjectMapping: 0.218000 ms MarkObjects: 2.827700 ms  DeleteObjects: 0.337300 ms)
+Unloading 4072 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 26 unused Assets / (0.6 MB). Loaded Objects now: 4933.
+Memory consumption went from 219.5 MB to 218.8 MB.
+Total: 3.407000 ms (FindLiveObjects: 0.319500 ms CreateObjectMapping: 0.200700 ms MarkObjects: 2.562800 ms  DeleteObjects: 0.323400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
