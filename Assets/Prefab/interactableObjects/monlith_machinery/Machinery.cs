@@ -90,10 +90,17 @@ public class Machinery : MonoBehaviour
         sparks.gameObject.SetActive(true);
     }
 
+
+    /// <summary>
+    /// Animazione apertura machinery
+    /// </summary>
     private void openMachineryAnim() {
         machineryAnimator.SetTrigger("open");
     }
 
+    /// <summary>
+    /// Animazione chiusura machinery
+    /// </summary>
     private void closeMachinery() {
         machineryAnimator.SetTrigger("close");
     }
