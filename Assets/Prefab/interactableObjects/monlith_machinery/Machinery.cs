@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Machinery : MonoBehaviour
 {
-
+    private const float DEFAULT_PITCH_VALUE = 1;
     private const int BULLET_LAYER = 14;
 
     [Header("Machinery Config")]
@@ -14,9 +14,27 @@ public class Machinery : MonoBehaviour
     [SerializeField] private int ammunitionReleased = 1;
     private bool _machinerEnabled = true;
 
+
     [Header("Refs")]
     [SerializeField] private Slider machineryUISlider;
     [SerializeField] private ParticleSystem sparks;
+    [SerializeField] private Animator machineryAnimator;
+    [SerializeField] private Transform spawnTransform;
+
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip generatorClip;
+    [SerializeField] private AudioClip generatorOverloadClip;
+
+    [Header("Prefab refs")]
+    [SerializeField] private GameObject poweAmmoPrefab;
+
+
+
+    private void Start() {
+        audioSource.clip = generatorClip;
+    }
+
 
     private void OnCollisionEnter(Collision collision) {
 
@@ -43,6 +61,10 @@ public class Machinery : MonoBehaviour
 
 
             machineryUISlider.value = Mathf.Abs(machineryHealth - 100);
+
+
+            // pitch mod
+            audioSource.pitch = audioSource.pitch + 0.2f;
         }
     }
 
@@ -53,10 +75,35 @@ public class Machinery : MonoBehaviour
         _machinerEnabled = false;
 
         sparksEffect();
+
+        openMachineryAnim();
+
+        spawnPowerAmmo();
+
+        audioSource.clip = generatorOverloadClip;
+        audioSource.pitch = DEFAULT_PITCH_VALUE;
+        audioSource.Play();
     }
 
     private void sparksEffect() {
 
         sparks.gameObject.SetActive(true);
+    }
+
+    private void openMachineryAnim() {
+        machineryAnimator.SetTrigger("open");
+    }
+
+    private void closeMachinery() {
+        machineryAnimator.SetTrigger("close");
+    }
+
+    private void spawnPowerAmmo() {
+        // istanzia nella scena
+        GameObject newCharacter;
+        for (int i = 0; i < ammunitionReleased; i++) {
+            newCharacter = Instantiate(poweAmmoPrefab, spawnTransform.position, Quaternion.identity);
+        }
+        
     }
 }
