@@ -57,6 +57,14 @@ public class GeneratorInteractable : Interactable {
 
     }
 
+    /// <summary>
+    /// Metodo per rendere generatore disattivabile(sabotaggio)
+    /// </summary>
+    public void switchOnGenerator() {
+        generatorState = GeneratorState.GeneratorOn;
+        interactableMeshEffectSetEnebled(true);
+    }
+
     public override Interaction getMainInteraction() {
         return new Interaction(sabotageGenerator, sabotageGeneratorEventName, this);
     }

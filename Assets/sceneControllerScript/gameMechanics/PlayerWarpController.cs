@@ -32,12 +32,12 @@ public class PlayerWarpController : MonoBehaviour
         }
     }
     private CharacterManager firstPlayerCharacter; // primo character usato dal player, se muore si fallisce
-    private CharacterManager _currentPlayedCharacter; // character attualmente usato 
-    private CharacterManager _currentSwitchCharacterMode; // character attualmente selezionato durante la switch mode
+    private CharacterManager _currentPlayedCharacter; // character attualmente usato
     public CharacterManager currentPlayedCharacter {
         get { return _currentPlayedCharacter; }
     }
-
+    private CharacterManager _currentSwitchCharacterMode; // character attualmente selezionato durante la switch mode
+   
     [Header("Settings")]
     [SerializeField] private bool firstCharacterPlayerIsWanted = true;
 
@@ -74,7 +74,7 @@ public class PlayerWarpController : MonoBehaviour
 
         _currentPlayedCharacter = character.GetComponent<CharacterManager>();
 
-        // controllo primo character (è il primo character usato dal player)
+        // controllo primo character (ï¿½ il primo character usato dal player)
         if(isPlayer) {
             
             // aggiungi primo character giocato dal player
@@ -283,7 +283,7 @@ public class PlayerWarpController : MonoBehaviour
     }
 
     
-    // Avvia la modalità per switchare i characters controllati,
+    // Avvia la modalitï¿½ per switchare i characters controllati,
     // scegliendone quale controllare
     public void startSwitchCharacterMode() {
 

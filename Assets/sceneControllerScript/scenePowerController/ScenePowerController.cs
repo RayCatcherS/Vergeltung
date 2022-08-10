@@ -8,6 +8,7 @@ public class ScenePowerController : MonoBehaviour
     [SerializeField] private int powerOffTimer = 20;
     [SerializeField] private LightSourcesScript[] lightSources;
     [SerializeField] private ElectricGateController[] electricGateControllers;
+    [SerializeField] private GeneratorInteractable[] generatorInteractables;
     [SerializeField] private bool powerOn = true;
 
     [Header("Audio Ref")]
@@ -19,6 +20,8 @@ public class ScenePowerController : MonoBehaviour
 
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
         electricGateControllers = FindObjectsOfType(typeof(ElectricGateController)) as ElectricGateController[];
+
+        generatorInteractables = FindObjectsOfType(typeof(GeneratorInteractable)) as GeneratorInteractable[];
     }
     // getter
     public bool getPowerOn() {
@@ -85,6 +88,19 @@ public class ScenePowerController : MonoBehaviour
 
             _ = characterManagers[i].restoreFOVMalus();
         }
+
+
+        // riattiva tutti i generatori
+        // rende i generatori nuovamente riutilizzabili
+        foreach(GeneratorInteractable generator in generatorInteractables)
+        {
+            generator.switchOnGenerator();
+        }
+
+        // rebuild warp character attualmente usato per rebuildare le interactions
+        // refreshando le interactions possibile
+        gameObject.GetComponent<PlayerWarpController>().currentPlayedCharacter.detectTrigger();
+
 
         powerOn = true;
     }
