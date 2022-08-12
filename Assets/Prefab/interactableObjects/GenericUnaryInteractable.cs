@@ -9,6 +9,19 @@ public class GenericUnaryInteractable : Interactable {
     [SerializeField] UnityEventCharacter genericEvent = new UnityEventCharacter();
     [SerializeField] private bool repetableInteraction = false;
     private bool unRepetableInteractionStateActive = true;
+    [SerializeField] private bool _isInteractableDisabled = false;
+    public bool isInteractableDisabled {
+        set {
+
+            if(!value) {
+                List<Interaction> interactions = new List<Interaction>();
+                rebuildInteractableMeshEffect(interactions);
+                unFocusInteractableOutline();
+            }
+            _isInteractableDisabled = value;
+        }
+    }
+
 
     [Header("Asset Refs")]
     [SerializeField] private AudioClip interactAudioClip;
@@ -29,7 +42,7 @@ public class GenericUnaryInteractable : Interactable {
 
         
 
-        if (!repetableInteraction) {
+        if (!repetableInteraction && !_isInteractableDisabled) {
 
             if (unRepetableInteractionStateActive) {
                 unRepetableInteractionStateActive = false;

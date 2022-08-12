@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ public class Machinery : MonoBehaviour
     [SerializeField] private int machineryLoad = 15;
     [SerializeField] private int ammunitionReleased = 1;
     private bool _machinerEnabled = true;
+    [SerializeField] private float deloadFrequency = 0.2f;
+    [SerializeField] private int machineryDeloadValue = 2;
+    [SerializeField] private bool deloadActive = false;
 
 
     [Header("Refs")]
@@ -20,6 +24,9 @@ public class Machinery : MonoBehaviour
     [SerializeField] private ParticleSystem sparks;
     [SerializeField] private Animator machineryAnimator;
     [SerializeField] private Transform spawnTransform;
+    [SerializeField] private Image machinerySliderFill;
+    [SerializeField] private Material disabledMachinertSliderFill;
+    [SerializeField] private GenericUnaryInteractable machineryConsole;
 
 
     [SerializeField] private AudioSource audioSource;
@@ -60,12 +67,48 @@ public class Machinery : MonoBehaviour
             }
 
 
-            machineryUISlider.value = Mathf.Abs(machineryHealth - 100);
-
+            // refresh UI
+            refreshUI();
+            
 
             // pitch mod
             audioSource.pitch = audioSource.pitch + 0.2f;
+
+
+            // start deload
+            if(!deloadActive) {
+                deloadLoopAsync();
+            }
         }
+    }
+
+    private async void deloadLoopAsync() {
+        deloadActive = true;
+
+        while(machineryHealth < 100) {
+
+            float endTime = Time.time + deloadFrequency;
+
+            while (Time.time < endTime) {
+                await Task.Yield();
+
+                machineryHealth = machineryHealth + machineryDeloadValue;
+                refreshUI();
+
+                if (machineryHealth > 100) {
+                    
+                    machineryHealth = 100;
+                    refreshUI();
+                    break;
+                }
+                
+            }
+
+        }
+
+
+        deloadActive = false;
+
     }
 
     /// <summary>
@@ -83,6 +126,12 @@ public class Machinery : MonoBehaviour
         audioSource.clip = generatorOverloadClip;
         audioSource.pitch = DEFAULT_PITCH_VALUE;
         audioSource.Play();
+
+        // slider material
+        machinerySliderFill.material = disabledMachinertSliderFill;
+
+        // disable console
+        machineryConsole.isInteractableDisabled = false;
     }
 
     private void sparksEffect() {
@@ -113,4 +162,8 @@ public class Machinery : MonoBehaviour
         }
         
     }
+    private void refreshUI() {
+        machineryUISlider.value = Mathf.Abs(machineryHealth - 100);
+    }
+
 }
