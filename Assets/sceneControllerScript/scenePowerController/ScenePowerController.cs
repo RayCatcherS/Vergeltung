@@ -99,7 +99,7 @@ public class ScenePowerController : MonoBehaviour
 
         // rebuild warp character attualmente usato per rebuildare le interactions
         // refreshando le interactions possibile
-        gameObject.GetComponent<PlayerWarpController>().currentPlayedCharacter.detectTrigger();
+        gameObject.GetComponent<PlayerWarpController>().currentPlayedCharacter.forceTriggerDetection();
 
 
         powerOn = true;

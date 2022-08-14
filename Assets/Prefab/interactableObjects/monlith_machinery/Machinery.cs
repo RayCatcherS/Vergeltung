@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -28,10 +27,13 @@ public class Machinery : MonoBehaviour
     [SerializeField] private Material disabledMachinertSliderFill;
     [SerializeField] private GenericUnaryInteractable machineryConsole;
 
+    [Header("Enviroment Refs")]
+    [SerializeField] private List<LightSourcesScript> machineryLights = new List<LightSourcesScript>();
+
 
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip generatorClip;
-    [SerializeField] private AudioClip generatorOverloadClip;
+    [SerializeField] private AudioClip machineryClip;
+    [SerializeField] private AudioClip machineryOverloadClip;
 
     [Header("Prefab refs")]
     [SerializeField] private GameObject poweAmmoPrefab;
@@ -39,7 +41,8 @@ public class Machinery : MonoBehaviour
 
 
     private void Start() {
-        audioSource.clip = generatorClip;
+        audioSource.clip = machineryClip;
+        audioSource.Play();
     }
 
 
@@ -69,10 +72,10 @@ public class Machinery : MonoBehaviour
 
             // refresh UI
             refreshUI();
-            
+
 
             // pitch mod
-            audioSource.pitch = audioSource.pitch + 0.2f;
+            updateMachinerySFXPitch();
 
 
             // start deload
@@ -95,10 +98,17 @@ public class Machinery : MonoBehaviour
                 machineryHealth = machineryHealth + machineryDeloadValue;
                 refreshUI();
 
+                // pitch mod
+                updateMachinerySFXPitch();
+
                 if (machineryHealth > 100) {
                     
                     machineryHealth = 100;
                     refreshUI();
+
+                    // pitch mod
+                    updateMachinerySFXPitch();
+
                     break;
                 }
                 
@@ -109,6 +119,23 @@ public class Machinery : MonoBehaviour
 
         deloadActive = false;
 
+    }
+
+    void updateMachinerySFXPitch() {
+        
+        float value = Mathf.Abs(machineryHealth - 100);
+        value = value / 100;
+
+        audioSource.pitch = 1 + value;
+    }
+
+    void machineryOffSFX() {
+        audioSource.pitch = 1;
+        audioSource.loop = false;
+
+        audioSource.clip = machineryOverloadClip;
+        audioSource.pitch = DEFAULT_PITCH_VALUE;
+        audioSource.Play();
     }
 
     /// <summary>
@@ -123,15 +150,20 @@ public class Machinery : MonoBehaviour
 
         spawnPowerAmmo();
 
-        audioSource.clip = generatorOverloadClip;
-        audioSource.pitch = DEFAULT_PITCH_VALUE;
-        audioSource.Play();
+        machineryOffSFX();
 
         // slider material
         machinerySliderFill.material = disabledMachinertSliderFill;
 
         // disable console
-        machineryConsole.isInteractableDisabled = false;
+        machineryConsole.isInteractableDisabled = true;
+
+        // disabilita machinery lights
+        foreach(LightSourcesScript machineryLight in machineryLights) {
+            
+            machineryLight.setLightOff();
+            machineryLight.lightDisabled = true;
+        }
     }
 
     private void sparksEffect() {

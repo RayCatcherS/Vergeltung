@@ -172,7 +172,7 @@ public class PlayerWarpController : MonoBehaviour
         character.buildListOfInteraction();
         
         // forza interactable obj detection
-        character.detectTrigger();
+        character.forceTriggerDetection();
 
         // sound effect
         warpCharacterSource.clip = warpCharacterClip;

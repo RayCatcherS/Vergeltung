@@ -311,26 +311,29 @@ public class CharacterManager : MonoBehaviour {
 
 
         // se il character ha una torcia
-        if (_inventoryManager.isFlashlightTaken) {
-            /// Permette di accendere le torce dopo un tempo t
-            /// ripristinando il fov del character
-            /// Da usare per le guardie più specializzate
-            float endTime = FOVUnmalusFlashlightTimer + Time.time;
-            while (Time.time < endTime) {
-                await Task.Yield();
-            }
+        if(!_isStackControlled) {
+            if(_inventoryManager.isFlashlightTaken) {
+                /// Permette di accendere le torce dopo un tempo t
+                /// ripristinando il fov del character
+                /// Da usare per le guardie più specializzate
+                float endTime = FOVUnmalusFlashlightTimer + Time.time;
+                while(Time.time < endTime) {
+                    await Task.Yield();
+                }
 
 
 
 
 
-            // flashlight fov
+                // flashlight fov
 
-            if (!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
-                await _inventoryManager.characterFlashLight.lightOnFlashLight();
-                _characterFOV.setFlashLightBonus(true);
+                if(!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
+                    await _inventoryManager.characterFlashLight.lightOnFlashLight();
+                    _characterFOV.setFlashLightBonus(true);
+                }
             }
         }
+        
     }
 
 
@@ -462,7 +465,7 @@ public class CharacterManager : MonoBehaviour {
     /// <summary>
     /// Forza detection dei trigger, caso in cui non si vuole aspettare di entrare/uscire da una trigger collision
     /// </summary>
-    public void detectTrigger() {
+    public void forceTriggerDetection() {
 
         if(isPlayer) {
             CapsuleCollider characterCapsuleCollider = gameObject.GetComponent<CapsuleCollider>();

@@ -7,16 +7,30 @@ public class LightSourcesScript : MonoBehaviour
     // effetto luce volumetrica se esiste
     [SerializeField] private GameObject lightCone;
     [SerializeField] private Light light;
+    private bool _lightDisabled = false;
+    public bool lightDisabled {
+        set {
+            _lightDisabled = value;
+        }
+    }
 
     private void Start() {
     }
 
     public void turnOffLigth() {
-        StartCoroutine(lightOffTransition());
+
+        if(!_lightDisabled) {
+            StartCoroutine(lightOffTransition());
+        }
+        
     }
 
     public void turnOnLigth() {
-        StartCoroutine(lightOnTransition());
+
+        if(!_lightDisabled) {
+            StartCoroutine(lightOnTransition());
+        }
+            
     }
 
 
@@ -38,7 +52,7 @@ public class LightSourcesScript : MonoBehaviour
     }
 
 
-    private void setLightOff() {
+    public void setLightOff() {
         light.enabled = false;
 
         if(lightCone != null) {

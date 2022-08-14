@@ -13,10 +13,11 @@ public class GenericUnaryInteractable : Interactable {
     public bool isInteractableDisabled {
         set {
 
-            if(!value) {
+            if(value) {
                 List<Interaction> interactions = new List<Interaction>();
                 rebuildInteractableMeshEffect(interactions);
                 unFocusInteractableOutline();
+                interactableMeshEffectSetEnebled(false);
             }
             _isInteractableDisabled = value;
         }
@@ -62,17 +63,21 @@ public class GenericUnaryInteractable : Interactable {
 
         List<Interaction> eventRes = new List<Interaction>();
 
-        if (!repetableInteraction) {
 
-            if (unRepetableInteractionStateActive) {
-                unRepetableInteractionStateActive = false;
+        if(!_isInteractableDisabled) {
+            if(!repetableInteraction) {
+
+                if(unRepetableInteractionStateActive) {
+                    unRepetableInteractionStateActive = false;
+                    eventRes.Add(new Interaction(genericEvent, genericEventName, this));
+                }
+
+            } else {
+
                 eventRes.Add(new Interaction(genericEvent, genericEventName, this));
             }
-
-        } else {
-
-            eventRes.Add(new Interaction(genericEvent, genericEventName, this));
         }
+        
 
 
         return eventRes;
