@@ -520,7 +520,7 @@ public class InventoryManager : Interactable {
         rebuildInteractableMeshEffect(getInteractions());
     }
 
-    public override List<Interaction> getInteractions() {
+    public override List<Interaction> getInteractions(CharacterManager character = null) {
         List<Interaction> allWeaponsInteractions = new List<Interaction>();
 
         for(int i = 0; i < _weaponItems.Count; i++) {

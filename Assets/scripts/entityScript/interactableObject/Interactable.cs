@@ -24,7 +24,7 @@ public class Interactable : MonoBehaviour, InteractableInterface {
 
     }
 
-    public virtual List<Interaction> getInteractions() {
+    public virtual List<Interaction> getInteractions(CharacterManager character) {
         return new List<Interaction>();
     }
 

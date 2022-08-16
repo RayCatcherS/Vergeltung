@@ -9,7 +9,7 @@ public class ControlBullet : Bullet {
     private Dictionary<Role, int> controlRoleCost = new Dictionary<Role, int>() {
 
         { Role.Civilian, 1},
-        { Role.EnemyGuard, 2}
+        { Role.EnemyGuard, 3}
     };
 
     public void setupBullet(Vector3 bulletDirection, InventoryManager sourceInventoryCharacter) {

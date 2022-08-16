@@ -71,12 +71,12 @@ public class DoorInteractable : Interactable {
     }
 
 
-    public override List<Interaction> getInteractions() {
+    public override List<Interaction> getInteractions(CharacterManager character) {
 
         List<Interaction> eventRes = new List<Interaction>();
 
 
-        if(internalOpeningSide.value) { // se la direzione della porta interna è apribile
+        if(internalOpeningSide.value || character.chracterRole == Role.EnemyGuard) { // se la direzione della porta interna è apribile
 
             if (doorState.isDoorClosed().value) {
                 eventRes.Add(

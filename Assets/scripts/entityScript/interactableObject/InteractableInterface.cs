@@ -7,6 +7,6 @@ public interface InteractableInterface
     /// Ottieni lista di interazioni che l'oggetto interattivo offre
     /// </summary>
     /// <returns></returns>
-    public List<Interaction> getInteractions();
+    public List<Interaction> getInteractions(CharacterManager character);
     public Interaction getMainInteraction();
 }

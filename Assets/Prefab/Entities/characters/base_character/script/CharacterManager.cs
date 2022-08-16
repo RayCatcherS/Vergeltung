@@ -242,7 +242,7 @@ public class CharacterManager : MonoBehaviour {
         // ottieni dal dizionario degli oggetti interabili tutte le interactions
         foreach (var item in interactableObjects) {
 
-            List<Interaction> interactable = item.Value.getInteractions();
+            List<Interaction> interactable = item.Value.getInteractions(this);
 
             for (int i = 0; i < interactable.Count; i++) {
 

@@ -59,7 +59,7 @@ public class GenericBinaryInteractable : Interactable {
         
     }
 
-    public override List<Interaction> getInteractions() {
+    public override List<Interaction> getInteractions(CharacterManager character = null) {
 
         List<Interaction> eventRes = new List<Interaction>();
 
