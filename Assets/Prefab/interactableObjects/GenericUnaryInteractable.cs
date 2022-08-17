@@ -27,7 +27,7 @@ public class GenericUnaryInteractable : Interactable {
     [Header("Asset Refs")]
     [SerializeField] private AudioClip interactAudioClip;
 
-    [Header("Asset Refs")]
+    [Header("Refs")]
     [SerializeField] private AudioSource audioSource;
 
     public override void Start() {

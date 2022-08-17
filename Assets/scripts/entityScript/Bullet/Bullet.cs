@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
     // ray cast const
     
-    private const int COLLISION_RAYCAST_DISTANCE = 2;
+    private const int COLLISION_RAYCAST_DISTANCE = 6;
     private const int ALL_LAYERS = -1;
     private const int CHARACTER_LAYER = 7;
     private const int RAGDOLLBONE_LAYER = 15;

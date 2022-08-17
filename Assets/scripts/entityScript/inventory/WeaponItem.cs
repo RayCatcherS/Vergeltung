@@ -100,7 +100,10 @@ public class WeaponItem : InventoryItem
     [SerializeField] private GameObject loudArea;
     [SerializeField] private LoudAreaType loudIntensity;
 
-    // getters 
+    [Header("Asset Refs")]
+    [SerializeField] private AudioClip interactAudioClip;
+
+
 
     public WeaponType getWeaponType {
         get { return weaponType; }
@@ -136,7 +139,13 @@ public class WeaponItem : InventoryItem
     public Sprite puttedAwayWeaponPreview {
         get { return _puttedAwayWeaponPreview; }
     }
+    public override void Start() {
+        base.Start();
+        getItemEvent.AddListener((CharacterManager c) => {
 
+            playSounds();
+        });
+    }
 
 
     /// <summary>
@@ -414,5 +423,17 @@ public class WeaponItem : InventoryItem
             }
         }
         
+    }
+
+    private void playSounds() {
+
+
+        GameObject loudGameObject = Instantiate(loudArea, transform.position, Quaternion.identity);
+        
+
+        loudGameObject.GetComponent<LoudArea>().initLoudArea(
+            LoudAreaType.nothing,
+            interactAudioClip);
+        loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 }

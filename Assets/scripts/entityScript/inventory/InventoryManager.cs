@@ -661,6 +661,7 @@ public class InventoryManager : Interactable {
             if (hit.collider != null) {
                 res = true;
 
+                print(hit.collider.gameObject.name);
             } else {
                 res = false;
             }

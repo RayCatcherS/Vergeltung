@@ -18,6 +18,8 @@ public class InventoryItem : Interactable {
     [Header("Item ref")]
     [SerializeField] protected InventoryManager _inventoryManager; //inventory manager del character che possiede l'oggetto
 
+    
+
     // getter
     public string itemNameID {
         get { return _itemNameID; }
@@ -42,4 +44,6 @@ public class InventoryItem : Interactable {
     public virtual void useItem(CharacterManager p) {
 
     }
+
+    
 }
