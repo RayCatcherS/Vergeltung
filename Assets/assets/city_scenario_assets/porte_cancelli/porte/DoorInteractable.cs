@@ -76,7 +76,7 @@ public class DoorInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
 
-        if(internalOpeningSide.value || character.chracterRole == Role.EnemyGuard) { // se la direzione della porta interna è apribile
+        if(internalOpeningSide.value) { // se la direzione della porta interna è apribile
 
             if (doorState.isDoorClosed().value) {
                 eventRes.Add(
@@ -89,8 +89,19 @@ public class DoorInteractable : Interactable {
             }
 
         } else {
-            if (doorState.isDoorLockedByKey().value) {
 
+            if (doorState.isDoorLockedByKey().value) {
+                if(character.chracterRole == Role.EnemyGuard) {
+                    if(doorState.isDoorClosed().value) {
+                        eventRes.Add(
+                            new Interaction(openDoorEvent, openDoorEventName, this)
+                        );
+                    } else {
+                        eventRes.Add(
+                            new Interaction(closeDoorEvent, closeDoorEventName, this)
+                        );
+                    }
+                }
             } else {
 
                 if (!doorState.isDoorPickLocking.value) {

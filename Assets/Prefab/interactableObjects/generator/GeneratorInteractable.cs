@@ -37,6 +37,7 @@ public class GeneratorInteractable : Interactable {
     private async void switchOffGenerator(CharacterManager characterWhoIsInteracting) {
 
         isSabotage = true;
+        characterWhoIsInteracting.isSuspiciousGenericAction = true; // permette al player di diventare sospetto/ostile
         characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia potenziale stato alert
 
         // sound 
@@ -44,6 +45,8 @@ public class GeneratorInteractable : Interactable {
 
         // avvia task sul character che ha avviato il task
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
+
+        characterWhoIsInteracting.isSuspiciousGenericAction = false;
 
         isSabotage = false;
         if (playerTaskResultDone) {
