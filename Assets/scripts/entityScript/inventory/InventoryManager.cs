@@ -12,6 +12,7 @@ public class InventoryManager : Interactable {
     private const int INTERACTABLE_LAYER = 3;
 
     private const string BASE_MELEE_ID = "base_melee";
+    private const string CONTROL_WEAPON_ID = "CONTROL POWER";
 
 
 
@@ -162,14 +163,61 @@ public class InventoryManager : Interactable {
                     _aimTargetImage.setAimTargetEnabled(true);
 
                     if(_weaponPuttedAway) {
-                        _aimTargetImage.aimLowOpacity();
+                        _aimTargetImage.defaultAimLowOpacity();
 
                     } else {
 
+
                         if(aimInfo.isAimedCharacter) {
-                            _aimTargetImage.aimHighOpacity();
+                            
+                            if(weaponItems[selectedWeapon].itemNameID == CONTROL_WEAPON_ID) {
+
+                                
+                                if(aimInfo.aimedCharacter.chracterRole == Role.Civilian) {
+
+                                    if(aimInfo.aimedCharacter.isStackControlled) {
+
+                                        _aimTargetImage.setControlAimSpriteOff();
+                                    } else {
+
+                                        if(_inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity >= 1) {
+
+                                            _aimTargetImage.setControlAimSpriteOn();
+                                        } else {
+
+                                            _aimTargetImage.setControlAimSpriteOff();
+                                        }
+                                    }
+                                    
+                                } else if(aimInfo.aimedCharacter.chracterRole == Role.EnemyGuard) {
+
+                                    if(aimInfo.aimedCharacter.isStackControlled) {
+
+                                        _aimTargetImage.setControlAimSpriteOff();
+                                    } else {
+
+                                        if(_inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity >= 3) {
+
+                                            _aimTargetImage.setControlAimSpriteOn();
+                                        } else {
+
+                                            _aimTargetImage.setControlAimSpriteOff();
+                                        }
+                                    }
+                                } else if(aimInfo.aimedCharacter.chracterRole == Role.Player) {
+
+                                    _aimTargetImage.setControlAimSpriteOff();
+                                } else {
+                                    _aimTargetImage.setAimTargetEnabled(true);
+                                }
+
+
+                            } else {
+                                _aimTargetImage.aimHighOpacity();
+                            }
+                            
                         } else {
-                            _aimTargetImage.aimMediumOpacity();
+                            _aimTargetImage.defaultAimMediumOpacity();
                         }
 
                     }
@@ -661,7 +709,6 @@ public class InventoryManager : Interactable {
             if (hit.collider != null) {
                 res = true;
 
-                print(hit.collider.gameObject.name);
             } else {
                 res = false;
             }
