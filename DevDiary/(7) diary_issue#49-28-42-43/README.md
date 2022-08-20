@@ -16,7 +16,8 @@ Per controllare gli altri character bisogna recuperare le munizioni speciali
 
 ![Image animator](control.gif)
 
-
+## Munizioni controllo
+Le munizioni per il controllo sono globali non appartengono al personaggio controllato
 - 1 munizione per controllare i civili
 - 3 per i soldati
 Il colpo parte e torna indietro se non va a segno su un character o se il character non può essere controllato.
@@ -40,20 +41,40 @@ Modalità navigazione characters controllati. Nella modalità navigazione il tem
 
 ![Image animator](warp.png)
 
+# UX character controllati
+I characters controllati hanno un simbolo semi trasparente di colore viola sulla loro testa.
+I character controllati vengono visualizzati con un rombo di colore grigio se non sono attualmente controllati in quel momento.
+I character controllati in un determinato momento vengono visualizzati con un rombo di colore viola monolite.
+Questa animazione sparisce se il character muore.
+Il character protagonista non ha alcuna icona di colore viola in quanto non è un character controllato.
+
+![Image animator](warpControlledIconCharacter.gif)
+
+
+## UI character controllati
+Tramite UI è possibile visualizzare qual è il character attualmente controllato e quanti sono in tutto i character controllati.
+
+![Image animator](warpUI.gif)
+
+
 
 # Ottenimento energia controllo
 Per ottenere l'energia per il controllo dei characters bisognerà sabotare/disattivare i macchinary usati per estrarre energia dai monolity. I macchinari disattivati rilasceranno l'energia per il controllo.
 
 ## Macchinari da sabotare
-Per sabotare i macchinari bisognerà attivare ripetutamente la console collegata all'impianto estrazione dell'energia fino a quando la barra di sovraccarico non raggiunge il valore massimo.
+Per sabotare i macchinari bisognerà attivare ripetutamente la console collegata all'impianto estrazione dell'energia fino a quando la barra di sovraccarico non raggiunge il valore massimo. La barra dello slider si abbasserà man mano che passa il tempo.
 
 ![Image animator](machinery.gif)
+
 
 <p>&nbsp;</p>
 
 
 
 # Vari miglioramenti e implementazioni
+- Implementato puntatore UI che indica la destinazione dei colpi sparati
+- Ora è possibile visualizzare la barra della vita di ogni character controllato
+- Viene avviato un effetto Post Processing quando il character usato subisce del danno
 - I tasti per riporre ed estrarre l'arma ora sono separati(evita che ci si confonda)
 - Camminare in direzione di un character vicino lo sposterà, questo evita che un character possa interrompere il movimento del giocatore.
 - Aggiunta pistola senza silenziatore(versione loud area)
@@ -64,11 +85,19 @@ Per sabotare i macchinari bisognerà attivare ripetutamente la console collegata
 
 ![Image animator](cables.png)
 
+- Risolti vari bugs
+- Le aree vietate ai civili sono indicate dal cartello accesso vietato
+- Implementato menu pausa e tasto per uscire dal gioco. Gli stati di gioco sono gestiti dal controller GameState. Quando si è in pausa il Time del gioco viene settato a 0. Essendo tutte le meccaniche basate sullo scorrimento del tempo, tutto verrà stoppato.
+
+![Image animator](pausa.png)
+
 
 ## Effetti audio
 - Implementato suoni dei passi dei characters, corsa e cammino. I characters controllati dal giocatore principale emetteranno dei suoni con i passi del character solo se questi correranno
+- Suoni sabotaggio generatori corrente elettrica(in-out)
 - Suono apertura chiusura porte(Trigger timeline animazioni)
 - Effetto audio alla raccolta di items
 - Suoni interazioni con le console
 - Suono apertura e chiusura dei cancelli(Trigger timeline animazioni)
 - Suono al cambio di un character tramite il warp
+
