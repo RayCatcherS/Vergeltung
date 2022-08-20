@@ -1,7 +1,7 @@
 # Devlog Capitolo 7(Diario di sviluppo issues 49-28-42-43)
 ![Image animator](cover.png)
 
-- Sviluppo Meccanica di gioco controllo characters
+- Sviluppo Meccanica di gioco controllo dei characters e switch tra i vari characters controllati
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -14,6 +14,9 @@ I characters controllati vengono riconfigurati disattivando il baseBehaviour e s
 Descrizione meccanica:
 Per controllare gli altri character bisogna recuperare le munizioni speciali
 
+![Image animator](control.gif)
+
+
 - 1 munizione per controllare i civili
 - 3 per i soldati
 Il colpo parte e torna indietro se non va a segno su un character o se il character non può essere controllato.
@@ -22,7 +25,10 @@ Non si possono controllare i target.
 Non si possono controllare i characters già sotto controllo.
 
 ## Puntatore controllo
-Il puntatore UI dell'arma visualizza l'icona di controllo se si può controllare un certo character, altrimenti una X che indica che è impossibile controllare un certo character.
+Il puntatore UI dell'arma visualizza l'icona "V" se si può controllare un certo character, altrimenti una "X" che indica che è impossibile controllare un certo character.
+| Controllo permesso: | Controllo non permesso: |
+| ------------- |:-------------:|
+| ![Image animator](controlOkay.png) | ![Image animator](controlNotOkay.png) |
 
 ## UI catena characters
 Tramite UI è possibile visualizzare il numero di character controllati ed in particolare quale si sta controllando.
@@ -30,11 +36,18 @@ Quando un character centrale muore viene aggiornata l'UI e tutti i character che
 
 ## Modalità navigazione
 Modalità navigazione
-Modalità navigazione characters controllati. Nella modalità navigazione il tempo scorre molto lentamente. delle line renderer sottili e di colore meno intenso vengono disegnate di character in character(serve a visualizzare chi sono i character controllati e dove si trovano)
+Modalità navigazione characters controllati. Nella modalità navigazione il tempo scorre lentamente dando la possibilità di selezionare il character da switchare. Delle line renderer sottili vengono disegnate di character in character(servono a visualizzare chi sono i character controllati e dove si trovano)
+
+![Image animator](warp.png)
 
 
+# Ottenimento energia controllo
+Per ottenere l'energia per il controllo dei characters bisognerà sabotare/disattivare i macchinary usati per estrarre energia dai monolity. I macchinari disattivati rilasceranno l'energia per il controllo.
 
-![Image animator](potentialAlertState.png)
+## Macchinari da sabotare
+Per sabotare i macchinari bisognerà attivare ripetutamente la console collegata all'impianto estrazione dell'energia fino a quando la barra di sovraccarico non raggiunge il valore massimo.
+
+![Image animator](machinery.gif)
 
 <p>&nbsp;</p>
 
@@ -48,6 +61,9 @@ Modalità navigazione characters controllati. Nella modalità navigazione il tem
 - I generatori della corrente vengono riattivati tutti una volta che la corrente elettrica torna
 - Le porta nera potranno essere aperte interamente solo dai soldati nemici
 - Aggiunti dei cavi elettrici che indicano dove si trovano i generatori elettrici
+
+![Image animator](cables.png)
+
 
 ## Effetti audio
 - Implementato suoni dei passi dei characters, corsa e cammino. I characters controllati dal giocatore principale emetteranno dei suoni con i passi del character solo se questi correranno
