@@ -63,6 +63,11 @@ public class GameSettings : MonoBehaviour
 
 
         setResolution(resolutionSettings[selectedResolution]);
+
+
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void setNextResolutionSettings() {

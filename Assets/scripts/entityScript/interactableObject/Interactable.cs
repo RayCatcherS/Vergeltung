@@ -24,7 +24,7 @@ public class Interactable : MonoBehaviour, InteractableInterface {
 
     }
 
-    public virtual List<Interaction> getInteractions() {
+    public virtual List<Interaction> getInteractions(CharacterManager character) {
         return new List<Interaction>();
     }
 
@@ -34,11 +34,19 @@ public class Interactable : MonoBehaviour, InteractableInterface {
     }
 
     public void focusInteractableOutline() {
-        outlineScript.changeOutlineColor(GameConstant.outlineInteractableColor);
-        outlineScript.setEnableOutline(true);
+
+        if(outlineScript != null) {
+            outlineScript.changeOutlineColor(GameConstant.outlineInteractableColor);
+            outlineScript.setEnableOutline(true);
+        }
+        
     }
     public void unFocusInteractableOutline() {
-        outlineScript.setEnableOutline(false);
+
+        if(outlineScript != null) {
+            outlineScript.setEnableOutline(false);
+        }
+
     }
 
     public void interactableMeshEffectSetEnebled(bool value) {

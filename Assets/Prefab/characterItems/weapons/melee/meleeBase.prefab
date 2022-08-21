@@ -140,6 +140,7 @@ MonoBehaviour:
   getItemEvent:
     m_PersistentCalls:
       m_Calls: []
+  _prohibitedItem: 0
   _inventoryManager: {fileID: 0}
   _shootingTransform: {fileID: 1456203554}
   _weaponOffsetRotation: {x: 0, y: 0, z: 0}
@@ -150,10 +151,11 @@ MonoBehaviour:
   damageObject: {fileID: 3682149808839142542, guid: 69ad4c478fc2cf84aaf5182e835aca1a, type: 3}
   weaponType: 0
   _magazineCapacity: 28
-  _ammunition: 0
+  _ammunition:
+    _ammunitionType: 0
+    _ammunitionQuantity: 0
   shootFrequency: 0.15
   _automaticWeapon: 0
-  _silencedWeapon: 1
   _vibrationOnUseWeapon: 0
   _impulseTime: 0.15
   _impulseForce: 0.6

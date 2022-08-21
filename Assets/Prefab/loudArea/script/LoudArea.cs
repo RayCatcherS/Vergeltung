@@ -73,7 +73,7 @@ public class LoudArea : MonoBehaviour
                 // ottenimento character manager
                 CharacterManager character = collider.gameObject.GetComponent<CharacterManager>();
 
-                if (!character.isPlayer && !character.isDead) { // solo characters che non sono il player e che non sono morti
+                if (!character.isPlayer && !character.isDead && !character.isStackControlled) { // solo characters che non sono il player e che non sono morti e non controllati
 
 
                     // ottenimento ruolo character
@@ -85,6 +85,7 @@ public class LoudArea : MonoBehaviour
                         EnemyNPCBehaviourManager characterBehaviour = null;
                         characterBehaviour = collider.gameObject.GetComponent<EnemyNPCBehaviourManager>();
                         if (characterBehaviour != null) {
+
 
                             enemyCharacters.Add(characterBehaviour);
                             allCharacters.Add(characterBehaviour);

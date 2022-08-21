@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7050449291225667330}
   - component: {fileID: 7050449291225667331}
   - component: {fileID: 7050449291225667332}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: shootParticleMonolith (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7050449291225667333}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7050449291516809065}
@@ -106,7 +106,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -285,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -338,7 +338,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.45
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4821,7 +4821,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7050449291516809065}
-  m_Layer: 0
+  - component: {fileID: 3902081620281693118}
+  - component: {fileID: 8175561460199915610}
+  - component: {fileID: 65419831160513606}
+  - component: {fileID: 3652580183820539718}
+  m_Layer: 3
   m_Name: controlWeaponAmmunitionPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4835,16 +4839,102 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7050449291516809066}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -25.21639, y: 0.68, z: -53.429478}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7373099833272151843}
   - {fileID: 7050449291225667330}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!54 &3902081620281693118
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8175561460199915610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 257563c1fc79e3448a5f47d16318a2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineScript: {fileID: 0}
+  interactableMeshEffect: {fileID: 0}
+  _itemNameID: CONTROL POWER
+  _prohibitedItem: 0
+  _getItemEventName: GET
+  getItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _inventoryManager: {fileID: 0}
+  _shootingTransform: {fileID: 0}
+  _weaponOffsetRotation: {x: 0, y: 0, z: 0}
+  _rightHandTransformRef: {fileID: 0}
+  _leftHandTransformRef: {fileID: 0}
+  _extractedWeaponPreview: {fileID: 21300000, guid: 5317dc680822b3c4d8babea6f2ed7241, type: 3}
+  _puttedAwayWeaponPreview: {fileID: 21300000, guid: 731842c5a7277ba47944739c3d18aa26, type: 3}
+  damageObject: {fileID: 0}
+  weaponType: 3
+  _ammunition:
+    _ammunitionType: 3
+    _ammunitionQuantity: 1
+  shootFrequency: 0.15
+  _automaticWeapon: 0
+  _vibrationOnUseWeapon: 1
+  _impulseTime: 0.15
+  _impulseForce: 0.6
+  weaponUsed: 0
+  spawnDamageObjectParticleTransform: {fileID: 0}
+  spawnDamageObjectParticle: {fileID: 0}
+  gunShootSound: {fileID: 0}
+  loudArea: {fileID: 5121135152222646132, guid: eeec69e2ae8ecfc4e89eb9a75ed6cfe1, type: 3}
+  loudIntensity: 0
+  interactAudioClip: {fileID: 8300000, guid: ce4e65bb4eac5b6418010db8942e73ae, type: 3}
+--- !u!114 &65419831160513606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08f12b8bdb522c48822d8225d7ebc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactable: {fileID: 8175561460199915610}
+--- !u!135 &3652580183820539718
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050449291516809066}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6.69
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7050449291538647240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4855,6 +4945,18 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4897,12 +4999,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3414058cdfa05fd48bae746700420cc8, type: 2}
     - target: {fileID: 919132149155446097, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
       propertyPath: m_Name
       value: controlWeaponAmmunition
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
@@ -4911,3 +5021,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
   m_PrefabInstance: {fileID: 7050449291538647240}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7861406534656193945 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}
+  m_PrefabInstance: {fileID: 7050449291538647240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &5904835935590058829
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7861406534656193945}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: d0e3b91ca1170da4d9e8190b021c4c91, type: 3}

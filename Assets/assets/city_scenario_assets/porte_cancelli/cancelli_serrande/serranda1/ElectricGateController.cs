@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ElectricGateController : MonoBehaviour
 {
+    [Header("Refs")]
     [SerializeField] private Animator gateAnimator;
     [SerializeField] private Animator ligthAnim;
     [SerializeField] private float busyGateTimer = 2; // tempo per cui il cancello resta occupato(usato per evitare interazioni durante l'animazione
@@ -11,6 +12,10 @@ public class ElectricGateController : MonoBehaviour
 
     [SerializeField] private bool _gateClosed = true;
     [SerializeField] private float gateClosingTime = 7;
+    [SerializeField] private AudioSource audioSource;
+
+    [Header("Asset Refs")]
+    [SerializeField] private AudioClip gateAudioClip;
 
     public bool gateClosed {
         get { return _gateClosed; }
@@ -19,6 +24,7 @@ public class ElectricGateController : MonoBehaviour
 
 
     public void openGate() {
+        playGateSound();
 
         // resetta stato animazioni cancello e coroutine penzolanti
         StopAllCoroutines();
@@ -34,6 +40,8 @@ public class ElectricGateController : MonoBehaviour
     }
 
     public void closeGate() {
+        playGateSound();
+
         gateAnimator.ResetTrigger("openDirection1");
         gateAnimator.ResetTrigger("close");
 
@@ -45,6 +53,7 @@ public class ElectricGateController : MonoBehaviour
     public void operateGate() {
 
         if(!busy) {
+
             if (gateClosed) {
                 openGate();
             } else {
@@ -80,5 +89,10 @@ public class ElectricGateController : MonoBehaviour
         }
 
 
+    }
+
+    private void playGateSound() {
+        audioSource.clip = gateAudioClip;
+        audioSource.Play();
     }
 }

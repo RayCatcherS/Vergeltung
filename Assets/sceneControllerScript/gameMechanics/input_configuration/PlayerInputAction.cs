@@ -64,7 +64,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""InventaryNextWeapon"",
+                    ""name"": ""InventoryNextWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""3acacdaa-7154-4605-a87d-d488fc921e75"",
                     ""expectedControlType"": ""Button"",
@@ -73,7 +73,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""InventaryPreviousWeapon"",
+                    ""name"": ""InventoryPreviousWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""8ea119c8-2d7e-4e86-aafb-906319194511"",
                     ""expectedControlType"": ""Button"",
@@ -82,7 +82,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""InventaryUseWeaponItem"",
+                    ""name"": ""InventoryUseWeaponItem"",
                     ""type"": ""Button"",
                     ""id"": ""0cfc43b8-a725-4d5f-906f-d9e7032fb676"",
                     ""expectedControlType"": ""Button"",
@@ -91,9 +91,36 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PutAwayExtractWeapon"",
+                    ""name"": ""PutAwayWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""293a1bf6-3879-4892-8ac4-5320e0ea32c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExtractWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d5b8fb8-233e-4d44-9b34-adae2e66c644"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""bcea35d9-ab76-416e-bdaf-ff61a86cb241"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchCharacterMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b24af32-458d-4c3d-b094-786e229cfef4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -350,7 +377,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryNextWeapon"",
+                    ""action"": ""InventoryNextWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -361,7 +388,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryNextWeapon"",
+                    ""action"": ""InventoryNextWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -372,7 +399,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryPreviousWeapon"",
+                    ""action"": ""InventoryPreviousWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -383,7 +410,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryPreviousWeapon"",
+                    ""action"": ""InventoryPreviousWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -394,7 +421,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryUseWeaponItem"",
+                    ""action"": ""InventoryUseWeaponItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -405,29 +432,29 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""InventaryUseWeaponItem"",
+                    ""action"": ""InventoryUseWeaponItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""1dbb6f2f-65f7-4916-b0c9-c339edfccb86"",
-                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""path"": ""<XInputController>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""PutAwayExtractWeapon"",
+                    ""action"": ""PutAwayWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""c38bb96a-297e-44ee-9d42-8707283d040a"",
-                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
-                    ""action"": ""PutAwayExtractWeapon"",
+                    ""action"": ""PutAwayWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -450,6 +477,72 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""DiscardAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""646d209e-29f9-4ca3-99fb-89c33f48cb26"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""322e7601-39c8-4d1d-a276-45f22f3d9df7"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""064c88b6-4bfc-49b1-b91a-dc2e4f4e1a8c"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""ExtractWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16a11f4e-a718-4e5b-83e0-5eda16c50ea0"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""ExtractWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f279345-533f-41a1-8d34-115e0e4b8ad0"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""SwitchCharacterMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""28314b0a-bdd5-4c20-bf21-ae563fd3acb0"",
+                    ""path"": ""<DualShockGamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCharacterMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -810,6 +903,138 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""SwitchCharacterMode"",
+            ""id"": ""80b7c048-6623-4062-95e2-1ad0a2b802d1"",
+            ""actions"": [
+                {
+                    ""name"": ""PreviousCharacter"",
+                    ""type"": ""Button"",
+                    ""id"": ""7008f4f3-9496-4553-8b52-d590d301b121"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextCharacter"",
+                    ""type"": ""Button"",
+                    ""id"": ""cc81f663-1103-4e80-bd2d-408f572458e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RemoveCharacterFromStack"",
+                    ""type"": ""Button"",
+                    ""id"": ""185e47d9-ad02-4906-a8a4-0c7fb8a2004c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""3e805766-ea23-4117-96ac-488c63d46a37"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""8e207514-6bc5-4a13-a896-52cf08047bce"",
+                    ""path"": ""<XInputController>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""PreviousCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c40e39d-c578-4ced-b8ab-a0b20944c1b5"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""PreviousCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""746b958a-2412-4b1c-95d3-da8df57af9ea"",
+                    ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""NextCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed743ee2-b6cc-4f76-b906-087ceaf584e8"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""NextCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2bc8acd0-4d6d-4bd0-98c4-716ee1ecab48"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bdde9fb2-cb2f-4d60-aaa0-fadc94a20b59"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86822ffe-e5b9-4750-9337-0843e8d01c5d"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""RemoveCharacterFromStack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a24c056c-4a44-434d-bfe4-0b1b3df56c8c"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""RemoveCharacterFromStack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -832,10 +1057,13 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player_DiscardAction = m_Player.FindAction("DiscardAction", throwIfNotFound: true);
         m_Player_AnalogMovement = m_Player.FindAction("AnalogMovement", throwIfNotFound: true);
         m_Player_AnalogRotation = m_Player.FindAction("AnalogRotation", throwIfNotFound: true);
-        m_Player_InventaryNextWeapon = m_Player.FindAction("InventaryNextWeapon", throwIfNotFound: true);
-        m_Player_InventaryPreviousWeapon = m_Player.FindAction("InventaryPreviousWeapon", throwIfNotFound: true);
-        m_Player_InventaryUseWeaponItem = m_Player.FindAction("InventaryUseWeaponItem", throwIfNotFound: true);
-        m_Player_PutAwayExtractWeapon = m_Player.FindAction("PutAwayExtractWeapon", throwIfNotFound: true);
+        m_Player_InventoryNextWeapon = m_Player.FindAction("InventoryNextWeapon", throwIfNotFound: true);
+        m_Player_InventoryPreviousWeapon = m_Player.FindAction("InventoryPreviousWeapon", throwIfNotFound: true);
+        m_Player_InventoryUseWeaponItem = m_Player.FindAction("InventoryUseWeaponItem", throwIfNotFound: true);
+        m_Player_PutAwayWeapon = m_Player.FindAction("PutAwayWeapon", throwIfNotFound: true);
+        m_Player_ExtractWeapon = m_Player.FindAction("ExtractWeapon", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_SwitchCharacterMode = m_Player.FindAction("SwitchCharacterMode", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Action = m_UI.FindAction("Action", throwIfNotFound: true);
@@ -846,6 +1074,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_MainMenu_Action = m_MainMenu.FindAction("Action", throwIfNotFound: true);
         m_MainMenu_ButtonBack = m_MainMenu.FindAction("ButtonBack", throwIfNotFound: true);
         m_MainMenu_MenuScroll = m_MainMenu.FindAction("MenuScroll", throwIfNotFound: true);
+        // SwitchCharacterMode
+        m_SwitchCharacterMode = asset.FindActionMap("SwitchCharacterMode", throwIfNotFound: true);
+        m_SwitchCharacterMode_PreviousCharacter = m_SwitchCharacterMode.FindAction("PreviousCharacter", throwIfNotFound: true);
+        m_SwitchCharacterMode_NextCharacter = m_SwitchCharacterMode.FindAction("NextCharacter", throwIfNotFound: true);
+        m_SwitchCharacterMode_RemoveCharacterFromStack = m_SwitchCharacterMode.FindAction("RemoveCharacterFromStack", throwIfNotFound: true);
+        m_SwitchCharacterMode_Action = m_SwitchCharacterMode.FindAction("Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -909,10 +1143,13 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_DiscardAction;
     private readonly InputAction m_Player_AnalogMovement;
     private readonly InputAction m_Player_AnalogRotation;
-    private readonly InputAction m_Player_InventaryNextWeapon;
-    private readonly InputAction m_Player_InventaryPreviousWeapon;
-    private readonly InputAction m_Player_InventaryUseWeaponItem;
-    private readonly InputAction m_Player_PutAwayExtractWeapon;
+    private readonly InputAction m_Player_InventoryNextWeapon;
+    private readonly InputAction m_Player_InventoryPreviousWeapon;
+    private readonly InputAction m_Player_InventoryUseWeaponItem;
+    private readonly InputAction m_Player_PutAwayWeapon;
+    private readonly InputAction m_Player_ExtractWeapon;
+    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_SwitchCharacterMode;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -921,10 +1158,13 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @DiscardAction => m_Wrapper.m_Player_DiscardAction;
         public InputAction @AnalogMovement => m_Wrapper.m_Player_AnalogMovement;
         public InputAction @AnalogRotation => m_Wrapper.m_Player_AnalogRotation;
-        public InputAction @InventaryNextWeapon => m_Wrapper.m_Player_InventaryNextWeapon;
-        public InputAction @InventaryPreviousWeapon => m_Wrapper.m_Player_InventaryPreviousWeapon;
-        public InputAction @InventaryUseWeaponItem => m_Wrapper.m_Player_InventaryUseWeaponItem;
-        public InputAction @PutAwayExtractWeapon => m_Wrapper.m_Player_PutAwayExtractWeapon;
+        public InputAction @InventoryNextWeapon => m_Wrapper.m_Player_InventoryNextWeapon;
+        public InputAction @InventoryPreviousWeapon => m_Wrapper.m_Player_InventoryPreviousWeapon;
+        public InputAction @InventoryUseWeaponItem => m_Wrapper.m_Player_InventoryUseWeaponItem;
+        public InputAction @PutAwayWeapon => m_Wrapper.m_Player_PutAwayWeapon;
+        public InputAction @ExtractWeapon => m_Wrapper.m_Player_ExtractWeapon;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @SwitchCharacterMode => m_Wrapper.m_Player_SwitchCharacterMode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -946,18 +1186,27 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @AnalogRotation.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogRotation;
                 @AnalogRotation.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogRotation;
                 @AnalogRotation.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnalogRotation;
-                @InventaryNextWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
-                @InventaryNextWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
-                @InventaryNextWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryNextWeapon;
-                @InventaryPreviousWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviousWeapon;
-                @InventaryPreviousWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviousWeapon;
-                @InventaryPreviousWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryPreviousWeapon;
-                @InventaryUseWeaponItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
-                @InventaryUseWeaponItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
-                @InventaryUseWeaponItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventaryUseWeaponItem;
-                @PutAwayExtractWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayExtractWeapon;
+                @InventoryNextWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryNextWeapon;
+                @InventoryNextWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryNextWeapon;
+                @InventoryNextWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryNextWeapon;
+                @InventoryPreviousWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryPreviousWeapon;
+                @InventoryPreviousWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryPreviousWeapon;
+                @InventoryPreviousWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryPreviousWeapon;
+                @InventoryUseWeaponItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryUseWeaponItem;
+                @InventoryUseWeaponItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryUseWeaponItem;
+                @InventoryUseWeaponItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryUseWeaponItem;
+                @PutAwayWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayWeapon;
+                @PutAwayWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayWeapon;
+                @PutAwayWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPutAwayWeapon;
+                @ExtractWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExtractWeapon;
+                @ExtractWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExtractWeapon;
+                @ExtractWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExtractWeapon;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @SwitchCharacterMode.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchCharacterMode;
+                @SwitchCharacterMode.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchCharacterMode;
+                @SwitchCharacterMode.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchCharacterMode;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -974,18 +1223,27 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @AnalogRotation.started += instance.OnAnalogRotation;
                 @AnalogRotation.performed += instance.OnAnalogRotation;
                 @AnalogRotation.canceled += instance.OnAnalogRotation;
-                @InventaryNextWeapon.started += instance.OnInventaryNextWeapon;
-                @InventaryNextWeapon.performed += instance.OnInventaryNextWeapon;
-                @InventaryNextWeapon.canceled += instance.OnInventaryNextWeapon;
-                @InventaryPreviousWeapon.started += instance.OnInventaryPreviousWeapon;
-                @InventaryPreviousWeapon.performed += instance.OnInventaryPreviousWeapon;
-                @InventaryPreviousWeapon.canceled += instance.OnInventaryPreviousWeapon;
-                @InventaryUseWeaponItem.started += instance.OnInventaryUseWeaponItem;
-                @InventaryUseWeaponItem.performed += instance.OnInventaryUseWeaponItem;
-                @InventaryUseWeaponItem.canceled += instance.OnInventaryUseWeaponItem;
-                @PutAwayExtractWeapon.started += instance.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.performed += instance.OnPutAwayExtractWeapon;
-                @PutAwayExtractWeapon.canceled += instance.OnPutAwayExtractWeapon;
+                @InventoryNextWeapon.started += instance.OnInventoryNextWeapon;
+                @InventoryNextWeapon.performed += instance.OnInventoryNextWeapon;
+                @InventoryNextWeapon.canceled += instance.OnInventoryNextWeapon;
+                @InventoryPreviousWeapon.started += instance.OnInventoryPreviousWeapon;
+                @InventoryPreviousWeapon.performed += instance.OnInventoryPreviousWeapon;
+                @InventoryPreviousWeapon.canceled += instance.OnInventoryPreviousWeapon;
+                @InventoryUseWeaponItem.started += instance.OnInventoryUseWeaponItem;
+                @InventoryUseWeaponItem.performed += instance.OnInventoryUseWeaponItem;
+                @InventoryUseWeaponItem.canceled += instance.OnInventoryUseWeaponItem;
+                @PutAwayWeapon.started += instance.OnPutAwayWeapon;
+                @PutAwayWeapon.performed += instance.OnPutAwayWeapon;
+                @PutAwayWeapon.canceled += instance.OnPutAwayWeapon;
+                @ExtractWeapon.started += instance.OnExtractWeapon;
+                @ExtractWeapon.performed += instance.OnExtractWeapon;
+                @ExtractWeapon.canceled += instance.OnExtractWeapon;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @SwitchCharacterMode.started += instance.OnSwitchCharacterMode;
+                @SwitchCharacterMode.performed += instance.OnSwitchCharacterMode;
+                @SwitchCharacterMode.canceled += instance.OnSwitchCharacterMode;
             }
         }
     }
@@ -1088,6 +1346,63 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         }
     }
     public MainMenuActions @MainMenu => new MainMenuActions(this);
+
+    // SwitchCharacterMode
+    private readonly InputActionMap m_SwitchCharacterMode;
+    private ISwitchCharacterModeActions m_SwitchCharacterModeActionsCallbackInterface;
+    private readonly InputAction m_SwitchCharacterMode_PreviousCharacter;
+    private readonly InputAction m_SwitchCharacterMode_NextCharacter;
+    private readonly InputAction m_SwitchCharacterMode_RemoveCharacterFromStack;
+    private readonly InputAction m_SwitchCharacterMode_Action;
+    public struct SwitchCharacterModeActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public SwitchCharacterModeActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PreviousCharacter => m_Wrapper.m_SwitchCharacterMode_PreviousCharacter;
+        public InputAction @NextCharacter => m_Wrapper.m_SwitchCharacterMode_NextCharacter;
+        public InputAction @RemoveCharacterFromStack => m_Wrapper.m_SwitchCharacterMode_RemoveCharacterFromStack;
+        public InputAction @Action => m_Wrapper.m_SwitchCharacterMode_Action;
+        public InputActionMap Get() { return m_Wrapper.m_SwitchCharacterMode; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SwitchCharacterModeActions set) { return set.Get(); }
+        public void SetCallbacks(ISwitchCharacterModeActions instance)
+        {
+            if (m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface != null)
+            {
+                @PreviousCharacter.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnPreviousCharacter;
+                @PreviousCharacter.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnPreviousCharacter;
+                @PreviousCharacter.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnPreviousCharacter;
+                @NextCharacter.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnNextCharacter;
+                @NextCharacter.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnNextCharacter;
+                @NextCharacter.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnNextCharacter;
+                @RemoveCharacterFromStack.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnRemoveCharacterFromStack;
+                @Action.started -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface.OnAction;
+            }
+            m_Wrapper.m_SwitchCharacterModeActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @PreviousCharacter.started += instance.OnPreviousCharacter;
+                @PreviousCharacter.performed += instance.OnPreviousCharacter;
+                @PreviousCharacter.canceled += instance.OnPreviousCharacter;
+                @NextCharacter.started += instance.OnNextCharacter;
+                @NextCharacter.performed += instance.OnNextCharacter;
+                @NextCharacter.canceled += instance.OnNextCharacter;
+                @RemoveCharacterFromStack.started += instance.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.performed += instance.OnRemoveCharacterFromStack;
+                @RemoveCharacterFromStack.canceled += instance.OnRemoveCharacterFromStack;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
+            }
+        }
+    }
+    public SwitchCharacterModeActions @SwitchCharacterMode => new SwitchCharacterModeActions(this);
     private int m_XboxControlSchemeSchemeIndex = -1;
     public InputControlScheme XboxControlSchemeScheme
     {
@@ -1103,10 +1418,13 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnDiscardAction(InputAction.CallbackContext context);
         void OnAnalogMovement(InputAction.CallbackContext context);
         void OnAnalogRotation(InputAction.CallbackContext context);
-        void OnInventaryNextWeapon(InputAction.CallbackContext context);
-        void OnInventaryPreviousWeapon(InputAction.CallbackContext context);
-        void OnInventaryUseWeaponItem(InputAction.CallbackContext context);
-        void OnPutAwayExtractWeapon(InputAction.CallbackContext context);
+        void OnInventoryNextWeapon(InputAction.CallbackContext context);
+        void OnInventoryPreviousWeapon(InputAction.CallbackContext context);
+        void OnInventoryUseWeaponItem(InputAction.CallbackContext context);
+        void OnPutAwayWeapon(InputAction.CallbackContext context);
+        void OnExtractWeapon(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnSwitchCharacterMode(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1119,5 +1437,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnButtonBack(InputAction.CallbackContext context);
         void OnMenuScroll(InputAction.CallbackContext context);
+    }
+    public interface ISwitchCharacterModeActions
+    {
+        void OnPreviousCharacter(InputAction.CallbackContext context);
+        void OnNextCharacter(InputAction.CallbackContext context);
+        void OnRemoveCharacterFromStack(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
     }
 }

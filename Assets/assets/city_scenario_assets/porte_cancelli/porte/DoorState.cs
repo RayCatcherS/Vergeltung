@@ -23,6 +23,12 @@ public class DoorState : MonoBehaviour
 
     [SerializeField] private int doorTimeOut = 5; // stabilisce il valore di time out dopo cui la porta si chiude automaticamente
     [SerializeField] private int _doorLockPickTime = 5; // stabilisce il valore di tempo che bisogna aspettare durante lo scassinamento
+
+    [Header("door sound refs")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip openDoorClip;
+    [SerializeField] private AudioClip closeDoorClip;
+
     public int doorLockPickTime {
         get { return _doorLockPickTime; }
     }
@@ -170,5 +176,15 @@ public class DoorState : MonoBehaviour
         doorAnimator.ResetTrigger("openDirection1");
         doorAnimator.ResetTrigger("openDirection2");
         doorAnimator.ResetTrigger("close");
+    }
+
+    private void openDoorSound() {
+        audioSource.clip = openDoorClip;
+        audioSource.Play();
+    }
+
+    private void closeDoorSound() {
+        audioSource.clip = closeDoorClip;
+        audioSource.Play();
     }
 }

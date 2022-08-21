@@ -2,39 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
     // ray cast const
     
-    private const int COLLISION_RAYCAST_DISTANCE = 2;
+    private const int COLLISION_RAYCAST_DISTANCE = 6;
     private const int ALL_LAYERS = -1;
     private const int CHARACTER_LAYER = 7;
     private const int RAGDOLLBONE_LAYER = 15;
     private const int SHATTERABLEGLASS_LAYER = 17;
+    private const int MACHINERY_LAYER = 18;
 
 
     [Header("Bullet configuration")]
-    [SerializeField] private float moveSpeed = 100;
-    [SerializeField] private float deadTime = 3;
-    [SerializeField] private Vector3 _bulletDirection;
-    [SerializeField] private int bulletDamage = 20;
+    [SerializeField] protected float moveSpeed = 100;
+    [SerializeField] protected float deadTime = 3;
+    [SerializeField] protected Vector3 _bulletDirection;
+    [SerializeField] protected int bulletDamage = 20;
 
     [Header("Bullet particle impact")]
-    [SerializeField] private GameObject particleBloodImpact;
-    [SerializeField] private GameObject collisionWallImpact;
+    [SerializeField] protected GameObject particleBloodImpact;
+    [SerializeField] protected GameObject collisionWallImpact;
 
 
-    [SerializeField] private bool destroyOnImpact = true;
-    [SerializeField] private bool isImpact = false;
+    [SerializeField] protected bool destroyOnImpact = true;
+    [SerializeField] protected bool isImpact = false;
 
     [Header("Weapon sounds")]
-    [SerializeField] private AudioClip genericSoundCollision;
-    [SerializeField] private AudioClip characterSoundCollision;
+    [SerializeField] protected AudioClip genericSoundCollision;
+    [SerializeField] protected AudioClip characterSoundCollision;
 
     [Header("Weapon audio loud object")]
     /// questo oggetto emette suoni e scatenare eventi all'interno della sua area e viene generato quando il proiettile collide
-    [SerializeField] private GameObject loudArea;
-    [SerializeField] private LoudAreaType loudIntensity;
+    [SerializeField] protected GameObject loudArea;
+    [SerializeField] protected LoudAreaType loudIntensity;
 
     void Start()
     {
@@ -65,15 +65,20 @@ public class Bullet : MonoBehaviour
                     Destroy(gameObject);
 
 
-                if (hit.transform.gameObject.layer == CHARACTER_LAYER) {
+                if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
+
 
                     characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
-                } else if (hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
+                } else if(hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
 
                     ragdollBoneCollision(hit.point);
-                } else if (hit.transform.gameObject.layer == SHATTERABLEGLASS_LAYER) {
+                } else if(hit.transform.gameObject.layer == SHATTERABLEGLASS_LAYER) {
 
                     glassCollision(hit);
+                    wallCollision(hit.point, hit.normal);
+                } else if(hit.transform.gameObject.layer == MACHINERY_LAYER) {
+
+                    machineryCollision(hit);
                     wallCollision(hit.point, hit.normal);
                 } else {
 
@@ -92,7 +97,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void characterCollision(CharacterManager character, Vector3 collisionPoint) {
+    protected virtual void characterCollision(CharacterManager character, Vector3 collisionPoint) {
         character.applyCharacterDamage(bulletDamage, Vector3.zero);
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
 
@@ -102,7 +107,7 @@ public class Bullet : MonoBehaviour
         loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
-    private void wallCollision(Vector3 collisionPoint, Vector3 collisionNormal) {
+    protected virtual void wallCollision(Vector3 collisionPoint, Vector3 collisionNormal) {
         Instantiate(collisionWallImpact, collisionPoint, Quaternion.LookRotation(collisionNormal));
 
         // loud area
@@ -111,7 +116,7 @@ public class Bullet : MonoBehaviour
         loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
-    private void ragdollBoneCollision(Vector3 collisionPoint) {
+    protected virtual void ragdollBoneCollision(Vector3 collisionPoint) {
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
 
         // loud area
@@ -120,9 +125,18 @@ public class Bullet : MonoBehaviour
         loudGameObject.GetComponent<LoudArea>().startLoudArea();
     }
 
-    private void glassCollision(RaycastHit hit) {
+    protected virtual void glassCollision(RaycastHit hit) {
         hit.transform.gameObject.GetComponent<ShatterableGlass>().shatterGlass();
 
     }
 
+
+    protected virtual void machineryCollision(RaycastHit hit) {
+
+
+        if(hit.transform.gameObject.GetComponent<Machinery>() != null) {
+            hit.transform.gameObject.GetComponent<Machinery>().applyMachineryLoad();
+        }
+        
+    }
 }

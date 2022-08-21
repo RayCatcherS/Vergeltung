@@ -6,12 +6,19 @@ public class InventoryItem : Interactable {
 
     [Header("Item config")]
     [SerializeField] protected string _itemNameID = "item";
+    [SerializeField] protected bool _prohibitedItem = true;
+    public bool prohibitedItem {
+        get { return _prohibitedItem; }
+    }
 
     [SerializeField] protected string _getItemEventName = "GET ";
     [SerializeField] protected UnityEventCharacter getItemEvent = new UnityEventCharacter();
+    
 
     [Header("Item ref")]
     [SerializeField] protected InventoryManager _inventoryManager; //inventory manager del character che possiede l'oggetto
+
+    
 
     // getter
     public string itemNameID {
@@ -37,4 +44,6 @@ public class InventoryItem : Interactable {
     public virtual void useItem(CharacterManager p) {
 
     }
+
+    
 }

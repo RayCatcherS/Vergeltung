@@ -9,6 +9,7 @@ enum BinaryInteractableState {
 }
 public class GenericBinaryInteractable : Interactable {
 
+    [Header("Config")]
     [SerializeField] string genericEventName = "ACTION";
     [SerializeField] UnityEventCharacter genericEvent1 = new UnityEventCharacter();
     [SerializeField] UnityEventCharacter genericEvent2 = new UnityEventCharacter();
@@ -16,14 +17,28 @@ public class GenericBinaryInteractable : Interactable {
     [SerializeField] private bool unRepetableInteractionStateActive = true;
     [SerializeField] private BinaryInteractableState binaryInteractableState = BinaryInteractableState.state1;
 
+    [Header("Asset Refs")]
+    [SerializeField] private AudioClip interactAudioClip;
+
+    [Header("Refs")]
+    [SerializeField] private AudioSource audioSource;
+
     public override void Start() {
         initInteractable();
 
-        genericEvent1.AddListener((CharacterManager c) => { changeBinaryState(BinaryInteractableState.state2); });
-        genericEvent2.AddListener((CharacterManager c) => { changeBinaryState(BinaryInteractableState.state1); });
+        genericEvent1.AddListener((CharacterManager c) => { 
+            changeBinaryState(BinaryInteractableState.state2);
+            playSounds();
+        });
+        genericEvent2.AddListener((CharacterManager c) => { 
+            changeBinaryState(BinaryInteractableState.state1);
+            playSounds(); 
+        });
     }
     
     public override Interaction getMainInteraction() {
+
+
         if(!repetableInteraction) {
 
             if(unRepetableInteractionStateActive) {
@@ -44,7 +59,7 @@ public class GenericBinaryInteractable : Interactable {
         
     }
 
-    public override List<Interaction> getInteractions() {
+    public override List<Interaction> getInteractions(CharacterManager character = null) {
 
         List<Interaction> eventRes = new List<Interaction>();
 
@@ -72,4 +87,8 @@ public class GenericBinaryInteractable : Interactable {
         binaryInteractableState = state;
     }
 
+    private void playSounds() {
+        audioSource.clip = interactAudioClip;
+        audioSource.Play();
+    }
 }

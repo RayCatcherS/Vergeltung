@@ -37,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     
+    
 
     public void handleBackMenu() {
         if(mainMenuState == MainMenuState.storyTextScreen || mainMenuState == MainMenuState.settingsScreen) {
@@ -107,6 +108,11 @@ public class MainMenuManager : MonoBehaviour
                     storyContentToScroll.gameObject.transform.position.z
                 );
         }
+    }
+
+
+    public void quit() {
+        Application.Quit();
     }
 }
 

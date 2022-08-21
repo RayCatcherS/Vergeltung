@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
+using UnityEngine.UI;
 using UnityEngine.Animations.Rigging;
 
 public class InventoryManager : Interactable {
@@ -12,6 +12,7 @@ public class InventoryManager : Interactable {
     private const int INTERACTABLE_LAYER = 3;
 
     private const string BASE_MELEE_ID = "base_melee";
+    private const string CONTROL_WEAPON_ID = "CONTROL POWER";
 
 
 
@@ -56,6 +57,21 @@ public class InventoryManager : Interactable {
     public CharacterFlashLight characterFlashLight {
         get { return _characterFlashLight; }
     }
+    [Header("Inventory Ammunitions and config")]
+    [SerializeField] private Dictionary<WeaponType, Ammunition> _inventoryAmmunitions = new Dictionary<WeaponType, Ammunition>();
+    public Dictionary<WeaponType, Ammunition> inventoryAmmunitions {
+        get { return _inventoryAmmunitions; }
+    }
+    [SerializeField]
+    private Dictionary<WeaponType, Ammunition> _maxInventoryAmmunitions = new Dictionary<WeaponType, Ammunition>() {
+        { WeaponType.melee, new Ammunition(WeaponType.melee, 1) },
+        { WeaponType.pistol, new Ammunition(WeaponType.pistol, 12) },
+        { WeaponType.rifle, new Ammunition(WeaponType.rifle, 28) },
+        { WeaponType.controlWeapon, new Ammunition(WeaponType.controlWeapon, 14) },
+    };
+    public Dictionary<WeaponType, Ammunition> maxInventoryAmmunitions {
+        get { return _maxInventoryAmmunitions; }
+    }
 
     [Header("Inventory state")]
     [SerializeField] private bool _weaponPuttedAway = true;
@@ -73,7 +89,13 @@ public class InventoryManager : Interactable {
     [SerializeField] private Material weaponLineRendererMaterial;
     [SerializeField] public Gradient extractedweaponLineRendererGradient;
     [SerializeField] public Gradient puttedAwayweaponLineRendererGradient;
+    [SerializeField] public Gradient controlWeaponLineRendererGradient;
 
+    [Header("Aim UI target")]
+    private AimUIManager _aimTargetImage;
+    public AimUIManager aimTargetImage {
+        set { _aimTargetImage = value; }
+    }
 
     // getter - setter
     public int selectedWeapon {
@@ -112,15 +134,115 @@ public class InventoryManager : Interactable {
     }
 
     public void Awake() {
-        initDrawPlayerWeaponLineRendered();
+        initDrawPlayerWeaponLineRenderer();
 
         gamePadVibration = GameObject.Find("GameController").GetComponent<GamePadVibrationController>();
     }
 
     public void Update() {
-        drawAimWeaponLineRendered();
+
+        AimInformation aimInfo = getAimInformation();
+
+
+        // update aimed character
+        if(_characterManager.isPlayer) {
+
+            if(!isGunThroughWall()) {
+                characterManager.aimedCharacter = aimInfo.aimedCharacter;
+            }
+        }
+
+
+        if(_characterManager.isPlayer) {
+
+
+            if(weaponItems[selectedWeapon].itemNameID != BASE_MELEE_ID) {
+
+
+                if(!isGunThroughWall()) {
+                    _aimTargetImage.setAimTargetEnabled(true);
+
+                    if(_weaponPuttedAway) {
+                        _aimTargetImage.defaultAimLowOpacity();
+
+                    } else {
+
+
+                        if(aimInfo.isAimedCharacter) {
+                            
+                            if(weaponItems[selectedWeapon].itemNameID == CONTROL_WEAPON_ID) {
+
+                                
+                                if(aimInfo.aimedCharacter.chracterRole == Role.Civilian) {
+
+                                    if(aimInfo.aimedCharacter.isStackControlled) {
+
+                                        _aimTargetImage.setControlAimSpriteOff();
+                                    } else {
+
+                                        if(_inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity >= 1) {
+
+                                            _aimTargetImage.setControlAimSpriteOn();
+                                        } else {
+
+                                            _aimTargetImage.setControlAimSpriteOff();
+                                        }
+                                    }
+                                    
+                                } else if(aimInfo.aimedCharacter.chracterRole == Role.EnemyGuard) {
+
+                                    if(aimInfo.aimedCharacter.isStackControlled) {
+
+                                        _aimTargetImage.setControlAimSpriteOff();
+                                    } else {
+
+                                        if(_inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity >= 3) {
+
+                                            _aimTargetImage.setControlAimSpriteOn();
+                                        } else {
+
+                                            _aimTargetImage.setControlAimSpriteOff();
+                                        }
+                                    }
+                                } else if(aimInfo.aimedCharacter.chracterRole == Role.Player) {
+
+                                    _aimTargetImage.setControlAimSpriteOff();
+                                } else {
+                                    _aimTargetImage.setAimTargetEnabled(true);
+                                }
+
+
+                            } else {
+                                _aimTargetImage.aimHighOpacity();
+                            }
+                            
+                        } else {
+                            _aimTargetImage.defaultAimMediumOpacity();
+                        }
+
+                    }
+
+                    _aimTargetImage.updateUIWorldPosition(aimInfo.aimedHitPosition);
+                } else {
+
+                    _aimTargetImage.setAimTargetEnabled(false);
+                }
+
+                
+                
+            } else {
+
+                _aimTargetImage.setAimTargetEnabled(false);
+            }
+            
+
+
+            drawAimWeaponLineRenderer(aimInfo.aimedHitPosition);
+        }
+        
+
     }
-    
+
     /// <summary>
     /// Ottieni tipo di arma attualemente selezionata
     /// </summary>
@@ -174,9 +296,9 @@ public class InventoryManager : Interactable {
         weaponItem.interactableMeshEffectSetEnebled(false);
         weaponItem.unFocusInteractableOutline();
 
-        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
 
         //cerca se la weapon è già presente
+        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
         if (weaponInInventary == -1) {
             // aggiungi istanza alla lista weapon dell'inventory manager
             _weaponItems.Add(weaponItem);
@@ -202,9 +324,22 @@ public class InventoryManager : Interactable {
             // disattiva collider trigger interactable
             weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
         } else {
-
-            _weaponItems[weaponInInventary].addAmmunition(weaponItem.ammunition);
+            
             Destroy(weaponItem.gameObject);
+        }
+
+        // aggiungi al dizionario dell'inventario le munizioni
+        if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {
+            _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity 
+                = _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + weaponItem.ammunition.ammunitionQuantity;
+        } else {
+            _inventoryAmmunitions.Add(weaponItem.ammunition.ammunitionType, weaponItem.ammunition);
+        }
+        
+
+        // max ammunition reached
+        if(_inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity > _maxInventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity) {
+            _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity = _maxInventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity;
         }
 
 
@@ -270,8 +405,7 @@ public class InventoryManager : Interactable {
     /// Imposta anche il rig del melee in base a _weaponPuttedAway
     /// </summary>
     private void configSelectedWeapon() {
-        Debug.Log("CONFIG");
-        Debug.Log(_weaponItems[_selectedWeapon].getWeaponType);
+
         characterMovement.updateAnimatorStateByInventoryWeaponType(_weaponItems[_selectedWeapon].getWeaponType, this); // configura animazione in base all'arma selezionata
         _characterManager.aimedCharacter = null; // rimuovi character mirato
 
@@ -283,7 +417,7 @@ public class InventoryManager : Interactable {
         rigBuilder.Build();
 
         // imposta rig
-        if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
+        if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee || _weaponItems[_selectedWeapon].getWeaponType == WeaponType.controlWeapon) {
             if (weaponPuttedAway) {
                 _rightHandRig.weight = 0;
                 _leftHandRig.weight = 0;
@@ -397,13 +531,17 @@ public class InventoryManager : Interactable {
         if(!characterManager.isBusy) {
             if(_selectedWeapon != -1 && !isGunThroughWall() && !_weaponPuttedAway) {
 
-                Vector3 destinationPosition = drawAimWeaponLineRendered();
+                Vector3 destinationPosition = getAimInformation().aimedHitPosition;
 
 
                 // builda UI solo se player
                 if(_characterManager.isPlayer) {
                     _weaponItems[_selectedWeapon].useItem(_characterManager, destinationPosition, gamePadVibration);
+
+
                     _characterManager.weaponUIController.buildUI(this);
+
+
                 } else {
                     _weaponItems[_selectedWeapon].useItem(_characterManager);
                 }
@@ -430,7 +568,7 @@ public class InventoryManager : Interactable {
         rebuildInteractableMeshEffect(getInteractions());
     }
 
-    public override List<Interaction> getInteractions() {
+    public override List<Interaction> getInteractions(CharacterManager character = null) {
         List<Interaction> allWeaponsInteractions = new List<Interaction>();
 
         for(int i = 0; i < _weaponItems.Count; i++) {
@@ -438,7 +576,7 @@ public class InventoryManager : Interactable {
             if(_weaponItems[i].itemNameID != BASE_MELEE_ID) {
 
 
-                if(_weaponItems[i].ammunition != 0) {
+                if(_weaponItems[i].ammunition.ammunitionQuantity != 0) {
                     UnityEventCharacter eventWeapon = new UnityEventCharacter();
                     eventWeapon.AddListener(_weaponItems[i].getItem);
 
@@ -460,7 +598,7 @@ public class InventoryManager : Interactable {
     }
 
 
-    private void initDrawPlayerWeaponLineRendered() {
+    private void initDrawPlayerWeaponLineRenderer() {
         LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
         if (lineRenderer == null) {
             gameObject.AddComponent<LineRenderer>();
@@ -480,89 +618,79 @@ public class InventoryManager : Interactable {
             
     }
 
-    ////// <summary>
+    /// <summary>
     /// Disegna tramite il componente line rendere una 
     /// retta che parte dall'arma al punto mirato dal character
-    /// 
-    /// </summary>
-    /// <returns>Restituisce la posizione puntata</returns>
-    public Vector3 drawAimWeaponLineRendered() {
+    public void drawAimWeaponLineRenderer(Vector3 hitPosition) {
 
-        Vector3 aimedPosition = Vector3.zero;
-
-        if (isSelectedWeapon && _characterManager.isPlayer && !isGunThroughWall()) {
+        if (isSelectedWeapon && !isGunThroughWall()) {
             _weaponLineRenderer.enabled = true;
 
 
             _weaponLineRenderer.SetPosition(0, _weaponItems[_selectedWeapon].shootingTransform.position);
-
-            
-            RaycastHit hit;
-            Ray ray = new Ray(_weaponItems[_selectedWeapon].shootingTransform.position, new Vector3(
-                Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                0,
-                Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
-            ));
+            _weaponLineRenderer.SetPosition(1, hitPosition);
 
 
-            if (Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) { // se il raycast hitta
+        } else {
+            _weaponLineRenderer.enabled = false;
+        }
+    }
+
+    public void setActiveLineRenderer(bool value) {
+        gameObject.GetComponent<LineRenderer>().enabled = value;
+    }
+
+    /// <summary>
+    /// Ottieni informazioni sulla mira del character
+    /// </summary>
+    /// <returns>Restituisce un oggetto con tutte le info sulla mira del character</returns>
+    AimInformation getAimInformation() {
+        AimInformation aimedPosition;
 
 
-               
-                // setta il character mirato nel character manager come character aimato
-                if(hit.transform.gameObject.layer == CHARACTER_LAYERS ) {
+        RaycastHit hit;
+        Ray ray = new Ray(_weaponItems[_selectedWeapon].shootingTransform.position, new Vector3(
+            Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
+            0,
+            Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
+        ));
 
-                    if(!hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
-                        _characterManager.aimedCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
 
-                        Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
-                        _weaponLineRenderer.SetPosition(1, hit.point);
-                    }
+        if(Physics.Raycast(ray, out hit, RAY_DISTANCE, ALL_LAYERS, QueryTriggerInteraction.Ignore)) { // se il raycast hitta
+
+
+
+            // setta il character mirato nel character manager come character aimato
+            if(hit.transform.gameObject.layer == CHARACTER_LAYERS) {
+
+                if(!hit.transform.gameObject.GetComponent<CharacterManager>().isPlayer) {
+
+                    aimedPosition = new AimInformation(hit.point, hit.transform.gameObject.GetComponent<CharacterManager>());
+
 
                 } else {
-                    _characterManager.aimedCharacter = null;
-
-                    Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, hit.point);
-                    _weaponLineRenderer.SetPosition(1, hit.point);
+                    aimedPosition = new AimInformation(Vector3.zero, null);
                 }
-                aimedPosition = hit.point;
+
+            } else {
+                aimedPosition = new AimInformation(hit.point, null);
+            }
 
 
 
-            } else { // se il ray cast non hitta
 
-                _characterManager.aimedCharacter = null;
-
-
-                Debug.DrawLine(_weaponItems[_selectedWeapon].shootingTransform.position, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
-                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                    0,
-                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
-                ) * RAY_DISTANCE);
+        } else { // se il ray cast non hitta
 
 
-                _weaponLineRenderer.SetPosition(1, _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
-                    Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
-                    0,
-                    Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
-                ) * RAY_DISTANCE);
-
-
-                aimedPosition = _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
+            Vector3 noHitPos;
+            noHitPos = _weaponItems[_selectedWeapon].shootingTransform.position + new Vector3(
                     Mathf.Sin((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180)),
                     0,
                     Mathf.Cos((characterMovement.characterModel.transform.eulerAngles.y) * (Mathf.PI / 180))
                 ) * RAY_DISTANCE;
-            }
 
-
-            
-
-            
-        } else {
-            _weaponLineRenderer.enabled = false;
+            aimedPosition = new AimInformation(noHitPos, null);
         }
-
         return aimedPosition;
     }
 
@@ -581,7 +709,6 @@ public class InventoryManager : Interactable {
             if (hit.collider != null) {
                 res = true;
 
-                //Debug.Log("gun Throug hWall");
             } else {
                 res = false;
             }
@@ -617,28 +744,39 @@ public class InventoryManager : Interactable {
     /// Riponi l'arma selezionata
     /// </summary>
     public void putAwayWeapon() {
-        _weaponPuttedAway = true;
-        configPutAwayExtractWeapon();
 
-        // aggiorna ui solo se sei il player
-        if (_characterManager.isPlayer) {
-            prohibitedWeaponAlarmUICheck();
+        if(!_weaponPuttedAway) {
+
+
+            _weaponPuttedAway = true;
+            configPutAwayExtractWeapon();
+
+            // aggiorna ui solo se sei il player
+            if(_characterManager.isPlayer) {
+                prohibitedWeaponAlarmUICheck();
+            }
+            configSelectedWeapon();
         }
-        configSelectedWeapon();
+        
     }
 
     /// <summary>
     /// estrai l'arma selezionata
     /// </summary>
     public void extractWeapon() {
-        _weaponPuttedAway = false;
-        configPutAwayExtractWeapon();
 
-        // aggiorna ui solo se sei il player
-        if (_characterManager.isPlayer) {
-            prohibitedWeaponAlarmUICheck();
+        if(_weaponPuttedAway) {
+
+            _weaponPuttedAway = false;
+            configPutAwayExtractWeapon();
+
+            // aggiorna ui solo se sei il player
+            if(_characterManager.isPlayer) {
+                prohibitedWeaponAlarmUICheck();
+            }
+            configSelectedWeapon();
         }
-        configSelectedWeapon();
+        
     }
 
     /// <summary>
@@ -652,17 +790,7 @@ public class InventoryManager : Interactable {
         }
     }
 
-    /// <summary>
-    /// richiama putAwayWeapon o extractWeapon in base
-    /// allo stato di _weaponPuttedAway
-    /// </summary>
-    public void switchPutAwayExtractWeapon() {
-        if(_weaponPuttedAway) {
-            extractWeapon();
-        } else {
-            putAwayWeapon();
-        }
-    }
+    
 
     /// <summary>
     /// Builda laser puntatore e arma scoperta o meno
@@ -675,12 +803,15 @@ public class InventoryManager : Interactable {
         } else {
 
 
-            if (_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
+            if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.melee) {
                 _weaponLineRenderer.colorGradient = puttedAwayweaponLineRendererGradient;
-                
+
+            } else if(_weaponItems[_selectedWeapon].getWeaponType == WeaponType.controlWeapon) {
+                _weaponLineRenderer.colorGradient = controlWeaponLineRendererGradient;
+
             } else {
                 _weaponLineRenderer.colorGradient = extractedweaponLineRendererGradient;
-                
+
             }
             _weaponItems[_selectedWeapon].gameObject.SetActive(true); // attiva arma selezionata
         }
@@ -704,11 +835,7 @@ public class InventoryManager : Interactable {
 
             if (!weaponPuttedAway) {
 
-                if(weaponItems[selectedWeapon].itemNameID == BASE_MELEE_ID) {
-                    result = false;
-                } else {
-                    result = true;
-                }
+                result = weaponItems[selectedWeapon].prohibitedItem;
                 
             } else {
                 result = false;
@@ -734,11 +861,33 @@ public class InventoryManager : Interactable {
 
                 if(!weaponItems[i].isWeaponAmmunitionEmpty) {
 
-                    Debug.Log("Select weapon");
+
                     selectWeapon(i);
                 }
             }
         }
         
+    }
+}
+public class AimInformation {
+    private Vector3 _aimedHitPosition = Vector3.zero;
+    public Vector3 aimedHitPosition {
+        get { return _aimedHitPosition; }
+    }
+
+    public bool isAimedCharacter {
+        get { return (_aimedCharacter != null); }
+    }
+    private CharacterManager _aimedCharacter;
+    public CharacterManager aimedCharacter {
+        get { return _aimedCharacter; }
+    }
+
+
+
+
+    public AimInformation(Vector3 hitPos, CharacterManager aimedC) {
+        _aimedHitPosition = hitPos;
+        _aimedCharacter = aimedC;
     }
 }

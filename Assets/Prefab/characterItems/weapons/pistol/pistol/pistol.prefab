@@ -171,7 +171,8 @@ MonoBehaviour:
   outlineScript: {fileID: 6369174365868113068}
   interactableMeshEffect: {fileID: 3721441728601804458}
   _itemNameID: PISTOL
-  _getItemEventName: 'GET '
+  _prohibitedItem: 1
+  _getItemEventName: GET
   getItemEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -184,11 +185,11 @@ MonoBehaviour:
   _puttedAwayWeaponPreview: {fileID: 21300000, guid: b52c0cacb5e969d4eb714a6a2491445d, type: 3}
   damageObject: {fileID: 738842551432461185, guid: 80c770cadf9e6fb42ba18a8e49884eeb, type: 3}
   weaponType: 1
-  _magazineCapacity: 28
-  _ammunition: 5
+  _ammunition:
+    _ammunitionType: 1
+    _ammunitionQuantity: 6
   shootFrequency: 0.1
   _automaticWeapon: 0
-  _silencedWeapon: 0
   _vibrationOnUseWeapon: 1
   _impulseTime: 0.15
   _impulseForce: 0.75
@@ -198,6 +199,8 @@ MonoBehaviour:
   gunShootSound: {fileID: 8300000, guid: 47c4d406347f2ac479013f12e9a1d6d8, type: 3}
   loudArea: {fileID: 5121135152222646132, guid: eeec69e2ae8ecfc4e89eb9a75ed6cfe1, type: 3}
   loudIntensity: 36
+  interactAudioClip: {fileID: 8300000, guid: ce4e65bb4eac5b6418010db8942e73ae, type: 3}
+  audioSource: {fileID: 0}
 --- !u!114 &6369174365868113068
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -245,6 +245,7 @@ MonoBehaviour:
   outlineScript: {fileID: 3872581555875977917}
   interactableMeshEffect: {fileID: 238204653845576166}
   _itemNameID: ASSAULT RIFLE
+  _prohibitedItem: 1
   _getItemEventName: GET
   getItemEvent:
     m_PersistentCalls:
@@ -258,11 +259,11 @@ MonoBehaviour:
   _puttedAwayWeaponPreview: {fileID: 21300000, guid: 72a20bec792e88c438b822619ac7decf, type: 3}
   damageObject: {fileID: 738842551432461185, guid: 80c770cadf9e6fb42ba18a8e49884eeb, type: 3}
   weaponType: 2
-  _magazineCapacity: 28
-  _ammunition: 12
+  _ammunition:
+    _ammunitionType: 2
+    _ammunitionQuantity: 8
   shootFrequency: 0.1
   _automaticWeapon: 1
-  _silencedWeapon: 0
   _vibrationOnUseWeapon: 1
   _impulseTime: 0.15
   _impulseForce: 0.6
@@ -272,6 +273,8 @@ MonoBehaviour:
   gunShootSound: {fileID: 8300000, guid: 62c06996889a20d469e79a994950cbba, type: 3}
   loudArea: {fileID: 5121135152222646132, guid: eeec69e2ae8ecfc4e89eb9a75ed6cfe1, type: 3}
   loudIntensity: 36
+  interactAudioClip: {fileID: 8300000, guid: ce4e65bb4eac5b6418010db8942e73ae, type: 3}
+  audioSource: {fileID: 0}
 --- !u!114 &1738574084
 MonoBehaviour:
   m_ObjectHideFlags: 0
