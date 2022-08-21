@@ -72,6 +72,7 @@ Per sabotare i macchinari bisognerà attivare ripetutamente la console collegata
 
 
 # Vari miglioramenti e implementazioni
+- Sabotare un generatore elettrico attirerà una guardia(in stato di warn). 
 - Implementato puntatore UI che indica la destinazione dei colpi sparati
 - Ora è possibile visualizzare la barra della vita di ogni character controllato
 - Viene avviato un effetto Post Processing quando il character usato subisce del danno

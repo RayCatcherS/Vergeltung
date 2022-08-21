@@ -58,6 +58,7 @@ public class GeneratorInteractable : Interactable {
         characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
+        callEnemy();
     }
 
     /// <summary>
@@ -86,6 +87,25 @@ public class GeneratorInteractable : Interactable {
     private void playSounds() {
         audioSource.clip = interactAudioClip;
         audioSource.Play();
+    }
+
+    private void callEnemy() {
+
+        List<EnemyNPCBehaviourManager> _enemyNpcList
+            = scenePowerController.gameObject.GetComponent<SceneEntitiesController>().enemyNpcList;
+
+
+        EnemyNPCBehaviourManager enemy = SceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position, _enemyNpcList);
+
+        Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
+
+
+
+        enemy.setAlert(
+            CharacterAlertState.WarnOfSuspiciousAlert,
+            true,
+            lastSeenFocusAlarmPosition: nearPos
+        );
     }
 }
 

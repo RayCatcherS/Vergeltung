@@ -619,7 +619,7 @@ public class CharacterManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Partendo dal character restituisce la posizione più raggiungibile per un agent(sulla navmesh)
+    /// Partendo dalla posizione del character restituisce la posizione raggiungibile per un agent(sulla navmesh)
     /// </summary>
     /// <returns></returns>
     public Vector3 getCharacterPositionReachebleByAgents() {
@@ -638,6 +638,30 @@ public class CharacterManager : MonoBehaviour {
         } else {
 
             if (NavMesh.SamplePosition(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform.position, out hit, 5.0f, NavMesh.AllAreas)) {
+
+                pos = hit.position;
+            }
+        }
+
+        return pos;
+    }
+
+    static public Vector3 getPositionReachebleByAgents(CharacterManager character, Vector3 position) {
+        Vector3 pos = new Vector3();
+        NavMeshHit hit;
+
+
+        if(character.isDead) {
+
+            if(NavMesh.SamplePosition(position, out hit, 5.0f, NavMesh.AllAreas)) {
+
+                pos = hit.position;
+            }
+
+
+        } else {
+
+            if(NavMesh.SamplePosition(position, out hit, 5.0f, NavMesh.AllAreas)) {
 
                 pos = hit.position;
             }

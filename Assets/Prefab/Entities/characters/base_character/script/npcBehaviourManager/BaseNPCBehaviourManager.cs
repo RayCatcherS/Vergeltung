@@ -261,7 +261,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     /// di allerta
     /// </summary>
     /// <param name="alertState"></param>
-    protected void setAlert(CharacterAlertState alertState, bool checkedByHimself, Delegate actionToExcuteOnChangeAlert = null, Vector3 lastSeenFocusAlarmPosition = new Vector3()) {
+    public void setAlert(CharacterAlertState alertState, bool checkedByHimself, Delegate actionToExcuteOnChangeAlert = null, Vector3 lastSeenFocusAlarmPosition = new Vector3()) {
 
 
         if (!characterManager.isDead) {
