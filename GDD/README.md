@@ -133,7 +133,8 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   ### <span id = "7.3">7.3 [3 Capitolo (LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)</span>
   ### <span id = "7.4">7.4 [4 Capitolo (FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)</span>
   ### <span id = "7.5">7.5 [5 Capitolo (UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)</span>
-  ### <span id = "7.5">7.5 [6 Capitolo (AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)</span>
+  ### <span id = "7.6">7.6 [6 Capitolo (AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)</span>
+  ### <span id = "7.7">7.7 [7 Capitolo (Waro)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)</span>
 
 # <span id = "8">8. Mercato</span>
 
