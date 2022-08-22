@@ -782,7 +782,7 @@ public class InventoryManager : Interactable {
     /// <summary>
     /// usare questo check per verificare e abilitare icona arma proibita
     /// </summary>
-    private void prohibitedWeaponAlarmUICheck() {
+    public void prohibitedWeaponAlarmUICheck() {
         if(isUsedItemProhibitedCheck()) {
             _characterManager.alarmAlertUIController.potentialVisiblyArmedAlarmOn();
         } else {

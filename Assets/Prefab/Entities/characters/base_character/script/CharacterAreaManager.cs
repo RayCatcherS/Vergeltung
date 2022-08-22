@@ -9,7 +9,7 @@ using UnityEngine;
 public class CharacterAreaManager : MonoBehaviour
 {
     [Header("Ref")]
-    [SerializeField] private CharacterManager characterManager;
+    [SerializeField] private CharacterManager usedCharacter;
 
     [Header("Configuration")]
     [SerializeField] private LayerMask targetLayerMask;
@@ -115,8 +115,8 @@ public class CharacterAreaManager : MonoBehaviour
             yield return new WaitForSeconds(belongAreaIconCheckFrequency);
 
             // verifica area appartenenza
-            if (characterManager.isPlayer) {
-                characterManager.rebuildUIProhibitedAreaIcon();
+            if (usedCharacter.isStackControlled) {
+                usedCharacter.rebuildUIProhibitedAreaIcon();
             }
         }
         

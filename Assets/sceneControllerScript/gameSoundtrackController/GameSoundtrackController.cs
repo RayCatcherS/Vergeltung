@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class GameSoundtrackController : MonoBehaviour
 {
+    [SerializeField] private AudioSource unalertAS;
+    [SerializeField] private AudioSource suspiciousAS;
+    [SerializeField] private AudioSource hostilityAS;
 
     void Start()
     {
-        
+        unalertAS.Play();
     }
 }

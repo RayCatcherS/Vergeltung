@@ -108,7 +108,7 @@ public class GameState : MonoBehaviour {
         if(!playerWarpController.iswarpedCharacterManagerStackEmpty) {
 
             
-            updateWantedUICharacter();
+            updateWantedUICharacter(playerWarpController.currentPlayedCharacter);
         }
         
     }
@@ -118,8 +118,7 @@ public class GameState : MonoBehaviour {
     /// Imposta l'icona di ricercato nell'UI
     /// Verifica se il character attualmente in utilizzo è ricercato o meno
     /// </summary>
-    public void updateWantedUICharacter() {
-        CharacterManager characterManager = playerWarpController.currentPlayedCharacter;
+    public void updateWantedUICharacter(CharacterManager characterManager) {
 
 
         if (globalWantedHostileCharacters.ContainsKey(characterManager.GetInstanceID())) {

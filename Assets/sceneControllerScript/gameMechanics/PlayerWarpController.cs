@@ -128,6 +128,12 @@ public class PlayerWarpController : MonoBehaviour
         // configurazione character controllato dall'utente
         character.isPlayer = true;
 
+        // disattivazione UI character temporaneo warp
+        if(_currentSwitchCharacterMode != null) {
+            _currentSwitchCharacterMode.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
+        }
+        
+
         // configurazione UI
         character.interactionUIController = gameObject.GetComponent<InteractionUIController>();
         character.weaponUIController = gameObject.GetComponent<WeaponUIController>();
@@ -162,26 +168,28 @@ public class PlayerWarpController : MonoBehaviour
 
         
         character.isStackControlled = true;
+
         
-        // Rebuild UI
-        gameState.updateWantedUICharacter();
+        // rebuild proibithed states UI
+        rebuildCharacterProibithedStatesUI(character);
 
         warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentPlayedCharacter);
 
         // rebuild list of interactions
         character.buildListOfInteraction();
+
         
+
         // forza interactable obj detection
         character.forceTriggerDetection();
 
         // sound effect
         warpCharacterSource.clip = warpCharacterClip;
         warpCharacterSource.Play();
-
         
+
         // rebuild dell'interfaccia weapons
         character.weaponUIController.buildUI(character.inventoryManager);
-        
 
         
     }
@@ -267,7 +275,6 @@ public class PlayerWarpController : MonoBehaviour
         // unref UI
         previewCharacter.interactionUIController = null;
         previewCharacter.weaponUIController = null;
-        previewCharacter.alarmAlertUIController = null;
         previewCharacter.inventoryManager.aimTargetImage = null;
         previewCharacter.healthBarController = null;
         // clear interactions e rebuild UI
@@ -373,12 +380,24 @@ public class PlayerWarpController : MonoBehaviour
         // disattiva UI character precedente
         _currentSwitchCharacterMode.gameObject.GetComponent<WarpUIManager>().setActiveWarpUI(false);
 
+        // stop coroutines character 
+        _currentPlayedCharacter.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
+        _currentSwitchCharacterMode.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
 
         // seleziona character successivo
         selectSwitchCharacter(warpedCharacterManagerStack[nextCharacterPos]);
 
-        // rebuild UI
+        // rebuild UI warp
         warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
+
+        //conf UI proibithed state
+        _currentSwitchCharacterMode.alarmAlertUIController = gameObject.GetComponent<AlarmAlertUIController>();
+
+        // avvia coroutines character 
+        _currentSwitchCharacterMode.GetComponent<CharacterAreaManager>().startAreaCheckMemberShipCoroutine();
+
+        // rebuild proibithed states UI
+        rebuildCharacterProibithedStatesUI(_currentSwitchCharacterMode);
     }
 
     public void previousSwitchCharacter() {
@@ -395,11 +414,24 @@ public class PlayerWarpController : MonoBehaviour
         // disattiva UI character precedente
         _currentSwitchCharacterMode.gameObject.GetComponent<WarpUIManager>().setActiveWarpUI(false);
 
+        // stop coroutines character
+        _currentPlayedCharacter.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
+        _currentSwitchCharacterMode.GetComponent<CharacterAreaManager>().stopAreaCheckMemberShipCoroutine();
+
         // seleziona character successivo
         selectSwitchCharacter(warpedCharacterManagerStack[previousCharacterPos]);
 
-        // rebuild UI
+        // rebuild UI warp
         warpUIController.rebuildWarpUI(warpedCharacterManagerStack, _currentSwitchCharacterMode);
+
+        //conf UI proibithed state
+        _currentSwitchCharacterMode.alarmAlertUIController = gameObject.GetComponent<AlarmAlertUIController>();
+
+        // avvia coroutines character 
+        _currentSwitchCharacterMode.GetComponent<CharacterAreaManager>().startAreaCheckMemberShipCoroutine();
+
+        // rebuild proibithed states UI
+        rebuildCharacterProibithedStatesUI(_currentSwitchCharacterMode);
     }
 
     private void selectSwitchCharacter(CharacterManager characterManager) {
@@ -513,5 +545,12 @@ public class PlayerWarpController : MonoBehaviour
 
 
         return pos;
+    }
+
+
+    private void rebuildCharacterProibithedStatesUI(CharacterManager character) {
+        character.inventoryManager.prohibitedWeaponAlarmUICheck();
+        gameState.updateWantedUICharacter(character);
+        character.rebuildUIProhibitedAreaIcon();
     }
 }
