@@ -11,5 +11,7 @@ public class GameSoundtrackController : MonoBehaviour
     void Start()
     {
         unalertAS.Play();
+        suspiciousAS.Play();
+        hostilityAS.Play();
     }
 }

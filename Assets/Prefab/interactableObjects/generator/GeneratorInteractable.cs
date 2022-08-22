@@ -54,12 +54,14 @@ public class GeneratorInteractable : Interactable {
             generatorState = GeneratorState.GeneratorOff;
             scenePowerController.turnOffPower();
             interactableMeshEffectSetEnebled(false);
+
+            callEnemy();
         }
 
         characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
 
-        callEnemy();
+        
     }
 
     /// <summary>
