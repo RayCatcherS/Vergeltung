@@ -97,6 +97,10 @@ public class InventoryManager : Interactable {
         set { _aimTargetImage = value; }
     }
 
+    [Header("Inventory sounds assets refs")]
+    [SerializeField] private AudioClip interactAudioClip;
+    [SerializeField] GameObject inventoryEffectsLoudArea;
+
     // getter - setter
     public int selectedWeapon {
         get { return _selectedWeapon; }
@@ -291,6 +295,9 @@ public class InventoryManager : Interactable {
     /// </summary>
     /// <param name="weaponItem"></param>
     public void addWeapon(WeaponItem weaponItem) {
+
+        // audio effect
+        playInventorySounds();
 
         // disabilita effetto interactable
         weaponItem.interactableMeshEffectSetEnebled(false);
@@ -865,6 +872,19 @@ public class InventoryManager : Interactable {
                     selectWeapon(i);
                 }
             }
+        }
+        
+    }
+
+    private void playInventorySounds() {
+        if(characterManager.isPlayer) {
+            GameObject loudGameObject = Instantiate(inventoryEffectsLoudArea, transform.position, Quaternion.identity);
+
+
+            loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                LoudAreaType.nothing,
+                interactAudioClip);
+            loudGameObject.GetComponent<LoudArea>().startLoudArea();
         }
         
     }

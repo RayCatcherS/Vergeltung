@@ -100,9 +100,6 @@ public class WeaponItem : InventoryItem
     [SerializeField] private GameObject loudArea;
     [SerializeField] private LoudAreaType loudIntensity;
 
-    [Header("Asset Refs")]
-    [SerializeField] private AudioClip interactAudioClip;
-
 
 
     public WeaponType getWeaponType {
@@ -141,10 +138,6 @@ public class WeaponItem : InventoryItem
     }
     public override void Start() {
         base.Start();
-        getItemEvent.AddListener((CharacterManager c) => {
-
-            playSounds();
-        });
     }
 
 
@@ -425,15 +418,4 @@ public class WeaponItem : InventoryItem
         
     }
 
-    private void playSounds() {
-
-
-        GameObject loudGameObject = Instantiate(loudArea, transform.position, Quaternion.identity);
-        
-
-        loudGameObject.GetComponent<LoudArea>().initLoudArea(
-            LoudAreaType.nothing,
-            interactAudioClip);
-        loudGameObject.GetComponent<LoudArea>().startLoudArea();
-    }
 }
