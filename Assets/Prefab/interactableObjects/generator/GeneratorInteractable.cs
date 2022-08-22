@@ -10,11 +10,12 @@ public class GeneratorInteractable : Interactable {
     [SerializeField] private ScenePowerController scenePowerController; // game state per accedere ai metodi dello stato di gioco
     [SerializeField] private AudioSource audioSource;
 
-    [Header("State")]
+    [Header("States")]
     [SerializeField] string sabotageGeneratorEventName = "SABOTAGE GENERATOR";
     [SerializeField] UnityEventCharacter sabotageGenerator = new UnityEventCharacter();
     [SerializeField] private GeneratorState generatorState = GeneratorState.GeneratorOn;
     private bool isSabotage = false;
+    private int numberOfEnemyToWarn = 1; // count numero nemici da warnare al sabotaggio
 
     [Header("generator config")]
     [SerializeField] private float sabotageTime = 2f; // tempo per sabotare il generatore
@@ -95,17 +96,22 @@ public class GeneratorInteractable : Interactable {
             = scenePowerController.gameObject.GetComponent<SceneEntitiesController>().enemyNpcList;
 
 
-        EnemyNPCBehaviourManager enemy = SceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position, _enemyNpcList);
+        for(int i = 0; i < numberOfEnemyToWarn; i++) {
+            EnemyNPCBehaviourManager enemy = SceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position, _enemyNpcList);
 
-        Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
+            Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
 
 
 
-        enemy.setAlert(
-            CharacterAlertState.WarnOfSuspiciousAlert,
-            true,
-            lastSeenFocusAlarmPosition: nearPos
-        );
+            enemy.setAlert(
+                CharacterAlertState.WarnOfSuspiciousAlert,
+                true,
+                lastSeenFocusAlarmPosition: nearPos
+            );
+        }
+
+        // incrementa numero di guardie da chiamare al sabotaggio successivo
+        numberOfEnemyToWarn++;
     }
 }
 
