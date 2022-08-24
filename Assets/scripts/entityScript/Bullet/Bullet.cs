@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour {
     private const int MACHINERY_LAYER = 18;
 
     private const int BONUS_DAMAGE = 100;
+    private const int BULLET_VELOCITY_FORCE = 200;
 
 
     [Header("Bullet configuration")]
@@ -102,7 +103,7 @@ public class Bullet : MonoBehaviour {
     }
 
     protected virtual void characterCollision(CharacterManager character, Vector3 collisionPoint, Vector3 damageVelocity) {
-        character.applyCharacterDamage(_lethalBlow ? bulletDamage * BONUS_DAMAGE : bulletDamage, damageVelocity);
+        character.applyCharacterDamage(_lethalBlow ? bulletDamage * BONUS_DAMAGE : bulletDamage, damageVelocity * BULLET_VELOCITY_FORCE);
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
 
         // loud area

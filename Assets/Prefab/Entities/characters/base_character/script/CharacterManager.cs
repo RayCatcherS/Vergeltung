@@ -447,7 +447,7 @@ public class CharacterManager : MonoBehaviour {
         //Debug.Log("Character dead at: " + gameObject.transform.position);
 
         // aggiungi forza
-        rigidBodyBoneForce.AddForce(damageVelocity * 200, ForceMode.Impulse);
+        rigidBodyBoneForce.AddForce(damageVelocity, ForceMode.Impulse);
     }
 
     /// <summary>
