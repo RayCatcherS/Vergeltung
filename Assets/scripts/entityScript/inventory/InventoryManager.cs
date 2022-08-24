@@ -217,7 +217,10 @@ public class InventoryManager : Interactable {
                             } else {
                                 // simbolo uccisione rapida
                                 // check se character sta mirando una zona vulnerabile
-                                bool res = aimInfo.aimedCharacter.characterFOV.isVulnerableAngle(weaponItems[selectedWeapon].shootingPosition);
+                                bool res = aimInfo.aimedCharacter.characterFOV.isVulnerableAngle(
+                                    aimInfo.aimedHitPosition,
+                                    weaponItems[selectedWeapon].shootingPosition
+                                );
 
                                 if(res) {
                                     _aimTargetImage.setVulnerableKillAimSprite();
@@ -658,7 +661,7 @@ public class InventoryManager : Interactable {
     /// Ottieni informazioni sulla mira del character
     /// </summary>
     /// <returns>Restituisce un oggetto con tutte le info sulla mira del character</returns>
-    AimInformation getAimInformation() {
+    public AimInformation getAimInformation() {
         AimInformation aimedPosition;
 
 

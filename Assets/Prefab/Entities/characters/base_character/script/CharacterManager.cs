@@ -63,6 +63,8 @@ public class CharacterManager : MonoBehaviour {
         get { return _playerWarpController; }
     }
     [SerializeField] private GameObject characterDecalProjectorEffect;
+    [SerializeField] private Rigidbody rigidBodyBoneForce; // bone su cui applicare la forza una volta che il character muore
+
 
     // stati del player
     [Header("Character States")]
@@ -302,6 +304,7 @@ public class CharacterManager : MonoBehaviour {
 
         if (characterHealth <= 0) {
             _isDead = true;
+
             killCharacterAsync(damageVelocity);
         }
     }
@@ -328,11 +331,7 @@ public class CharacterManager : MonoBehaviour {
                 }
 
 
-
-
-
                 // flashlight fov
-
                 if(!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
                     await _inventoryManager.characterFlashLight.lightOnFlashLight();
                     _characterFOV.setFlashLightBonus(true);
@@ -446,6 +445,9 @@ public class CharacterManager : MonoBehaviour {
         gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
 
         //Debug.Log("Character dead at: " + gameObject.transform.position);
+
+        // aggiungi forza
+        rigidBodyBoneForce.AddForce(damageVelocity * 200, ForceMode.Impulse);
     }
 
     /// <summary>

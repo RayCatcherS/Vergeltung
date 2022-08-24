@@ -333,7 +333,25 @@ public class WeaponItem : InventoryItem
                     // damage object
                     GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
                     if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
-                        damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+
+                        AimInformation aimInfo = inventoryManager.getAimInformation();
+
+                        if(aimInfo.isAimedCharacter) {
+                            bool res = aimInfo.aimedCharacter.characterFOV.isVulnerableAngle(
+                                aimInfo.aimedHitPosition,
+                                shootingPosition
+                            );
+
+                            if(res) {
+                                damageGO.GetComponent<Bullet>().setupBullet(bulletDirection, true);
+                            } else {
+                                damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+                            }
+                        } else {
+                            damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+                        }
+                        
+                        
 
                         if(spawnDamageObjectParticle != null) {
                             GameObject particleGO = Instantiate(

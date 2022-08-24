@@ -645,23 +645,49 @@ public class CharacterFOV : MonoBehaviour {
 
     }
 
-    public bool isVulnerableAngle(Vector3 point) {
+    public bool isVulnerableAngle(Vector3 hitPointPreview, Vector3 shootPoint) {
 
-        Vector3 target = new Vector3(point.x, 0, point.z);
+        
 
         bool result = false;
-        Vector3 fromPosition = gameObject.transform.position;
-        Vector3 toPosition = target;
 
-        Vector3 direction = toPosition - fromPosition;
+        // hitPointPreview
+        Vector3 targetHitPointPreview = new Vector3(hitPointPreview.x, 0, hitPointPreview.z);
+        Vector3 fromPositionHitPointPreview = gameObject.transform.position;
+        Vector3 toPositionHitPointPreview = targetHitPointPreview;
+        Vector3 directionHitPointPreview = toPositionHitPointPreview - fromPositionHitPointPreview;
 
-        if(Vector3.Angle(-transform.forward, direction) < (_defaultVulnerableFovAngle / 2)) {
+        // shootPoint
+        Vector3 targetShootPoint = new Vector3(shootPoint.x, 0, shootPoint.z);
+        Vector3 fromPositionShootPoint = gameObject.transform.position;
+        Vector3 toPositionShootPoint = targetShootPoint;
+        Vector3 directionShootPoint = toPositionShootPoint - fromPositionShootPoint;
 
-            result = true;
+
+        // distance
+        Vector2 point1 = new Vector2(shootPoint.x, shootPoint.z);
+        Vector2 point2 = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
+
+        if(Vector2.Distance(point1, point2) < _defaultVulnerableFovRadius) {
+            if(Vector3.Angle(-transform.forward, directionShootPoint) < (_defaultVulnerableFovAngle / 2)) {
+
+                if(Vector3.Angle(-transform.forward, directionHitPointPreview) < (_defaultVulnerableFovAngle / 2)) {
+
+                    result = true;
+                } else {
+
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
         } else {
-
             result = false;
         }
+
+
+        
+        
 
         return result;
     }

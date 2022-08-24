@@ -17,7 +17,7 @@ public class ControlBullet : Bullet {
         _sourceInventoryCharacter = sourceInventoryCharacter;
     }
 
-    protected override void characterCollision(CharacterManager character, Vector3 collisionPoint) {
+    protected override void characterCollision(CharacterManager character, Vector3 collisionPoint, Vector3 damageVelocity) {
         
         //Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
 
