@@ -205,7 +205,13 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController, SceneEntitiesController sceneEntitiesController) {
+    public static GameObject initCharacterManagerComponent(
+        GameObject gameObject,
+        InteractionUIController controller,
+        GameState gameState,
+        PlayerWarpController playerWarpController,
+        SceneEntitiesController sceneEntitiesController
+    ) {
 
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
         characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
@@ -356,7 +362,9 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public async Task killCharacterAsync(Vector3 damageVelocity) {
 
-        
+        // rimuovi character dal dizionario dei character in stato di allerta
+        sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(this);
+
         resetCharacterStates();
 
 
@@ -677,10 +685,6 @@ public class CharacterManager : MonoBehaviour {
             Gizmos.DrawLine(transform.position, getCharacterPositionReachebleByAgents());
             Gizmos.DrawSphere(getCharacterPositionReachebleByAgents(), 0.25f);
         }
-
-
-
-
 
 
 

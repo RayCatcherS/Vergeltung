@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public enum AgentSpeed { SlowWalk, Walk, Run };
+public enum CharacterBehaviourState {
+    Unalert,
+    Suspicious,
+    Hostility
+}
 
 /// <summary>
 /// Comportamento dell'npc base classe padre, implementazione astrazione AbstractNPCBehaviour
@@ -258,7 +263,9 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
     public delegate void Delegate();
     /// <summary>
     /// cambia lo stato di allerta del character e avvia animazione 
-    /// di allerta
+    /// di allerta.
+    /// Avvia il behviour corrispondente allo stato di allerta.
+    /// Aggiorna il dizionario globale dei characters che sono negli stati di allerta (hostility, suspicious)
     /// </summary>
     /// <param name="alertState"></param>
     public void setAlert(CharacterAlertState alertState, bool checkedByHimself, Delegate actionToExcuteOnChangeAlert = null, Vector3 lastSeenFocusAlarmPosition = new Vector3()) {
@@ -299,6 +306,12 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
+                // aggiungi character nel dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.addCharacterInstanceAndAlertStateToDictionary(characterManager, CharacterBehaviourState.Suspicious);
             }
 
             // (CONFIRM) SuspiciousAlert
@@ -311,6 +324,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+
             }
 
             // * - {HostilityAlert} => (START) HostilityAlert
@@ -347,6 +362,12 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
+                // aggiungi character nel dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.addCharacterInstanceAndAlertStateToDictionary(characterManager, CharacterBehaviourState.Hostility);
             }
 
 
@@ -360,6 +381,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+
             }
 
 
@@ -379,11 +402,14 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
             }
 
 
             // Unalert | WarnOfSuspiciousAlert | instantOnCurrentPositionWarnOfSouspiciousAlert |
-            // stayOnPositionSuspiciousAlert  => (START) SuspiciousCorpseFoundAlert
+            // stayOnPositionSuspiciousAlert => (START) SuspiciousCorpseFoundAlert
             if(
                 (
                     _characterState == CharacterAlertState.Unalert ||
@@ -411,6 +437,9 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
             }
 
             // WarnOfSuspiciousAlert | SuspiciousCorpseFoundAlert => (START) CorpseFoundConfirmedAlert
@@ -439,6 +468,9 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
             }
 
             // Unalert | WarnOfSuspiciousAlert | stayOnPositionSuspiciousAlert => (START) instantOnCurrentPositionWarnOfSouspiciousAlert
@@ -469,6 +501,9 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
             }
 
             //  => (START) stayOnPositionSuspiciousAlert
@@ -485,6 +520,10 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
             }
 
 
@@ -504,6 +543,9 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                     actionToExcuteOnChangeAlert();
                 }
                 _characterState = alertState;
+
+                // rimuovi character dal dizionario dei character in stato di allerta
+                characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
             }
         }
 

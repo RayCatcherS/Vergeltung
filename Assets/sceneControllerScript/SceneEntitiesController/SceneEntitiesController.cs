@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class SceneEntitiesController : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private GameSoundtrackController gameSoundtrackController;
+
+    [Header("Scene character entities")]
     [SerializeField] private List<BaseNPCBehaviourManager> _allNpcList = new List<BaseNPCBehaviourManager>();
     public List<BaseNPCBehaviourManager> allNpcList {
         get { return _allNpcList; }
@@ -29,6 +33,13 @@ public class SceneEntitiesController : MonoBehaviour
     [SerializeField] private List<CivilianNPCBehaviourManager> civilianNpcList = new List<CivilianNPCBehaviourManager>();
 
     [SerializeField] private GameObject player;
+
+    /// <summary>
+    /// Dizionario characters hostility characters
+    /// Contiene i characters attualmente in stato di Hostility e Suspicious
+    /// </summary>
+    private Dictionary<CharacterManager, CharacterBehaviourState> _charactersHostilitySouspiciousD = new Dictionary<CharacterManager, CharacterBehaviourState>();
+
 
     public void addNPCEnemyIstance(EnemyNPCBehaviourManager enemyNPCBehaviour) {
         _allNpcList.Add(enemyNPCBehaviour);
@@ -154,4 +165,126 @@ public class SceneEntitiesController : MonoBehaviour
             return closerCharacter;
         }
     }
+
+
+    /// <summary>
+    /// Aggiungi CharacterManagerInstanceID e stato di allerta
+    /// </summary>
+    public void addCharacterInstanceAndAlertStateToDictionary(CharacterManager character, CharacterBehaviourState state) {
+
+        _charactersHostilitySouspiciousD.TryAdd(character, state);
+
+
+        updateGlobalAlarmState();
+    }
+
+    public void removeCharacterInstanceAndAlertStateToDictionary(CharacterManager character) {
+
+
+        if(_charactersHostilitySouspiciousD.ContainsKey(character)) {
+            _charactersHostilitySouspiciousD.Remove(character);
+
+            updateGlobalAlarmState();
+        }
+
+        
+    }
+
+    public void updateGlobalAlarmState() {
+
+        int civilianSuspicious = 0;
+        int civilianHostility = 0;
+        int enemySuspicious = 0;
+        int enemyHostility = 0;
+
+        foreach (var character in _charactersHostilitySouspiciousD) {
+
+
+            if(character.Key.chracterRole == Role.Civilian) {
+
+                if(character.Value == CharacterBehaviourState.Suspicious) {
+                    civilianSuspicious++;
+                }
+
+                if(character.Value == CharacterBehaviourState.Hostility) {
+                    civilianHostility++;
+                }
+            }
+
+            if(character.Key.chracterRole == Role.EnemyGuard) {
+                if(character.Value == CharacterBehaviourState.Suspicious) {
+                    enemySuspicious++;
+                }
+
+                if(character.Value == CharacterBehaviourState.Hostility) {
+                    enemyHostility++;
+                }
+            }
+        }
+
+        if(civilianSuspicious == 0 &&
+               civilianHostility == 0 &&
+               enemySuspicious == 0 &&
+               enemyHostility == 0
+            ) {
+
+            gameSoundtrackController
+                .setSoundTrackState(CharacterBehaviourState.Unalert);
+        } else {
+
+            // Se nel dizionario esistono solo character civili
+            // in stato di suspicious oppure hostility e nessun character
+            // nemico(in suspicious o hostility), il trigger dell'animator
+            // verrà settato su suspicious
+            if(enemySuspicious == 0 && enemyHostility == 0) {
+                if(civilianSuspicious != 0 || civilianHostility != 0) {
+                    gameSoundtrackController
+                        .setSoundTrackState(CharacterBehaviourState.Suspicious);
+                }
+
+            } else {
+                if(enemyHostility != 0) {
+                    gameSoundtrackController
+                            .setSoundTrackState(CharacterBehaviourState.Hostility);
+                } else if(enemySuspicious != 0) {
+                    gameSoundtrackController
+                            .setSoundTrackState(CharacterBehaviourState.Suspicious);
+                }
+
+                
+            }
+
+        }
+
+#if UNITY_EDITOR
+        _civilianSuspicious = civilianSuspicious;
+        _civilianHostility = civilianHostility;
+        _enemySuspicious = enemySuspicious;
+        _enemyHostility = enemyHostility;
+#endif
+    }
+
+#if UNITY_EDITOR
+    
+    private int _civilianSuspicious = 0;
+    private int _civilianHostility = 0;
+    private int _enemySuspicious = 0;
+    private int _enemyHostility = 0;
+
+
+    void OnGUI() {
+        GUI.TextArea(new Rect(0, Screen.height - 100, 200, 100), "GLOBAL ALERT: \n"
+            + "C Civili suspicious: " + _civilianSuspicious.ToString() + "\n"
+            + "C Civili hostility: " + _civilianHostility.ToString() + "\n"
+            + "C Nemici suspicious: " + _enemySuspicious.ToString() + "\n"
+            + "C Nemici hostility: " + _enemyHostility.ToString() + "\n"
+            + "GSoundTrackState: " + gameSoundtrackController.soundTrackState.ToString()
+            , 200);
+        /*
+        GUI.TextArea(new Rect(0, 100, 200, 40), "rotazione character \n" + characterMovement.getCharacterModelRotation.ToString(), 200);
+        GUI.TextArea(new Rect(0, 140, 200, 40), "input is run: \n" + isRunPressed.ToString(), 200);*/
+    }
+#endif
 }
+
+

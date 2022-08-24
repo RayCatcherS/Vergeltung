@@ -35,6 +35,9 @@ public class WeaponItem : InventoryItem
 
     [Header("Weapon ref")]
     [SerializeField] private Transform _shootingTransform;
+    public Vector3 shootingPosition {
+        get { return _shootingTransform.position; }
+    }
     [SerializeField] private Vector3 _weaponOffsetRotation;
     [SerializeField] private Transform _rightHandTransformRef;
     [SerializeField] private Transform _leftHandTransformRef;

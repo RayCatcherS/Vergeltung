@@ -151,14 +151,12 @@ public class InventoryManager : Interactable {
         // update aimed character
         if(_characterManager.isPlayer) {
 
+            
+
+
             if(!isGunThroughWall()) {
                 characterManager.aimedCharacter = aimInfo.aimedCharacter;
             }
-        }
-
-
-        if(_characterManager.isPlayer) {
-
 
             if(weaponItems[selectedWeapon].itemNameID != BASE_MELEE_ID) {
 
@@ -167,7 +165,7 @@ public class InventoryManager : Interactable {
                     _aimTargetImage.setAimTargetEnabled(true);
 
                     if(_weaponPuttedAway) {
-                        _aimTargetImage.defaultAimLowOpacity();
+                        _aimTargetImage.setDefaultAimWithLowOpacity();
 
                     } else {
 
@@ -217,11 +215,20 @@ public class InventoryManager : Interactable {
 
 
                             } else {
-                                _aimTargetImage.aimHighOpacity();
+                                // simbolo uccisione rapida
+                                // check se character sta mirando una zona vulnerabile
+                                bool res = aimInfo.aimedCharacter.characterFOV.isVulnerableAngle(weaponItems[selectedWeapon].shootingPosition);
+
+                                if(res) {
+                                    _aimTargetImage.setVulnerableKillAimSprite();
+                                } else {
+                                    _aimTargetImage.setDefaultAimWithHighOpacity();
+                                }
+                                
                             }
                             
                         } else {
-                            _aimTargetImage.defaultAimMediumOpacity();
+                            _aimTargetImage.setDefaultAimWithMediumOpacity();
                         }
 
                     }

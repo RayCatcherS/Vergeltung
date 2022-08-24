@@ -101,15 +101,18 @@ public class GeneratorInteractable : Interactable {
         for(int i = 0; i < numberOfEnemyToWarn; i++) {
             EnemyNPCBehaviourManager enemy = SceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position, _enemyNpcList);
 
-            Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
+            if(enemy != null) {
+                Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
 
 
 
-            enemy.setAlert(
-                CharacterAlertState.WarnOfSuspiciousAlert,
-                true,
-                lastSeenFocusAlarmPosition: nearPos
-            );
+                enemy.setAlert(
+                    CharacterAlertState.WarnOfSuspiciousAlert,
+                    true,
+                    lastSeenFocusAlarmPosition: nearPos
+                );
+            }
+            
         }
 
         // incrementa numero di guardie da chiamare al sabotaggio successivo
