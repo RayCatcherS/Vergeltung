@@ -38,7 +38,7 @@ public class SceneEntitiesController : MonoBehaviour
     /// Dizionario characters hostility characters
     /// Contiene i characters attualmente in stato di Hostility e Suspicious
     /// </summary>
-    private Dictionary<CharacterManager, CharacterBehaviourState> _charactersHostilitySouspiciousD = new Dictionary<CharacterManager, CharacterBehaviourState>();
+    private Dictionary<CharacterManager, CharacterBehaviourSoundtrackState> _charactersHostilitySouspiciousD = new Dictionary<CharacterManager, CharacterBehaviourSoundtrackState>();
 
 
     public void addNPCEnemyIstance(EnemyNPCBehaviourManager enemyNPCBehaviour) {
@@ -170,7 +170,7 @@ public class SceneEntitiesController : MonoBehaviour
     /// <summary>
     /// Aggiungi CharacterManagerInstanceID e stato di allerta
     /// </summary>
-    public void addCharacterInstanceAndAlertStateToDictionary(CharacterManager character, CharacterBehaviourState state) {
+    public void addCharacterInstanceAndAlertStateToDictionary(CharacterManager character, CharacterBehaviourSoundtrackState state) {
 
         _charactersHostilitySouspiciousD.TryAdd(character, state);
 
@@ -202,21 +202,21 @@ public class SceneEntitiesController : MonoBehaviour
 
             if(character.Key.chracterRole == Role.Civilian) {
 
-                if(character.Value == CharacterBehaviourState.Suspicious) {
+                if(character.Value == CharacterBehaviourSoundtrackState.Suspicious) {
                     civilianSuspicious++;
                 }
 
-                if(character.Value == CharacterBehaviourState.Hostility) {
+                if(character.Value == CharacterBehaviourSoundtrackState.Hostility) {
                     civilianHostility++;
                 }
             }
 
             if(character.Key.chracterRole == Role.EnemyGuard) {
-                if(character.Value == CharacterBehaviourState.Suspicious) {
+                if(character.Value == CharacterBehaviourSoundtrackState.Suspicious) {
                     enemySuspicious++;
                 }
 
-                if(character.Value == CharacterBehaviourState.Hostility) {
+                if(character.Value == CharacterBehaviourSoundtrackState.Hostility) {
                     enemyHostility++;
                 }
             }
@@ -229,7 +229,7 @@ public class SceneEntitiesController : MonoBehaviour
             ) {
 
             gameSoundtrackController
-                .setSoundTrackState(CharacterBehaviourState.Unalert);
+                .setSoundTrackState(CharacterBehaviourSoundtrackState.Unalert);
         } else {
 
             // Se nel dizionario esistono solo character civili
@@ -239,16 +239,16 @@ public class SceneEntitiesController : MonoBehaviour
             if(enemySuspicious == 0 && enemyHostility == 0) {
                 if(civilianSuspicious != 0 || civilianHostility != 0) {
                     gameSoundtrackController
-                        .setSoundTrackState(CharacterBehaviourState.Suspicious);
+                        .setSoundTrackState(CharacterBehaviourSoundtrackState.Suspicious);
                 }
 
             } else {
                 if(enemyHostility != 0) {
                     gameSoundtrackController
-                            .setSoundTrackState(CharacterBehaviourState.Hostility);
+                            .setSoundTrackState(CharacterBehaviourSoundtrackState.Hostility);
                 } else if(enemySuspicious != 0) {
                     gameSoundtrackController
-                            .setSoundTrackState(CharacterBehaviourState.Suspicious);
+                            .setSoundTrackState(CharacterBehaviourSoundtrackState.Suspicious);
                 }
 
                 

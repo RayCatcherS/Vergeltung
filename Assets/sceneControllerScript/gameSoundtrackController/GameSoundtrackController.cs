@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharacterBehaviourSoundtrackState {
+    Unalert,
+    Suspicious,
+    Hostility,
+    noSoundtrack
+}
+
 public class GameSoundtrackController : MonoBehaviour
 {
+
+
     [Header("Refs")]
     [SerializeField] private AudioSource unalertAS;
     [SerializeField] private AudioSource suspiciousAS;
@@ -12,8 +21,8 @@ public class GameSoundtrackController : MonoBehaviour
     [SerializeField] private Animator soundTrackAnimator;
 
     
-    private CharacterBehaviourState _soundTrackState = CharacterBehaviourState.Unalert;
-    public CharacterBehaviourState soundTrackState {
+    private CharacterBehaviourSoundtrackState _soundTrackState = CharacterBehaviourSoundtrackState.Unalert;
+    public CharacterBehaviourSoundtrackState soundTrackState {
         get { return _soundTrackState; }
     }
 
@@ -24,37 +33,50 @@ public class GameSoundtrackController : MonoBehaviour
         hostilityAS.Play();
     }
 
-    public void setSoundTrackState(CharacterBehaviourState state) {
+    public void setSoundTrackState(CharacterBehaviourSoundtrackState state) {
 
-        if(state == CharacterBehaviourState.Unalert) {
+        if(state == CharacterBehaviourSoundtrackState.Unalert) {
 
-            if(_soundTrackState != CharacterBehaviourState.Unalert) {
+            if(_soundTrackState != CharacterBehaviourSoundtrackState.Unalert) {
                 soundTrackAnimator.ResetTrigger("unalert");
                 soundTrackAnimator.ResetTrigger("suspicious");
                 soundTrackAnimator.ResetTrigger("hostility");
+                soundTrackAnimator.ResetTrigger("noSoundtrack");
 
                 soundTrackAnimator.SetTrigger("unalert");
 
             }
             
-        } else if(state == CharacterBehaviourState.Suspicious) {
+        } else if(state == CharacterBehaviourSoundtrackState.Suspicious) {
 
-            if(_soundTrackState != CharacterBehaviourState.Suspicious) {
+            if(_soundTrackState != CharacterBehaviourSoundtrackState.Suspicious) {
                 soundTrackAnimator.ResetTrigger("unalert");
                 soundTrackAnimator.ResetTrigger("suspicious");
                 soundTrackAnimator.ResetTrigger("hostility");
+                soundTrackAnimator.ResetTrigger("noSoundtrack");
 
                 soundTrackAnimator.SetTrigger("suspicious");
             }
             
-        } else if(state == CharacterBehaviourState.Hostility) {
+        } else if(state == CharacterBehaviourSoundtrackState.Hostility) {
 
-            if(_soundTrackState != CharacterBehaviourState.Hostility) {
+            if(_soundTrackState != CharacterBehaviourSoundtrackState.Hostility) {
                 soundTrackAnimator.ResetTrigger("unalert");
                 soundTrackAnimator.ResetTrigger("suspicious");
                 soundTrackAnimator.ResetTrigger("hostility");
+                soundTrackAnimator.ResetTrigger("noSoundtrack");
 
                 soundTrackAnimator.SetTrigger("hostility");
+            }
+        } else if(state == CharacterBehaviourSoundtrackState.noSoundtrack) {
+
+            if(_soundTrackState != CharacterBehaviourSoundtrackState.noSoundtrack) {
+                soundTrackAnimator.ResetTrigger("unalert");
+                soundTrackAnimator.ResetTrigger("suspicious");
+                soundTrackAnimator.ResetTrigger("hostility");
+                soundTrackAnimator.ResetTrigger("noSoundtrack");
+
+                soundTrackAnimator.SetTrigger("noSoundtrack");
             }
         }
 

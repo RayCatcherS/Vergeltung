@@ -225,13 +225,24 @@ public class InventoryManager : Interactable {
                                 if(res) {
                                     _aimTargetImage.setVulnerableKillAimSprite();
                                 } else {
-                                    _aimTargetImage.setDefaultAimWithHighOpacity();
+
+                                    if(weaponItems[selectedWeapon].isWeaponAmmunitionEmpty) {
+                                        _aimTargetImage.setControlAimSpriteOff();
+                                    } else {
+                                        _aimTargetImage.setDefaultAimWithHighOpacity();
+                                    }
                                 }
                                 
                             }
                             
                         } else {
-                            _aimTargetImage.setDefaultAimWithMediumOpacity();
+
+                            if(weaponItems[selectedWeapon].isWeaponAmmunitionEmpty) {
+                                _aimTargetImage.setControlAimSpriteOff();
+                            } else {
+                                _aimTargetImage.setDefaultAimWithMediumOpacity();
+                            }
+                            
                         }
 
                     }

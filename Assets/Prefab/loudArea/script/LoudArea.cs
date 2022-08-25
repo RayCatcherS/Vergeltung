@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public enum LoudAreaType {
     nothing = 0,
     low = 5,
-    medium = 36,
+    medium = 40,
     high = 60,
     characterLoudRun = 4
 }

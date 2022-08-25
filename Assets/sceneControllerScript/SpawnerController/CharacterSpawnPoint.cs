@@ -13,6 +13,11 @@ public class CharacterSpawnPoint : MonoBehaviour {
     [SerializeField] private Equipment characterEquipment;
     [SerializeField] private int startSelectedEquipment = 0;
     [SerializeField] private bool _flashlightTaken = false;
+    [SerializeField] private bool _isTarget = false;
+    public bool isTarget {
+        get { return _isTarget; }
+    }
+    
     public bool flashlightTaken {
         get { return _flashlightTaken; }
     }
@@ -154,6 +159,10 @@ public class CharacterSpawnPoint : MonoBehaviour {
         if (scenViewCameraDistance < 20f) {
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(transform.position, 0.2f);
+        }
+
+        if(_isTarget) {
+            Gizmos.DrawIcon(transform.position + new Vector3(0, 2, 0), "targetIcon.tiff", true);
         }
         
 

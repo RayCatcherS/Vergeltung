@@ -6,11 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public enum AgentSpeed { SlowWalk, Walk, Run };
-public enum CharacterBehaviourState {
-    Unalert,
-    Suspicious,
-    Hostility
-}
+
 
 /// <summary>
 /// Comportamento dell'npc base classe padre, implementazione astrazione AbstractNPCBehaviour
@@ -311,7 +307,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 // rimuovi character dal dizionario dei character in stato di allerta
                 characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
                 // aggiungi character nel dizionario dei character in stato di allerta
-                characterManager.sceneEntitiesController.addCharacterInstanceAndAlertStateToDictionary(characterManager, CharacterBehaviourState.Suspicious);
+                characterManager.sceneEntitiesController.addCharacterInstanceAndAlertStateToDictionary(characterManager, CharacterBehaviourSoundtrackState.Suspicious);
             }
 
             // (CONFIRM) SuspiciousAlert
@@ -367,7 +363,7 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
                 // rimuovi character dal dizionario dei character in stato di allerta
                 characterManager.sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(characterManager);
                 // aggiungi character nel dizionario dei character in stato di allerta
-                characterManager.sceneEntitiesController.addCharacterInstanceAndAlertStateToDictionary(characterManager, CharacterBehaviourState.Hostility);
+                characterManager.sceneEntitiesController.addCharacterInstanceAndAlertStateToDictionary(characterManager, CharacterBehaviourSoundtrackState.Hostility);
             }
 
 
