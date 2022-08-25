@@ -142,15 +142,25 @@ public class GameState : MonoBehaviour {
     /// Avvia l'UI di game over
     /// </summary>
     public async void initGameOverGameState() {
+
+        // stop musica in-game
+        gameObject.GetComponent<GameSoundtrackController>()
+            .setSoundTrackState(CharacterBehaviourSoundtrackState.noSoundtrack);
+
+
         // start canzone fine partita
         gameOverAudioSource.Play();
 
-        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterBehaviourInSceneAsync(); // attendi e disattiva behaviour di tutti i character 
+
+        // attendi e disattiva behaviour di tutti i character 
+        await gameObject.GetComponent<SceneEntitiesController>()
+            .stopAllCharacterBehaviourInSceneAsync(); 
 
         
 
         // setta comando action event system
-        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit 
+            = InputActionReference.Create(playerActions.MainMenu.Action);
 
 
         // game over UI
