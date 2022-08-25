@@ -39,7 +39,7 @@ public class GeneratorInteractable : Interactable {
 
         isSabotage = true;
         characterWhoIsInteracting.isSuspiciousGenericAction = true; // permette al player di diventare sospetto/ostile
-        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia potenziale stato alert
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia UI potenziale stato alert
 
         // sound 
         playSounds();
@@ -48,6 +48,7 @@ public class GeneratorInteractable : Interactable {
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
 
         characterWhoIsInteracting.isSuspiciousGenericAction = false;
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
 
         isSabotage = false;
         if (playerTaskResultDone) {
@@ -57,11 +58,7 @@ public class GeneratorInteractable : Interactable {
 
             callEnemy();
         }
-
-        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
-
-        
     }
 
     /// <summary>

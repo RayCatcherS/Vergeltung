@@ -188,9 +188,9 @@ public class Machinery : MonoBehaviour
 
     private void spawnPowerAmmo() {
         // istanzia nella scena
-        GameObject newCharacter;
+        GameObject ammo;
         for (int i = 0; i < ammunitionReleased; i++) {
-            newCharacter = Instantiate(poweAmmoPrefab, spawnTransform.position, Quaternion.identity);
+            ammo = Instantiate(poweAmmoPrefab, spawnTransform.position, Quaternion.identity);
         }
         
     }

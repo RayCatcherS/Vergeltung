@@ -325,36 +325,44 @@ public class InventoryManager : Interactable {
         weaponItem.unFocusInteractableOutline();
 
 
-        //cerca se la weapon è già presente
-        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
-        if (weaponInInventary == -1) {
-            // aggiungi istanza alla lista weapon dell'inventory manager
-            _weaponItems.Add(weaponItem);
+        // verifica se è solo una munizione
+        if(weaponItem.weaponType == WeaponType.ammo) {
 
-            // associa l'inventario all'arma
-            weaponItem.inventoryManager = this;
-
-            // disabilita gameobject
-            weaponItem.gameObject.SetActive(false);
-
-            //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
-            weaponItem.gameObject.transform.SetParent(weaponTransform);
-
-            // setta coordinate
-            weaponItem.gameObject.transform.localPosition = Vector3.zero;
-
-            // setta rotazione
-            weaponItem.gameObject.transform.localEulerAngles = weaponItem.weaponOffsetRotation;
-
-            // cambia layer oggetto interattivo in default
-            weaponItem.gameObject.layer = 0;
-
-            // disattiva collider trigger interactable
-            weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
-        } else {
-            
             Destroy(weaponItem.gameObject);
+        } else {
+            //cerca se la weapon è già presente
+            int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
+            if(weaponInInventary == -1) {
+                // aggiungi istanza alla lista weapon dell'inventory manager
+                _weaponItems.Add(weaponItem);
+
+                // associa l'inventario all'arma
+                weaponItem.inventoryManager = this;
+
+                // disabilita gameobject
+                weaponItem.gameObject.SetActive(false);
+
+                //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
+                weaponItem.gameObject.transform.SetParent(weaponTransform);
+
+                // setta coordinate
+                weaponItem.gameObject.transform.localPosition = Vector3.zero;
+
+                // setta rotazione
+                weaponItem.gameObject.transform.localEulerAngles = weaponItem.weaponOffsetRotation;
+
+                // cambia layer oggetto interattivo in default
+                weaponItem.gameObject.layer = 0;
+
+                // disattiva collider trigger interactable
+                weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+            } else {
+
+                Destroy(weaponItem.gameObject);
+            }
         }
+
+        
 
         // aggiungi al dizionario dell'inventario le munizioni
         if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {

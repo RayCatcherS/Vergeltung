@@ -5,7 +5,8 @@ using UnityEngine;
 public class InventoryItem : Interactable {
 
     [Header("Item config")]
-    [SerializeField] protected string _itemNameID = "item";
+    [SerializeField] protected string _itemName = "item";
+    [SerializeField] protected string _itemNameID = "item_id";
     [SerializeField] protected bool _prohibitedItem = true;
     public bool prohibitedItem {
         get { return _prohibitedItem; }
@@ -32,7 +33,7 @@ public class InventoryItem : Interactable {
         set { _inventoryManager = value; }
     }
     public void Awake() {
-        _getItemEventName = _getItemEventName + " " + _itemNameID;
+        _getItemEventName = _getItemEventName + " " + _itemName;
         initInteractable();
         getItemEvent.AddListener(getItem);
     }
