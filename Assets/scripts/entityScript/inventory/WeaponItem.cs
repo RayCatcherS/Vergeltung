@@ -92,7 +92,7 @@ public class WeaponItem : InventoryItem
        }
     }
     public bool isWeaponAmmunitionEmpty {
-        get { return _ammunition.ammunitionQuantity == 0 ? true : false; }
+        get { return _inventoryManager.inventoryAmmunitions[weaponType].ammunitionQuantity == 0 ? true : false; }
     }
 
     [Header("Weapon effects")]

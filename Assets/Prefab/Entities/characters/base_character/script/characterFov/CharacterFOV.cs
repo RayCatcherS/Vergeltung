@@ -653,22 +653,24 @@ public class CharacterFOV : MonoBehaviour {
 
         // hitPointPreview
         Vector3 targetHitPointPreview = new Vector3(hitPointPreview.x, 0, hitPointPreview.z);
-        Vector3 fromPositionHitPointPreview = gameObject.transform.position;
+        Vector3 fromPositionHitPointPreview = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
         Vector3 toPositionHitPointPreview = targetHitPointPreview;
         Vector3 directionHitPointPreview = toPositionHitPointPreview - fromPositionHitPointPreview;
 
         // shootPoint
         Vector3 targetShootPoint = new Vector3(shootPoint.x, 0, shootPoint.z);
-        Vector3 fromPositionShootPoint = gameObject.transform.position;
+        Vector3 fromPositionShootPoint = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
         Vector3 toPositionShootPoint = targetShootPoint;
         Vector3 directionShootPoint = toPositionShootPoint - fromPositionShootPoint;
 
 
         // distance
-        Vector2 point1 = new Vector2(shootPoint.x, shootPoint.z);
-        Vector2 point2 = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
+        Vector3 point1 = new Vector2(shootPoint.x, shootPoint.z);
+        Vector3 point2 = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
 
-        if(Vector2.Distance(point1, point2) < _defaultVulnerableFovRadius) {
+        if(Vector3.Distance(point1, point2) < _defaultVulnerableFovRadius) {
+
+
             if(Vector3.Angle(-transform.forward, directionShootPoint) < (_defaultVulnerableFovAngle / 2)) {
 
                 if(Vector3.Angle(-transform.forward, directionHitPointPreview) < (_defaultVulnerableFovAngle / 2)) {

@@ -75,7 +75,7 @@ public class InteractableTrunk : Interactable {
 
         List<Interaction> eventRes = new List<Interaction>();
 
-        if(!trunkOpened) {
+        if(!trunkOpened && !isPickLock) {
             eventRes.Add(new Interaction(trunkLockPick, trunkEventName, this));
         }
 

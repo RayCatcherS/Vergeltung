@@ -106,6 +106,7 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] private bool _isTarget = false; // indica se è un obiettivo del gioco(e quindi va ucciso)
     public bool isTarget {
         get { return _isTarget; }
+        set { _isTarget = value; }
     }
 
     // indica se qualcuno si è allarmato trovando il cadavere
@@ -212,7 +213,8 @@ public class CharacterManager : MonoBehaviour {
         InteractionUIController controller,
         GameState gameState,
         PlayerWarpController playerWarpController,
-        SceneEntitiesController sceneEntitiesController
+        SceneEntitiesController sceneEntitiesController,
+        bool isTarget
     ) {
 
         CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
@@ -220,6 +222,15 @@ public class CharacterManager : MonoBehaviour {
         characterInteraction._globalGameState = gameState;
         characterInteraction._playerWarpController = playerWarpController;
         characterInteraction._sceneEntitiesController = sceneEntitiesController;
+
+        characterInteraction.isTarget = isTarget;
+        if(isTarget) {
+
+            characterInteraction.gameObject.GetComponent<TargetIconManager>().enableTargetUI();
+        } else {
+            characterInteraction.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+        }
+        
 
         return gameObject;
     }
@@ -374,6 +385,8 @@ public class CharacterManager : MonoBehaviour {
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
 
+        // target UI
+        gameObject.GetComponent<TargetIconManager>().disableTargetUI();
 
 
         gameObject.GetComponent<CapsuleCollider>().isTrigger = true; // non è possibile avere collisioni fisiche ma il character resta
