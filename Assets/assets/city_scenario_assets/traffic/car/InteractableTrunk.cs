@@ -59,7 +59,8 @@ public class InteractableTrunk : Interactable {
     }
 
     private void playSound() {
-
+        trunkAudioSource.clip = openTrunkClip;
+        trunkAudioSource.Play();
     }
 
     private void openTrunk() {
