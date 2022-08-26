@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
 public class GameModeController : MonoBehaviour {
     [Header("Refs")]
     [SerializeField] private VerticalLayoutGroup _gameGoalsGroup;
+    private List<GameObject> gameGoalsItemUI = new List<GameObject>();
 
     [Header("Prefab")]
     [SerializeField] private GameObject gameGoalUIItemPrefab;
 
     [Header("Data")]
     [SerializeField] private List<GameGoal> _gameGoals = new List<GameGoal>();
+    [SerializeField] private List<UnityEvent> _eventIds = new List<UnityEvent>();
 
 
     private void Start() {
@@ -27,6 +30,14 @@ public class GameModeController : MonoBehaviour {
 
     private void drawGameGoals(int goalToPop = -1) {
 
+        // elimina vecchia UI
+        if(gameGoalsItemUI.Count > 0) {
+            foreach(GameObject gg in gameGoalsItemUI) {
+                Destroy(gg);
+            }
+        }
+
+
         for(int i = 0; i < _gameGoals.Count; i++) {
             GameObject nGG = Instantiate(gameGoalUIItemPrefab);
             nGG.transform.SetParent(_gameGoalsGroup.transform);
@@ -36,6 +47,8 @@ public class GameModeController : MonoBehaviour {
             if(goalToPop != -1 && goalToPop == i) {
                 nGG.GetComponent<GameGoalItem>().imagePopAnimation();
             }
+
+            gameGoalsItemUI.Add(nGG);
         }
     }
 
@@ -64,6 +77,12 @@ public class GameModeController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Aggiorna obiettivi missione
+    /// Da chiamare quando il character porta a compimento un certo evento
+    /// </summary>
+    /// <param name="goalId"></param>
+    /// <param name="operation"></param>
     public void updateGameGoalsStatus(string goalId, GameGoal.GameGoalOperation operation) {
 
         int goalToPop = -1;
@@ -81,6 +100,29 @@ public class GameModeController : MonoBehaviour {
         }
 
         drawGameGoals(goalToPop);
+        checkIfEventIDAreComplete();
+    }
+
+
+    private void checkIfEventIDAreComplete() {
+
+        for(int i = 0; i < _eventIds.Count; i++) {
+
+            bool eventUnlock = true;
+
+            for(int j = 0; j < _gameGoals.Count; j++) {
+                if(i == _gameGoals[j].unlockEventID) {
+
+                    if(!_gameGoals[j].isGameGoalComplete()) {
+                        eventUnlock = false;
+                    }
+                }
+            }
+
+            if(eventUnlock) {
+                _eventIds[i].Invoke();
+            }
+        }
     }
 }
 
@@ -93,10 +135,17 @@ public class GameGoal {
         removeGoal
     }
 
-    [SerializeField]
-    private string _goalName;
+    [SerializeField] private string _goalName;
     public string goalName {
         get { return _goalName;  }
+    }
+
+    /// <summary>
+    /// Sblocca un certo evento se tutti i goal che hanno lo stesso eventID sono completi
+    /// </summary>
+    [SerializeField] private int _unlockEventID = -1;
+    public int unlockEventID {
+        get { return _unlockEventID; }
     }
 
     [SerializeField]

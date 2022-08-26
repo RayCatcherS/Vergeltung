@@ -8,8 +8,11 @@ public class TargetIconManager : MonoBehaviour
     [SerializeField] private Canvas uiTargetCanvas;
     private bool updateUIRotationIsStopping = false;
 
+    
+
     public void enableTargetUI() {
         uiTargetCanvas.gameObject.SetActive(true);
+        updateUIRotationIsStopping = false;
 
         updateUIRotation();
     }

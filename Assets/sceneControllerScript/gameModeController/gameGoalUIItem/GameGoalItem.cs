@@ -23,7 +23,12 @@ public class GameGoalItem : MonoBehaviour {
 
             imageIcon.sprite = gameGoal.goalCompleteSprite;
 
-            text.text = "<s>" + gameGoal.goalName + ": " + gameGoal.completeGoals + "/" + gameGoal.goalsToComplete + "</s>";
+            if(gameGoal.goalsToComplete == 1) {
+                text.text = "<s>" + gameGoal.goalName + "</s>";
+            } else {
+                text.text = "<s>" + gameGoal.goalName + ": " + gameGoal.completeGoals + "/" + gameGoal.goalsToComplete + "</s>";
+            }
+            
 
             Color color = Color.white;
             color.a = 0.5f;
@@ -32,7 +37,12 @@ public class GameGoalItem : MonoBehaviour {
 
             imageIcon.sprite = gameGoal.goalToCompleteSprite;
 
-            text.text = gameGoal.goalName + ": " + gameGoal.completeGoals + "/" + gameGoal.goalsToComplete;
+            if(gameGoal.goalsToComplete == 1) {
+                text.text = gameGoal.goalName;
+            } else {
+                text.text = gameGoal.goalName + ": " + gameGoal.completeGoals + "/" + gameGoal.goalsToComplete;
+            }
+            
 
             Color color = Color.white;
             color.a = 1f;
@@ -41,7 +51,7 @@ public class GameGoalItem : MonoBehaviour {
     }
 
     public void imagePopAnimation() {
-        imageAnimator.StopPlayback();
-        imageAnimator.StartPlayback();
+        imageAnimator.ResetTrigger("pop");
+        imageAnimator.SetTrigger("pop");
     }
 }

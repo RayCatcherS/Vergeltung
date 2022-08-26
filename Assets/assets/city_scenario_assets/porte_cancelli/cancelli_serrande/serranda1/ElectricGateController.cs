@@ -7,12 +7,21 @@ public class ElectricGateController : MonoBehaviour
     [Header("Refs")]
     [SerializeField] private Animator gateAnimator;
     [SerializeField] private Animator ligthAnim;
+    [SerializeField] private AudioSource audioSource;
+
+
+    [Header("Conf")]
+    [SerializeField] private bool _gateClosed = true;
+    [SerializeField] private float gateClosingTime = 7;
     [SerializeField] private float busyGateTimer = 2; // tempo per cui il cancello resta occupato(usato per evitare interazioni durante l'animazione
     [SerializeField] private bool busy = false;
 
-    [SerializeField] private bool _gateClosed = true;
-    [SerializeField] private float gateClosingTime = 7;
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private bool _gateAutomaticClose = true;
+    [SerializeField] private bool _gateCanBeOpenByPowerOff = true;
+
+
+
+
 
     [Header("Asset Refs")]
     [SerializeField] private AudioClip gateAudioClip;
@@ -21,6 +30,13 @@ public class ElectricGateController : MonoBehaviour
         get { return _gateClosed; }
     }
 
+    public void openGateByPowerOff() {
+
+        if(_gateCanBeOpenByPowerOff) {
+            openGate();
+        }
+        
+    }
 
 
     public void openGate() {
@@ -35,7 +51,11 @@ public class ElectricGateController : MonoBehaviour
 
         _gateClosed = false;
         StartCoroutine(gateLightOn());
-        StartCoroutine(gateClosingTimeOut());
+
+        if(_gateAutomaticClose) {
+            StartCoroutine(gateClosingTimeOut());
+        }
+        
         gateAnimator.SetTrigger("openDirection1");
     }
 

@@ -461,6 +461,19 @@ public class CharacterManager : MonoBehaviour {
 
         // aggiungi forza
         rigidBodyBoneForce.AddForce(damageVelocity, ForceMode.Impulse);
+
+
+        // check se è un target => invia game goal event
+        if(isTarget) {
+            sendGameGoalEvent();
+        }
+    }
+
+    private void sendGameGoalEvent() {
+        const string gameGoalName = "Kill the guardians";
+
+        _sceneEntitiesController.gameObject.GetComponent<GameModeController>()
+            .updateGameGoalsStatus(gameGoalName, GameGoal.GameGoalOperation.addGoal);
     }
 
     /// <summary>

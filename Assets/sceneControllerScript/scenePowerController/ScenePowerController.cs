@@ -51,7 +51,7 @@ public class ScenePowerController : MonoBehaviour
 
         // apri tutti i cancelli
         for(int i = 0; i < electricGateControllers.Length; i++) {
-            electricGateControllers[i].openGate();
+            electricGateControllers[i].openGateByPowerOff();
         }
 
 

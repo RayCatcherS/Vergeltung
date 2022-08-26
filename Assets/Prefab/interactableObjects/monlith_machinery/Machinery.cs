@@ -26,6 +26,10 @@ public class Machinery : MonoBehaviour
     [SerializeField] private Image machinerySliderFill;
     [SerializeField] private Material disabledMachinertSliderFill;
     [SerializeField] private GenericUnaryInteractable machineryConsole;
+    [SerializeField] private TargetIconManager targetIconManager;
+
+    [Header("Manager Refs")]
+    [SerializeField] private GameModeController gameModeController;
 
     [Header("Enviroment Refs")]
     [SerializeField] private List<LightSourcesScript> machineryLights = new List<LightSourcesScript>();
@@ -41,6 +45,10 @@ public class Machinery : MonoBehaviour
 
 
     private void Start() {
+
+        // abilita target icon
+        targetIconManager.enableTargetUI();
+
         audioSource.clip = machineryClip;
         audioSource.Play();
     }
@@ -164,6 +172,19 @@ public class Machinery : MonoBehaviour
             machineryLight.setLightOff();
             machineryLight.lightDisabled = true;
         }
+
+        // disabilita target icon
+        targetIconManager.disableTargetUI();
+
+        // invia evento
+        sendGameGoalEvent();
+    }
+
+    private void sendGameGoalEvent() {
+        const string gameGoalName = "Disable the monolith machines";
+
+        gameModeController
+            .updateGameGoalsStatus(gameGoalName, GameGoal.GameGoalOperation.addGoal);
     }
 
     private void sparksEffect() {
