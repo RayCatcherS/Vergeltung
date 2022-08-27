@@ -1097,6 +1097,8 @@ public class BaseNPCBehaviourManager : AbstractNPCBehaviour {
         _characterMovement.stopCharacter();
     }
 
+    
+
 #if UNITY_EDITOR
     void OnDrawGizmos() {
 

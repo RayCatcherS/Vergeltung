@@ -32,7 +32,10 @@ public class SceneEntitiesController : MonoBehaviour
     }
     [SerializeField] private List<CivilianNPCBehaviourManager> civilianNpcList = new List<CivilianNPCBehaviourManager>();
 
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject _player;
+    public GameObject player {
+        get { return _player; }
+    }
 
     /// <summary>
     /// Dizionario characters hostility characters
@@ -56,7 +59,7 @@ public class SceneEntitiesController : MonoBehaviour
     /// </summary>
     /// <param name="playerCharacterManager"></param>
     public void setPlayerEntity(CharacterManager playerCharacterManager) {
-        player = playerCharacterManager.gameObject;
+        _player = playerCharacterManager.gameObject;
     }
 
     /// <summary>
@@ -264,6 +267,15 @@ public class SceneEntitiesController : MonoBehaviour
 #endif
     }
 
+    public async Task stopAllCharacterTargetIcon() {
+
+        await _player.GetComponent<TargetIconManager>().disableTargetUI();
+
+        foreach(var character in allNpcList) {
+            await character.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+        }
+        return;
+    }
 #if UNITY_EDITOR
     
     private int _civilianSuspicious = 0;

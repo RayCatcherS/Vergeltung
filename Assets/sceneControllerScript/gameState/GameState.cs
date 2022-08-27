@@ -27,6 +27,7 @@ public class GameState : MonoBehaviour {
     [Header("Ref")]
     [SerializeField] private PlayerWarpController playerWarpController;
     private PlayerInputAction playerActions;
+    [SerializeField] private Camera mapCamera;
 
     [Header("UI Ref")]
     [SerializeField] private AlarmAlertUIController alarmAlertUIController;
@@ -62,8 +63,10 @@ public class GameState : MonoBehaviour {
     }
 
     private void Start() {
+        //disable map camera
+        mapCamera.enabled = false;
 
-
+        Time.timeScale = 1;
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(false);
     }
@@ -193,6 +196,9 @@ public class GameState : MonoBehaviour {
 
         // game state 
         _gameState = GlobalGameState.pause;
+
+        // enable map camera
+        mapCamera.enabled = true;
     }
 
     public void resumeGameState() {
@@ -214,15 +220,31 @@ public class GameState : MonoBehaviour {
 
         // game state 
         _gameState = GlobalGameState.play;
+
+        //disable map camera
+        mapCamera.enabled = false;
     }
 
 
-    public void initLoadingScreen(int sceneToLoad) {
+    public async void initLoadingScreen(int sceneToLoad) {
 
         pauseUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(true);
 
+        Time.timeScale = 1;
+
+        // stop player
+        gameObject.GetComponent<SceneEntitiesController>().player.gameObject
+            .GetComponent<CharacterManager>().characterMovement.stopCharacter();
+
+        // stop process
+        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterTargetIcon();
+
+        // attendi e disattiva behaviour di tutti i character 
+        await gameObject.GetComponent<SceneEntitiesController>()
+            .stopAllCharacterBehaviourInSceneAsync();
+        Time.timeScale = 0;
 
         StartCoroutine(LoadSceneAsynchronously(sceneToLoad));
 

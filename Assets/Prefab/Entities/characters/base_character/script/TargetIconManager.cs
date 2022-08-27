@@ -8,27 +8,53 @@ public class TargetIconManager : MonoBehaviour
     [SerializeField] private Canvas uiTargetCanvas;
     private bool updateUIRotationIsStopping = false;
 
-    
+    private bool targetIconStopped = true;
+
+
 
     public void enableTargetUI() {
+        
+
         uiTargetCanvas.gameObject.SetActive(true);
         updateUIRotationIsStopping = false;
+        targetIconStopped = false;
+
+
 
         updateUIRotation();
     }
 
-    public void disableTargetUI() {
-        uiTargetCanvas.gameObject.SetActive(false);
-        updateUIRotationIsStopping = true;
+    public async Task disableTargetUI() {
+
+
+            uiTargetCanvas.gameObject.SetActive(false);
+            updateUIRotationIsStopping = true;
+
+            while(!targetIconStopped) {
+                await Task.Yield();
+            }
+
+
+            
+        
+        return;
     }
 
 
     private async void updateUIRotation() {
 
         while(!updateUIRotationIsStopping) {
-            uiTargetCanvas.gameObject.transform.forward = Camera.main.transform.forward;
+
+            if(uiTargetCanvas != null) {
+                uiTargetCanvas.gameObject.transform.forward = Camera.main.transform.forward;
+            } else {
+                break;
+            }
+            
             await Task.Yield();
         }
+
+        targetIconStopped = true;
         
     }
 }
