@@ -18,6 +18,9 @@ public class BuildingWindows : MonoBehaviour
     }
 
     private void Start() {
+
+        windowsLightMat = Instantiate(windowsLightMat);
+        windowsNoLightMat = Instantiate(windowsNoLightMat);
     }
 
     public void turnOffLigth() {
