@@ -30,16 +30,28 @@ public class ElectricGateController : MonoBehaviour
         get { return _gateClosed; }
     }
 
-    public void openGateByPowerOff() {
+    public void openGateByPowerOff(int customClosingTime = -1) {
 
         if(_gateCanBeOpenByPowerOff) {
-            openGate();
+
+            if(customClosingTime != -1) {
+
+                openGate(customClosingTime);
+            } else {
+
+                openGate();
+            }
+            
         }
         
     }
 
-
-    public void openGate() {
+    /// <summary>
+    /// Di default -1 significa che il gate si richiuderà dopo [gateClosingTime]
+    /// altrimenti equivale alla durata prima della chiusura
+    /// </summary>
+    /// <param name="customClosingTime"></param>
+    public void openGate(int customClosingTime = -1) {
         playGateSound();
 
         // resetta stato animazioni cancello e coroutine penzolanti
@@ -53,7 +65,13 @@ public class ElectricGateController : MonoBehaviour
         StartCoroutine(gateLightOn());
 
         if(_gateAutomaticClose) {
-            StartCoroutine(gateClosingTimeOut());
+
+            if(customClosingTime != -1) {
+                StartCoroutine(gateClosingTimeOut(customClosingTime));
+            } else {
+                StartCoroutine(gateClosingTimeOut());
+            }
+            
         }
         
         gateAnimator.SetTrigger("openDirection1");
@@ -101,8 +119,16 @@ public class ElectricGateController : MonoBehaviour
     }
 
 
-    IEnumerator gateClosingTimeOut() {
-        yield return new WaitForSeconds(gateClosingTime);
+    IEnumerator gateClosingTimeOut(int customClosingTime = -1) {
+
+        if(customClosingTime != -1) {
+
+            yield return new WaitForSeconds(customClosingTime);
+        } else {
+
+            yield return new WaitForSeconds(gateClosingTime);
+        }
+        
 
         if (!gateClosed) {
             closeGate(); // chiudi cancello

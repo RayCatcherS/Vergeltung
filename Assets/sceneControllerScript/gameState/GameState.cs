@@ -143,6 +143,10 @@ public class GameState : MonoBehaviour {
     /// </summary>
     public async void initGameOverGameState() {
 
+        // disable aim UI
+        gameObject.GetComponent<AimUIManager>().hideAimUI();
+
+
         // stop musica in-game
         gameObject.GetComponent<GameSoundtrackController>()
             .setSoundTrackState(CharacterBehaviourSoundtrackState.noSoundtrack);

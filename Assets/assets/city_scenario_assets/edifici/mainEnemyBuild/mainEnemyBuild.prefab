@@ -5512,6 +5512,7 @@ GameObject:
   - component: {fileID: 6703131433356104343}
   - component: {fileID: 363183024304112490}
   - component: {fileID: 6139276920895682803}
+  - component: {fileID: 9145479472411909820}
   m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
@@ -5612,6 +5613,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2186430941476567602, guid: 05c64c04cf36cb84b89730b38f0be3e0, type: 3}
+--- !u!114 &9145479472411909820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838972174437746041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bead89b2848c4f41a7f5e2690d30414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowsLightMat: {fileID: 2100000, guid: fec39dfd3c2ff7248a3e1cee89554209, type: 2}
+  windowsNoLightMat: {fileID: 2100000, guid: 54afcd9014514dd4bbbba0443fc9b9c7, type: 2}
+  meshRenderer: {fileID: 363183024304112490}
+  matPositionInRendererList: 1
 --- !u!1 &8860390119614473216
 GameObject:
   m_ObjectHideFlags: 0

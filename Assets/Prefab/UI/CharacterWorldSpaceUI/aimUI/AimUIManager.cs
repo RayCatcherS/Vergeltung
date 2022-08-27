@@ -75,4 +75,11 @@ public class AimUIManager : MonoBehaviour
 
         uiImage.color = color;
     }
+
+    public void hideAimUI() {
+        Color color = Color.white;
+        color.a = 0;
+
+        uiImage.color = color;
+    }
 }

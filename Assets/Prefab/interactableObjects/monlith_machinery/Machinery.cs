@@ -178,6 +178,9 @@ public class Machinery : MonoBehaviour
 
         // invia evento
         sendGameGoalEvent();
+
+        // avvia vibrazione pad
+        gameModeController.gameObject.GetComponent<GamePadVibrationController>().sendImpulse(0.7f, 2);
     }
 
     private void sendGameGoalEvent() {

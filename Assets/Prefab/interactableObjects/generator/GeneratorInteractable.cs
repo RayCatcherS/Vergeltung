@@ -19,6 +19,7 @@ public class GeneratorInteractable : Interactable {
 
     [Header("generator config")]
     [SerializeField] private float sabotageTime = 2f; // tempo per sabotare il generatore
+    [SerializeField] private int powerOffTimer = 20;
 
     [Header("Asset Refs")]
     [SerializeField] private AudioClip interactAudioClip;
@@ -53,7 +54,7 @@ public class GeneratorInteractable : Interactable {
         isSabotage = false;
         if (playerTaskResultDone) {
             generatorState = GeneratorState.GeneratorOff;
-            scenePowerController.turnOffPower();
+            scenePowerController.turnOffPower(powerOffTimer);
             interactableMeshEffectSetEnebled(false);
 
             callEnemy();

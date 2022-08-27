@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8163084206467872014}
   - component: {fileID: 6245910612351549892}
   - component: {fileID: 2261755389267136785}
+  - component: {fileID: 2592769957870744038}
   m_Layer: 0
   m_Name: backgroundBuilding
   m_TagString: Untagged
@@ -128,3 +129,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1441690112615185984, guid: f95ba9c5e3e353a47863666b700e1d6e, type: 3}
+--- !u!114 &2592769957870744038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5597150717293961233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bead89b2848c4f41a7f5e2690d30414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowsLightMat: {fileID: 2100000, guid: b5ba865002291e24e94866f2d4591cfa, type: 2}
+  windowsNoLightMat: {fileID: 2100000, guid: 86df82e777cfb344db2a3022e7893d41, type: 2}
+  meshRenderer: {fileID: 6245910612351549892}
+  matPositionInRendererList: 1
