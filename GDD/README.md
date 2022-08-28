@@ -125,7 +125,7 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   Lo stile artistico è "Low Poly" scelto per questioni di semplicità realizzative, in questa demo vengono tutti realizzati da una persona, me.
 
 # <span id = "6">6. Musica e Suoni</span>
-  I suoni saranno importanti per riconoscere i nemici in avvicinamento o per riconoscere che un certo nemico è in uno stato sospetto oppure ostile.
+  I suoni saranno importanti per riconoscere i nemici in avvicinamento o per riconoscere che un certo nemico sia in uno stato sospetto oppure ostile.
   
 
 # <span id = "7">7. Dettagli Tecnici</span>
