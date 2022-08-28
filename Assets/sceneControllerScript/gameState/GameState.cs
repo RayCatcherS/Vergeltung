@@ -205,6 +205,11 @@ public class GameState : MonoBehaviour {
     }
 
     public async void initWinState() {
+
+        // stop musica in-game
+        gameObject.GetComponent<GameSoundtrackController>()
+            .setSoundTrackState(CharacterBehaviourSoundtrackState.noSoundtrack);
+
         // setta comando action event system
         eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
 
@@ -221,8 +226,10 @@ public class GameState : MonoBehaviour {
         winAnimator.SetTrigger("start");
 
         // stop player
+        gameObject.GetComponent<GameInputManager>().enabled = false;
         gameObject.GetComponent<SceneEntitiesController>().player.gameObject
             .GetComponent<CharacterManager>().characterMovement.stopCharacter();
+
 
         // stop process
         await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterTargetIcon();
