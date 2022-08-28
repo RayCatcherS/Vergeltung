@@ -286,6 +286,7 @@ public class GameState : MonoBehaviour {
 
         StartCoroutine(LoadSceneAsynchronously(sceneToLoad));
 
+        Time.timeScale = 1;
     }
 
     IEnumerator LoadSceneAsynchronously(int selectedScene) {
