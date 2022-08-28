@@ -36,8 +36,10 @@ Latest build
 
 ## Team
 The whole project was developed by <b>Stefano Romanelli</b> (3D models, graphics, visual effects, level design, game mechanics, programming and project management) [``Stefano Romanelli``](https://github.com/RayCatcherS)
+
+
 ## Collaborazioni
-The game music, the contextual musical effects in the game, and the main theme were created by <b>Riccardo Buttafuoco</b>
+The game music, the contextual musical effects in the game, and the main theme were created by [``Riccardo Buttafuoco``](https://www.instagram.com/rick._____________/)
 ## Note tecniche progetto
 ### Piattaforme di riferimento
 - Windows 10
