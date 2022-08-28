@@ -12,7 +12,8 @@ public enum GlobalGameState {
     play,
     gameover,
     pause,
-    switchCharacterMode
+    switchCharacterMode,
+    win
 }
 
 /// <summary>
@@ -34,10 +35,12 @@ public class GameState : MonoBehaviour {
 
     [Header("UI screen ref")]
     [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private MenuScreen winUIScreen;
     [SerializeField] private MenuScreen pauseUIScreen;
     [SerializeField] private MenuScreen gameOverUIScreen;
     [SerializeField] private MenuScreen loadingUIScreen;
     [SerializeField] private Slider loadingSlider;
+    [SerializeField] private Animator winAnimator;
 
 
 
@@ -199,6 +202,34 @@ public class GameState : MonoBehaviour {
 
         // enable map camera
         mapCamera.enabled = true;
+    }
+
+    public async void initWinState() {
+        // setta comando action event system
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+
+        loadingUIScreen.gameObject.SetActive(false);
+        gameOverUIScreen.gameObject.SetActive(false);
+        pauseUIScreen.gameObject.SetActive(false);
+
+        eventSystem.SetSelectedGameObject(winUIScreen.firtButton.gameObject);
+
+        // game state 
+        _gameState = GlobalGameState.win;
+
+        // avvia animazione
+        winAnimator.SetTrigger("start");
+
+        // stop player
+        gameObject.GetComponent<SceneEntitiesController>().player.gameObject
+            .GetComponent<CharacterManager>().characterMovement.stopCharacter();
+
+        // stop process
+        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterTargetIcon();
+
+        // attendi e disattiva behaviour di tutti i character 
+        await gameObject.GetComponent<SceneEntitiesController>()
+            .stopAllCharacterBehaviourInSceneAsync();
     }
 
     public void resumeGameState() {

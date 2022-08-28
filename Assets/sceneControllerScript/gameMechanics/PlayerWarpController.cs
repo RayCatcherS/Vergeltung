@@ -50,6 +50,11 @@ public class PlayerWarpController : MonoBehaviour
 
         // aggiungi ref del character allo stack
         warpedCharacterManagerStack.Add(character);
+
+        // cambia icona mappa del character (solo se non è player)
+        if(character.chracterRole != Role.Player) {
+            character.gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.controlledCharacter);
+        }
         
     }
 
@@ -190,8 +195,6 @@ public class PlayerWarpController : MonoBehaviour
 
         // rebuild dell'interfaccia weapons
         character.weaponUIController.buildUI(character.inventoryManager);
-
-        
     }
 
     /// <summary>

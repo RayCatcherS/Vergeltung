@@ -217,20 +217,31 @@ public class CharacterManager : MonoBehaviour {
         bool isTarget
     ) {
 
-        CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
-        characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
-        characterInteraction._globalGameState = gameState;
-        characterInteraction._playerWarpController = playerWarpController;
-        characterInteraction._sceneEntitiesController = sceneEntitiesController;
+        CharacterManager character = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
+        character._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
+        character._globalGameState = gameState;
+        character._playerWarpController = playerWarpController;
+        character._sceneEntitiesController = sceneEntitiesController;
 
-        characterInteraction.isTarget = isTarget;
+        character.isTarget = isTarget;
         if(isTarget) {
 
-            characterInteraction.gameObject.GetComponent<TargetIconManager>().enableTargetUI();
+            character.gameObject.GetComponent<TargetIconManager>().enableTargetUI();
+            gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.targetCharacter);
         } else {
-            characterInteraction.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+            character.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+
+            if(gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
+                gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.civilian);
+
+            } else if(gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+                gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.enemy);
+
+            } else if(gameObject.GetComponent<CharacterRole>().role == Role.Player) {
+                gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.player);
+
+            }
         }
-        
 
         return gameObject;
     }
@@ -467,6 +478,9 @@ public class CharacterManager : MonoBehaviour {
         if(isTarget) {
             sendGameGoalEvent();
         }
+
+        // disable map icon
+        gameObject.GetComponent<IconMapManager>().disableIcon();
     }
 
     private void sendGameGoalEvent() {

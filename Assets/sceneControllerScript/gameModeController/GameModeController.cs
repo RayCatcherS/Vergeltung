@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class GameModeController : MonoBehaviour {
     [Header("Refs")]
+    [SerializeField] private GameState _gameState;
     [SerializeField] private VerticalLayoutGroup _gameGoalsGroup;
     private List<GameObject> gameGoalsItemUI = new List<GameObject>();
+
 
     [Header("Prefab")]
     [SerializeField] private GameObject gameGoalUIItemPrefab;
@@ -101,9 +103,12 @@ public class GameModeController : MonoBehaviour {
 
         drawGameGoals(goalToPop);
         checkIfEventIDAreComplete();
+        checkIfAllEventsAreComplete();
     }
 
-
+    /// <summary>
+    /// Verifica se tutti gli eventi che hanno un certo id sono tutti completi, se si esegui l'evento corrispondente all'id
+    /// </summary>
     private void checkIfEventIDAreComplete() {
 
         for(int i = 0; i < _eventIds.Count; i++) {
@@ -122,6 +127,24 @@ public class GameModeController : MonoBehaviour {
             if(eventUnlock) {
                 _eventIds[i].Invoke();
             }
+        }
+    }
+
+    private void checkIfAllEventsAreComplete() {
+        bool res = true; 
+
+        for(int j = 0; j < _gameGoals.Count; j++) {
+
+
+            if(!_gameGoals[j].isGameGoalComplete()) {
+                res = false;
+            }
+        }
+
+
+        if(res) {
+            // avvia vincita
+            _gameState.initWinState();
         }
     }
 }

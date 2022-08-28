@@ -181,6 +181,9 @@ public class Machinery : MonoBehaviour
 
         // avvia vibrazione pad
         gameModeController.gameObject.GetComponent<GamePadVibrationController>().sendImpulse(0.7f, 2);
+
+        // disable map icon
+        gameObject.GetComponent<IconMapManager>().disableIcon();
     }
 
     private void sendGameGoalEvent() {

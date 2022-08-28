@@ -64,5 +64,8 @@ public class GoalArea : MonoBehaviour {
             .updateGameGoalsStatus(goalId, GameGoal.GameGoalOperation.addGoal);
 
         eventStarted = true;
+
+        // disable map icon
+        gameObject.GetComponent<IconMapManager>().disableIcon();
     }
 }
