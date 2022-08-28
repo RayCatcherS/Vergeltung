@@ -269,10 +269,10 @@ public class SceneEntitiesController : MonoBehaviour
 
     public async Task stopAllCharacterTargetIcon() {
 
-        await _player.GetComponent<TargetIconManager>().disableTargetUI();
+        _player.GetComponent<TargetIconManager>().disableTargetUI();
 
         foreach(var character in allNpcList) {
-            await character.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+            character.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
         }
         return;
     }

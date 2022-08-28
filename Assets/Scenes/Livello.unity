@@ -32604,6 +32604,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1361894837, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
+      propertyPath: m_LensFlareData
+      value: 
+      objectReference: {fileID: 11400000, guid: 82f79b7b8cd6d964291257318edd6c06, type: 2}
     - target: {fileID: 412018264984731758, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
       propertyPath: m_Name
       value: CharacterFlashlight
@@ -49505,6 +49509,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1361894837, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
+      propertyPath: m_LensFlareData
+      value: 
+      objectReference: {fileID: 11400000, guid: 82f79b7b8cd6d964291257318edd6c06, type: 2}
     - target: {fileID: 412018264984731758, guid: 5ab6c6ff25caa2a49b7624bcb0becee7, type: 3}
       propertyPath: m_Name
       value: CharacterFlashlight (1)
@@ -51904,7 +51912,7 @@ PrefabInstance:
     - target: {fileID: 3843543349208796516, guid: 82abceb679798834a91eb2e2447bdac8, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: f00ad07d79481cf45915f34fa1e8adb9, type: 2}
+      objectReference: {fileID: 2100000, guid: 0f805c55bc91dc142915464d8a94e106, type: 2}
     - target: {fileID: 3843543349208796516, guid: 82abceb679798834a91eb2e2447bdac8, type: 3}
       propertyPath: m_Materials.Array.data[4]
       value: 
@@ -56769,12 +56777,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628976240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5286d0b5d3c994a419612c0963eb06b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uiTargetCanvas: {fileID: 303066850}
+  followObjectCenter: 0
+  followCenterTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &1634386319 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1049543040440139319, guid: f5f362c7452300a4ca3c56e6bf0b1e1c, type: 3}
@@ -67612,6 +67622,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1628976242}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1628976242}
         m_TargetAssemblyTypeName: TargetIconManager, Assembly-CSharp

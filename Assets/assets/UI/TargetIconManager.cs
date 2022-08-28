@@ -6,55 +6,30 @@ using UnityEngine;
 public class TargetIconManager : MonoBehaviour
 {
     [SerializeField] private Canvas uiTargetCanvas;
-    private bool updateUIRotationIsStopping = false;
-
-    private bool targetIconStopped = true;
-
+    [SerializeField] private bool followObjectCenter = false;
+    [SerializeField] private Vector3 followCenterTarget;
 
 
     public void enableTargetUI() {
         
 
         uiTargetCanvas.gameObject.SetActive(true);
-        updateUIRotationIsStopping = false;
-        targetIconStopped = false;
-
-
-
-        updateUIRotation();
+        this.enabled = true;
     }
 
-    public async Task disableTargetUI() {
-
-
-            uiTargetCanvas.gameObject.SetActive(false);
-            updateUIRotationIsStopping = true;
-
-            while(!targetIconStopped) {
-                await Task.Yield();
-            }
-
-
-            
-        
-        return;
+    public void disableTargetUI() {
+        uiTargetCanvas.gameObject.SetActive(false);
+        this.enabled = false;
     }
 
+    private void Update() {
 
-    private async void updateUIRotation() {
+        if(uiTargetCanvas != null) {
+            uiTargetCanvas.gameObject.transform.forward = Camera.main.transform.forward;
 
-        while(!updateUIRotationIsStopping) {
-
-            if(uiTargetCanvas != null) {
-                uiTargetCanvas.gameObject.transform.forward = Camera.main.transform.forward;
-            } else {
-                break;
+            if(followObjectCenter) {
+                uiTargetCanvas.gameObject.transform.position = gameObject.transform.position + followCenterTarget;
             }
-            
-            await Task.Yield();
         }
-
-        targetIconStopped = true;
-        
     }
 }
