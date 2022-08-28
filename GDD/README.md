@@ -97,6 +97,7 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   
   ## <span id = "4.2">4.2 Abilità del giocatore</span>
   Il giocatore potrà prendere il controllo dei nemici o dei civili tramite l'abilità "controllo mentale", controllando fisicamente gli altri characters e usando le loro armi o i loro strumenti per accedere a zone che altrimenti sarebbero vietate.
+  Il giocatore potrà effettuare le esecuzioni, ovvero uccisioni istantanee. Per eseguire una esecuzione il giocatore dovrà avere abbastanza colpi, essere abbastanza vicino e dietro al character a cui si vuole effettuare l'uccisione istantanea.
   
   
   ## <span id = "4.3">4.3 Meccaniche di gioco</span>
