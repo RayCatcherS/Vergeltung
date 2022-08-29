@@ -49,10 +49,6 @@ Link Progetto
   7. [Capitolo diario di sviluppo 7 (Warp Mode)](#7.7)
   8. [Capitolo diario di sviluppo 8 (Game Goals)](#7.8)
 
-### 8. [Mercato](#8)
-
-### 9. [Idee](#9)
-
 
 # <span id = "1">1. Introduzione</span> 
 ## <span id = "1.1">1.1 Elevator Pitch
@@ -119,7 +115,7 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   
  
   ## <span id = "4.5">4.5 Progressione e sfida</span>
-  La progressione sarà data dal riuscire a raggiungere zone prima non accessibili, muovendosi in modo furtivo senza destare sospetti, rubando munizioni per il controllo mentale infiltrandosi nelle basi e utilizzandole sui characters per improvvisare una strategia per portare a termine gli obiettivi.
+  La progressione sarà data dal riuscire a raggiungere zone prima non accessibili, muovendosi in modo furtivo senza destare sospetti, rubando munizioni per il controllo mentale infiltrandosi nelle basi e utilizzandole sui characters per improvvisare una strategia per portare a termine gli obiettivi. Gli obiettivi saranno l'elemento principale di progressione
   
   
   ## <span id = "4.6">4.6 Sconfitta</span>
@@ -141,13 +137,3 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   ### <span id = "7.6">7.6 [6 Capitolo (AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)</span>
   ### <span id = "7.7">7.7 [7 Capitolo (Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)</span>
   ### <span id = "7.8">7.8 [8 Capitolo (Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(8)%20diary_issue%2347-29-31/README.md)</span>
-
-# <span id = "8">8. Mercato</span>
-
-
-
-# <span id = "9">9. Idee</span>
-(possibili idee meccaniche sperimentali)
-- I nemici agiscono in modo differente comprendendo il tuo stile di gioco
-- I nemici sono capaci di riconoscere l'ostilità anche di un proprio alleato, in base ad una certa sequenza di eventi.
-- I livelli di gioco sono generati in modo procedurale
