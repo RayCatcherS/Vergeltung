@@ -25,7 +25,7 @@ href="https://drive.google.com/file/d/1yh1IyQVBtu-V9M3YKwOgCYMApvnH9wm2/view?usp
 Latest build
 </a>
 
-## Devlog
+## Devlog - Documento Tecnico
 - [2 Capitolo(Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
 - [3 Capitolo(LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
 - [4 Capitolo(FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)
