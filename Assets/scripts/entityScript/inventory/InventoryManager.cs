@@ -323,7 +323,7 @@ public class InventoryManager : Interactable {
         // disabilita effetto interactable
         weaponItem.interactableMeshEffectSetEnebled(false);
         weaponItem.unFocusInteractableOutline();
-
+        
 
         // verifica se è solo una munizione
         if(weaponItem.weaponType == WeaponType.ammo) {
@@ -362,21 +362,27 @@ public class InventoryManager : Interactable {
             }
         }
 
-        
 
         // aggiungi al dizionario dell'inventario le munizioni
         if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {
-            _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity 
+            print(_inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + " -- " + weaponItem.ammunition.ammunitionQuantity);
+
+            _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity
                 = _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + weaponItem.ammunition.ammunitionQuantity;
         } else {
-            _inventoryAmmunitions.Add(weaponItem.ammunition.ammunitionType, weaponItem.ammunition);
+            _inventoryAmmunitions.Add(
+                weaponItem.ammunition.ammunitionType,
+                new Ammunition(weaponItem.ammunition.ammunitionType, weaponItem.ammunition.ammunitionQuantity)
+            );
         }
-        
+
 
         // max ammunition reached
         if(_inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity > _maxInventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity) {
             _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity = _maxInventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity;
         }
+
+        weaponItem.ammunition.ammunitionQuantity = 0;
 
 
         // builda UI solo se player
@@ -607,26 +613,31 @@ public class InventoryManager : Interactable {
     public override List<Interaction> getInteractions(CharacterManager character = null) {
         List<Interaction> allWeaponsInteractions = new List<Interaction>();
 
+
+        // esponi armi
         for(int i = 0; i < _weaponItems.Count; i++) {
 
-            if(_weaponItems[i].itemNameID != BASE_MELEE_ID) {
+            if(_weaponItems[i].itemNameID != BASE_MELEE_ID && _weaponItems[i].itemNameID != CONTROL_WEAPON_ID) {
 
 
-                if(_weaponItems[i].ammunition.ammunitionQuantity != 0) {
-                    UnityEventCharacter eventWeapon = new UnityEventCharacter();
-                    eventWeapon.AddListener(_weaponItems[i].getItem);
+                UnityEventCharacter eventWeapon = new UnityEventCharacter();
+                eventWeapon.AddListener(_weaponItems[i].getItem);
 
-                    allWeaponsInteractions.Add(
-                        new Interaction(
-                            eventWeapon,
-                            _weaponItems[i].getItemEventName,
-                            this
-                        )
-                    );
-                }
-                
+                allWeaponsInteractions.Add(
+                    new Interaction(
+                        eventWeapon,
+                        _weaponItems[i].getItemEventName,
+                        this
+                    )
+                );
+
             }
         }
+
+        // esponi munizioni
+
+
+
         rebuildInteractableMeshEffect(allWeaponsInteractions);
 
 
