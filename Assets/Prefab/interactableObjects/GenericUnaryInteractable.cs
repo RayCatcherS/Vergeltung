@@ -10,6 +10,8 @@ public class GenericUnaryInteractable : Interactable {
     [SerializeField] private bool repetableInteraction = false;
     private bool unRepetableInteractionStateActive = true;
     [SerializeField] private bool _isInteractableDisabled = false;
+
+    [SerializeField] private bool _interactionEnabledOnlyForPlayer = false;
     public bool isInteractableDisabled {
         set {
 
@@ -64,18 +66,49 @@ public class GenericUnaryInteractable : Interactable {
         List<Interaction> eventRes = new List<Interaction>();
 
 
-        if(!_isInteractableDisabled) {
-            if(!repetableInteraction) {
 
-                if(unRepetableInteractionStateActive) {
-                    unRepetableInteractionStateActive = false;
+
+        if(!_isInteractableDisabled) {
+
+            if(_interactionEnabledOnlyForPlayer) {
+                if(character.chracterRole == Role.Player) {
+
+                    if(!repetableInteraction) {
+
+                        if(unRepetableInteractionStateActive) {
+                            
+                            genericEvent.AddListener((CharacterManager c) => {
+
+                                interactableMeshEffectSetEnebled(false);
+                                unRepetableInteractionStateActive = false;
+                            });
+                            eventRes.Add(new Interaction(genericEvent, genericEventName, this));
+                        }
+
+                    } else {
+
+                        eventRes.Add(new Interaction(genericEvent, genericEventName, this));
+                    }
+                }
+            } else {
+                if(!repetableInteraction) {
+
+                    if(unRepetableInteractionStateActive) {
+                        genericEvent.AddListener((CharacterManager c) => {
+
+                            interactableMeshEffectSetEnebled(false);
+                            unRepetableInteractionStateActive = false;
+                        });
+                        eventRes.Add(new Interaction(genericEvent, genericEventName, this));
+                    }
+
+                } else {
+
                     eventRes.Add(new Interaction(genericEvent, genericEventName, this));
                 }
-
-            } else {
-
-                eventRes.Add(new Interaction(genericEvent, genericEventName, this));
             }
+
+            
         }
         
 
@@ -86,5 +119,9 @@ public class GenericUnaryInteractable : Interactable {
     private void playSounds() {
         audioSource.clip = interactAudioClip;
         audioSource.Play();
+    }
+
+    public void disableInteractable() {
+        _isInteractableDisabled = true;
     }
 }

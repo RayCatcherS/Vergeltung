@@ -63,6 +63,8 @@ public class CharacterManager : MonoBehaviour {
         get { return _playerWarpController; }
     }
     [SerializeField] private GameObject characterDecalProjectorEffect;
+    [SerializeField] private Rigidbody rigidBodyBoneForce; // bone su cui applicare la forza una volta che il character muore
+
 
     // stati del player
     [Header("Character States")]
@@ -104,6 +106,7 @@ public class CharacterManager : MonoBehaviour {
     [SerializeField] private bool _isTarget = false; // indica se è un obiettivo del gioco(e quindi va ucciso)
     public bool isTarget {
         get { return _isTarget; }
+        set { _isTarget = value; }
     }
 
     // indica se qualcuno si è allarmato trovando il cadavere
@@ -205,13 +208,40 @@ public class CharacterManager : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente CharacterManager</param>
     /// <returns></returns>
-    public static GameObject initCharacterManagerComponent(GameObject gameObject, InteractionUIController controller, GameState gameState, PlayerWarpController playerWarpController, SceneEntitiesController sceneEntitiesController) {
+    public static GameObject initCharacterManagerComponent(
+        GameObject gameObject,
+        InteractionUIController controller,
+        GameState gameState,
+        PlayerWarpController playerWarpController,
+        SceneEntitiesController sceneEntitiesController,
+        bool isTarget
+    ) {
 
-        CharacterManager characterInteraction = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
-        characterInteraction._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
-        characterInteraction._globalGameState = gameState;
-        characterInteraction._playerWarpController = playerWarpController;
-        characterInteraction._sceneEntitiesController = sceneEntitiesController;
+        CharacterManager character = gameObject.GetComponent<CharacterManager>(); // aggiungi componente CharacterInteraction 
+        character._interactionUIController = controller; // assegna al interactionUIController al componente CharacterInteraction
+        character._globalGameState = gameState;
+        character._playerWarpController = playerWarpController;
+        character._sceneEntitiesController = sceneEntitiesController;
+
+        character.isTarget = isTarget;
+        if(isTarget) {
+
+            character.gameObject.GetComponent<TargetIconManager>().enableTargetUI();
+            gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.targetCharacter);
+        } else {
+            character.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+
+            if(gameObject.GetComponent<CharacterRole>().role == Role.Civilian) {
+                gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.civilian);
+
+            } else if(gameObject.GetComponent<CharacterRole>().role == Role.EnemyGuard) {
+                gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.enemy);
+
+            } else if(gameObject.GetComponent<CharacterRole>().role == Role.Player) {
+                gameObject.GetComponent<IconMapManager>().changeIcon(IconMapManager.CharacterIcon.player);
+
+            }
+        }
 
         return gameObject;
     }
@@ -296,6 +326,7 @@ public class CharacterManager : MonoBehaviour {
 
         if (characterHealth <= 0) {
             _isDead = true;
+
             killCharacterAsync(damageVelocity);
         }
     }
@@ -322,11 +353,7 @@ public class CharacterManager : MonoBehaviour {
                 }
 
 
-
-
-
                 // flashlight fov
-
                 if(!isDead) { // ricontrolla se il character è morto, potrebbe essere morto dopo il ciclo sopra
                     await _inventoryManager.characterFlashLight.lightOnFlashLight();
                     _characterFOV.setFlashLightBonus(true);
@@ -356,7 +383,9 @@ public class CharacterManager : MonoBehaviour {
     /// <param name="damageVelocity"></param>
     public async Task killCharacterAsync(Vector3 damageVelocity) {
 
-        
+        // rimuovi character dal dizionario dei character in stato di allerta
+        sceneEntitiesController.removeCharacterInstanceAndAlertStateToDictionary(this);
+
         resetCharacterStates();
 
 
@@ -367,6 +396,8 @@ public class CharacterManager : MonoBehaviour {
         _inventoryManager.enabled = false;
         gameObject.GetComponent<CharacterController>().enabled = false;
 
+        // target UI
+        gameObject.GetComponent<TargetIconManager>().disableTargetUI();
 
 
         gameObject.GetComponent<CapsuleCollider>().isTrigger = true; // non è possibile avere collisioni fisiche ma il character resta
@@ -438,6 +469,25 @@ public class CharacterManager : MonoBehaviour {
         gameObject.transform.SetParent(gameObject.GetComponent<RagdollManager>().ragdollHips.gameObject.transform);
 
         //Debug.Log("Character dead at: " + gameObject.transform.position);
+
+        // aggiungi forza
+        rigidBodyBoneForce.AddForce(damageVelocity, ForceMode.Impulse);
+
+
+        // check se è un target => invia game goal event
+        if(isTarget) {
+            sendGameGoalEvent();
+        }
+
+        // disable map icon
+        gameObject.GetComponent<IconMapManager>().disableIcon();
+    }
+
+    private void sendGameGoalEvent() {
+        const string gameGoalName = "Kill the guardians";
+
+        _sceneEntitiesController.gameObject.GetComponent<GameModeController>()
+            .updateGameGoalsStatus(gameGoalName, GameGoal.GameGoalOperation.addGoal);
     }
 
     /// <summary>
@@ -677,10 +727,6 @@ public class CharacterManager : MonoBehaviour {
             Gizmos.DrawLine(transform.position, getCharacterPositionReachebleByAgents());
             Gizmos.DrawSphere(getCharacterPositionReachebleByAgents(), 0.25f);
         }
-
-
-
-
 
 
 

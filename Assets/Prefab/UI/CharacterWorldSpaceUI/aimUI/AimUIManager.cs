@@ -10,6 +10,7 @@ public class AimUIManager : MonoBehaviour
     [SerializeField] private Sprite defaultAimSprite;
     [SerializeField] private Sprite controlOnAimSprite;
     [SerializeField] private Sprite controlOffAimSprite;
+    [SerializeField] private Sprite vulnerableKillAimSprite;
 
     public void updateUIWorldPosition(Vector3 pos) {
         aimUITarget.gameObject.transform.forward = Camera.main.transform.forward;
@@ -21,7 +22,7 @@ public class AimUIManager : MonoBehaviour
         
     }
 
-    public void defaultAimLowOpacity() {
+    public void setDefaultAimWithLowOpacity() {
         Color color = Color.white;
         color.a = 0.05f;
 
@@ -30,7 +31,7 @@ public class AimUIManager : MonoBehaviour
         uiImage.sprite = defaultAimSprite;
     }
 
-    public void defaultAimMediumOpacity() {
+    public void setDefaultAimWithMediumOpacity() {
         Color color = Color.white;
         color.a = 0.5f;
 
@@ -39,7 +40,7 @@ public class AimUIManager : MonoBehaviour
         uiImage.sprite = defaultAimSprite;
     }
 
-    public void aimHighOpacity() {
+    public void setDefaultAimWithHighOpacity() {
         Color color = Color.white;
         color.a = 1f;
 
@@ -62,6 +63,22 @@ public class AimUIManager : MonoBehaviour
 
         Color color = Color.white;
         color.a = 1f;
+
+        uiImage.color = color;
+    }
+
+    public void setVulnerableKillAimSprite() {
+        uiImage.sprite = vulnerableKillAimSprite;
+
+        Color color = Color.white;
+        color.a = 1f;
+
+        uiImage.color = color;
+    }
+
+    public void hideAimUI() {
+        Color color = Color.white;
+        color.a = 0;
 
         uiImage.color = color;
     }

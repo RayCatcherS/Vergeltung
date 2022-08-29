@@ -12,12 +12,16 @@ public class Bullet : MonoBehaviour {
     private const int SHATTERABLEGLASS_LAYER = 17;
     private const int MACHINERY_LAYER = 18;
 
+    private const int BONUS_DAMAGE = 100;
+    private const int BULLET_VELOCITY_FORCE = 200;
+
 
     [Header("Bullet configuration")]
     [SerializeField] protected float moveSpeed = 100;
     [SerializeField] protected float deadTime = 3;
     [SerializeField] protected Vector3 _bulletDirection;
     [SerializeField] protected int bulletDamage = 20;
+    [SerializeField] protected bool _lethalBlow = false; // colpo letale(danno letale)
 
     [Header("Bullet particle impact")]
     [SerializeField] protected GameObject particleBloodImpact;
@@ -41,7 +45,8 @@ public class Bullet : MonoBehaviour {
         StartCoroutine(startBulletDeadTime(deadTime));
     }
 
-    public void setupBullet(Vector3 bulletDirection) {
+    public void setupBullet(Vector3 bulletDirection, bool lethalBlow = false) {
+        _lethalBlow = lethalBlow;
         _bulletDirection = bulletDirection;
     }
 
@@ -68,7 +73,7 @@ public class Bullet : MonoBehaviour {
                 if(hit.transform.gameObject.layer == CHARACTER_LAYER) {
 
 
-                    characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point);
+                    characterCollision(hit.transform.gameObject.GetComponent<CharacterManager>(), hit.point, _bulletDirection);
                 } else if(hit.transform.gameObject.layer == RAGDOLLBONE_LAYER) {
 
                     ragdollBoneCollision(hit.point);
@@ -97,8 +102,8 @@ public class Bullet : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    protected virtual void characterCollision(CharacterManager character, Vector3 collisionPoint) {
-        character.applyCharacterDamage(bulletDamage, Vector3.zero);
+    protected virtual void characterCollision(CharacterManager character, Vector3 collisionPoint, Vector3 damageVelocity) {
+        character.applyCharacterDamage(_lethalBlow ? bulletDamage * BONUS_DAMAGE : bulletDamage, damageVelocity * BULLET_VELOCITY_FORCE);
         Instantiate(particleBloodImpact, collisionPoint, Quaternion.identity);
 
         // loud area

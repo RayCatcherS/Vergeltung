@@ -12,7 +12,8 @@ public enum GlobalGameState {
     play,
     gameover,
     pause,
-    switchCharacterMode
+    switchCharacterMode,
+    win
 }
 
 /// <summary>
@@ -27,16 +28,20 @@ public class GameState : MonoBehaviour {
     [Header("Ref")]
     [SerializeField] private PlayerWarpController playerWarpController;
     private PlayerInputAction playerActions;
+    [SerializeField] private Camera mapCamera;
 
     [Header("UI Ref")]
     [SerializeField] private AlarmAlertUIController alarmAlertUIController;
 
     [Header("UI screen ref")]
     [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private MenuScreen winUIScreen;
     [SerializeField] private MenuScreen pauseUIScreen;
     [SerializeField] private MenuScreen gameOverUIScreen;
     [SerializeField] private MenuScreen loadingUIScreen;
+    [SerializeField] private MenuScreen warpModeScreen;
     [SerializeField] private Slider loadingSlider;
+    [SerializeField] private Animator winAnimator;
 
 
 
@@ -62,10 +67,14 @@ public class GameState : MonoBehaviour {
     }
 
     private void Start() {
+        //disable map camera
+        mapCamera.enabled = false;
 
-
+        Time.timeScale = 1;
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
+
     }
 
 
@@ -108,7 +117,7 @@ public class GameState : MonoBehaviour {
         if(!playerWarpController.iswarpedCharacterManagerStackEmpty) {
 
             
-            updateWantedUICharacter();
+            updateWantedUICharacter(playerWarpController.currentPlayedCharacter);
         }
         
     }
@@ -118,8 +127,7 @@ public class GameState : MonoBehaviour {
     /// Imposta l'icona di ricercato nell'UI
     /// Verifica se il character attualmente in utilizzo è ricercato o meno
     /// </summary>
-    public void updateWantedUICharacter() {
-        CharacterManager characterManager = playerWarpController.currentPlayedCharacter;
+    public void updateWantedUICharacter(CharacterManager characterManager) {
 
 
         if (globalWantedHostileCharacters.ContainsKey(characterManager.GetInstanceID())) {
@@ -143,20 +151,37 @@ public class GameState : MonoBehaviour {
     /// Avvia l'UI di game over
     /// </summary>
     public async void initGameOverGameState() {
+
+        // disable aim UI
+        gameObject.GetComponent<AimUIManager>().hideAimUI();
+
+
+        // stop musica in-game
+        gameObject.GetComponent<GameSoundtrackController>()
+            .setSoundTrackState(CharacterBehaviourSoundtrackState.noSoundtrack);
+
+
         // start canzone fine partita
         gameOverAudioSource.Play();
 
-        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterBehaviourInSceneAsync(); // attendi e disattiva behaviour di tutti i character 
+
+        // attendi e disattiva behaviour di tutti i character 
+        await gameObject.GetComponent<SceneEntitiesController>()
+            .stopAllCharacterBehaviourInSceneAsync(); 
 
         
 
         // setta comando action event system
-        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit 
+            = InputActionReference.Create(playerActions.MainMenu.Action);
 
 
         // game over UI
         loadingUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
+
         gameOverUIScreen.gameObject.SetActive(true);
+
         eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
 
         // game state 
@@ -176,10 +201,50 @@ public class GameState : MonoBehaviour {
         gameOverUIScreen.gameObject.SetActive(false);
         pauseUIScreen.gameObject.SetActive(true);
         eventSystem.SetSelectedGameObject(pauseUIScreen.firtButton.gameObject);
-
+        warpModeScreen.gameObject.SetActive(false);
 
         // game state 
         _gameState = GlobalGameState.pause;
+
+        // enable map camera
+        mapCamera.enabled = true;
+    }
+
+    public async void initWinState() {
+
+        // stop musica in-game
+        gameObject.GetComponent<GameSoundtrackController>()
+            .setSoundTrackState(CharacterBehaviourSoundtrackState.noSoundtrack);
+
+        // setta comando action event system
+        eventSystem.gameObject.GetComponent<InputSystemUIInputModule>().submit = InputActionReference.Create(playerActions.MainMenu.Action);
+
+        loadingUIScreen.gameObject.SetActive(false);
+        gameOverUIScreen.gameObject.SetActive(false);
+        pauseUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
+
+
+        eventSystem.SetSelectedGameObject(winUIScreen.firtButton.gameObject);
+
+        // game state 
+        _gameState = GlobalGameState.win;
+
+        // avvia animazione
+        winAnimator.SetTrigger("start");
+
+        // stop player
+        gameObject.GetComponent<GameInputManager>().enabled = false;
+        gameObject.GetComponent<SceneEntitiesController>().player.gameObject
+            .GetComponent<CharacterManager>().characterMovement.stopCharacter();
+
+
+        // stop process
+        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterTargetIcon();
+
+        // attendi e disattiva behaviour di tutti i character 
+        await gameObject.GetComponent<SceneEntitiesController>()
+            .stopAllCharacterBehaviourInSceneAsync();
     }
 
     public void resumeGameState() {
@@ -194,6 +259,7 @@ public class GameState : MonoBehaviour {
         loadingUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         pauseUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
 
 
         // rebuild UI interacion(selezionando il primo elemento (se c'è))
@@ -201,18 +267,37 @@ public class GameState : MonoBehaviour {
 
         // game state 
         _gameState = GlobalGameState.play;
+
+        //disable map camera
+        mapCamera.enabled = false;
     }
 
 
-    public void initLoadingScreen(int sceneToLoad) {
+    public async void initLoadingScreen(int sceneToLoad) {
 
         pauseUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(true);
+        warpModeScreen.gameObject.SetActive(false);
 
+
+        Time.timeScale = 1;
+
+        // stop player
+        gameObject.GetComponent<SceneEntitiesController>().player.gameObject
+            .GetComponent<CharacterManager>().characterMovement.stopCharacter();
+
+        // stop process
+        await gameObject.GetComponent<SceneEntitiesController>().stopAllCharacterTargetIcon();
+
+        // attendi e disattiva behaviour di tutti i character 
+        await gameObject.GetComponent<SceneEntitiesController>()
+            .stopAllCharacterBehaviourInSceneAsync();
+        Time.timeScale = 0;
 
         StartCoroutine(LoadSceneAsynchronously(sceneToLoad));
 
+        Time.timeScale = 1;
     }
 
     IEnumerator LoadSceneAsynchronously(int selectedScene) {
@@ -231,6 +316,8 @@ public class GameState : MonoBehaviour {
 
     public void initSwitchCharacterMode() {
         _gameState = GlobalGameState.switchCharacterMode;
+        warpModeScreen.gameObject.SetActive(true);
+
 
         Time.timeScale = 0.1f;
     }

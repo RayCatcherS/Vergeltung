@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class SceneEntitiesController : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private GameSoundtrackController gameSoundtrackController;
+
+    [Header("Scene character entities")]
     [SerializeField] private List<BaseNPCBehaviourManager> _allNpcList = new List<BaseNPCBehaviourManager>();
     public List<BaseNPCBehaviourManager> allNpcList {
         get { return _allNpcList; }
@@ -28,7 +32,17 @@ public class SceneEntitiesController : MonoBehaviour
     }
     [SerializeField] private List<CivilianNPCBehaviourManager> civilianNpcList = new List<CivilianNPCBehaviourManager>();
 
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject _player;
+    public GameObject player {
+        get { return _player; }
+    }
+
+    /// <summary>
+    /// Dizionario characters hostility characters
+    /// Contiene i characters attualmente in stato di Hostility e Suspicious
+    /// </summary>
+    private Dictionary<CharacterManager, CharacterBehaviourSoundtrackState> _charactersHostilitySouspiciousD = new Dictionary<CharacterManager, CharacterBehaviourSoundtrackState>();
+
 
     public void addNPCEnemyIstance(EnemyNPCBehaviourManager enemyNPCBehaviour) {
         _allNpcList.Add(enemyNPCBehaviour);
@@ -45,7 +59,7 @@ public class SceneEntitiesController : MonoBehaviour
     /// </summary>
     /// <param name="playerCharacterManager"></param>
     public void setPlayerEntity(CharacterManager playerCharacterManager) {
-        player = playerCharacterManager.gameObject;
+        _player = playerCharacterManager.gameObject;
     }
 
     /// <summary>
@@ -154,4 +168,135 @@ public class SceneEntitiesController : MonoBehaviour
             return closerCharacter;
         }
     }
+
+
+    /// <summary>
+    /// Aggiungi CharacterManagerInstanceID e stato di allerta
+    /// </summary>
+    public void addCharacterInstanceAndAlertStateToDictionary(CharacterManager character, CharacterBehaviourSoundtrackState state) {
+
+        _charactersHostilitySouspiciousD.TryAdd(character, state);
+
+
+        updateGlobalAlarmState();
+    }
+
+    public void removeCharacterInstanceAndAlertStateToDictionary(CharacterManager character) {
+
+
+        if(_charactersHostilitySouspiciousD.ContainsKey(character)) {
+            _charactersHostilitySouspiciousD.Remove(character);
+
+            updateGlobalAlarmState();
+        }
+
+        
+    }
+
+    public void updateGlobalAlarmState() {
+
+        int civilianSuspicious = 0;
+        int civilianHostility = 0;
+        int enemySuspicious = 0;
+        int enemyHostility = 0;
+
+        foreach (var character in _charactersHostilitySouspiciousD) {
+
+
+            if(character.Key.chracterRole == Role.Civilian) {
+
+                if(character.Value == CharacterBehaviourSoundtrackState.Suspicious) {
+                    civilianSuspicious++;
+                }
+
+                if(character.Value == CharacterBehaviourSoundtrackState.Hostility) {
+                    civilianHostility++;
+                }
+            }
+
+            if(character.Key.chracterRole == Role.EnemyGuard) {
+                if(character.Value == CharacterBehaviourSoundtrackState.Suspicious) {
+                    enemySuspicious++;
+                }
+
+                if(character.Value == CharacterBehaviourSoundtrackState.Hostility) {
+                    enemyHostility++;
+                }
+            }
+        }
+
+        if(civilianSuspicious == 0 &&
+               civilianHostility == 0 &&
+               enemySuspicious == 0 &&
+               enemyHostility == 0
+            ) {
+
+            gameSoundtrackController
+                .setSoundTrackState(CharacterBehaviourSoundtrackState.Unalert);
+        } else {
+
+            // Se nel dizionario esistono solo character civili
+            // in stato di suspicious oppure hostility e nessun character
+            // nemico(in suspicious o hostility), il trigger dell'animator
+            // verrà settato su suspicious
+            if(enemySuspicious == 0 && enemyHostility == 0) {
+                if(civilianSuspicious != 0 || civilianHostility != 0) {
+                    gameSoundtrackController
+                        .setSoundTrackState(CharacterBehaviourSoundtrackState.Suspicious);
+                }
+
+            } else {
+                if(enemyHostility != 0) {
+                    gameSoundtrackController
+                            .setSoundTrackState(CharacterBehaviourSoundtrackState.Hostility);
+                } else if(enemySuspicious != 0) {
+                    gameSoundtrackController
+                            .setSoundTrackState(CharacterBehaviourSoundtrackState.Suspicious);
+                }
+
+                
+            }
+
+        }
+
+#if UNITY_EDITOR
+        _civilianSuspicious = civilianSuspicious;
+        _civilianHostility = civilianHostility;
+        _enemySuspicious = enemySuspicious;
+        _enemyHostility = enemyHostility;
+#endif
+    }
+
+    public async Task stopAllCharacterTargetIcon() {
+
+        _player.GetComponent<TargetIconManager>().disableTargetUI();
+
+        foreach(var character in allNpcList) {
+            character.gameObject.GetComponent<TargetIconManager>().disableTargetUI();
+        }
+        return;
+    }
+#if UNITY_EDITOR
+    
+    private int _civilianSuspicious = 0;
+    private int _civilianHostility = 0;
+    private int _enemySuspicious = 0;
+    private int _enemyHostility = 0;
+
+
+    void OnGUI() {
+        GUI.TextArea(new Rect(0, Screen.height - 100, 200, 100), "GLOBAL ALERT: \n"
+            + "C Civili suspicious: " + _civilianSuspicious.ToString() + "\n"
+            + "C Civili hostility: " + _civilianHostility.ToString() + "\n"
+            + "C Nemici suspicious: " + _enemySuspicious.ToString() + "\n"
+            + "C Nemici hostility: " + _enemyHostility.ToString() + "\n"
+            + "GSoundTrackState: " + gameSoundtrackController.soundTrackState.ToString()
+            , 200);
+        /*
+        GUI.TextArea(new Rect(0, 100, 200, 40), "rotazione character \n" + characterMovement.getCharacterModelRotation.ToString(), 200);
+        GUI.TextArea(new Rect(0, 140, 200, 40), "input is run: \n" + isRunPressed.ToString(), 200);*/
+    }
+#endif
 }
+
+

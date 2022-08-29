@@ -5,8 +5,8 @@ using UnityEngine;
 public class ScenePowerController : MonoBehaviour
 {
     [Header("Power settings and states")]
-    [SerializeField] private int powerOffTimer = 20;
     [SerializeField] private LightSourcesScript[] lightSources;
+    [SerializeField] private BuildingWindows[] buildingWindows;
     [SerializeField] private ElectricGateController[] electricGateControllers;
     [SerializeField] private GeneratorInteractable[] generatorInteractables;
     [SerializeField] private bool powerOn = true;
@@ -19,6 +19,7 @@ public class ScenePowerController : MonoBehaviour
     void Start() {
 
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
+        buildingWindows = FindObjectsOfType(typeof(BuildingWindows)) as BuildingWindows[];
         electricGateControllers = FindObjectsOfType(typeof(ElectricGateController)) as ElectricGateController[];
 
         generatorInteractables = FindObjectsOfType(typeof(GeneratorInteractable)) as GeneratorInteractable[];
@@ -33,14 +34,14 @@ public class ScenePowerController : MonoBehaviour
     /// disattiva momentaneamente la corrente se ci sono ancora lifePower
     /// Altrimenti se lifePower == 0 disattiva permanentemente la corrente
     /// </summary>
-    public void turnOffPower() {
+    public void turnOffPower(int powerOffTimer) {
 
         if(powerOn) {
-            StartCoroutine(turnOffPowerTimed());
+            StartCoroutine(turnOffPowerTimed(powerOffTimer));
         }
     }
 
-    private IEnumerator turnOffPowerTimed() {
+    private IEnumerator turnOffPowerTimed(int powerOffTimer) {
 
         // clip audio power on
         audioSource.clip = powerOffClip;
@@ -51,7 +52,7 @@ public class ScenePowerController : MonoBehaviour
 
         // apri tutti i cancelli
         for(int i = 0; i < electricGateControllers.Length; i++) {
-            electricGateControllers[i].openGate();
+            electricGateControllers[i].openGateByPowerOff(powerOffTimer);
         }
 
 
@@ -61,6 +62,11 @@ public class ScenePowerController : MonoBehaviour
             lightSources[i].turnOffLigth();
         }
 
+        // disattiva tutte le finestre
+        for(int i = 0; i < buildingWindows.Length; i++) {
+            buildingWindows[i].turnOffLigth();
+        }
+        
 
         // applica FOV malus a tutti i character della scena
         List<CharacterManager> characterManagers = gameObject.GetComponent<SceneEntitiesController>().getAllNPC();
@@ -81,6 +87,11 @@ public class ScenePowerController : MonoBehaviour
         // riattiva tutte le luci
         for(int i = 0; i < lightSources.Length; i++) {
             lightSources[i].turnOnLigth();
+        }
+
+        // riattiva tutte le finestre
+        for(int i = 0; i < buildingWindows.Length; i++) {
+            buildingWindows[i].turnOnLigth();
         }
 
         // rimuovi FOV malus a tutti i character della scena

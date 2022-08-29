@@ -12,7 +12,6 @@ public class CharacterFOV : MonoBehaviour {
     private const int CHARACTER_LAYERS = 7;
     private const int ALL_LAYERS = -1; // except glasses ~(1 << 17)
     private const int RAGDOLL_BONE_LAYER = 15;
-    private const int SHATTERABLE_GLASS_LAYER = 17;
 
     [Header("References")]
     [SerializeField] private Transform _recognitionTarget; // target partenza utilizzato per confermare dai campi visivi dei character che il character è stato rilevato
@@ -47,12 +46,12 @@ public class CharacterFOV : MonoBehaviour {
 
 
     [Header("Primo campo visivo(ravvicinato)")]
-    [SerializeField] private const float _defaultFirstFovRadius = 7f;
+    [SerializeField] private float _defaultFirstFovRadius = 6f;
     private float defaultFirstFovRadius {
         get { return _defaultFirstFovRadius; }
     }
     [Range(0, 360)]
-    [SerializeField] private const float _defaultFirstFovAngle = 90;
+    [SerializeField] private float _defaultFirstFovAngle = 90;
     
 
 
@@ -80,6 +79,12 @@ public class CharacterFOV : MonoBehaviour {
     [SerializeField] private float _FOVBonusMultiplierFlashLightAreasValue = 1.6f; // valore moltiplicatore fov quando torcia accesa
     [SerializeField] private float _FOVBonusMultiplierAlertAreaValue = 1.4f; // valore moltiplicatore fov quando in stato di allerta
 
+
+    [Header("Vulnerable FOV")]
+    // fov vulnerabilità character
+    [SerializeField] private float _defaultVulnerableFovRadius = 5;
+    [Range(0, 360)]
+    [SerializeField] private float _defaultVulnerableFovAngle = 90;
 
     [Header("Area di allerta")]
     //L'area di allerta viene utilizzata per rilevare i Characters vicini all'NPC e nel caso informarli o aggiornali istantaneamente su eventuali eventi
@@ -640,6 +645,55 @@ public class CharacterFOV : MonoBehaviour {
 
     }
 
+    public bool isVulnerableAngle(Vector3 hitPointPreview, Vector3 shootPoint) {
+
+        
+
+        bool result = false;
+
+        // hitPointPreview
+        Vector3 targetHitPointPreview = new Vector3(hitPointPreview.x, 0, hitPointPreview.z);
+        Vector3 fromPositionHitPointPreview = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
+        Vector3 toPositionHitPointPreview = targetHitPointPreview;
+        Vector3 directionHitPointPreview = toPositionHitPointPreview - fromPositionHitPointPreview;
+
+        // shootPoint
+        Vector3 targetShootPoint = new Vector3(shootPoint.x, 0, shootPoint.z);
+        Vector3 fromPositionShootPoint = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
+        Vector3 toPositionShootPoint = targetShootPoint;
+        Vector3 directionShootPoint = toPositionShootPoint - fromPositionShootPoint;
+
+
+        // distance
+        Vector3 point1 = new Vector2(shootPoint.x, shootPoint.z);
+        Vector3 point2 = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
+
+        if(Vector3.Distance(point1, point2) < _defaultVulnerableFovRadius) {
+
+
+            if(Vector3.Angle(-transform.forward, directionShootPoint) < (_defaultVulnerableFovAngle / 2)) {
+
+                if(Vector3.Angle(-transform.forward, directionHitPointPreview) < (_defaultVulnerableFovAngle / 2)) {
+
+                    result = true;
+                } else {
+
+                    result = false;
+                }
+            } else {
+                result = false;
+            }
+        } else {
+            result = false;
+        }
+
+
+        
+        
+
+        return result;
+    }
+
 #if UNITY_EDITOR
     private void drawfirstFOVEditor() {
 
@@ -731,6 +785,33 @@ public class CharacterFOV : MonoBehaviour {
                 0,
                 Mathf.Cos((transform.eulerAngles.y + (-(getInfluencedSecondFovAngle()) / 2)) * (Mathf.Deg2Rad))
             ) * (getInfluencedSecondFovRadius()),
+            5
+        );
+
+
+        // draw fov vulnerabilità 
+        Handles.color = Color.red;
+        int fovDirection = 180;
+
+        // 1
+        Handles.DrawLine(
+            gameObject.transform.position,
+            gameObject.transform.position + new Vector3(
+                Mathf.Sin((transform.eulerAngles.y + fovDirection + (_defaultVulnerableFovAngle) / 2) * (Mathf.Deg2Rad)),
+                0,
+                Mathf.Cos((transform.eulerAngles.y + fovDirection + (_defaultVulnerableFovAngle) / 2) * (Mathf.Deg2Rad))
+            ) * (_defaultVulnerableFovRadius),
+            5
+        );
+        
+        // 2
+        Handles.DrawLine(
+            gameObject.transform.position,
+            gameObject.transform.position + new Vector3(
+                Mathf.Sin(((transform.eulerAngles.y + fovDirection) + (-(_defaultVulnerableFovAngle) / 2)) * (Mathf.Deg2Rad )),
+                0,
+                Mathf.Cos(((transform.eulerAngles.y + fovDirection) + (-(_defaultVulnerableFovAngle) / 2)) * (Mathf.Deg2Rad))
+            ) * (_defaultVulnerableFovRadius),
             5
         );
     }

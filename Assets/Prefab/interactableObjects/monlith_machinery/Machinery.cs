@@ -26,6 +26,10 @@ public class Machinery : MonoBehaviour
     [SerializeField] private Image machinerySliderFill;
     [SerializeField] private Material disabledMachinertSliderFill;
     [SerializeField] private GenericUnaryInteractable machineryConsole;
+    [SerializeField] private TargetIconManager targetIconManager;
+
+    [Header("Manager Refs")]
+    [SerializeField] private GameModeController gameModeController;
 
     [Header("Enviroment Refs")]
     [SerializeField] private List<LightSourcesScript> machineryLights = new List<LightSourcesScript>();
@@ -41,6 +45,10 @@ public class Machinery : MonoBehaviour
 
 
     private void Start() {
+
+        // abilita target icon
+        targetIconManager.enableTargetUI();
+
         audioSource.clip = machineryClip;
         audioSource.Play();
     }
@@ -164,6 +172,25 @@ public class Machinery : MonoBehaviour
             machineryLight.setLightOff();
             machineryLight.lightDisabled = true;
         }
+
+        // disabilita target icon
+        targetIconManager.disableTargetUI();
+
+        // invia evento
+        sendGameGoalEvent();
+
+        // avvia vibrazione pad
+        gameModeController.gameObject.GetComponent<GamePadVibrationController>().sendImpulse(0.7f, 2);
+
+        // disable map icon
+        gameObject.GetComponent<IconMapManager>().disableIcon();
+    }
+
+    private void sendGameGoalEvent() {
+        const string gameGoalName = "Disable the monolith machines";
+
+        gameModeController
+            .updateGameGoalsStatus(gameGoalName, GameGoal.GameGoalOperation.addGoal);
     }
 
     private void sparksEffect() {
@@ -188,9 +215,9 @@ public class Machinery : MonoBehaviour
 
     private void spawnPowerAmmo() {
         // istanzia nella scena
-        GameObject newCharacter;
+        GameObject ammo;
         for (int i = 0; i < ammunitionReleased; i++) {
-            newCharacter = Instantiate(poweAmmoPrefab, spawnTransform.position, Quaternion.identity);
+            ammo = Instantiate(poweAmmoPrefab, spawnTransform.position, Quaternion.identity);
         }
         
     }

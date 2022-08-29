@@ -6,7 +6,8 @@ public enum WeaponType{
     melee,
     pistol,
     rifle,
-    controlWeapon
+    controlWeapon,
+    ammo
 }
 
 [System.Serializable]
@@ -35,6 +36,9 @@ public class WeaponItem : InventoryItem
 
     [Header("Weapon ref")]
     [SerializeField] private Transform _shootingTransform;
+    public Vector3 shootingPosition {
+        get { return _shootingTransform.position; }
+    }
     [SerializeField] private Vector3 _weaponOffsetRotation;
     [SerializeField] private Transform _rightHandTransformRef;
     [SerializeField] private Transform _leftHandTransformRef;
@@ -46,7 +50,10 @@ public class WeaponItem : InventoryItem
 
     [Header("Weapon configuration")]
     [SerializeField] private GameObject damageObject; // può essere un proiettile trigger in movimento che applica del danno o solo una sfera trigger che applica del danno
-    [SerializeField] private WeaponType weaponType;
+    [SerializeField] private WeaponType _weaponType;
+    public WeaponType weaponType {
+        get { return _weaponType; }
+    }
     [SerializeField] private Ammunition _ammunition;
     public Ammunition ammunition {
         get { return _ammunition; }
@@ -85,7 +92,7 @@ public class WeaponItem : InventoryItem
        }
     }
     public bool isWeaponAmmunitionEmpty {
-        get { return _ammunition.ammunitionQuantity == 0 ? true : false; }
+        get { return _inventoryManager.inventoryAmmunitions[weaponType].ammunitionQuantity == 0 ? true : false; }
     }
 
     [Header("Weapon effects")]
@@ -100,13 +107,10 @@ public class WeaponItem : InventoryItem
     [SerializeField] private GameObject loudArea;
     [SerializeField] private LoudAreaType loudIntensity;
 
-    [Header("Asset Refs")]
-    [SerializeField] private AudioClip interactAudioClip;
-
 
 
     public WeaponType getWeaponType {
-        get { return weaponType; }
+        get { return _weaponType; }
     }
     
     public float impulseTime {
@@ -141,10 +145,6 @@ public class WeaponItem : InventoryItem
     }
     public override void Start() {
         base.Start();
-        getItemEvent.AddListener((CharacterManager c) => {
-
-            playSounds();
-        });
     }
 
 
@@ -213,7 +213,7 @@ public class WeaponItem : InventoryItem
 
                     // damage object
                     GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
-                    if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+                    if(_weaponType == WeaponType.pistol || _weaponType == WeaponType.rifle) {
 
                         damageGO.GetComponent<Bullet>().setupBullet(posB);
 
@@ -222,7 +222,7 @@ public class WeaponItem : InventoryItem
                             GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
 
                         }
-                    } else if(weaponType == WeaponType.controlWeapon) {
+                    } else if(_weaponType == WeaponType.controlWeapon) {
 
                         damageGO.GetComponent<ControlBullet>().setupBullet(posB, inventoryManager);
 
@@ -238,7 +238,7 @@ public class WeaponItem : InventoryItem
 
                     if(inventoryManager.characterManager.isPlayer) {
 
-                        if(weaponType != WeaponType.controlWeapon) {
+                        if(_weaponType != WeaponType.controlWeapon) {
                             inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity 
                                 = inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity - 1;
                         }
@@ -267,7 +267,7 @@ public class WeaponItem : InventoryItem
 
             // damage object
             GameObject damageGO = Instantiate(damageObject, _shootingTransform.position, _shootingTransform.rotation);
-            if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+            if(_weaponType == WeaponType.pistol || _weaponType == WeaponType.rifle) {
 
                 damageGO.GetComponent<Bullet>().setupBullet(posB);
 
@@ -276,7 +276,7 @@ public class WeaponItem : InventoryItem
                     GameObject particleGO = Instantiate(spawnDamageObjectParticle, spawnDamageObjectParticleTransform.position, spawnDamageObjectParticleTransform.rotation);
 
                 }
-            } else if(weaponType == WeaponType.controlWeapon) {
+            } else if(_weaponType == WeaponType.controlWeapon) {
 
                 damageGO.GetComponent<ControlBullet>().setupBullet(posB, inventoryManager);
 
@@ -336,8 +336,26 @@ public class WeaponItem : InventoryItem
 
                     // damage object
                     GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
-                    if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
-                        damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+                    if(_weaponType == WeaponType.pistol || _weaponType == WeaponType.rifle) {
+
+                        AimInformation aimInfo = inventoryManager.getAimInformation();
+
+                        if(aimInfo.isAimedCharacter) {
+                            bool res = aimInfo.aimedCharacter.characterFOV.isVulnerableAngle(
+                                aimInfo.aimedHitPosition,
+                                shootingPosition
+                            );
+
+                            if(res) {
+                                damageGO.GetComponent<Bullet>().setupBullet(bulletDirection, true);
+                            } else {
+                                damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+                            }
+                        } else {
+                            damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
+                        }
+                        
+                        
 
                         if(spawnDamageObjectParticle != null) {
                             GameObject particleGO = Instantiate(
@@ -348,7 +366,7 @@ public class WeaponItem : InventoryItem
                             particleGO.transform.parent
                                 = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
                         }
-                    } else if(weaponType == WeaponType.controlWeapon) {
+                    } else if(_weaponType == WeaponType.controlWeapon) {
                         damageGO.GetComponent<ControlBullet>().setupBullet(bulletDirection, inventoryManager);
 
                         if(spawnDamageObjectParticle != null) {
@@ -367,7 +385,7 @@ public class WeaponItem : InventoryItem
 
                     if(inventoryManager.characterManager.isPlayer) {
 
-                        if(weaponType != WeaponType.controlWeapon) {
+                        if(_weaponType != WeaponType.controlWeapon) {
                             inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity
                                 = inventoryManager.inventoryAmmunitions[_ammunition.ammunitionType].ammunitionQuantity - 1;
                         }
@@ -393,7 +411,7 @@ public class WeaponItem : InventoryItem
 
                 // damage object
                 GameObject damageGO = Instantiate(damageObject, posA, _shootingTransform.rotation);
-                if(weaponType == WeaponType.pistol || weaponType == WeaponType.rifle) {
+                if(_weaponType == WeaponType.pistol || _weaponType == WeaponType.rifle) {
                     damageGO.GetComponent<Bullet>().setupBullet(bulletDirection);
 
                     if(spawnDamageObjectParticle != null) {
@@ -405,7 +423,7 @@ public class WeaponItem : InventoryItem
                         particleGO.transform.parent 
                             = p.gameObject.GetComponent<CharacterMovement>().characterModel.gameObject.transform;
                     }
-                } else if(weaponType == WeaponType.controlWeapon) {
+                } else if(_weaponType == WeaponType.controlWeapon) {
                     damageGO.GetComponent<ControlBullet>().setupBullet(bulletDirection, inventoryManager);
 
                     if(spawnDamageObjectParticle != null) {
@@ -425,15 +443,4 @@ public class WeaponItem : InventoryItem
         
     }
 
-    private void playSounds() {
-
-
-        GameObject loudGameObject = Instantiate(loudArea, transform.position, Quaternion.identity);
-        
-
-        loudGameObject.GetComponent<LoudArea>().initLoudArea(
-            LoudAreaType.nothing,
-            interactAudioClip);
-        loudGameObject.GetComponent<LoudArea>().startLoudArea();
-    }
 }

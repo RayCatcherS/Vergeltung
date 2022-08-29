@@ -10,14 +10,16 @@ public class GeneratorInteractable : Interactable {
     [SerializeField] private ScenePowerController scenePowerController; // game state per accedere ai metodi dello stato di gioco
     [SerializeField] private AudioSource audioSource;
 
-    [Header("State")]
+    [Header("States")]
     [SerializeField] string sabotageGeneratorEventName = "SABOTAGE GENERATOR";
     [SerializeField] UnityEventCharacter sabotageGenerator = new UnityEventCharacter();
     [SerializeField] private GeneratorState generatorState = GeneratorState.GeneratorOn;
     private bool isSabotage = false;
+    private int numberOfEnemyToWarn = 1; // count numero nemici da warnare al sabotaggio
 
     [Header("generator config")]
     [SerializeField] private float sabotageTime = 2f; // tempo per sabotare il generatore
+    [SerializeField] private int powerOffTimer = 20;
 
     [Header("Asset Refs")]
     [SerializeField] private AudioClip interactAudioClip;
@@ -38,7 +40,7 @@ public class GeneratorInteractable : Interactable {
 
         isSabotage = true;
         characterWhoIsInteracting.isSuspiciousGenericAction = true; // permette al player di diventare sospetto/ostile
-        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia potenziale stato alert
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOn(); // avvia UI potenziale stato alert
 
         // sound 
         playSounds();
@@ -47,18 +49,17 @@ public class GeneratorInteractable : Interactable {
         bool playerTaskResultDone = await characterWhoIsInteracting.startTimedInteraction(sabotageTime, "Sabotage");
 
         characterWhoIsInteracting.isSuspiciousGenericAction = false;
+        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
 
         isSabotage = false;
         if (playerTaskResultDone) {
             generatorState = GeneratorState.GeneratorOff;
-            scenePowerController.turnOffPower();
+            scenePowerController.turnOffPower(powerOffTimer);
             interactableMeshEffectSetEnebled(false);
+
+            callEnemy();
         }
-
-        characterWhoIsInteracting.alarmAlertUIController.potentialSuspiciousGenericActionAlarmOff();
         characterWhoIsInteracting.buildListOfInteraction(); // rebuilda UI
-
-        callEnemy();
     }
 
     /// <summary>
@@ -95,17 +96,25 @@ public class GeneratorInteractable : Interactable {
             = scenePowerController.gameObject.GetComponent<SceneEntitiesController>().enemyNpcList;
 
 
-        EnemyNPCBehaviourManager enemy = SceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position, _enemyNpcList);
+        for(int i = 0; i < numberOfEnemyToWarn; i++) {
+            EnemyNPCBehaviourManager enemy = SceneEntitiesController.getCloserEnemyCharacterFromPosition(gameObject.transform.position, _enemyNpcList);
 
-        Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
+            if(enemy != null) {
+                Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
 
 
 
-        enemy.setAlert(
-            CharacterAlertState.WarnOfSuspiciousAlert,
-            true,
-            lastSeenFocusAlarmPosition: nearPos
-        );
+                enemy.setAlert(
+                    CharacterAlertState.WarnOfSuspiciousAlert,
+                    true,
+                    lastSeenFocusAlarmPosition: nearPos
+                );
+            }
+            
+        }
+
+        // incrementa numero di guardie da chiamare al sabotaggio successivo
+        numberOfEnemyToWarn++;
     }
 }
 

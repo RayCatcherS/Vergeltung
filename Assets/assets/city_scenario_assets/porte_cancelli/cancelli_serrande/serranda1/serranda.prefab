@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &2839033553283933507
 Transform:
@@ -349,11 +349,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gateAnimator: {fileID: 6087177029830781301}
   ligthAnim: {fileID: 990890781254167694}
-  busyGateTimer: 2.4
-  busy: 0
+  audioSource: {fileID: 3251806108686156661}
   _gateClosed: 1
   gateClosingTime: 21
-  audioSource: {fileID: 3251806108686156661}
+  busyGateTimer: 2.4
+  busy: 0
+  _gateAutomaticClose: 1
+  _gateCanBeOpenByPowerOff: 1
   gateAudioClip: {fileID: 8300000, guid: b25c0a75614addf4098eaada26832ab5, type: 3}
 --- !u!95 &6087177029830781301
 Animator:
@@ -950,6 +952,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6444129399251864078, guid: 599537ce6998db446b927b9dbf884896, type: 3}
   m_PrefabInstance: {fileID: 8683276252610890439}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &2970455693928137666 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5888487341037357317, guid: 599537ce6998db446b927b9dbf884896, type: 3}
+  m_PrefabInstance: {fileID: 8683276252610890439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3072797009880177267 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5919406834371743924, guid: 599537ce6998db446b927b9dbf884896, type: 3}
@@ -968,7 +975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineScript: {fileID: 1531590480563995034}
-  interactableMeshEffect: {fileID: 0}
+  interactableMeshEffect: {fileID: 2970455693928137666}
   genericEventName: OPERATE GATE
   genericEvent:
     m_PersistentCalls:
@@ -986,6 +993,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   repetableInteraction: 1
+  _isInteractableDisabled: 0
+  _interactionEnabledOnlyForPlayer: 0
   interactAudioClip: {fileID: 8300000, guid: 947c3ec98cb51484d9555f1fb1af0ebf, type: 3}
   audioSource: {fileID: 6846215644208560749}
 --- !u!82 &6846215644208560749 stripped

@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5108984410520255147}
+  - component: {fileID: 9218579002753433814}
   - component: {fileID: 8163084206467872014}
   - component: {fileID: 6245910612351549892}
   - component: {fileID: 2261755389267136785}
+  - component: {fileID: 2592769957870744038}
   m_Layer: 0
   m_Name: backgroundBuilding
   m_TagString: Untagged
@@ -34,6 +36,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 270}
+--- !u!205 &9218579002753433814
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5597150717293961233}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 8.7662945, y: 11.228955, z: 11.588716}
+  m_Size: 23.177431
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.7824642
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6245910612351549892}
+  - screenRelativeHeight: 0.5087446
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6245910612351549892}
+  - screenRelativeHeight: 0.27913657
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6245910612351549892}
+  m_Enabled: 1
 --- !u!33 &8163084206467872014
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -100,3 +129,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1441690112615185984, guid: f95ba9c5e3e353a47863666b700e1d6e, type: 3}
+--- !u!114 &2592769957870744038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5597150717293961233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bead89b2848c4f41a7f5e2690d30414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowsLightMat: {fileID: 2100000, guid: b5ba865002291e24e94866f2d4591cfa, type: 2}
+  windowsNoLightMat: {fileID: 2100000, guid: 86df82e777cfb344db2a3022e7893d41, type: 2}
+  meshRenderer: {fileID: 6245910612351549892}
+  matPositionInRendererList: 1

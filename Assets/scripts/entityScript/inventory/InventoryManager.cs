@@ -97,6 +97,10 @@ public class InventoryManager : Interactable {
         set { _aimTargetImage = value; }
     }
 
+    [Header("Inventory sounds assets refs")]
+    [SerializeField] private AudioClip interactAudioClip;
+    [SerializeField] GameObject inventoryEffectsLoudArea;
+
     // getter - setter
     public int selectedWeapon {
         get { return _selectedWeapon; }
@@ -147,14 +151,12 @@ public class InventoryManager : Interactable {
         // update aimed character
         if(_characterManager.isPlayer) {
 
+            
+
+
             if(!isGunThroughWall()) {
                 characterManager.aimedCharacter = aimInfo.aimedCharacter;
             }
-        }
-
-
-        if(_characterManager.isPlayer) {
-
 
             if(weaponItems[selectedWeapon].itemNameID != BASE_MELEE_ID) {
 
@@ -163,7 +165,7 @@ public class InventoryManager : Interactable {
                     _aimTargetImage.setAimTargetEnabled(true);
 
                     if(_weaponPuttedAway) {
-                        _aimTargetImage.defaultAimLowOpacity();
+                        _aimTargetImage.setDefaultAimWithLowOpacity();
 
                     } else {
 
@@ -213,11 +215,34 @@ public class InventoryManager : Interactable {
 
 
                             } else {
-                                _aimTargetImage.aimHighOpacity();
+                                // simbolo uccisione rapida
+                                // check se character sta mirando una zona vulnerabile
+                                bool res = aimInfo.aimedCharacter.characterFOV.isVulnerableAngle(
+                                    aimInfo.aimedHitPosition,
+                                    weaponItems[selectedWeapon].shootingPosition
+                                );
+
+                                if(res) {
+                                    _aimTargetImage.setVulnerableKillAimSprite();
+                                } else {
+
+                                    if(weaponItems[selectedWeapon].isWeaponAmmunitionEmpty) {
+                                        _aimTargetImage.setControlAimSpriteOff();
+                                    } else {
+                                        _aimTargetImage.setDefaultAimWithHighOpacity();
+                                    }
+                                }
+                                
                             }
                             
                         } else {
-                            _aimTargetImage.defaultAimMediumOpacity();
+
+                            if(weaponItems[selectedWeapon].isWeaponAmmunitionEmpty) {
+                                _aimTargetImage.setControlAimSpriteOff();
+                            } else {
+                                _aimTargetImage.setDefaultAimWithMediumOpacity();
+                            }
+                            
                         }
 
                     }
@@ -292,41 +317,52 @@ public class InventoryManager : Interactable {
     /// <param name="weaponItem"></param>
     public void addWeapon(WeaponItem weaponItem) {
 
+        // audio effect
+        playInventorySounds();
+
         // disabilita effetto interactable
         weaponItem.interactableMeshEffectSetEnebled(false);
         weaponItem.unFocusInteractableOutline();
 
 
-        //cerca se la weapon è già presente
-        int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
-        if (weaponInInventary == -1) {
-            // aggiungi istanza alla lista weapon dell'inventory manager
-            _weaponItems.Add(weaponItem);
+        // verifica se è solo una munizione
+        if(weaponItem.weaponType == WeaponType.ammo) {
 
-            // associa l'inventario all'arma
-            weaponItem.inventoryManager = this;
-
-            // disabilita gameobject
-            weaponItem.gameObject.SetActive(false);
-
-            //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
-            weaponItem.gameObject.transform.SetParent(weaponTransform);
-
-            // setta coordinate
-            weaponItem.gameObject.transform.localPosition = Vector3.zero;
-
-            // setta rotazione
-            weaponItem.gameObject.transform.localEulerAngles = weaponItem.weaponOffsetRotation;
-
-            // cambia layer oggetto interattivo in default
-            weaponItem.gameObject.layer = 0;
-
-            // disattiva collider trigger interactable
-            weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
-        } else {
-            
             Destroy(weaponItem.gameObject);
+        } else {
+            //cerca se la weapon è già presente
+            int weaponInInventary = isWeaponInInventory(weaponItem.itemNameID);
+            if(weaponInInventary == -1) {
+                // aggiungi istanza alla lista weapon dell'inventory manager
+                _weaponItems.Add(weaponItem);
+
+                // associa l'inventario all'arma
+                weaponItem.inventoryManager = this;
+
+                // disabilita gameobject
+                weaponItem.gameObject.SetActive(false);
+
+                //setta il gameobject weapon come figlio del selectedActiveWeaponTransform
+                weaponItem.gameObject.transform.SetParent(weaponTransform);
+
+                // setta coordinate
+                weaponItem.gameObject.transform.localPosition = Vector3.zero;
+
+                // setta rotazione
+                weaponItem.gameObject.transform.localEulerAngles = weaponItem.weaponOffsetRotation;
+
+                // cambia layer oggetto interattivo in default
+                weaponItem.gameObject.layer = 0;
+
+                // disattiva collider trigger interactable
+                weaponItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+            } else {
+
+                Destroy(weaponItem.gameObject);
+            }
         }
+
+        
 
         // aggiungi al dizionario dell'inventario le munizioni
         if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {
@@ -644,7 +680,7 @@ public class InventoryManager : Interactable {
     /// Ottieni informazioni sulla mira del character
     /// </summary>
     /// <returns>Restituisce un oggetto con tutte le info sulla mira del character</returns>
-    AimInformation getAimInformation() {
+    public AimInformation getAimInformation() {
         AimInformation aimedPosition;
 
 
@@ -782,7 +818,7 @@ public class InventoryManager : Interactable {
     /// <summary>
     /// usare questo check per verificare e abilitare icona arma proibita
     /// </summary>
-    private void prohibitedWeaponAlarmUICheck() {
+    public void prohibitedWeaponAlarmUICheck() {
         if(isUsedItemProhibitedCheck()) {
             _characterManager.alarmAlertUIController.potentialVisiblyArmedAlarmOn();
         } else {
@@ -865,6 +901,19 @@ public class InventoryManager : Interactable {
                     selectWeapon(i);
                 }
             }
+        }
+        
+    }
+
+    private void playInventorySounds() {
+        if(characterManager.isPlayer) {
+            GameObject loudGameObject = Instantiate(inventoryEffectsLoudArea, transform.position, Quaternion.identity);
+
+
+            loudGameObject.GetComponent<LoudArea>().initLoudArea(
+                LoudAreaType.nothing,
+                interactAudioClip);
+            loudGameObject.GetComponent<LoudArea>().startLoudArea();
         }
         
     }
