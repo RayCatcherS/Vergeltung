@@ -39,6 +39,7 @@ public class GameState : MonoBehaviour {
     [SerializeField] private MenuScreen pauseUIScreen;
     [SerializeField] private MenuScreen gameOverUIScreen;
     [SerializeField] private MenuScreen loadingUIScreen;
+    [SerializeField] private MenuScreen warpModeScreen;
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private Animator winAnimator;
 
@@ -72,6 +73,8 @@ public class GameState : MonoBehaviour {
         Time.timeScale = 1;
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
+
     }
 
 
@@ -175,7 +178,10 @@ public class GameState : MonoBehaviour {
 
         // game over UI
         loadingUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
+
         gameOverUIScreen.gameObject.SetActive(true);
+
         eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
 
         // game state 
@@ -195,7 +201,7 @@ public class GameState : MonoBehaviour {
         gameOverUIScreen.gameObject.SetActive(false);
         pauseUIScreen.gameObject.SetActive(true);
         eventSystem.SetSelectedGameObject(pauseUIScreen.firtButton.gameObject);
-
+        warpModeScreen.gameObject.SetActive(false);
 
         // game state 
         _gameState = GlobalGameState.pause;
@@ -216,6 +222,8 @@ public class GameState : MonoBehaviour {
         loadingUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         pauseUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
+
 
         eventSystem.SetSelectedGameObject(winUIScreen.firtButton.gameObject);
 
@@ -251,6 +259,7 @@ public class GameState : MonoBehaviour {
         loadingUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         pauseUIScreen.gameObject.SetActive(false);
+        warpModeScreen.gameObject.SetActive(false);
 
 
         // rebuild UI interacion(selezionando il primo elemento (se c'è))
@@ -269,6 +278,8 @@ public class GameState : MonoBehaviour {
         pauseUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(true);
+        warpModeScreen.gameObject.SetActive(false);
+
 
         Time.timeScale = 1;
 
@@ -305,6 +316,8 @@ public class GameState : MonoBehaviour {
 
     public void initSwitchCharacterMode() {
         _gameState = GlobalGameState.switchCharacterMode;
+        warpModeScreen.gameObject.SetActive(true);
+
 
         Time.timeScale = 0.1f;
     }
