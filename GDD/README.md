@@ -46,6 +46,8 @@ Link Progetto
   4. [Capitolo diario di sviluppo 4 (FOV e Stati di allerta)](#7.4) 
   5. [Capitolo diario di sviluppo 5 (UI allerta)](#7.5)
   6. [Capitolo diario di sviluppo 6 (AI NPC)](#7.6)
+  7. [Capitolo diario di sviluppo 7 (Warp Mode)](#7.7)
+  8. [Capitolo diario di sviluppo 8 (Game Goals)](#7.8)
 
 ### 8. [Mercato](#8)
 
@@ -112,6 +114,8 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   - [Capitolo diario di sviluppo 4 (FOV e Stati di allerta)](#7.4) 
   - [Capitolo diario di sviluppo 5 (UI allerta)](#7.5)
   - [Capitolo diario di sviluppo 6 (AI NPC)](#7.6)
+  - [Capitolo diario di sviluppo 7 (Warp Mode)](#7.7)
+  - [Capitolo diario di sviluppo 8 (Game Goals)](#7.8)
   
  
   ## <span id = "4.5">4.5 Progressione e sfida</span>
