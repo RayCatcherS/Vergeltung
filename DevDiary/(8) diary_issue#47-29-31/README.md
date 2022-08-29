@@ -42,26 +42,39 @@ Dopodiché il controller avvierà un controllo su quale stato dell'animator avvi
 
 <p>&nbsp;</p>
 
-# Vulnerabilità colpi alle spalle(esecuzione)
+# Vulnerabilità colpi alle spalle(esecuzione), ancora altra trigonometria
+L'area all'interno delle due rette rosse rappresenta l'angolo entro cui il character che vuole effettuare **l'esecuzione** deve essere. Inoltre la direzione dell'arma rispetto al character su cui si vuole effettuare **l'esecuzione** deve formare un angolo compreso tra le due rette rosse. Se queste due condizioni sono rispettate, il mirino dell'arma cambierà la sua icona in un teschio. Se il player sparerà un colpo di arma da fuoco verrà generato un proiettile letale che ucciderà istantaneamente il character su cui si vuole effettuare **l'esecuzione**.
+
+![Image animator](vuln.png)
+![Image animator](execution.gif)
+
+<p>&nbsp;</p>
+
+# Mappa di gioco
+Nella schermata di pausa è possibile visualizzare la posizione dei characters e tutti gli obiettivi di gioco, dando ulteriori indicazioni sulla posizione degli obiettivi di gioco. 
+### Tecnicamente
+Una camera ulteriore è stata aggiunta con prospettiva dall'alto verso il basso. Questa camera è in grado di vedere solo i gameobject sul layer "Map". Ogni elemento di gioco è quindi segnalabile sulla mappa con un nuovo componente che ho creato, chiamato **IconMapManager** in cui ne si può gestire la visibilità sulla mappa e l'icona selezionabile. Questa camera renderizza tutto su una renderer texture che a sua volta è assegnata ad un elemento dell'UI della pausa che visualizzerà il tutto creando un effetto sovrapposizione.
+
+![Image animator](map.png)
+
+<p>&nbsp;</p>
+
+# Level design
+- Aggiunte auto equipaggiamento speciale(pistola silenzata). Scassinando il baule sarà possibile ottenere una pistola silenziata ma senza colpi.
+
+![Image animator](cars.png)
+
+- Le casse di munizioni per pistola silenziata/pistola si trovano nelle basi militari (casse) oppure sparse per la mappa
+
+![Image animator](ammo.png)
 
 # Vari miglioramenti e implementazioni
-- Sabotare un generatore elettrico attirerà una guardia(in stato di warn). 
+- Sabotare più volte un generatore condurrà al generatore una guardia in più nello stato di warn (questo impedisce che il giocatore possa usare il generatore per eliminare una ad una le guardie che vengono allertate)
+- Aggiunta world UI tutorial sezione iniziale per spiegare le meccaniche principali
+- Schermata di vincita(fine partita) + crediti
+- L'energia per il controllo(munizione per la control gun) è segnalata da una icona(world UI)
+- Aggiunta forza impatto bullet alla morte del character aggiungendo una forza sulla ragdoll
+- Navigando tra i character controllati durante la Warp Mode è possibile avere un'anteprima sui possibili stati di allerta del character
+- fix suoni raccolta items
 
-![Image animator](cables.png)
-
-- Risolti vari bugs
-- Le aree vietate ai civili sono indicate dal cartello accesso vietato
-- Implementato menu pausa e tasto per uscire dal gioco. Gli stati di gioco sono gestiti dal controller GameState. Quando si è in pausa il Time del gioco viene settato a 0. Essendo tutte le meccaniche basate sullo scorrimento del tempo, tutto verrà stoppato.
-
-![Image animator](pausa.png)
-
-
-## Effetti audio
-- Implementato suoni dei passi dei characters, corsa e cammino. I characters controllati dal giocatore principale emetteranno dei suoni con i passi del character solo se questi correranno
-- Suoni sabotaggio generatori corrente elettrica(in-out)
-- Suono apertura chiusura porte(Trigger timeline animazioni)
-- Effetto audio alla raccolta di items
-- Suoni interazioni con le console
-- Suono apertura e chiusura dei cancelli(Trigger timeline animazioni)
-- Suono al cambio di un character tramite il warp
 
