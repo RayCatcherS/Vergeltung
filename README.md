@@ -32,7 +32,7 @@ Latest build
 - [5 Capitolo(UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
 - [6 Capitolo(AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)
 - [7 Capitolo(Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)
-
+- [8 Capitolo(Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(8)%20diary_issue%2347-29-31/README.md)
 
 ## Team
 The whole project was developed by <b>Stefano Romanelli</b> (3D models, graphics, visual effects, level design, game mechanics, programming and project management) [``Stefano Romanelli``](https://github.com/RayCatcherS)
