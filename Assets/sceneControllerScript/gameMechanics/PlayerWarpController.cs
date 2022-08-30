@@ -341,7 +341,7 @@ public class PlayerWarpController : MonoBehaviour
     }
 
 
-    private void endSwitchCharacterMode() {
+    public void endSwitchCharacterMode() {
         Time.timeScale = STANDART_TIME_MULTIPLIER;
 
         for(int i = 0; i < warpedCharacterManagerStack.Count; i++) {
@@ -366,8 +366,6 @@ public class PlayerWarpController : MonoBehaviour
 
         // camera
         gameCamera.GetComponent<FollowPlayer>().cameraSwitchCharacterModeEnable = false;
-
-        gameState.resumeGameState();
     }
 
     public void nextSwitchCharacter() {
@@ -476,6 +474,7 @@ public class PlayerWarpController : MonoBehaviour
 
         if(gameState.gameState == GlobalGameState.switchCharacterMode) {
             endSwitchCharacterMode();
+            gameState.resumeGameState();
 
             gameState.resumeGameState();
             await warpToCharacter(_currentSwitchCharacterMode);

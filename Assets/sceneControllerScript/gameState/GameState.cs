@@ -20,7 +20,7 @@ public enum GlobalGameState {
 /// Game state di gioco, utilizzato per accedere a stati e metodi globali che hanno ripercussioni sull'intero gioco
 /// </summary>
 public class GameState : MonoBehaviour {
-    private GlobalGameState _gameState = GlobalGameState.play;
+    [SerializeField] private GlobalGameState _gameState = GlobalGameState.play;
     public GlobalGameState gameState {
         get { return _gameState; }
     }
@@ -152,6 +152,15 @@ public class GameState : MonoBehaviour {
     /// </summary>
     public async void initGameOverGameState() {
 
+        // game time
+        Time.timeScale = 1;
+
+        // game state 
+        _gameState = GlobalGameState.gameover;
+
+        // stop warp mode
+        playerWarpController.endSwitchCharacterMode();
+
         // disable aim UI
         gameObject.GetComponent<AimUIManager>().hideAimUI();
 
@@ -184,8 +193,7 @@ public class GameState : MonoBehaviour {
 
         eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
 
-        // game state 
-        _gameState = GlobalGameState.gameover;
+        
     }
 
     public void initPauseGameState() {
@@ -315,10 +323,14 @@ public class GameState : MonoBehaviour {
     }
 
     public void initSwitchCharacterMode() {
-        _gameState = GlobalGameState.switchCharacterMode;
-        warpModeScreen.gameObject.SetActive(true);
+
+        if(_gameState != GlobalGameState.pause && _gameState != GlobalGameState.gameover) {
+            _gameState = GlobalGameState.switchCharacterMode;
+            warpModeScreen.gameObject.SetActive(true);
 
 
-        Time.timeScale = 0.1f;
+            Time.timeScale = 0.1f;
+        }
+        
     }
 }
