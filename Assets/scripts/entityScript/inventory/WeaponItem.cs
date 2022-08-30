@@ -26,6 +26,11 @@ public class Ammunition {
         _ammunitionType = ammunitionType;
         _ammunitionQuantity = ammunitionQuantity;
     }
+
+    public void setAmmoQuantity(int ammo) {
+
+        _ammunitionQuantity = ammo;
+    }
 }
 
 

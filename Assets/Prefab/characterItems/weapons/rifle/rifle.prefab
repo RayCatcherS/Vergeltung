@@ -102,12 +102,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3617680319651936653}
+  - component: {fileID: 5058502912954274347}
   - component: {fileID: 404002903742314024}
   - component: {fileID: 2485909796429595362}
   - component: {fileID: 3872581555875977916}
   - component: {fileID: 3872581555875977917}
   - component: {fileID: 4802109851802089702}
-  - component: {fileID: 5058502912954274347}
   - component: {fileID: 1738574084}
   m_Layer: 3
   m_Name: rifle
@@ -136,6 +136,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &5058502912954274347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143106846321156919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 257563c1fc79e3448a5f47d16318a2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineScript: {fileID: 3872581555875977917}
+  interactableMeshEffect: {fileID: 238204653845576166}
+  _itemName: ASSAULT RIFLE
+  _itemNameID: ASSAULT RIFLE
+  _prohibitedItem: 1
+  _getItemEventName: GET
+  getItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _inventoryManager: {fileID: 0}
+  _shootingTransform: {fileID: 2796351739363170223}
+  _weaponOffsetRotation: {x: -90, y: 0, z: 0}
+  _rightHandTransformRef: {fileID: 1547652908615304878}
+  _leftHandTransformRef: {fileID: 6899043155239700125}
+  _extractedWeaponPreview: {fileID: 21300000, guid: 1439725ac9a67b346a3c90597eef0bc6, type: 3}
+  _puttedAwayWeaponPreview: {fileID: 21300000, guid: 72a20bec792e88c438b822619ac7decf, type: 3}
+  damageObject: {fileID: 738842551432461185, guid: 80c770cadf9e6fb42ba18a8e49884eeb, type: 3}
+  _weaponType: 2
+  _ammunition:
+    _ammunitionType: 2
+    _ammunitionQuantity: 6
+  shootFrequency: 0.1
+  _automaticWeapon: 1
+  _vibrationOnUseWeapon: 1
+  _impulseTime: 0.15
+  _impulseForce: 0.6
+  weaponUsed: 0
+  spawnDamageObjectParticleTransform: {fileID: 9017703145465139936}
+  spawnDamageObjectParticle: {fileID: 4078913953577589911, guid: 8f2008353d73ad941bc0383809f84f8b, type: 3}
+  gunShootSound: {fileID: 8300000, guid: 62c06996889a20d469e79a994950cbba, type: 3}
+  loudArea: {fileID: 5121135152222646132, guid: eeec69e2ae8ecfc4e89eb9a75ed6cfe1, type: 3}
+  loudIntensity: 40
 --- !u!33 &404002903742314024
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -230,50 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactable: {fileID: 5058502912954274347}
---- !u!114 &5058502912954274347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4143106846321156919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 257563c1fc79e3448a5f47d16318a2e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineScript: {fileID: 3872581555875977917}
-  interactableMeshEffect: {fileID: 238204653845576166}
-  _itemName: ASSAULT RIFLE
-  _itemNameID: ASSAULT RIFLE
-  _prohibitedItem: 1
-  _getItemEventName: GET
-  getItemEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _inventoryManager: {fileID: 0}
-  _shootingTransform: {fileID: 2796351739363170223}
-  _weaponOffsetRotation: {x: -90, y: 0, z: 0}
-  _rightHandTransformRef: {fileID: 1547652908615304878}
-  _leftHandTransformRef: {fileID: 6899043155239700125}
-  _extractedWeaponPreview: {fileID: 21300000, guid: 1439725ac9a67b346a3c90597eef0bc6, type: 3}
-  _puttedAwayWeaponPreview: {fileID: 21300000, guid: 72a20bec792e88c438b822619ac7decf, type: 3}
-  damageObject: {fileID: 738842551432461185, guid: 80c770cadf9e6fb42ba18a8e49884eeb, type: 3}
-  _weaponType: 2
-  _ammunition:
-    _ammunitionType: 2
-    _ammunitionQuantity: 6
-  shootFrequency: 0.1
-  _automaticWeapon: 1
-  _vibrationOnUseWeapon: 1
-  _impulseTime: 0.15
-  _impulseForce: 0.6
-  weaponUsed: 0
-  spawnDamageObjectParticleTransform: {fileID: 9017703145465139936}
-  spawnDamageObjectParticle: {fileID: 4078913953577589911, guid: 8f2008353d73ad941bc0383809f84f8b, type: 3}
-  gunShootSound: {fileID: 8300000, guid: 62c06996889a20d469e79a994950cbba, type: 3}
-  loudArea: {fileID: 5121135152222646132, guid: eeec69e2ae8ecfc4e89eb9a75ed6cfe1, type: 3}
-  loudIntensity: 40
 --- !u!114 &1738574084
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,6 +45,7 @@ public class InventoryManager : Interactable {
 
     [Header("Inventory Objects")]
     [SerializeField] private List<WeaponItem> _weaponItems = new List<WeaponItem>();
+    [SerializeField] private List<WeaponItem> _ammoWeaponItems = new List<WeaponItem>();
     [SerializeField] private List<ActionObjectItem> actionObjectItems = new List<ActionObjectItem>();
     [SerializeField] private bool _isFlashlightTaken = false;
     public bool isFlashlightTaken {
@@ -100,6 +101,10 @@ public class InventoryManager : Interactable {
     [Header("Inventory sounds assets refs")]
     [SerializeField] private AudioClip interactAudioClip;
     [SerializeField] GameObject inventoryEffectsLoudArea;
+
+    [Header("Inventory ammunition assets refs")]
+    [SerializeField] private GameObject pistolAmmo;
+    [SerializeField] private GameObject rifleAmmo;
 
     // getter - setter
     public int selectedWeapon {
@@ -365,7 +370,6 @@ public class InventoryManager : Interactable {
 
         // aggiungi al dizionario dell'inventario le munizioni
         if(_inventoryAmmunitions.ContainsKey(weaponItem.ammunition.ammunitionType)) {
-            print(_inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + " -- " + weaponItem.ammunition.ammunitionQuantity);
 
             _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity
                 = _inventoryAmmunitions[weaponItem.ammunition.ammunitionType].ammunitionQuantity + weaponItem.ammunition.ammunitionQuantity;
@@ -606,7 +610,38 @@ public class InventoryManager : Interactable {
         gameObject.layer = INTERACTABLE_LAYER; // cambia layer in interactable
         interactableInventoryColliderTrigger.enabled = true;
 
-        
+
+
+        foreach(var ammoItemDictionary in _inventoryAmmunitions) {
+
+            if(ammoItemDictionary.Value.ammunitionType == WeaponType.pistol) {
+
+                GameObject ammo = Instantiate(pistolAmmo);
+                ammo.SetActive(false);
+                WeaponItem weaponAmmo = ammo.GetComponent<WeaponItem>();
+                weaponAmmo.ammunition.setAmmoQuantity(_inventoryAmmunitions[ammoItemDictionary.Value.ammunitionType].ammunitionQuantity);
+
+                _weaponItems.Add(weaponAmmo);
+
+
+                // associa l'inventario all'arma
+                weaponAmmo.inventoryManager = this;
+            } else if(ammoItemDictionary.Value.ammunitionType == WeaponType.rifle) {
+
+
+                GameObject ammo = Instantiate(rifleAmmo);
+                ammo.SetActive(false);
+                WeaponItem weaponAmmo = ammo.GetComponent<WeaponItem>();
+                weaponAmmo.ammunition.setAmmoQuantity(_inventoryAmmunitions[ammoItemDictionary.Value.ammunitionType].ammunitionQuantity);
+
+                _weaponItems.Add(weaponAmmo);
+
+
+                // associa l'inventario all'arma
+                weaponAmmo.inventoryManager = this;
+            }
+        }
+
         rebuildInteractableMeshEffect(getInteractions());
     }
 
@@ -622,7 +657,7 @@ public class InventoryManager : Interactable {
 
                 UnityEventCharacter eventWeapon = new UnityEventCharacter();
                 eventWeapon.AddListener(_weaponItems[i].getItem);
-
+                
                 allWeaponsInteractions.Add(
                     new Interaction(
                         eventWeapon,
@@ -633,10 +668,6 @@ public class InventoryManager : Interactable {
 
             }
         }
-
-        // esponi munizioni
-
-
 
         rebuildInteractableMeshEffect(allWeaponsInteractions);
 
