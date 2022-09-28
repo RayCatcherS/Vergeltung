@@ -6,6 +6,8 @@ public class FollowPlayer : MonoBehaviour {
     // se attivo permette di seguire più velocemente il target in modalità SwitchCharacterMode
     public bool cameraSwitchCharacterModeEnable = false;
 
+    [SerializeField] private Camera mapCamera;
+
     [SerializeField]
     private Transform _objectToFollow;
 
@@ -22,6 +24,14 @@ public class FollowPlayer : MonoBehaviour {
 
         set {
             _objectToFollow = value;
+
+            mapCamera.transform.position = new Vector3(
+                _objectToFollow.transform.position.x,
+                mapCamera.transform.position.y,
+                _objectToFollow.transform.position.z
+            );
+
+            mapCamera.transform.parent = _objectToFollow.transform; 
         }
     }
 
