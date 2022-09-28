@@ -12,6 +12,8 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private string buttonText = "ACTION 1";
 
+    [SerializeField] private Image buttonIconSprite;
+
     private Interactable interactable;
 
     /// <summary>
@@ -36,19 +38,39 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
             }
         );
 
-        
+
+        buttonNotSelected();
+    }
+
+    private void buttonNotSelected() {
+        buttonIconSprite.enabled = false;
 
 
+        Color color = Color.white;
+        color.a = 0.75f;
 
+        buttonTextComponent.color = color;
+    }
+
+    private void buttonSelected() {
+        buttonIconSprite.enabled = true;
+
+
+        Color color = Color.white;
+        color.a = 1f;
+
+        buttonTextComponent.color = color;
     }
 
     public void OnSelect(BaseEventData eventData) {
 
         interactable.focusInteractableOutline();
+        buttonSelected();
     }
 
     public void OnDeselect(BaseEventData eventData) {
         interactable.unFocusInteractableOutline();
+        buttonNotSelected();
     }
 
     void Start()
