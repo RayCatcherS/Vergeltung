@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ControlBullet : Bullet {
@@ -24,7 +25,7 @@ public class ControlBullet : Bullet {
         
 
         // manage character control
-        manageCharacterControl(character);
+        manageCharacterControlAsync(character);
 
     }
 
@@ -44,7 +45,7 @@ public class ControlBullet : Bullet {
 
     }
 
-    private void manageCharacterControl(CharacterManager characterToControl) {
+    private async Task manageCharacterControlAsync(CharacterManager characterToControl) {
         int _sourceCharacterControlAmmunitions 
             = _sourceInventoryCharacter.inventoryAmmunitions[WeaponType.controlWeapon].ammunitionQuantity;
 
@@ -63,7 +64,9 @@ public class ControlBullet : Bullet {
 
                 // controllo character
                 characterToControl.playerWarpController.addCharacterToWarpStack(characterToControl);
-                characterToControl.playerWarpController.warpToCharacter(characterToControl);
+                await characterToControl.playerWarpController.warpToCharacter(characterToControl);
+
+                characterToControl.sceneEntitiesController.gameObject.GetComponent<PlayerWarpController>().startSwitchCharacterMode();
             }
 
         }
