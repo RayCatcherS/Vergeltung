@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Machinery : MonoBehaviour
@@ -42,6 +43,8 @@ public class Machinery : MonoBehaviour
     [Header("Prefab refs")]
     [SerializeField] private GameObject poweAmmoPrefab;
 
+    [Header("Machinery overload events")]
+    [SerializeField] private UnityEvent machineryOverloadEvent;
 
 
     private void Start() {
@@ -184,6 +187,9 @@ public class Machinery : MonoBehaviour
 
         // disable map icon
         gameObject.GetComponent<IconMapManager>().disableIcon();
+
+        // start event
+        machineryOverloadEvent.Invoke();
     }
 
     private void sendGameGoalEvent() {
