@@ -47,6 +47,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void initFirstMainMenuScreen() {
         mainMenuScreen.gameObject.SetActive(true);
+        mainMenuScreen.initMenuScreen();
+
         storyTextScreen.gameObject.SetActive(false);
         settingsScreen.gameObject.SetActive(false);
 
@@ -57,7 +59,9 @@ public class MainMenuManager : MonoBehaviour
     public void initSettingsScreen() {
         mainMenuScreen.gameObject.SetActive(false);
         storyTextScreen.gameObject.SetActive(false);
+
         settingsScreen.gameObject.SetActive(true);
+        settingsScreen.initMenuScreen();
 
         eventSystem.SetSelectedGameObject(settingsScreen.firtButton.gameObject);
         mainMenuState = MainMenuState.settingsScreen;
@@ -66,6 +70,7 @@ public class MainMenuManager : MonoBehaviour
     public void initStoryTextScreen() {
         mainMenuScreen.gameObject.SetActive(false);
         storyTextScreen.gameObject.SetActive(true);
+        storyTextScreen.initMenuScreen();
         settingsScreen.gameObject.SetActive(false);
 
         eventSystem.SetSelectedGameObject(storyTextScreen.firtButton.gameObject);
@@ -78,6 +83,7 @@ public class MainMenuManager : MonoBehaviour
         storyTextScreen.gameObject.SetActive(false);
         settingsScreen.gameObject.SetActive(false);
         loadingScreen.gameObject.SetActive(true);
+        loadingScreen.initMenuScreen();
 
 
         StartCoroutine(LoadSceneAsynchronously(sceneToLoad));

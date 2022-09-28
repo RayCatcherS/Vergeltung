@@ -12,7 +12,7 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private string buttonText = "ACTION 1";
 
-    [SerializeField] private Image buttonIconSprite;
+    [SerializeField] private Image buttonIconImage;
 
     private Interactable interactable;
 
@@ -43,7 +43,7 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
     }
 
     private void buttonNotSelected() {
-        buttonIconSprite.enabled = false;
+        buttonIconImage.enabled = false;
 
 
         Color color = Color.white;
@@ -53,7 +53,7 @@ public class ButtonInteraction : MonoBehaviour, ISelectHandler, IDeselectHandler
     }
 
     private void buttonSelected() {
-        buttonIconSprite.enabled = true;
+        buttonIconImage.enabled = true;
 
 
         Color color = Color.white;
