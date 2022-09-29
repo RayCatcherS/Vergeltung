@@ -177,7 +177,7 @@ public class CableComponent : MonoBehaviour
 	 * 
 	 * In this step every particle updates its position and speed.
 	 */
-	void VerletIntegrate()
+	public void VerletIntegrate()
 	{
 		Vector3 gravityDisplacement = Time.fixedDeltaTime * Time.fixedDeltaTime * Physics.gravity;
 		foreach (CableParticle particle in points) 

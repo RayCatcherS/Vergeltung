@@ -25,13 +25,6 @@ public class FollowPlayer : MonoBehaviour {
         set {
             _objectToFollow = value;
 
-            mapCamera.transform.position = new Vector3(
-                _objectToFollow.transform.position.x,
-                mapCamera.transform.position.y,
-                _objectToFollow.transform.position.z
-            );
-
-            mapCamera.transform.parent = _objectToFollow.transform; 
         }
     }
 
@@ -45,5 +38,9 @@ public class FollowPlayer : MonoBehaviour {
         
 
         this.transform.position = position;
+
+
+
+        mapCamera.transform.position = new Vector3(_objectToFollow.transform.position.x, mapCamera.transform.position.y, _objectToFollow.transform.position.z);
     }
 }
