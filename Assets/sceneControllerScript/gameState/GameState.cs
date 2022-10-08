@@ -190,6 +190,7 @@ public class GameState : MonoBehaviour {
         warpModeScreen.gameObject.SetActive(false);
 
         gameOverUIScreen.gameObject.SetActive(true);
+        gameOverUIScreen.initMenuScreen();
 
         eventSystem.SetSelectedGameObject(gameOverUIScreen.firtButton.gameObject);
 
@@ -208,7 +209,10 @@ public class GameState : MonoBehaviour {
         loadingUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         pauseUIScreen.gameObject.SetActive(true);
+        pauseUIScreen.initMenuScreen();
+
         eventSystem.SetSelectedGameObject(pauseUIScreen.firtButton.gameObject);
+        pauseUIScreen.firtButton.GetComponent<MenuButtonUIManager>().buttonSelected();
         warpModeScreen.gameObject.SetActive(false);
 
         // game state 
@@ -286,6 +290,8 @@ public class GameState : MonoBehaviour {
         pauseUIScreen.gameObject.SetActive(false);
         gameOverUIScreen.gameObject.SetActive(false);
         loadingUIScreen.gameObject.SetActive(true);
+        loadingUIScreen.initMenuScreen();
+
         warpModeScreen.gameObject.SetActive(false);
 
 
