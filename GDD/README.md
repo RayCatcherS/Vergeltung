@@ -136,4 +136,4 @@ Il giocatore potrà compiere la vendetta del protagonista, infiltrandosi in uno 
   ### <span id = "7.5">7.5 [5 Capitolo (UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)</span>
   ### <span id = "7.6">7.6 [6 Capitolo (AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)</span>
   ### <span id = "7.7">7.7 [7 Capitolo (Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)</span>
-  ### <span id = "7.8">7.8 [8 Capitolo (Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(8)%20diary_issue%2347-29-31/README.md)</span>
+  ### <span id = "7.8">7.8 [8 Capitolo (Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(8)%20diary_issue%2347-29-31/README.md)</span>
