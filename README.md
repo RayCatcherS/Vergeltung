@@ -51,6 +51,8 @@ The game music, the contextual musical effects in the game, and the main theme w
 - Impostare dal sistema operativo l'eseguibile di blender 2.79 come predefinito per aprire i file .blend
 - Avviare il progetto unity
 - Reimportare tutti gli assets affinchè Unity riconosca i file .blend all'interno del progetto
+
+Unity utilizzerà la versione predefinita di Blender per esportare dai .blend gli fbx. Utilizzare una versione di blender diversa dalla 2.93.2 può comportare incompatibilità e artefatti
 ### Requisiti
 - Richiesto pad Xbox(One - Series X) o playstation(4-5)
 
