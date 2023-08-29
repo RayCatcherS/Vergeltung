@@ -46,6 +46,8 @@ The game music, the contextual musical effects in the game, and the main theme w
 - Windows 11
 
 ## Configurazione sviluppo e requisiti
+### Versione Unity utilizzata
+- Unity 2021.2.16f1
 ### Configurazione Blender
 - Installare Blender versione 2.79
 - Impostare dal sistema operativo l'eseguibile di blender 2.79 come predefinito per aprire i file .blend
