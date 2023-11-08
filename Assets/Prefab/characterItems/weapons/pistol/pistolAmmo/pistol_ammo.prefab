@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5027713313558380476}
   - component: {fileID: 2726485008568230912}
   - component: {fileID: 7583866899521001713}
+  - component: {fileID: 2748185987425571258}
   m_Layer: 3
   m_Name: pistol_ammo
   m_TagString: Untagged
@@ -125,6 +126,26 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!205 &2748185987425571258
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780953124983140568}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.00000020861626, y: -0.18340465, z: 0.039924026}
+  m_Size: 0.99205875
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.012544144
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6108149642117804023}
+    - renderer: {fileID: 3984835893241034052}
+  m_Enabled: 1
 --- !u!1 &1222658055213754121
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,5 +305,10 @@ PrefabInstance:
 --- !u!4 &4940357944501048472 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6101be0165f56a7498a845106fdb8188, type: 3}
+  m_PrefabInstance: {fileID: 4829288291956093811}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6108149642117804023 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 6101be0165f56a7498a845106fdb8188, type: 3}
   m_PrefabInstance: {fileID: 4829288291956093811}
   m_PrefabAsset: {fileID: 0}
