@@ -15,17 +15,17 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogColor: {r: 0.9858491, g: 0.9919203, b: 1, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 1.4
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 0.5807227, g: 0.65666616, b: 0.8490566, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: f0a0c35cfe521e043800c52016b161ae, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -33,12 +33,12 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 256
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44297546, g: 0.49215966, b: 0.57189596, a: 1}
+  m_Sun: {fileID: 546967457}
+  m_IndirectSpecularColor: {r: 0.6321348, g: 0.6438686, b: 0.6565689, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 4271298c33f10a44ca3265af95b35248, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 05e1ee1f4db8706469da0b0783ccf2b6, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: af759b56048f69948a9649cb2b9b0b97, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -287,6 +287,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1 &25831394
 GameObject:
@@ -535,6 +536,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 1
 --- !u!1 &105466552
 GameObject:
@@ -652,6 +654,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1 &155591960
 GameObject:
@@ -961,6 +964,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1001 &255672372
 PrefabInstance:
@@ -971,7 +975,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 304867247476954797, guid: eb488a2cf12d37d479ab01e6d2ffa9be, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 304867247476954797, guid: eb488a2cf12d37d479ab01e6d2ffa9be, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1086,6 +1090,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 1
 --- !u!114 &296426949 stripped
 MonoBehaviour:
@@ -1375,7 +1380,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1576,6 +1581,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!114 &464879520
 MonoBehaviour:
@@ -1922,13 +1928,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a710f6fd5f88e40b5c66c9c832c806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameState: 0
   playerWarpController: {fileID: 504768191}
+  mapCamera: {fileID: 0}
   alarmAlertUIController: {fileID: 504768190}
   eventSystem: {fileID: 591010230}
+  winUIScreen: {fileID: 0}
   pauseUIScreen: {fileID: 1331274720}
   gameOverUIScreen: {fileID: 1819203447}
   loadingUIScreen: {fileID: 296426949}
+  warpModeScreen: {fileID: 0}
   loadingSlider: {fileID: 1819203445}
+  winAnimator: {fileID: 0}
   gameOverAudioSource: {fileID: 768509779}
 --- !u!4 &504768188
 Transform:
@@ -2051,9 +2062,10 @@ MonoBehaviour:
   warpCharacterSource: {fileID: 481912187}
   gameCamera: {fileID: 1085012443}
   gameState: {fileID: 504768187}
+  warpUIController: {fileID: 0}
+  controlCharacterChainLR: {fileID: 0}
+  switchCharacterModeEffect: {fileID: 0}
   warpedCharacterManagerStack: []
-  firstPlayerCharacter: {fileID: 0}
-  _currentPlayedCharacter: {fileID: 0}
   firstCharacterPlayerIsWanted: 1
 --- !u!114 &504768192
 MonoBehaviour:
@@ -2161,10 +2173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e0ced7072c64535b67906206e2e0ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSoundtrackController: {fileID: 0}
   _allNpcList: []
   _enemyNpcList: []
   civilianNpcList: []
-  player: {fileID: 0}
+  _player: {fileID: 0}
 --- !u!114 &504768198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2179,6 +2192,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimUITarget: {fileID: 1592024266}
   uiImage: {fileID: 1592024265}
+  defaultAimSprite: {fileID: 0}
+  controlOnAimSprite: {fileID: 0}
+  controlOffAimSprite: {fileID: 0}
+  vulnerableKillAimSprite: {fileID: 0}
 --- !u!1 &512018119
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,6 +2500,7 @@ MonoBehaviour:
   characterEquipment: 1
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 1
 --- !u!114 &560942171
 MonoBehaviour:
@@ -2938,50 +2956,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 733534221}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &742390903
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 742390905}
-  - component: {fileID: 742390904}
-  m_Layer: 0
-  m_Name: NavMesh Surface
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &742390904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742390903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &742390905
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742390903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.280428, y: 7.13, z: -77.76308}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &750655415
 GameObject:
   m_ObjectHideFlags: 0
@@ -3047,6 +3021,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1 &768509778
 GameObject:
@@ -3421,6 +3396,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!114 &810510044
 MonoBehaviour:
@@ -3665,7 +3641,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.09
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -3760,7 +3736,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3891,6 +3867,7 @@ MonoBehaviour:
   characterEquipment: 2
   startSelectedEquipment: 2
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1 &954244067
 GameObject:
@@ -3959,6 +3936,7 @@ MonoBehaviour:
   characterEquipment: 1
   startSelectedEquipment: 1
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 1
 --- !u!1 &968769618
 GameObject:
@@ -4448,6 +4426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f568cdb8141da4498e9c7d7ffac2179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraSwitchCharacterModeEnable: 0
+  mapCamera: {fileID: 0}
   _objectToFollow: {fileID: 0}
   speed: 3.5
   zOffset: -27
@@ -4578,6 +4558,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1001 &1090288182
 PrefabInstance:
@@ -4880,50 +4861,6 @@ Transform:
   m_Father: {fileID: 2088419489}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &1153124489
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1153124491}
-  - component: {fileID: 1153124490}
-  m_Layer: 0
-  m_Name: NavMesh Modifier Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!114 &1153124490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153124489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1153124491
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153124489}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.62, y: -3.38, z: -59.55}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1167365547
 GameObject:
   m_ObjectHideFlags: 0
@@ -5109,7 +5046,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5337,6 +5274,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1001 &1329304258
 PrefabInstance:
@@ -5347,7 +5285,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5528,7 +5466,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5990,6 +5928,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1 &1524913091
 GameObject:
@@ -6340,6 +6279,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!1001 &1769775762
 PrefabInstance:
@@ -6350,7 +6290,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6945,6 +6885,7 @@ MonoBehaviour:
   characterEquipment: 2
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 1
 --- !u!114 &1949611713
 MonoBehaviour:
@@ -7081,7 +7022,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7050449291516809065, guid: 2ce0f131a8d13ae43b93d880936c2653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7309,6 +7250,7 @@ MonoBehaviour:
   characterEquipment: 0
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 1
 --- !u!1 &2082789438
 GameObject:
@@ -7345,6 +7287,7 @@ MonoBehaviour:
   characterEquipment: 2
   startSelectedEquipment: 0
   _flashlightTaken: 0
+  _isTarget: 0
   _weaponPuttedAwayOnStart: 0
 --- !u!114 &2082789440
 MonoBehaviour:

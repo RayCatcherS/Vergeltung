@@ -311,14 +311,14 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7ee92983d563cf4498a437524962a2dd, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.43
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -552,6 +552,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: portaMilitare
       objectReference: {fileID: 0}
+    - target: {fileID: 3271437178294427615, guid: 72815f58af8ef25468fda9d82378c17d, type: 3}
+      propertyPath: doorLocked.value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271437178294427615, guid: 72815f58af8ef25468fda9d82378c17d, type: 3}
+      propertyPath: doorLockedByKey.value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887974681295881662, guid: 72815f58af8ef25468fda9d82378c17d, type: 3}
+      propertyPath: internalOpeningSide.value
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72815f58af8ef25468fda9d82378c17d, type: 3}
 --- !u!4 &7632328956786112961 stripped
@@ -611,6 +623,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 40a4ca502f36b46439a4eb5239a96ca1, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 40a4ca502f36b46439a4eb5239a96ca1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 486c20b0ada7eed46bd284a9f3ff179c, type: 2}
@@ -625,6 +641,10 @@ PrefabInstance:
     - target: {fileID: -3852341972610935857, guid: 40a4ca502f36b46439a4eb5239a96ca1, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -2450849009015537254, guid: 40a4ca502f36b46439a4eb5239a96ca1, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.43
       objectReference: {fileID: 0}
     - target: {fileID: -2450849009015537254, guid: 40a4ca502f36b46439a4eb5239a96ca1, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -745,9 +765,17 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1496761564729036192, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 1496761564729036192, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d70a640b39c8f9445b9c2261a6d03c5a, type: 2}
+    - target: {fileID: 2514458011164748461, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.43
+      objectReference: {fileID: 0}
     - target: {fileID: 2514458011164748461, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -757,9 +785,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: d70a640b39c8f9445b9c2261a6d03c5a, type: 2}
     - target: {fileID: 5676200519160415592, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 5676200519160415592, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 86df82e777cfb344db2a3022e7893d41, type: 2}
+    - target: {fileID: 7991010838795705529, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.43
+      objectReference: {fileID: 0}
     - target: {fileID: 7991010838795705529, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
