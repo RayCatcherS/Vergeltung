@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 5091699360693622296}
   - component: {fileID: 5091699360313775999}
   - component: {fileID: 5091699360313775936}
-  - component: {fileID: 5091699360313775937}
   - component: {fileID: 2618533253030679894}
+  - component: {fileID: 6791615775634810572}
   m_Layer: 0
   m_Name: place_island
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 119
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!4 &5091699360693622296
 Transform:
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5091699360313775937
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091699360313775938}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 10c71e4f41af5024a928eb88ddefd77f, type: 3}
 --- !u!205 &2618533253030679894
 LODGroup:
   m_ObjectHideFlags: 0
@@ -126,3 +112,16 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5091699360313775936}
   m_Enabled: 1
+--- !u!65 &6791615775634810572
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091699360313775938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25, y: 25.000006, z: 0.33782622}
+  m_Center: {x: 12.5, y: -12.500003, z: -0.16891311}
