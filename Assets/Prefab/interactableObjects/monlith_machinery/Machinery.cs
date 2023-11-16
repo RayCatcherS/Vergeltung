@@ -48,7 +48,7 @@ public class Machinery : MonoBehaviour
 
 
     private void Start() {
-
+        
         // abilita target icon
         targetIconManager.enableTargetUI();
 

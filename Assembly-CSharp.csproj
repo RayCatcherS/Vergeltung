@@ -92,6 +92,7 @@
     <Compile Include="Assets\Prefab\interactableObjects\GenericBinaryInteractable.cs" />
     <Compile Include="Assets\Prefab\Entities\characters\base_character\script\behaviourProcess\subBehaviour\MoveNPCBetweenRandomPointsProcess.cs" />
     <Compile Include="Assets\Prefab\UI\MenuButton\MenuButtonUIManager.cs" />
+    <Compile Include="Assets\scripts\Environment\LightMapSwitcher.cs" />
     <Compile Include="Assets\sceneControllerScript\gameMechanics\GameInputManager.cs" />
     <Compile Include="Assets\Prefab\Entities\characters\base_character\script\movement\FootSteps.cs" />
     <Compile Include="Assets\Prefab\Entities\characters\base_character\script\CharacterAreaManager.cs" />
@@ -148,52 +149,20 @@
     <Compile Include="Assets\Prefab\Entities\characters\base_character\script\behaviourProcess\enemy\WarnOfSospiciousEnemyProcess.cs" />
     <Compile Include="Assets\scripts\gameConstant\GameConstant.cs" />
     <Compile Include="Assets\Prefab\Entities\characters\base_character\script\NPCActivities\CharacterActivityManager.cs" />
+    <Compile Include="Assets\missingScriptRemover.cs" />
     <Compile Include="Assets\Scenes\MainMenuAssets\mainMenuScript\MenuScreen.cs" />
-    <Compile Include="Assets\scripts\Environment\LightMapSwitcher.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\DayNightController.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\StoredLightmapData.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\ChangeObjectStateOnEvent.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MLSObject.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\SystemProperties.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\API\CallUnloadScene.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\PingPong.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MLSCustomBlendable.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\SetActiveOnLM_02.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\StoredLightingScenario.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Blending.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\EnviroHours.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MagicLightmapSwitcher.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MLSStaticRenderer.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\Rotator.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\API\EmissiveCustomBlendable.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\EnviroControlledBlending.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\API\RuntimeAPI.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MLSLight.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\API\CallLightmapsSwitching.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\Scripts\SetActiveOnLM_01.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\API\CallLightmapBlending.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Switching.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MLSDynamicRenderer.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\MLSPrefab.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\API\SceneManagment.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\API\TransformExtensions.cs" />
-    <Compile Include="Assets\Magic Lightmap Switcher\Examples\API\CallAdditiveSceneLoading.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\SC Post Effects\Shaders\DepthNormals.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\Magic Lightmap Switcher\Docs\README.txt" />
-    <None Include="Assets\Magic Lightmap Switcher\Shaders\Standard\Shaders\StandardSkyboxCubemap.shader" />
     <None Include="Assets\XInputDotNet\Docs.txt" />
     <None Include="Assets\XInputDotNet\Plugins\XInputDotNetPure.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\Magic Lightmap Switcher\Shaders\URP\Thruster.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\assets\importedAssets\QuickOutline\Resources\Shaders\OutlineMask.shader" />
     <None Include="Assets\SC Post Effects\Shaders\Pipeline\Pipeline.hlsl" />
-    <None Include="Assets\Magic Lightmap Switcher\Shaders\URP\URPSkyboxCubemap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\SC Post Effects\Shaders\Pipeline\URP.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
@@ -205,11 +174,9 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\Magic Lightmap Switcher\Shaders\Standard\Shaders\UnityStandard_5.0.shader" />
     <None Include="Assets\SC Post Effects\Shaders\Blurring.hlsl" />
     <None Include="Assets\XInputDotNet\Plugins\x86\XInputInterface.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\Magic Lightmap Switcher\Shaders\URP\MLS_URP_Lit.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\SC Post Effects\Shaders\Blending.hlsl" />
     <None Include="Assets\SC Post Effects\Shaders\SCPE.hlsl" />
@@ -858,15 +825,6 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="PPv2URPConverters">
-      <HintPath>Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -891,9 +849,6 @@
     <Reference Include="Unity.Searcher.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -905,12 +860,6 @@
     </Reference>
     <Reference Include="Autodesk.Fbx">
       <HintPath>Library\ScriptAssemblies\Autodesk.Fbx.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
@@ -927,14 +876,8 @@
     <Reference Include="Unity.Burst">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Formats.Fbx.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Formats.Fbx.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
@@ -948,14 +891,47 @@
     <Reference Include="Unity.Animation.Rigging.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.RenderPipelines.Universal.Shaders.csproj">
+      <Project>{CF60CD1F-2B91-2460-1893-6EE5CC670A4A}</Project>
+      <Name>Unity.RenderPipelines.Universal.Shaders</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Universal.Runtime.csproj">
+      <Project>{421C3879-B2F4-E0DE-183C-D0D0CCA90A08}</Project>
+      <Name>Unity.RenderPipelines.Universal.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="PPv2URPConverters.csproj">
+      <Project>{1E2337B0-8612-3A85-1524-819A03DE8ACB}</Project>
+      <Name>PPv2URPConverters</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
+      <Project>{83C2D1F2-243B-1BBB-5E12-8D7A82532125}</Project>
+      <Name>Unity.RenderPipelines.Core.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.ShaderLibrary.csproj">
+      <Project>{AEB0B908-A014-962D-CE07-BDC73F30826F}</Project>
+      <Name>Unity.RenderPipelines.Core.ShaderLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{8DF55F22-44A9-69E7-A22D-228C868078B5}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Universal.Editor.csproj">
+      <Project>{46327004-15D5-00EA-7F85-24ACCF781ED8}</Project>
+      <Name>Unity.RenderPipelines.Universal.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.csproj">
+      <Project>{9BE93A4A-C84E-17F4-6A7F-E80798220FF2}</Project>
+      <Name>Unity.RenderPipeline.Universal.ShaderLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="sc.posteffects.editor.csproj">
       <Project>{B3B7807C-DF37-2B88-4607-144103CE5744}</Project>
       <Name>sc.posteffects.editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Editor.csproj">
+      <Project>{81C0A306-C0E5-AA22-EFC5-A501321AD471}</Project>
+      <Name>Unity.RenderPipelines.Core.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="sc.posteffects.runtime.csproj">
       <Project>{95231DFE-7546-8575-B9FF-DA1374572052}</Project>
