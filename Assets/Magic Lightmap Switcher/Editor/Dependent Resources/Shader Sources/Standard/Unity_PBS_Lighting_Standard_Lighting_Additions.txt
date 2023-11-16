@@ -1,0 +1,11 @@
+    //<MLS_UNITY_PBS_LIGHTING_LIGHTING_STANDARD_ADDITIONS>
+    if (_MLS_ENABLE_LIGHTMAPS_BLENDING)
+    {
+        float3 worldNormal = mul(unity_ObjectToWorld, float4 (s.Normal, 0.0)).xyz;
+        fixed4 blendedColor = BlendTwoTextures(0, data.lightmapUV.xy);
+        fixed4 blendedDir = BlendTwoTextures(1, data.lightmapUV.xy);
+
+        gi.indirect.diffuse = blendedColor;
+        gi.indirect.diffuse += DecodeDirectionalLightmap(blendedColor, blendedDir, worldNormal) * 0.01;
+    }
+    //</MLS_UNITY_PBS_LIGHTING_LIGHTING_STANDARD_ADDITIONS>

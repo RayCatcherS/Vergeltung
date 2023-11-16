@@ -23,22 +23,22 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.63702834, g: 0.6645755, b: 0.73, a: 1}
   m_AmbientEquatorColor: {r: 0.14936627, g: 0.12549019, b: 0.30980393, a: 1}
   m_AmbientGroundColor: {r: 0.179154, g: 0.2117485, b: 0.333, a: 1}
-  m_AmbientIntensity: 2.68
-  m_AmbientMode: 1
-  m_SubtractiveShadowColor: {r: 0.5515294, g: 0.57288235, b: 0.627451, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 0.5941171, g: 0.6338976, b: 0.745283, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: f0a0c35cfe521e043800c52016b161ae, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 256
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.28633916, g: 0.3040947, b: 0.33813846, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2569,17 +2569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 740047720}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 18
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 58353029}
 --- !u!33 &58353032
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2922,14 +2911,6 @@ PrefabInstance:
     - target: {fileID: 8938813267059824626, guid: 4e10d16354d08c446a0957fd0c60befa, type: 3}
       propertyPath: m_Name
       value: t_road (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8938813267059824626, guid: 4e10d16354d08c446a0957fd0c60befa, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8956061344192046638, guid: 4e10d16354d08c446a0957fd0c60befa, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e10d16354d08c446a0957fd0c60befa, type: 3}
@@ -8262,17 +8243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1661757954}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 15
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 206111275}
 --- !u!33 &206111278
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -16272,6 +16242,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4868608296195354964, guid: 3bc44613876e5e042acdff01b00c5a3c, type: 3}
   m_PrefabInstance: {fileID: 419286209}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &419446580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5947733506663936115, guid: 349a0bbe00f9f984a910db1e069c0d14, type: 3}
+  m_PrefabInstance: {fileID: 1703273366}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &419446584
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419446580}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2be1dcfc231954fa99f2aa5b534fc40e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &419731073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16733,29 +16728,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 887099628}
     m_Modifications:
-    - target: {fileID: 212815089513994092, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 127
-      objectReference: {fileID: 0}
-    - target: {fileID: 412387708667435097, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1851593495048421276, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 7782531926390016882, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
       propertyPath: m_Name
       value: i_road (25)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7782531926390016882, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 119
-      objectReference: {fileID: 0}
-    - target: {fileID: 7990356359387583809, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 118
       objectReference: {fileID: 0}
     - target: {fileID: 8669852160576313472, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
       propertyPath: m_RootOrder
@@ -16800,10 +16775,6 @@ PrefabInstance:
     - target: {fileID: 8669852160576313472, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8956260798847258878, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 127
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
@@ -17453,17 +17424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1203324754}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 12
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 447077279}
 --- !u!33 &447077282
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -25018,17 +24978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 760753617}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 12
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 664160120}
 --- !u!33 &664160123
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -26258,8 +26207,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.51650935, g: 0.4198113, b: 1, a: 1}
-  m_Intensity: 0.07
+  m_Color: {r: 0.8923842, g: 0.8820755, b: 1, a: 1}
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -26316,14 +26265,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.7855672, y: 0.1276424, z: -0.16777994, w: 0.5817573}
+  m_LocalRotation: {x: 0.53230786, y: 0.24963401, z: -0.56450963, w: 0.57936174}
   m_LocalPosition: {x: 25.750011, y: 29.39, z: 0.000030517578}
   m_LocalScale: {x: 1.0000002, y: 1.0000004, z: 1.0000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 73.107, y: 203.333, z: 178.949}
+  m_LocalEulerAnglesHint: {x: 63.98, y: 314.717, z: 242.282}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30369,17 +30318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1533893220}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 12
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 801958958}
 --- !u!33 &801958961
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30780,17 +30718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 520581364}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 12.5
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 806364427}
 --- !u!33 &806364430
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -32031,17 +31958,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 799752902}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 13
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 833319644}
 --- !u!33 &833319647
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -32334,17 +32250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 2116226210}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 24
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 839694056}
 --- !u!33 &839694059
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -35401,17 +35306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1130415094}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 20
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 929022714}
 --- !u!33 &929022717
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -43816,17 +43710,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1565502091}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 9
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1157146270}
 --- !u!33 &1157146273
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -47708,17 +47591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1266647712}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 14
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1254198893}
 --- !u!33 &1254198896
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -56533,17 +56405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 2090451564}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 7
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1499162818}
 --- !u!33 &1499162821
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -57756,17 +57617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1015861284}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 16
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1526084476}
 --- !u!33 &1526084479
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62202,17 +62052,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 2011288839}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 12
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1671986762}
 --- !u!33 &1671986765
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -62860,6 +62699,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162895570375549904, guid: 349a0bbe00f9f984a910db1e069c0d14, type: 3}
+      propertyPath: machineryAnimator
+      value: 
+      objectReference: {fileID: 419446584}
+    - target: {fileID: 5162895570375549904, guid: 349a0bbe00f9f984a910db1e069c0d14, type: 3}
       propertyPath: ammunitionReleased
       value: 1
       objectReference: {fileID: 0}
@@ -62891,6 +62734,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.000002921613
       objectReference: {fileID: 0}
+    - target: {fileID: 5824044429143725659, guid: 349a0bbe00f9f984a910db1e069c0d14, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 86df82e777cfb344db2a3022e7893d41, type: 2}
     - target: {fileID: 5924805338722110422, guid: 349a0bbe00f9f984a910db1e069c0d14, type: 3}
       propertyPath: m_Name
       value: edificio_monolite
@@ -63268,7 +63115,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2012945194}
-  m_RootOrder: 20
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 180}
 --- !u!114 &1714685122
 MonoBehaviour:
@@ -67830,17 +67677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1299373880}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 14
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1803058663}
 --- !u!33 &1803058666
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -76226,17 +76062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 799288526}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 20
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1898801153}
 --- !u!33 &1898801156
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -77898,17 +77723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 259322457}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 11
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1915752148}
 --- !u!33 &1915752151
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -78136,17 +77950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 46885988}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 11
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 1921065598}
 --- !u!33 &1921065601
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83683,17 +83486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a262c1cd876da934d86e2a8ee0089db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPoint: {fileID: 1989688051}
-  cableMaterial: {fileID: 2100000, guid: 238d78610a7157840a221b1a7e675550, type: 2}
-  cableLength: 8.5
-  totalSegments: 0
-  segmentsPerUnit: 5
-  segments: 10
-  cableWidth: 0.12
-  verletIterations: 2
-  solverIterations: 10
-  stiffness: 1
-  line: {fileID: 2061173787}
 --- !u!33 &2061173790
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -85748,29 +85540,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 887099628}
     m_Modifications:
-    - target: {fileID: 212815089513994092, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 127
-      objectReference: {fileID: 0}
-    - target: {fileID: 412387708667435097, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1851593495048421276, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 7782531926390016882, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
       propertyPath: m_Name
       value: i_road (29)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7782531926390016882, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 119
-      objectReference: {fileID: 0}
-    - target: {fileID: 7990356359387583809, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 118
       objectReference: {fileID: 0}
     - target: {fileID: 8669852160576313472, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
       propertyPath: m_RootOrder
@@ -85815,10 +85587,6 @@ PrefabInstance:
     - target: {fileID: 8669852160576313472, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8956260798847258878, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 127
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5feab7c352d32db4ca381f8b0d11d799, type: 3}
@@ -87095,10 +86863,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
-    - target: {fileID: 3470807519517577804, guid: f5f362c7452300a4ca3c56e6bf0b1e1c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3470807519517577808, guid: f5f362c7452300a4ca3c56e6bf0b1e1c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -87195,10 +86959,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1908805313}
-    - target: {fileID: 4184146289859478666, guid: f5f362c7452300a4ca3c56e6bf0b1e1c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4498229585521821526, guid: f5f362c7452300a4ca3c56e6bf0b1e1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -88515,6 +88275,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6478802097507306844, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9140868059139562940, guid: a23b0c824c48bc84eb154e2af83df8e0, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

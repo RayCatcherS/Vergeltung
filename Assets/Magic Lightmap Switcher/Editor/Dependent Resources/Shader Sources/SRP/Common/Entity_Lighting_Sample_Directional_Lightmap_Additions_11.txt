@@ -1,0 +1,40 @@
+    //<MLS_ENTITY_LIGHTING_SAMLE_DIRECTIONAL_LIGHTMAP_ADDITIONS>
+    //Original code
+    /*real4 direction = SAMPLE_TEXTURE2D_LIGHTMAP(lightmapDirTex, lightmapDirSampler, LIGHTMAP_EXTRA_ARGS_USE);
+    // Remark: baked lightmap is RGBM for now, dynamic lightmap is RGB9E5
+    real3 illuminance = real3(0.0, 0.0, 0.0);
+    if (encodedLightmap)
+    {
+        real4 encodedIlluminance = SAMPLE_TEXTURE2D_LIGHTMAP(lightmapTex, lightmapSampler, LIGHTMAP_EXTRA_ARGS_USE).rgba;
+        illuminance = DecodeLightmap(encodedIlluminance, decodeInstructions);
+    }
+    else
+    {
+        illuminance = SAMPLE_TEXTURE2D_LIGHTMAP(lightmapTex, lightmapSampler, LIGHTMAP_EXTRA_ARGS_USE).rgb;
+    }*/    
+
+    // Magic Lightmap Switcher
+    real4 direction = lerp(
+        SAMPLE_TEXTURE2D_LIGHTMAP(lightmapDirTex, lightmapDirSampler, LIGHTMAP_EXTRA_ARGS_USE),
+        BlendTwoTextures(1, LIGHTMAP_EXTRA_ARGS_USE),
+        _MLS_ENABLE_LIGHTMAPS_BLENDING);      
+
+    real3 illuminance = real3(0.0, 0.0, 0.0);
+
+    if (encodedLightmap)
+    {         
+        real4 encodedIlluminance = lerp(
+            SAMPLE_TEXTURE2D_LIGHTMAP(lightmapTex, lightmapSampler, LIGHTMAP_EXTRA_ARGS_USE).rgba,
+            BlendTwoTextures(0, LIGHTMAP_EXTRA_ARGS_USE).rgba,
+            _MLS_ENABLE_LIGHTMAPS_BLENDING);
+        
+        illuminance = DecodeLightmap(encodedIlluminance, decodeInstructions);
+    }
+    else
+    {        
+        illuminance = lerp(
+            SAMPLE_TEXTURE2D_LIGHTMAP(lightmapTex, lightmapSampler, LIGHTMAP_EXTRA_ARGS_USE).rgb,
+            BlendTwoTextures(0, LIGHTMAP_EXTRA_ARGS_USE).rgb,
+            _MLS_ENABLE_LIGHTMAPS_BLENDING);
+    }  
+    //</MLS_ENTITY_LIGHTING_SAMLE_DIRECTIONAL_LIGHTMAP_ADDITIONS>
