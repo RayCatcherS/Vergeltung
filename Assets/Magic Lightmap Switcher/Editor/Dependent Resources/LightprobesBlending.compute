@@ -1,0 +1,12 @@
+﻿#pragma kernel CSMain
+
+uniform RWStructuredBuffer<float> blendFromArray : register(u1);
+uniform RWStructuredBuffer<float> blendToArray : register(u2);
+uniform RWStructuredBuffer<float> exitArray : register(u3);
+float blendFactor;
+
+[numthreads(256, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    exitArray[id.x] = lerp(blendFromArray[id.x], blendToArray[id.x], blendFactor);
+}

@@ -1,0 +1,10 @@
+                //<MLS_UNITY_SHADOW_LIBRARY_UNITY_GET_RAW_BAKED_OCCLUSIONS_ADDITIONS>
+                // Original Code
+                //return UNITY_SAMPLE_TEX2D(unity_ShadowMask, lightmapUV.xy);
+
+                // Magic Lightmap Switcher
+                return lerp(
+                    UNITY_SAMPLE_TEX2D(unity_ShadowMask, lightmapUV.xy), 
+                    BlendTwoTextures(2, lightmapUV.xy), 
+                    _MLS_ENABLE_LIGHTMAPS_BLENDING);                
+                //</MLS_UNITY_SHADOW_LIBRARY_UNITY_GET_RAW_BAKED_OCCLUSIONS_ADDITIONS>

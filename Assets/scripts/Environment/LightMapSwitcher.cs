@@ -7,31 +7,35 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace MagicLightmapSwitcher {
+    public enum LigthMap {
+        light,
+        noLight
+    }
     public class LightMapSwitcher : MonoBehaviour {
+        
+
+        [SerializeField] LigthMap StartingLightMap = LigthMap.light;
 
         void Start() {
-            SwitchToLightmap();
-
+            SwitchToLightmap(StartingLightMap);
         }
 
-        public void SwitchToLightmap() {
+        public static void SwitchToLightmap(LigthMap lightMap) {
 
-            // switch lightmaps
-            /*MagicLightmapSwitcher lightmapSwitcher;
+
+            MagicLightmapSwitcher lightmapSwitcher;
             RuntimeAPI runtimeAPI = new RuntimeAPI();
-
-            List<StoredLightingScenario> availableScenarios = new List<StoredLightingScenario>();*/
-
-
-            //MagicLightmapSwitcher.UpdateLightingScenarios(SceneManager.GetActiveScene().name, true);
+            List<StoredLightingScenario> availableScenarios = new List<StoredLightingScenario>();
 
 
 
-            //StoredLightingScenario
             string sceneName = SceneManager.GetActiveScene().name;
-            /*lightmapSwitcher = runtimeAPI.GetSwitcherSource(sceneName);
-            Debug.Log(lightmapSwitcher.sceneLightmapDatas.Count);*/
-            //Switching.LoadLightingData(lightmapSwitcher, 0, Switching.LoadMode.Asynchronously);
+            lightmapSwitcher = runtimeAPI.GetSwitcherSource(sceneName);
+            //Debug.Log(lightmapSwitcher.sceneLightmapDatas.Count);
+
+            Switching.LoadLightingData(lightmapSwitcher,
+                lightMap == LigthMap.light ? 0 : 1,
+                Switching.LoadMode.Asynchronously);
 
         }
     }

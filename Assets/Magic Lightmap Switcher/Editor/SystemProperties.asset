@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c8ab7b0de12c0843a0f955937a7c8df, type: 3}
+  m_Name: SystemProperties
+  m_EditorClassIdentifier: 
+  standardRPActive: 0
+  universalRPActive: 1
+  highDefinitionRPActive: 0
+  standardRPPatched: 0
+  universalRPPatched: 0
+  highDefinitionRPPatched: 0
+  clearOriginalLightingData: 0
+  batchByLightmapIndex: 0
+  editorRestarted: 0
+  prevTimeSinceStartup: 0
+  checkForPatchedRoutineInProcess: 0
+  restoring: 0
+  srpPatching: 0
+  waitForRestart: 0
+  srpCoreDirFrom: 
+  srpCoreDirTo: 
+  srpCommonDirFrom: 
+  srpCommonDirTo: 
+  shaderGraphDirFrom: 
+  ShaderGraphDirTo: 
+  VFXGraphDirFrom: 
+  VFXGraphDirTo: 
+  HDRPConfigDirFrom: 
+  HDRPConfigDirTo: 
+  srpVersion: 12.1.6
+  srpReady: 0
+  storePath: /MLS_DATA
+  deferredWarningConfirmed: 0
+  useSwitchingOnly: 1
+  srp_Core_SourcesPath: 
+  srp_Common_ModifySourcesPath: C:/Users/roman/Documents/GitHub/Vergeltung/Assets\Magic
+    Lightmap Switcher/Editor/Dependent Resources/Shader Sources/SRP/Common/
+  SRP__ENTITY_LIGHTING__DEFAULT_SOURCE_FILE: EntityLighting.hlsl
+  SRP__COMMON__DEFAULT_SOURCE_FILE: Common.hlsl
+  SRP__ENTITY_LIGHTING__SAMPLE_SINGLE_LIGHTMAP__SEARCH_STRING: real3 SampleSingleLightmap(TEXTURE2D_LIGHTMAP_PARAM(lightmapTex,
+    lightmapSampler), LIGHTMAP_EXTRA_ARGS, float4 transform, bool encodedLightmap,
+    real4 decodeInstructions)
+  SRP__ENTITY_LIGHTING__SAMPLE_DIRECTIONAL_LIGHTMAP__SEARCH_STRING: void SampleDirectionalLightmap(TEXTURE2D_LIGHTMAP_PARAM(lightmapTex,
+    lightmapSampler), TEXTURE2D_LIGHTMAP_PARAM(lightmapDirTex, lightmapDirSampler),
+    LIGHTMAP_EXTRA_ARGS, float4 transform,
+  SRP__COMMON__COMMON_INCLUDES__SEARCH_STRING: '#endif // UNITY_COMMON_INCLUDED'
+  SRP__COMMON__COMMON_INCLUDES__MODYFI_SOURCE_FILE: MLS_SRP_Common_Includes_10.hlsl
+  SRP__ENTITY_LIGHTING__SAMPLE_SINGLE_LIGHTMAP__MODYFI_SOURCE_FILE: Entity_Lighting_Sample_Single_Lightmap_Additions_10.txt
+  SRP__ENTITY_LIGHTING__SAMPLE_DIRECTIONAL_LIGHTMAP__MODYFI_SOURCE_FILE: Entity_Lighting_Sample_Directional_Lightmap_Additions_11.txt
+  SRP__LIT__COMMON_VARIABLES__MODYFI_SOURCE_FILE: Variables_Additions.txt
+  srp__Common__Common_Includes__Lines: []
+  srp__Entity_Lighting__Sample_Single_Lightmap__Lines: []
+  srp__Entity_Lighting__Sample_Directional_Lightmap__Lines: []
+  srp__Lit__Common_Variables__Lines: []
+  SRP_COMMON__COMMON_INCLUDES__SIGNATURE: //<MLS_COMMON_INCLUDES>
+  SRP__ENTITY_LIGHTING__SAMPLE_SINGLE_LIGHTMAP__SIGNATURE: //<MLS_ENTITY_LIGHTING_SAMLE_SINGLE_LIGHTMAP_ADDITIONS>
+  SRP__ENTITY_LIGHTING__SAMPLE_DIRECTIONAL_LIGHTMAP__SIGNATURE: //<MLS_ENTITY_LIGHTING_SAMLE_DIRECTIONAL_LIGHTMAP_ADDITIONS>
+  SRP__LIT__COMMON_VARIABLES__SIGNATURE: //<MLS_VARIABLES_ADDITIONS>
+  srp_URP_SourcesPath: 
+  srp_URP_ModifySourcesPath: C:/Users/roman/Documents/GitHub/Vergeltung/Assets\Magic
+    Lightmap Switcher/Editor/Dependent Resources/Shader Sources/SRP/URP/
+  URP__LIT__DEFAULT_SOURCE_FILE: Shaders/Lit.shader
+  URP__TERRAIN_LIT__DEFAULT_SOURCE_FILE: Shaders/Terrain/TerrainLit.shader
+  URP__LIGHTING__DEFAULT_SOURCE_FILE: GlobalIllumination.hlsl
+  URP__LIT__COMMON_VARIABLES__SEARCH_STRING: '[HideInInspector] _GlossyReflections("EnvironmentReflections",
+    Float) = 0.0'
+  URP__TERRAIN_LIT__COMMON_VARIABLES__SEARCH_STRING: '[ToggleUI] _EnableInstancedPerPixelNormal("Enable
+    Instanced per-pixel normal", Float) = 1.0'
+  URP__LIGHTING__GLOSSY_ENVIRONMENT_REFLECTION__SEARCH_STRING: half3 GlossyEnvironmentReflection(half3
+    reflectVector, float3 positionWS, half perceptualRoughness, half occlusion)
+  URP__LIGHTING__GLOSSY_ENVIRONMENT_REFLECTION__MODYFI_SOURCE_FILE: Glossy_Environment_Reflection_Additions_12.txt
+  urp__Lighting__Glossy_Environment_Reflection__Lines: []
+  URP__LIGHTING__GLOSSY_ENVIRONMENT_REFLECTION__SIGNATURE: //<MLS_GLOBAL_ILLUMINATION_GLOSSY_ENVIRONMENT_REFLECTION_ADDITIONS>
+  srp_HDRP_SourcesPath: 
+  srp_HDRP_ModifySourcesPath: 
+  HDRP__LIT__DEFAULT_SOURCE_FILE: Runtime/Material/Lit/Lit.shader
+  HDRP__HDRI_SKY__DEFAULT_SOURCE_FILE: Runtime/Sky/HDRISky/HDRISky.shader
+  HDRP__TERRAIN_LIT__DEFAULT_SOURCE_FILE: Runtime/Material/TerrainLit/TerrainLit.shader
+  HDRP__LIGHTING_LOOP_DEF__DEFAULT_SOURCE_FILE: Runtime/Lighting/LightLoop/LightLoopDef.hlsl
+  HDRP__BUILTINGI__DEFAULT_SOURCE_FILE: Runtime/Material/BuiltInGIUtilities.hlsl
+  HDRP__LIT__COMMON_VARIABLES__SEARCH_STRING: '[HideInInspector] _DiffusionProfileHash("Diffusion
+    Profile Hash", Float) = 0'
+  HDRP__HDRISKY__GET_SKY_COLOR__SEARCH_STRING: float3 GetSkyColor(float3 dir)
+  HDRP__TERRAIN_LIT__COMMON_VARIABLES__SEARCH_STRING: '[HideInInspector] [ToggleUI]
+    _AddPrecomputedVelocity("AddPrecomputedVelocity", Float) = 0.0'
+  HDRP__LIGHTING_LOOP_DEF__SAMPLE_ENV__SEARCH_STRING: color.rgb = SAMPLE_TEXTURECUBE_ARRAY_LOD_ABSTRACT(_EnvCubemapTextures,
+    s_trilinear_clamp_sampler, texCoord, _EnvSliceSize * index + sliceIdx, lod).rgb;
+  HDRP__BUILTINGI__SEARCH_STRING: float4 SampleShadowMask(float3 positionRWS, float2
+    uvStaticLightmap) // normalWS not use for now
+  HDRP__LIGHTING_LOOP_DEF__SAMPLE_ENV__MODYFI_SOURCE_FILE: Lighting_Loop_Def_Additions_10.txt
+  HDRP__HDRI_SKY__GET_SKY_COLOR__MODYFI_SOURCE_FILE: HDRI_Sky_Get_Sky_Color_Additions_10-11.txt
+  HDRP__BUILTINGI__MODYFI_SOURCE_FILE: BuiltInGI_Additions_10-11.txt
+  hdrp_Lighting_Loop_Def__Sample_Env__Lines: []
+  hdrp_HDRI_Sky__Get_Sky_Color__Lines: []
+  hdrp_BuiltInGI__Lines: []
+  HDRP__HDRI_SKY__GET_SKY_COLOR__SIGNATURE: //<MLS_HDRI_SKY_GET_SKY_COLOR_ADDITIONS>
+  HDRP__BUILTINGI__SIGNATURE: //<MLS_BUILTINGI_ADDITIONS>
