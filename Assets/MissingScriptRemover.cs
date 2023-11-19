@@ -5,6 +5,7 @@ using UnityEditor;
 
 public class MissingScriptRemover : MonoBehaviour
 {
+#if UNITY_EDITOR
     [MenuItem("Auto/Remove Missing Scripts Recursively Visit Prefabs")]
     public static void FindAndRemoveMissingInSelected() {
         // EditorUtility.CollectDeepHierarchy does not include inactive children
@@ -55,4 +56,6 @@ public class MissingScriptRemover : MonoBehaviour
             goCount++;
         }
     }
+#endif
+
 }

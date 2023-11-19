@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -82,6 +83,15 @@ public class Outline : MonoBehaviour {
 
     private bool needsUpdate;
 
+    private void Start() {
+        StartCoroutine(OutlineFixUpdater());
+    }
+    private IEnumerator OutlineFixUpdater() {
+        yield return new WaitForSeconds(0.2f);
+        gameObject.GetComponent<Outline>().enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        gameObject.GetComponent<Outline>().enabled = true;
+    }
     public void changeOutlineColor(Color color) {
         outlineColor = color;
         needsUpdate = true;
