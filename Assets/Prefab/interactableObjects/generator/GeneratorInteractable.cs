@@ -102,12 +102,6 @@ public class GeneratorInteractable : Interactable {
             if(enemy != null) {
                 Vector3 nearPos = CharacterManager.getPositionReachebleByAgents(enemy.characterManager, gameObject.transform.position);
 
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                cube.transform.position = nearPos;
-                cube.name = "position to go";
-
-
-
                 enemy.setAlert(
                     CharacterAlertState.WarnOfSuspiciousAlert,
                     true,

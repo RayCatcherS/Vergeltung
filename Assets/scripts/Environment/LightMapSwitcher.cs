@@ -37,7 +37,11 @@ namespace MagicLightmapSwitcher {
                 lightMap == LigthMap.light ? 0 : 1,
                 Switching.LoadMode.Asynchronously);
 
+            ChangedLightMap.Invoke(lightMap);
+
         }
+
+        public static Action<LigthMap> ChangedLightMap;
     }
 }
 
