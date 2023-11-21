@@ -12,12 +12,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [DisallowMultipleComponent]
 
 public class Outline : MonoBehaviour {
-
+    
     private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
 
     public enum Mode {
@@ -88,9 +87,9 @@ public class Outline : MonoBehaviour {
     
     private IEnumerator OutlineFixUpdater() {
         yield return new WaitForSeconds(0.01f);
-        gameObject.GetComponent<Outline>().enabled = false;
+        /*gameObject.GetComponent<Outline>().enabled = false;
         yield return new WaitForSeconds(0.01f);
-        gameObject.GetComponent<Outline>().enabled = true;
+        gameObject.GetComponent<Outline>().enabled = true;*/
     }
     public void changeOutlineColor(Color color) {
         outlineColor = color;
@@ -108,7 +107,15 @@ public class Outline : MonoBehaviour {
     }
     void Awake() {
 
-    
+        MLSDynamicRenderer mLSDynamicRenderer = GetComponent<MLSDynamicRenderer>();
+        if (mLSDynamicRenderer != null) {
+            Destroy(mLSDynamicRenderer);
+        }
+        MLSStaticRenderer mLSStaticRenderer = GetComponent<MLSStaticRenderer>();
+        if (mLSStaticRenderer != null) {
+            Destroy(mLSStaticRenderer);
+        }
+
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
