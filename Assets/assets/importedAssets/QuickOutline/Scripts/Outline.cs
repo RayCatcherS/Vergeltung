@@ -107,15 +107,6 @@ public class Outline : MonoBehaviour {
     }
     void Awake() {
 
-        MLSDynamicRenderer mLSDynamicRenderer = GetComponent<MLSDynamicRenderer>();
-        if (mLSDynamicRenderer != null) {
-            Destroy(mLSDynamicRenderer);
-        }
-        MLSStaticRenderer mLSStaticRenderer = GetComponent<MLSStaticRenderer>();
-        if (mLSStaticRenderer != null) {
-            Destroy(mLSStaticRenderer);
-        }
-
 
         // Cache renderers
         renderers = GetComponentsInChildren<Renderer>();
