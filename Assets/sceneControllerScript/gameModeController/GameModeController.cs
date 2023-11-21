@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 
 public class GameModeController : MonoBehaviour {
@@ -17,6 +18,21 @@ public class GameModeController : MonoBehaviour {
     [Header("Data")]
     [SerializeField] private List<GameGoal> _gameGoals = new List<GameGoal>();
     [SerializeField] private List<UnityEvent> _eventIds = new List<UnityEvent>();
+
+
+    private static GameModeController _instance;
+
+    public static GameModeController Instance { get { return _instance; } }
+
+
+    private void Awake() {
+        if(_instance != null && _instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            _instance = this;
+        }
+    }
+
 
 
     private void Start() {

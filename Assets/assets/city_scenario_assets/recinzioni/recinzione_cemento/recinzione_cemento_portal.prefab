@@ -33,6 +33,7 @@ Transform:
   - {fileID: 8418721079646101782}
   - {fileID: 3163287702988170381}
   - {fileID: 4273040061654640237}
+  - {fileID: 5924337486466622390}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -333,6 +334,89 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3906003086040338137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5924337486466622390}
+  - component: {fileID: 2536319237647558417}
+  - component: {fileID: 8460581486681606401}
+  m_Layer: 0
+  m_Name: shadowGI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 1
+  m_IsActive: 1
+--- !u!4 &5924337486466622390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906003086040338137}
+  m_LocalRotation: {x: -0.00000017881392, y: 0.7071068, z: 0.7071068, w: -0.00000017881392}
+  m_LocalPosition: {x: -0.037, y: 0.1009, z: 1.97}
+  m_LocalScale: {x: 2.68989, y: 4.32266, z: 0.14526896}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1141263307530181012}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
+--- !u!33 &2536319237647558417
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906003086040338137}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8460581486681606401
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906003086040338137}
+  m_Enabled: 1
+  m_CastShadows: 3
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &1692324828708517680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510,7 +594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2417278510633547811, guid: 72815f58af8ef25468fda9d82378c17d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.115
+      value: 1.153
       objectReference: {fileID: 0}
     - target: {fileID: 2417278510633547811, guid: 72815f58af8ef25468fda9d82378c17d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -830,11 +914,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
---- !u!108 &729288294238336121 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 9065667942041157416, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
-  m_PrefabInstance: {fileID: 8633764565448870737}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4541863156139951408 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5248588414823386721, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}
@@ -853,7 +932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightCone: {fileID: 6913863289849498515}
-  light: {fileID: 729288294238336121}
+  light: {fileID: 0}
 --- !u!1 &6913863289849498515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2892350166847226050, guid: a2e286859b766d640bbcfb390b09a3d8, type: 3}

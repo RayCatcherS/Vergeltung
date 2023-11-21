@@ -29,8 +29,8 @@ public class Machinery : MonoBehaviour
     [SerializeField] private GenericUnaryInteractable machineryConsole;
     [SerializeField] private TargetIconManager targetIconManager;
 
-    [Header("Manager Refs")]
-    [SerializeField] private GameModeController gameModeController;
+    //[Header("Manager Refs")]
+    private GameModeController gameModeController;
 
     [Header("Enviroment Refs")]
     [SerializeField] private List<LightSourcesScript> machineryLights = new List<LightSourcesScript>();
@@ -48,7 +48,11 @@ public class Machinery : MonoBehaviour
 
 
     private void Start() {
-        
+
+        Debug.Log("Machinery start");
+
+        gameModeController = GameModeController.Instance;
+
         // abilita target icon
         targetIconManager.enableTargetUI();
 
