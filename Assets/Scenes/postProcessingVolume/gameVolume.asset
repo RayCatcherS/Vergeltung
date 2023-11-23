@@ -31,7 +31,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1.3
+    m_Value: 1.4
   contrast:
     m_OverrideState: 1
     m_Value: 74.6
@@ -79,6 +79,7 @@ MonoBehaviour:
   - {fileID: -8810985424306060016}
   - {fileID: -4707467119218860602}
   - {fileID: 965835294595957145}
+  - {fileID: 2252862992063795230}
 --- !u!114 &965835294595957145
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -138,6 +139,43 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 1.18
+--- !u!114 &2252862992063795230
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6e299dc3638154bbc6de09e3382285, type: 3}
+  m_Name: Blur
+  m_EditorClassIdentifier: 
+  active: 0
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
+  highQuality:
+    m_OverrideState: 0
+    m_Value: 0
+  distanceFade:
+    m_OverrideState: 0
+    m_Value: 0
+  startFadeDistance:
+    m_OverrideState: 0
+    m_Value: 0
+  endFadeDistance:
+    m_OverrideState: 0
+    m_Value: 500
+  amount:
+    m_OverrideState: 0
+    m_Value: 0
+  iterations:
+    m_OverrideState: 0
+    m_Value: 6
+  downscaling:
+    m_OverrideState: 0
+    m_Value: 2
 --- !u!114 &4276879097091325138
 MonoBehaviour:
   m_ObjectHideFlags: 3
