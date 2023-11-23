@@ -149,7 +149,6 @@ namespace MagicLightmapSwitcher
                     StoredLightmapData.RendererData rendererData = 
                         lightmapData.rendererDataDeserialized[staticRenderer.scriptId] as StoredLightmapData.RendererData;
 
-                    Debug.Log("");
                     renderers[i].lightmapIndex = rendererData.lightmapIndex;
                     renderers[i].lightmapScaleOffset = rendererData.lightmapScaleOffset;
                 }

@@ -22,14 +22,14 @@ public class DoorState : MonoBehaviour
 
 
     [SerializeField] private int doorTimeOut = 5; // stabilisce il valore di time out dopo cui la porta si chiude automaticamente
-    [SerializeField] private int _doorLockPickTime = 5; // stabilisce il valore di tempo che bisogna aspettare durante lo scassinamento
+    private float _doorLockPickTime = 2; // stabilisce il valore di tempo che bisogna aspettare durante lo scassinamento
 
     [Header("door sound refs")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip openDoorClip;
     [SerializeField] private AudioClip closeDoorClip;
 
-    public int doorLockPickTime {
+    public float doorLockPickTime {
         get { return _doorLockPickTime; }
     }
 

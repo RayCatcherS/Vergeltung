@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 116337222317877858}
   - component: {fileID: 3616511778182352902}
-  - component: {fileID: 5027713313558380476}
   - component: {fileID: 2726485008568230912}
   - component: {fileID: 7583866899521001713}
   - component: {fileID: 2748185987425571258}
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257563c1fc79e3448a5f47d16318a2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineScript: {fileID: 5027713313558380476}
+  outlineScript: {fileID: 7671489100796195526}
   interactableMeshEffect: {fileID: 3984835893241034052}
   _itemName: PISTOL AMMO
   _itemNameID: PISTOL AMMO
@@ -82,24 +81,6 @@ MonoBehaviour:
   gunShootSound: {fileID: 8300000, guid: 47c4d406347f2ac479013f12e9a1d6d8, type: 3}
   loudArea: {fileID: 5121135152222646132, guid: eeec69e2ae8ecfc4e89eb9a75ed6cfe1, type: 3}
   loudIntensity: 40
---- !u!114 &5027713313558380476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780953124983140568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 0.5490196, b: 0, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!114 &2726485008568230912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 94c9e88ad57683b4ea5b6dd7289afa7d, type: 2}
     - target: {fileID: 919132149155446097, guid: 6101be0165f56a7498a845106fdb8188, type: 3}
       propertyPath: m_Name
-      value: pistol_ammo
+      value: pistol_ammo_mesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6101be0165f56a7498a845106fdb8188, type: 3}
@@ -307,6 +288,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6101be0165f56a7498a845106fdb8188, type: 3}
   m_PrefabInstance: {fileID: 4829288291956093811}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5747857341772189218 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6101be0165f56a7498a845106fdb8188, type: 3}
+  m_PrefabInstance: {fileID: 4829288291956093811}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7671489100796195526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747857341772189218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.5490196, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!23 &6108149642117804023 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 6101be0165f56a7498a845106fdb8188, type: 3}

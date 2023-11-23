@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 6048918971556246308}
   - component: {fileID: 4627234590079152364}
   - component: {fileID: 3548301546285121124}
+  - component: {fileID: 1952517983}
   m_Layer: 0
-  m_Name: baule (1)
+  m_Name: bauleInteractableMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
@@ -83,6 +84,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1952517983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461924050228978172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606af1d5fd4cbaa47a67b63bc6c87431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: 1e897f9e-4055-4c1d-a8ce-bf1f2a7a6a7f
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 3548301546285121124}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
+  added: 1
 --- !u!1 &549029437110623046
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +154,7 @@ GameObject:
   - component: {fileID: 4875266741348724164}
   - component: {fileID: 737887771898617907}
   - component: {fileID: 1358167738336780573}
+  - component: {fileID: 1952517984}
   m_Layer: 3
   m_Name: car_model
   m_TagString: Untagged
@@ -143,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 1294594074025768216}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3000001, y: 1.2999998, z: 1.2999998}
+  m_LocalScale: {x: 1.3000002, y: 1.3000002, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6048918971556246308}
@@ -318,6 +346,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1952517984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294594074025768216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56469e934d9adfb48a48e3c05fec57ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers: []
+  dataStored: 0
 --- !u!1001 &2492346493240168928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -422,6 +464,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 86df82e777cfb344db2a3022e7893d41, type: 2}
     - target: {fileID: -4670332080902173284, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4670332080902173284, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.4
       objectReference: {fileID: 0}
@@ -495,9 +541,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+--- !u!23 &523969121269296508 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -6497826962499502948, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1137363349518653085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3269101088155813757, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &436751454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137363349518653085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a5e6f88221bd244b7ac03313e22d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 523969121269296508}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
 --- !u!4 &2674063488795031051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2845809231944278022 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8797553701757275674, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
   m_PrefabInstance: {fileID: 2492346493240168928}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &3339417198992583857 stripped
@@ -551,6 +637,345 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1952517981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3339417198992583857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a5e6f88221bd244b7ac03313e22d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 3843543349208796516}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
+--- !u!114 &1952517982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3339417198992583857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56469e934d9adfb48a48e3c05fec57ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 31
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.7864323, w: 0.8420379}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 31
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.7864323, w: 0.8420379}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 38
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.9474985, w: 0.7176912}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 38
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.9474985, w: 0.7176912}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.92011726, w: 0.9373691}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.92011726, w: 0.9373691}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.84600383, w: 0.7013804}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.84600383, w: 0.7013804}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 36
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.1271028, y: 0.1271028, z: 0.71368366, w: 0.8720427}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 36
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.1271028, y: 0.1271028, z: 0.71368366, w: 0.8720427}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 31
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.7864323, w: 0.8420379}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 31
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.7864323, w: 0.8420379}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 38
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.9474985, w: 0.7176912}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 38
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.046377826, y: 0.046377826, z: 0.9474985, w: 0.7176912}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.92011726, w: 0.9373691}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.92011726, w: 0.9373691}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.84600383, w: 0.7013804}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 45
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.04627353, y: 0.04627353, z: 0.84600383, w: 0.7013804}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 36
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.1271028, y: 0.1271028, z: 0.71368366, w: 0.8720427}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 36
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.1271028, y: 0.1271028, z: 0.71368366, w: 0.8720427}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.8860221, w: 0.8796927}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.8860221, w: 0.8796927}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 103
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.52393466, w: 0.88622427}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 103
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.52393466, w: 0.88622427}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.43900207}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.43900207}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.1734868}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.1734868}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 193
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.2542056, y: 0.2542056, z: 0.24984956, w: -0.0021028016}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 193
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.2542056, y: 0.2542056, z: 0.24984956, w: -0.0021028016}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.8860221, w: 0.8796927}
+  - objectId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.5817213, z: -92.279884}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.8860221, w: 0.8796927}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 103
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.52393466, w: 0.88622427}
+  - objectId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+    lightmapIndex: 103
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -35.96342, y: 0.58172226, z: -89.23978}
+    lightmapScaleOffset: {x: 0.09275565, y: 0.09275565, z: 0.52393466, w: 0.88622427}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.43900207}
+  - objectId: 3032b146-f0e0-4fde-b459-4087f838bab8
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.191307, y: 0.58172107, z: -92.40555}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.43900207}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.1734868}
+  - objectId: 82c612a6-b8f4-4065-a380-f4892cd4f387
+    lightmapIndex: 102
+    rotation: {x: -1, y: -0.000000010229901, z: -0.0000000108435225, w: -0.00000017881393}
+    position: {x: -40.19131, y: 0.5817219, z: -89.0496}
+    lightmapScaleOffset: {x: 0.09359873, y: 0.09359873, z: 0.88608885, w: 0.1734868}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 193
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.2542056, y: 0.2542056, z: 0.24984956, w: -0.0021028016}
+  - objectId: b7bba038-786e-4e73-ae7b-affdf4b4125f
+    lightmapIndex: 193
+    rotation: {x: -0.7071069, y: -0.000000014901161, z: -4.338947e-10, w: 0.70710677}
+    position: {x: -39.81, y: 1.0899979, z: -90.73}
+    lightmapScaleOffset: {x: 0.2542056, y: 0.2542056, z: 0.24984956, w: -0.0021028016}
+  dataStored: 0
+--- !u!23 &3843543349208796516 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3886558984097544467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7531915080314001165, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1773536133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886558984097544467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a5e6f88221bd244b7ac03313e22d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: 3fdf51e3-8fc2-4e01-a095-bcca59a01d9d
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 2845809231944278022}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
+--- !u!23 &6697633886984738486 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 9107493848864343894, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6720007237259741747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9211221421134355411, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1053382621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6720007237259741747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a5e6f88221bd244b7ac03313e22d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: 2cc3e714-1e73-4660-8981-7834e343ec9d
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 8276050631722620289}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
+--- !u!1 &6780656699077140575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -247930278740692545, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1106219568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6780656699077140575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a5e6f88221bd244b7ac03313e22d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: 3032b146-f0e0-4fde-b459-4087f838bab8
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 6697633886984738486}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
 --- !u!1 &8245230604740815868 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5835088842532862492, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
@@ -574,6 +999,11 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!23 &8276050631722620289 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5786254558782817377, guid: 8d65e515be80203469bbad0cf65be39e, type: 3}
+  m_PrefabInstance: {fileID: 2492346493240168928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9038879869110696799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -643,8 +1073,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 353666e2ee30dbd4dad9b6e8a8c113ca, type: 3}
+--- !u!23 &2439297385251795087 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6677339980542331856, guid: 353666e2ee30dbd4dad9b6e8a8c113ca, type: 3}
+  m_PrefabInstance: {fileID: 9038879869110696799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3571650070890089440 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5539851443070218431, guid: 353666e2ee30dbd4dad9b6e8a8c113ca, type: 3}
   m_PrefabInstance: {fileID: 9038879869110696799}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4240944426200289626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5164029144875592197, guid: 353666e2ee30dbd4dad9b6e8a8c113ca, type: 3}
+  m_PrefabInstance: {fileID: 9038879869110696799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &841822761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240944426200289626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606af1d5fd4cbaa47a67b63bc6c87431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptId: 359b80c2-c15a-4182-b0ee-0d5a84826e95
+  parentScene: Livello
+  defaultMesh: {fileID: 0}
+  defaultTransform: {fileID: 0}
+  switcherInstance: {fileID: 0}
+  meshRenderer: {fileID: 2439297385251795087}
+  terrain: {fileID: 0}
+  _MLS_OBJECT_BLENDING_DATA: 1151
+  probeNames:
+  - 
+  - 
+  probeIndexes: 0000000000000000
+  isStatic: 0
+  added: 1
+--- !u!114 &841822762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240944426200289626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56469e934d9adfb48a48e3c05fec57ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers: []
+  dataStored: 0

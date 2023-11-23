@@ -7,6 +7,7 @@ namespace MagicLightmapSwitcher
     {
         public bool added;
         
+
         private new void OnEnable()
         {
             base.OnEnable();

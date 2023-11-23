@@ -1,3 +1,4 @@
+using MagicLightmapSwitcher;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,18 @@ public class ScenePowerController : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip powerOffClip;
     [SerializeField] private AudioClip powerOnClip;
+
+    private static ScenePowerController _instance;
+
+    public static ScenePowerController Instance { get { return _instance; } }
+
+    private void Awake() {
+        if(_instance != null && _instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            _instance = this;
+        }
+    }
 
     void Start() {
 
@@ -50,6 +63,9 @@ public class ScenePowerController : MonoBehaviour
         // wait iniziale
         yield return new WaitForSeconds(1f);
 
+        // switch delle light map su light off
+        LightMapSwitcher.SwitchToLightmap(LigthMap.noLight);
+
         // apri tutti i cancelli
         for(int i = 0; i < electricGateControllers.Length; i++) {
             electricGateControllers[i].openGateByPowerOff(powerOffTimer);
@@ -75,6 +91,7 @@ public class ScenePowerController : MonoBehaviour
             characterManagers[i].applyFOVMalus();
         }
 
+        
         powerOn = false;
 
         yield return new WaitForSeconds(powerOffTimer);
@@ -112,6 +129,9 @@ public class ScenePowerController : MonoBehaviour
         // refreshando le interactions possibile
         gameObject.GetComponent<PlayerWarpController>().currentPlayedCharacter.forceTriggerDetection();
 
+
+        // switch delle light map su light off
+        LightMapSwitcher.SwitchToLightmap(LigthMap.light);
 
         powerOn = true;
     }

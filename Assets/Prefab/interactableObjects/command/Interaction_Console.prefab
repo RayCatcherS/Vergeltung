@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6444129399251864078}
-  - component: {fileID: 7908458193692789597}
   - component: {fileID: 1956570736313661184}
   - component: {fileID: 2447006086434256880}
   - component: {fileID: 1288284743288475656}
@@ -38,24 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -90}
---- !u!114 &7908458193692789597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5919406834371743924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 0.78, b: 0, a: 1}
-  outlineWidth: 3.47
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!114 &1956570736313661184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d9f665dc964404490898306783ed48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineScript: {fileID: 7908458193692789597}
+  outlineScript: {fileID: 6951015897992301340}
   interactableMeshEffect: {fileID: 5888487341037357317}
   genericEventName: SABOTAGE
   genericEvent1:
@@ -342,6 +323,24 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -8659564672515589768, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
+--- !u!114 &6951015897992301340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304093334591484711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.78, b: 0, a: 1}
+  outlineWidth: 3.47
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!4 &1824733377924163997 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 082dcfa9823164c4eb0515cb35e45630, type: 3}
