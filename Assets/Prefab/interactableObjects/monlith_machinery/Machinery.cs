@@ -49,7 +49,6 @@ public class Machinery : MonoBehaviour
 
     private void Start() {
 
-        Debug.Log("Machinery start");
 
         gameModeController = GameModeController.Instance;
 

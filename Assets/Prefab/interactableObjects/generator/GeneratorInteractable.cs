@@ -7,7 +7,7 @@ using UnityEngine;
 public class GeneratorInteractable : Interactable {
 
     [Header("References")]
-    [SerializeField] private ScenePowerController scenePowerController; // game state per accedere ai metodi dello stato di gioco
+    private ScenePowerController scenePowerController; // game state per accedere ai metodi dello stato di gioco
     [SerializeField] private AudioSource audioSource;
 
     [Header("States")]
@@ -27,6 +27,8 @@ public class GeneratorInteractable : Interactable {
 
 
     public override void Start() {
+
+        scenePowerController = ScenePowerController.Instance;
         initInteractable();
 
         sabotageGenerator.AddListener(switchOffGenerator);

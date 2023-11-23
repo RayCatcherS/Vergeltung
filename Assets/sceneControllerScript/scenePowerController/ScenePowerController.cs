@@ -17,6 +17,18 @@ public class ScenePowerController : MonoBehaviour
     [SerializeField] private AudioClip powerOffClip;
     [SerializeField] private AudioClip powerOnClip;
 
+    private static ScenePowerController _instance;
+
+    public static ScenePowerController Instance { get { return _instance; } }
+
+    private void Awake() {
+        if(_instance != null && _instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            _instance = this;
+        }
+    }
+
     void Start() {
 
         lightSources = FindObjectsOfType(typeof(LightSourcesScript)) as LightSourcesScript[];
