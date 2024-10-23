@@ -12,6 +12,7 @@ Progetto Unity esame sviluppo di videogiochi
     </th>
   </tr>
 </table>
+<img src="https://raw.githubusercontent.com/RayCatcherS/Vergeltung/refs/heads/main/DevDiary/(8)%20diary_issue%2347-29-31/cover.png"/>
 
 ## GDD Document
 <a 
