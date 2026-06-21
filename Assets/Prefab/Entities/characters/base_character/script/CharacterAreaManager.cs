@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Questo componente gestisce l'area di appartenenza del character e
-/// contiene i metodi per verificare se il character è in una area consentita
+/// contiene i metodi per verificare se il character ï¿½ in una area consentita
 /// </summary>
 public class CharacterAreaManager : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class CharacterAreaManager : MonoBehaviour
     [SerializeField] private LayerMask targetLayerMask;
     private float _collideRadius = 0.3f;
     [SerializeField] private int _belongingAreaId = -1; // area appartenenza character -1 significa area non assegnata
-    [SerializeField] public int belongingAreaId {
+    public int belongingAreaId {
         get { return _belongingAreaId; }
     }
     [SerializeField] private float belongAreaIconCheckFrequency = 0.5f;

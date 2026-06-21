@@ -1346,7 +1346,7 @@ namespace MagicLightmapSwitcher
 #if MT_HDRP_7_INCLUDED || MT_HDRP_8_INCLUDED || MT_HDRP_9_INCLUDED || MT_HDRP_10_INCLUDED || MT_HDRP_11_INCLUDED || MT_HDRP_12_INCLUDED
                                                         case UnityEngine.Rendering.HighDefinition.HDLightType.Area:
 #else
-                                                        case LightType.Area:
+                                                        case LightType.Rectangle:
 #endif
 #if MT_HDRP_7_INCLUDED || MT_HDRP_8_INCLUDED || MT_HDRP_9_INCLUDED || MT_HDRP_10_INCLUDED || MT_HDRP_11_INCLUDED || MT_HDRP_12_INCLUDED
                                                             GUILayout.Space(10);
