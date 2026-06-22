@@ -10,7 +10,7 @@ public class BehaviourProcess {
     protected BaseNPCBehaviourManager _baseNPCBehaviour;
     protected NavMeshAgent _behaviourAgent;
     protected Vector3 _lastSeenFocusAlarmPosition; // ultima posizione d'allarme comunicata
-    protected Delegate onProcessEnd; // evento da eseguire una volta che il processo è completo
+    protected Delegate onProcessEnd; // evento da eseguire una volta che il processo ï¿½ completo
 
     protected string processIdName = "";
 
@@ -19,6 +19,15 @@ public class BehaviourProcess {
     protected bool _processTaskFinished = false;
     public bool processTaskFinished {
         get { return _processTaskFinished; }
+    }
+
+    /// <summary>
+    /// Verifica che il processo possa ancora girare: Play attivo e componenti non distrutti.
+    /// Da controllare dopo ogni await per evitare che una continuazione async acceda a
+    /// oggetti distrutti all'uscita dal Play (MissingReferenceException).
+    /// </summary>
+    protected bool isProcessAlive() {
+        return Application.isPlaying && _baseNPCBehaviour != null && _behaviourAgent != null;
     }
 
     /// <summary>

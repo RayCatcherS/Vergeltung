@@ -12,7 +12,7 @@ Progetto Unity esame sviluppo di videogiochi
     </th>
   </tr>
 </table>
-<img src="https://raw.githubusercontent.com/RayCatcherS/Vergeltung/refs/heads/main/DevDiary/(8)%20diary_issue%2347-29-31/cover.png"/>
+<img src="https://raw.githubusercontent.com/RayCatcherS/Vergeltung/refs/heads/main/docs/DevDiary/(8)%20diary_issue%2347-29-31/cover.png"/>
 
 ## GDD Document
 <a 
@@ -27,13 +27,16 @@ Latest build
 </a>
 
 ## Devlog - Documento Tecnico
-- [2 Capitolo(Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
-- [3 Capitolo(LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
-- [4 Capitolo(FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)
-- [5 Capitolo(UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
-- [6 Capitolo(AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)
-- [7 Capitolo(Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)
-- [8 Capitolo(Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(8)%20diary_issue%2347-29-31/README.md)
+- [2 Capitolo(Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(2)diary_issue%236-8-18-17/README.md)
+- [3 Capitolo(LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(3)diary_issue%2323/README.md)
+- [4 Capitolo(FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(4)diary_issue%2310/README.md)
+- [5 Capitolo(UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(5)%20diary_issue%2325/README.md)
+- [6 Capitolo(AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(6)%20diary_issue%2326/README.md)
+- [7 Capitolo(Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)
+- [8 Capitolo(Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(8)%20diary_issue%2347-29-31/README.md)
+
+## Roadmap
+Piano di svecchiamento e pubblicazione: [`docs/roadmap`](docs/roadmap/README.md)
 
 ## Team
 The whole project was developed by <b>Stefano Romanelli</b> (3D models, graphics, visual effects, level design, game mechanics, programming and project management) [``Stefano Romanelli``](https://github.com/RayCatcherS)
@@ -48,16 +51,11 @@ The game music, the contextual musical effects in the game, and the main theme w
 
 ## Configurazione sviluppo e requisiti
 ### Versione Unity utilizzata
-- Unity 2021.2.16f1
-### Configurazione Blender
-- Installare Blender versione 2.79
-- Impostare dal sistema operativo l'eseguibile di blender 2.79 come predefinito per aprire i file .blend
-- Avviare il progetto unity
-- Reimportare tutti gli assets affinchè Unity riconosca i file .blend all'interno del progetto
-
-Unity utilizzerà la versione predefinita di Blender per esportare dai .blend gli fbx. Utilizzare una versione di blender diversa dalla 2.93.2 può comportare incompatibilità e artefatti
+- Unity 6.3 LTS (6000.3.18f1)
+### Configurazione Blender (import diretto .blend)
+Alcuni modelli vengono importati direttamente da file `.blend`: Unity li converte in FBX al volo lanciando Blender, quindi **Blender deve essere installato**.
+- Installare **Blender 4.2 LTS** e impostarlo come applicazione predefinita per i file `.blend`
+- Avviare il progetto Unity e reimportare gli assets (nella Project window filtra `t:Model`, seleziona tutto e click destro → Reimport)
+- Versioni compatibili con l'import diretto `.blend` di Unity 6: **da 3.0.1 a 4.2** (NON la 2.79, né 4.4 / 4.5 / 5.0)
 ### Requisiti
 - Richiesto pad Xbox(One - Series X) o playstation(4-5)
-
-### Problemi noti:
-- La versione Unity utilizzata manda in crash l'applicazione compilata(eseguibile) una volta avviata. Per risolvere, tutti gli assets di tipo 'model' nell'inspector, nella sezione "model" devono avere la spunta attiva sulla voce "Read/Write"

@@ -61,7 +61,7 @@ public class GenericUnalertProcess : BehaviourProcess {
 
 
                     Vector3 agentDestinationPosition = _characterActivityManager.getCurrentTask().getTaskDestination();
-                    if (!_baseNPCBehaviour.isAgentReachedDestination(agentDestinationPosition)) { // controlla se è stata raggiunta la destinazione
+                    if (!_baseNPCBehaviour.isAgentReachedDestination(agentDestinationPosition)) { // controlla se ï¿½ stata raggiunta la destinazione
 
                         _baseNPCBehaviour.animateAndSpeedMovingAgent();
 
@@ -91,23 +91,28 @@ public class GenericUnalertProcess : BehaviourProcess {
                             }
                         );
 
+                        // dopo l'await: se il Play Ã¨ stato fermato o i componenti sono distrutti, esci
+                        // prima di accedere ad agent/manager (evita MissingReferenceException)
+                        if (!isProcessAlive()) {
+                            return;
+                        }
 
-                        if (_characterActivityManager.isActualActivityLastTask()) { // se dell'attività attuale è l'ultimo task
+                        if (_characterActivityManager.isActualActivityLastTask()) { // se dell'attivitï¿½ attuale ï¿½ l'ultimo task
 
 
-                            if (_characterActivityManager.getCharacterActivities().Count > 1) { // se le attività sono più di una
+                            if (_characterActivityManager.getCharacterActivities().Count > 1) { // se le attivitï¿½ sono piï¿½ di una
 
-                                _characterActivityManager.randomCharacterActivity(); // scegli nuova attività e parti dal primo task
+                                _characterActivityManager.randomCharacterActivity(); // scegli nuova attivitï¿½ e parti dal primo task
                                 updateUnalertAgentTarget();
 
-                            } else { // se l'attività è unica
+                            } else { // se l'attivitï¿½ ï¿½ unica
 
 
 
-                                // Debug.Log("solo una attività");
-                                if (_characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attività è ripetibile
+                                // Debug.Log("solo una attivitï¿½");
+                                if (_characterActivityManager.getCurrentCharacterActivity().loopActivity) { // se l'attivitï¿½ ï¿½ ripetibile
 
-                                    _characterActivityManager.resetSelectedTaskPos(); // scegli nuova attività e parti dal primo task
+                                    _characterActivityManager.resetSelectedTaskPos(); // scegli nuova attivitï¿½ e parti dal primo task
                                     updateUnalertAgentTarget();
 
                                 } else {
@@ -117,10 +122,10 @@ public class GenericUnalertProcess : BehaviourProcess {
 
                             }
 
-                        } else { // se non è l'ultimo task dell'attività attuale
+                        } else { // se non ï¿½ l'ultimo task dell'attivitï¿½ attuale
 
-                            // Debug.Log("passa alla prossima attività");
-                            _characterActivityManager.setNextTaskPosOfActualActivity(); // setta in nuovo task della attività corrente
+                            // Debug.Log("passa alla prossima attivitï¿½");
+                            _characterActivityManager.setNextTaskPosOfActualActivity(); // setta in nuovo task della attivitï¿½ corrente
                             updateUnalertAgentTarget();
 
                         }
@@ -134,6 +139,9 @@ public class GenericUnalertProcess : BehaviourProcess {
     }
 
     private void updateUnalertAgentTarget() {
+        if (!isProcessAlive()) {
+            return;
+        }
         if (!_characterManager.isDead) {
             _baseNPCBehaviour.agent.SetDestination(
                 _characterActivityManager.getCurrentTask().getTaskDestination()

@@ -23,7 +23,7 @@ public class ActivityTask : MonoBehaviour
     /// Infine restituisce il gameObject
     /// </summary>
     /// <param name="gameObject">gameObject a cui aggiungere il componente ActivityPoint</param>
-    /// <param name="activity">istanza del CharacterActivity a cui il ActivityPoint si assocerà</param>
+    /// <param name="activity">istanza del CharacterActivity a cui il ActivityPoint si assocerï¿½</param>
     /// <returns></returns>
     public static GameObject addToGOActivityPointComponent(GameObject gameObject, CharacterActivity activity) {
         gameObject.AddComponent<ActivityTask>();
@@ -44,7 +44,7 @@ public class ActivityTask : MonoBehaviour
 
     /// <summary>
     /// Viene eseguito il task attendendo il tempo necessario per portarlo a termine.
-    /// Se lo stato di allerta dell'nPCBehaviour che esegue il task è != da CharacterAlertState.Unalert allora
+    /// Se lo stato di allerta dell'nPCBehaviour che esegue il task ï¿½ != da CharacterAlertState.Unalert allora
     /// il task viene interrotto immediatamente
     /// </summary>
     /// <param name="character">CharacterManager che avvia l'interaction e che ne subisce l'influenza</param>
@@ -66,13 +66,19 @@ public class ActivityTask : MonoBehaviour
         float end = Time.time + taskTiming;
         while (Time.time < end) {
 
+            // Interrompi se il Play Ã¨ stato fermato o il task Ã¨ stato distrutto:
+            // evita che la continuazione async (dopo await) acceda a oggetti distrutti (MissingReferenceException)
+            if (this == null || !Application.isPlaying) {
+                return;
+            }
+
             if(executeDuringTask != null) {
                 executeDuringTask();
             }
 
             
 
-            // interrompi il task se lo stato di allerta non è più [CharacterAlertState.Unalert]
+            // interrompi il task se lo stato di allerta non ï¿½ piï¿½ [CharacterAlertState.Unalert]
             if (nPCBehaviour.characterAlertState == CharacterAlertState.Unalert) {
                 await Task.Yield();
             } else {
@@ -111,6 +117,10 @@ public class ActivityTask : MonoBehaviour
     }
 
     public Vector2 getTaskDirection() {
+       // guardia difensiva: se il task Ã¨ stato distrutto (es. uscita dal Play) non accedere a gameObject
+       if (this == null) {
+           return Vector2.zero;
+       }
        return new Vector2(
             Mathf.Sin((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180)),
             Mathf.Cos((gameObject.transform.eulerAngles.y) * (Mathf.PI / 180))
@@ -128,7 +138,7 @@ public class ActivityTask : MonoBehaviour
         float scenViewCameraDistance = Vector3.Distance(sceneView.camera.transform.position, transform.position);
 
         //gizmos selezionabile solo se la distanza
-        // tra la camera della scena e l'oggetto è <10
+        // tra la camera della scena e l'oggetto ï¿½ <10
         if (scenViewCameraDistance < 20f) {
 
             Gizmos.color = Color.blue;
@@ -140,7 +150,7 @@ public class ActivityTask : MonoBehaviour
 
 
         //gizmos selezionabile solo se la distanza
-        // tra la camera della scena e l'oggetto è <10
+        // tra la camera della scena e l'oggetto ï¿½ <10
         if (scenViewCameraDistance < 40f) {
 
             Gizmos.color = Color.blue;
