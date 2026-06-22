@@ -12,7 +12,7 @@ Progetto Unity esame sviluppo di videogiochi
     </th>
   </tr>
 </table>
-<img src="https://raw.githubusercontent.com/RayCatcherS/Vergeltung/refs/heads/main/DevDiary/(8)%20diary_issue%2347-29-31/cover.png"/>
+<img src="https://raw.githubusercontent.com/RayCatcherS/Vergeltung/refs/heads/main/docs/DevDiary/(8)%20diary_issue%2347-29-31/cover.png"/>
 
 ## GDD Document
 <a 
@@ -27,13 +27,13 @@ Latest build
 </a>
 
 ## Devlog - Documento Tecnico
-- [2 Capitolo(Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(2)diary_issue%236-8-18-17/README.md)
-- [3 Capitolo(LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(3)diary_issue%2323/README.md)
-- [4 Capitolo(FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(4)diary_issue%2310/README.md)
-- [5 Capitolo(UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(5)%20diary_issue%2325/README.md)
-- [6 Capitolo(AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(6)%20diary_issue%2326/README.md)
-- [7 Capitolo(Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)
-- [8 Capitolo(Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/DevDiary/(8)%20diary_issue%2347-29-31/README.md)
+- [2 Capitolo(Inventario e shooting)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(2)diary_issue%236-8-18-17/README.md)
+- [3 Capitolo(LD)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(3)diary_issue%2323/README.md)
+- [4 Capitolo(FOV e Stati di allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(4)diary_issue%2310/README.md)
+- [5 Capitolo(UI allerta)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(5)%20diary_issue%2325/README.md)
+- [6 Capitolo(AI NPC)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(6)%20diary_issue%2326/README.md)
+- [7 Capitolo(Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)
+- [8 Capitolo(Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(8)%20diary_issue%2347-29-31/README.md)
 
 ## Team
 The whole project was developed by <b>Stefano Romanelli</b> (3D models, graphics, visual effects, level design, game mechanics, programming and project management) [``Stefano Romanelli``](https://github.com/RayCatcherS)
