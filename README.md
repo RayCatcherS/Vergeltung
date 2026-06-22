@@ -35,6 +35,9 @@ Latest build
 - [7 Capitolo(Warp)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(7)%20diary_issue%2349-28-42-43/README.md)
 - [8 Capitolo(Game Goals)](https://github.com/RayCatcherS/Vergeltung/blob/main/docs/DevDiary/(8)%20diary_issue%2347-29-31/README.md)
 
+## Roadmap
+Piano di svecchiamento e pubblicazione: [`docs/roadmap`](docs/roadmap/README.md)
+
 ## Team
 The whole project was developed by <b>Stefano Romanelli</b> (3D models, graphics, visual effects, level design, game mechanics, programming and project management) [``Stefano Romanelli``](https://github.com/RayCatcherS)
 
