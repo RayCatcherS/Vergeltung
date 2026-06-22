@@ -49,20 +49,10 @@ The game music, the contextual musical effects in the game, and the main theme w
 ## Configurazione sviluppo e requisiti
 ### Versione Unity utilizzata
 - Unity 6.3 LTS (6000.3.18f1)
-
-> Migrato da Unity 2021.2.16f1 (URP 12) a Unity 6.3 LTS (URP 17).
-
 ### Configurazione Blender (import diretto .blend)
 Alcuni modelli vengono importati direttamente da file `.blend`: Unity li converte in FBX al volo lanciando Blender, quindi **Blender deve essere installato**.
 - Installare **Blender 4.2 LTS** e impostarlo come applicazione predefinita per i file `.blend`
 - Avviare il progetto Unity e reimportare gli assets (nella Project window filtra `t:Model`, seleziona tutto e click destro → Reimport)
-
-> Versioni compatibili con l'import diretto `.blend` di Unity 6: **da 3.0.1 a 4.2**. NON usare la 2.79 (troppo vecchia per l'importer) né 4.4 / 4.5 / 5.0 (la conversione `.blend → FBX` fallisce).
->
-> ⚠️ In roadmap: conversione dei `.blend` in FBX committati per eliminare del tutto la dipendenza da Blender.
-
+- Versioni compatibili con l'import diretto `.blend` di Unity 6: **da 3.0.1 a 4.2** (NON la 2.79, né 4.4 / 4.5 / 5.0)
 ### Requisiti
 - Richiesto pad Xbox(One - Series X) o playstation(4-5)
-
-### Problemi noti:
-- _(Da ri-verificare su Unity 6.3)_ Su Unity 2021.2.16f1 l'eseguibile compilato andava in crash all'avvio; il workaround era attivare "Read/Write" su tutti gli asset di tipo 'model'. Da validare con una build su Unity 6.3.
