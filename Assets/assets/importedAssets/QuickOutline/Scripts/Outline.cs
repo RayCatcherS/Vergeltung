@@ -6,7 +6,6 @@
 //  Copyright © 2018 Chris Nolet. All rights reserved.
 //
 
-using MagicLightmapSwitcher;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -85,12 +84,6 @@ public class Outline : MonoBehaviour {
     private bool needsUpdate;
 
     
-    private IEnumerator OutlineFixUpdater() {
-        yield return new WaitForSeconds(0.01f);
-        /*gameObject.GetComponent<Outline>().enabled = false;
-        yield return new WaitForSeconds(0.01f);
-        gameObject.GetComponent<Outline>().enabled = true;*/
-    }
     public void changeOutlineColor(Color color) {
         outlineColor = color;
         needsUpdate = true;
@@ -139,7 +132,6 @@ public class Outline : MonoBehaviour {
 
             renderer.materials = materials.ToArray();
         }
-        LightMapSwitcher.ChangedLightMap += HandleLightMapEvent;
     }
 
     void OnValidate() {
@@ -178,11 +170,6 @@ public class Outline : MonoBehaviour {
 
             renderer.materials = materials.ToArray();
         }
-        LightMapSwitcher.ChangedLightMap -= HandleLightMapEvent;
-    }
-    void HandleLightMapEvent(LigthMap lightMapInfo) {
-        // Rispondi all'evento
-        StartCoroutine(OutlineFixUpdater());
     }
 
     void OnDestroy() {

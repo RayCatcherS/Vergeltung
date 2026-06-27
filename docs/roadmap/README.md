@@ -28,7 +28,7 @@ monolitica. Tutto recuperabile senza riscrivere da zero.
 | Gameplay e obiettivi | [gameplay-obiettivi.md](gameplay-obiettivi.md) | ⏳ Pianificato |
 | NavMesh e level design | [navmesh-level-design.md](navmesh-level-design.md) | ⏳ Pianificato |
 | Migrazione `.blend` → FBX | [blend-to-fbx.md](blend-to-fbx.md) | ⏳ Pianificato |
-| Illuminazione (APV) | [illuminazione-apv.md](illuminazione-apv.md) | ⏳ Pianificato |
+| Illuminazione (APV) | [illuminazione-apv.md](illuminazione-apv.md) | 🔧 In corso (`new-illumination`) |
 | Funzionalità future (backlog) | [funzionalita-future.md](funzionalita-future.md) | 💡 Backlog |
 
 ## Sequenza consigliata
